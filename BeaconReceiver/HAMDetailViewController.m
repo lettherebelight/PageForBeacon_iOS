@@ -9,6 +9,7 @@
 #import "HAMDetailViewController.h"
 #import "HAMTools.h"
 #import "HAMHomepageData.h"
+#import "HAMDataManager.h"
 
 @interface HAMDetailViewController ()
 
@@ -17,6 +18,16 @@
 @implementation HAMDetailViewController
 
 static int loadingViewTag = 22;
+
+- (void)displayHomepage:(HAMHomepageData *)homepage {
+    if (homepage != nil) {
+        if (homepage == self.homepage) {
+            self.navigationItem.title = pageTitle;
+        } else {
+            self.navigationItem.title = [NSString stringWithFormat:@"新展品\t\t%@", pageTitle];
+        }
+    }
+}
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -35,15 +46,24 @@ static int loadingViewTag = 22;
     //initialize
     pageURL = @"http://www.baidu.com";
     pageTitle = @"title";
-    // Set Navigation Bar
-    UIBarButtonItem *bItem;
-    if ([self.homepage.marked  isEqual: @NO]) {
-        bItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemBookmarks target:self action:@selector(performFavorite)];
-    } else {
-        bItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemBookmarks target:self action:@selector(performUnFavorite)];
+    if ([self homepage] != nil) {
+        pageURL = [self homepage].pageURL;
+        pageTitle = [self homepage].pageTitle;
     }
-    self.navigationItem.rightBarButtonItem= bItem;
+    [HAMBeaconManager beaconManager].detailDelegate = self;
+    // Set Navigation Bar
+    UIBarButtonItem *favItem;
+    if (self.homepage.markedListRecord == nil) {
+        favItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemBookmarks target:self action:@selector(performFavorite)];
+    } else {
+        favItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(performUnFavorite)];
+    }
+    UIBarButtonItem *refreshItem;
+    refreshItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh target:self action:@selector(performRefresh)];
+    NSArray *barItems = [[NSArray alloc] initWithObjects:favItem, refreshItem, nil];
+    self.navigationItem.rightBarButtonItems = barItems;
     self.navigationItem.title = pageTitle;
+
     // Load Website
     if ([HAMTools isWebAvailable]) {
         NSURLRequest *request =[NSURLRequest requestWithURL:[NSURL URLWithString:pageURL]];
@@ -55,12 +75,20 @@ static int loadingViewTag = 22;
     }
 }
 
+- (void)performRefresh {
+    [self.detailWebView reload];
+}
+
 - (void)performFavorite {
-    self.homepage.marked = @YES;
+    [HAMDataManager addAMarkedRecord:self.homepage];
+    UIBarButtonItem *bItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(performUnFavorite)];
+    self.navigationItem.rightBarButtonItem= bItem;
 }
 
 - (void)performUnFavorite {
-    self.homepage.marked = @NO;
+    [HAMDataManager removeMarkedRecord:self.homepage];
+    UIBarButtonItem *bItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemBookmarks target:self action:@selector(performFavorite)];
+    self.navigationItem.rightBarButtonItem= bItem;
 }
 
 - (void)didReceiveMemoryWarning

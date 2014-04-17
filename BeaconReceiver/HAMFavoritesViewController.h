@@ -8,6 +8,10 @@
 
 #import <UIKit/UIKit.h>
 
-@interface HAMFavoritesViewController : UICollectionViewController
+@interface HAMFavoritesViewController : UICollectionViewController {
+    NSArray *pageArray;
+}
+
+- (void)loadCollections;
 
 @end

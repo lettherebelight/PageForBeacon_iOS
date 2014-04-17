@@ -102,4 +102,71 @@
     return ([[Reachability reachabilityForInternetConnection]currentReachabilityStatus] != NotReachable);
 }
 
++(UIImage*)imageFromURL:(NSString *)urlString {
+    if ([HAMTools isWebAvailable] == NO) {
+        return nil;
+    }
+    NSURL *url = [NSURL URLWithString:urlString];
+    NSURLRequest *request = [[NSURLRequest alloc]initWithURL:url cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:10];
+    NSData *imageData = [NSURLConnection sendSynchronousRequest:request returningResponse:nil error:nil];
+    //NSData *imageData = [NSData dataWithContentsOfURL:url];
+    UIImage *image = [UIImage imageWithData:imageData];
+    return image;
+}
+
++(UIImage*)image:(UIImage*)originalImage changeToSize:(CGSize)size {
+    UIGraphicsBeginImageContext(size);
+    [originalImage drawInRect:CGRectMake(0, 0, size.width, size.height)];
+    UIImage *reSizeImage = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    return reSizeImage;
+}
+
++(UIImage*)image:(UIImage*)originalImage changeToMaxSize:(CGSize)size {
+    CGSize realSize;
+    if (size.height / originalImage.size.height < size.width / originalImage.size.width) {
+        realSize = CGSizeMake(originalImage.size.width * size.height / originalImage.size.height, size.height);
+    } else {
+        realSize = CGSizeMake(size.width, originalImage.size.height * size.width / originalImage.size.width);
+    }
+    UIGraphicsBeginImageContext(realSize);
+    [originalImage drawInRect:CGRectMake(0, 0, realSize.width, realSize.height)];
+    UIImage *reSizeImage = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    return reSizeImage;
+}
+
++(UIImage*)image:(UIImage*)originalImage changeToMinSize:(CGSize)size {
+    CGSize realSize;
+    if (size.height / originalImage.size.height > size.width / originalImage.size.width) {
+        realSize = CGSizeMake(originalImage.size.width * size.height / originalImage.size.height, size.height);
+    } else {
+        realSize = CGSizeMake(size.width, originalImage.size.height * size.width / originalImage.size.width);
+    }
+    UIGraphicsBeginImageContext(realSize);
+    [originalImage drawInRect:CGRectMake(0, 0, realSize.width, realSize.height)];
+    UIImage *reSizeImage = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    return reSizeImage;
+}
+
++(UIImage*)image:(UIImage*)originalImage staysShapChangeToSize:(CGSize)size {
+    UIImage *resizedImage = [HAMTools image:originalImage changeToMinSize:size];
+    CGRect newImageRect;
+    if (resizedImage.size.width == size.width) {
+        newImageRect = CGRectMake(0.0f, (resizedImage.size.height - size.height) / 2.0f, size.width, size.height);
+    } else {
+        newImageRect = CGRectMake((resizedImage.size.width - size.width) / 2.0f, 0.0f, size.width, size.height);
+    }
+    CGImageRef subImageRef = CGImageCreateWithImageInRect(resizedImage.CGImage, newImageRect);
+    UIGraphicsBeginImageContext(size);
+    CGContextRef context = UIGraphicsGetCurrentContext();
+    CGContextDrawImage(context, newImageRect, subImageRef);
+    UIImage* smallImage = [UIImage imageWithCGImage:subImageRef];
+    
+    UIGraphicsEndImageContext();
+    
+    return smallImage;
+}
+
 @end

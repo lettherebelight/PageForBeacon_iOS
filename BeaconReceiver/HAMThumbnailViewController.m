@@ -8,6 +8,9 @@
 
 #import "HAMThumbnailViewController.h"
 #import "HAMDetailViewController.h"
+#import "HAMDataManager.h"
+#import "HAMHomepageData.h"
+#import "HAMThumbnailView.h"
 
 @interface HAMThumbnailViewController ()
 
@@ -30,7 +33,23 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    //set navigation bar
+    UIBarButtonItem *temporaryBarButtonItem = [[UIBarButtonItem alloc] init];
+    temporaryBarButtonItem.title = @"";
+    self.navigationItem.backBarButtonItem = temporaryBarButtonItem;
     self.hidesBottomBarWhenPushed = YES;
+    
+    [self updateView];
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    [[self navigationController] setNavigationBarHidden:YES animated:animated];
+}
+
+- (void)viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
+    [[self navigationController] setNavigationBarHidden:NO animated:animated];
 }
 
 - (void)didReceiveMemoryWarning
@@ -40,10 +59,62 @@
 }
 
 - (void)updateView {
-    if (homepage != nil) {
-        self.thumbnailImage.image = nil;
-        self.backgroundImage.image = nil;
+    float viewHeight = [self listScrollView].frame.size.height;
+    float marginUp = 0.0f;
+    CGPoint scrollOffset = CGPointMake(0.0f, 0.0f);
+    NSArray *historyPages = [HAMDataManager fetchHistoryRecords];
+    int historyCount;
+    int i;
+    if (homepage == nil) {
+        i = 1;
+        historyCount = [historyPages count];
+    } else {
+        i = 0;
+        historyCount = [historyPages count] - 1;
     }
+    //for (UIView* view in [[self listScrollView] subviews]) {
+    //    [view removeFromSuperview];
+    //}
+    [self listScrollView].contentSize = CGSizeMake([self listScrollView].frame.size.width, (historyCount+1) * viewHeight + 2.0f * marginUp);
+    [self listScrollView].contentOffset = scrollOffset;
+    for (HAMHomepageData* pageData in historyPages) {
+        if (i == 0) {
+            i++;
+            continue;
+        }
+        HAMThumbnailView *view = [[HAMThumbnailView alloc] initWithFrame:CGRectMake(0.0f, marginUp + viewHeight * i, [self listScrollView].frame.size.width,viewHeight) pageData:pageData];
+        
+        UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(onClickViewWithRecognizer:)];
+        [view addGestureRecognizer:tapGesture];
+        
+        [[self listScrollView] addSubview:view];
+        i++;
+    }
+    
+    if (homepage != nil) {
+        HAMThumbnailView *view = [[HAMThumbnailView alloc] initWithFrame:CGRectMake(0.0f, marginUp, [self listScrollView].frame.size.width,viewHeight) pageData:homepage];
+        
+        UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(onClickViewWithRecognizer:)];
+        [view addGestureRecognizer:tapGesture];
+        
+        [[self listScrollView] addSubview:view];
+    }
+    else {
+        UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, [self listScrollView].frame.size.width,viewHeight)];
+        UITextField *titleTF = [[UITextField alloc] initWithFrame:CGRectMake(0.0f, 50.0f, [self listScrollView].frame.size.width, 100.0f)];
+        [titleTF setTextAlignment:NSTextAlignmentCenter];
+        [titleTF setEnabled:NO];
+        titleTF.text = @"no beacon around";
+        [view addSubview:titleTF];
+        [view setBackgroundColor:[UIColor whiteColor]];
+        [[self listScrollView] addSubview:view];
+    }
+}
+
+- (void)onClickViewWithRecognizer:(UITapGestureRecognizer*) recognizer {
+    HAMThumbnailView *view = (HAMThumbnailView*)[recognizer view];
+    selPage = view.pageData;
+    [self performSegueWithIdentifier:@"showDetailPage" sender:self];
 }
 
 #pragma mark - Navigation
@@ -55,7 +126,7 @@
     // Pass the selected object to the new view controller.
     if ([segue.identifier isEqualToString:@"showDetailPage"]) {
         HAMDetailViewController *detailVC = segue.destinationViewController;
-        detailVC.homepage = self.homepage;
+        detailVC.homepage = selPage;
     }
 }
 

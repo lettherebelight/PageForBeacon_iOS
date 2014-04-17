@@ -9,7 +9,10 @@
 #import "HAMHomeViewController.h"
 #import "HAMHomepageData.h"
 #import "HAMThumbnailViewController.h"
+#import "HAMFavoritesViewController.h"
 #import "HAMDataManager.h"
+#import "HAMBeaconManager.h"
+#import "HAMTourManager.h"
 
 @interface HAMHomeViewController ()
 
@@ -32,12 +35,18 @@
     // Do any additional setup after loading the view.
     [[HAMBeaconManager beaconManager] startMonitor];
     [HAMBeaconManager beaconManager].delegate = self;
+    [HAMDataManager clearData];
+    [[HAMTourManager tourManager] newVisitor];
 }
 
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+- (void) initLoginInStatus {
+    
 }
 
 
@@ -53,45 +62,43 @@
         sideBar.delegate = self;
     } else if ([segue.identifier isEqualToString:@"showContentView"]) {
         contentTabView = [segue destinationViewController];
+        [contentTabView setSelectedIndex:1];
         contentTabView.tabBar.hidden = YES;
     }
 }
 
 #pragma mark - perform delegate
 
-- (void)displayHomepage:(NSArray *)homepageArray {
-    if ([homepageArray count] > 0) {
-        HAMHomepageData *nearestPage = [homepageArray objectAtIndex:0];
-        NSString *info = [NSString stringWithFormat:@"%@%@%@", nearestPage.beaconID, nearestPage.beaconMajor, nearestPage.beaconMinor];
-        if (homepageInfo != nil && [homepageInfo isEqualToString:info]) {
-            return;
-        } else {
-            homepageInfo = info;
-            [contentTabView setSelectedIndex:1];
-            contentTabView.tabBar.hidden = YES;
-            
-            UINavigationController *navigation = (UINavigationController*)[contentTabView selectedViewController];
-            [navigation popToRootViewControllerAnimated:NO];
-            
-            HAMThumbnailViewController *thumbnailVC = (HAMThumbnailViewController*)[navigation.viewControllers objectAtIndex:0];
-            thumbnailVC.homepage = nearestPage;
-            [thumbnailVC updateView];
-        }
+- (void)displayHomepage:(HAMHomepageData*)homepage {
+    HAMHomepageData *nearestPage = nil;
+    UINavigationController *navigation = (UINavigationController*)[contentTabView.viewControllers objectAtIndex:1];
+    HAMThumbnailViewController *thumbnailVC = (HAMThumbnailViewController*)[navigation.viewControllers objectAtIndex:0];
+    if (homepage != nil) {
+        nearestPage = homepage;
+        //[contentTabView setSelectedIndex:1];
+        //contentTabView.tabBar.hidden = YES;
+        //[navigation popToRootViewControllerAnimated:NO];
+        thumbnailVC.homepage = nearestPage;
+        [thumbnailVC updateView];
     }
     else {
-        homepageInfo = nil;
+        
+        thumbnailVC.homepage = nil;
+        [thumbnailVC updateView];
+        
     }
     return;
 }
 
 - (Boolean)showHomePage {
-    if (homepageInfo == nil) {
-        [contentTabView setSelectedIndex:0];
-    }
-    else {
-        [contentTabView setSelectedIndex:1];
-    }
+    [contentTabView setSelectedIndex:1];
     contentTabView.tabBar.hidden = YES;
+    
+    UINavigationController *navigation = (UINavigationController*)[contentTabView selectedViewController];
+    [navigation popToRootViewControllerAnimated:NO];
+    
+    HAMThumbnailViewController *thumbnailVC = [[navigation viewControllers] objectAtIndex:0];
+    [thumbnailVC updateView];
     return YES;
 }
 
@@ -100,11 +107,24 @@
     contentTabView.tabBar.hidden = YES;
     UINavigationController *navigation = (UINavigationController*)[contentTabView selectedViewController];
     [navigation popToRootViewControllerAnimated:NO];
+    
+    HAMFavoritesViewController *favoritesVC = [[navigation viewControllers] objectAtIndex:0];
+    [favoritesVC loadCollections];
     return YES;
 }
 
 - (Boolean)resetData {
     [HAMDataManager clearData];
+    [[HAMTourManager tourManager] newVisitor];
+    UINavigationController *navigation;
+    navigation = (UINavigationController*)[[contentTabView viewControllers] objectAtIndex:1];
+    HAMThumbnailViewController *thumbnailVC = [[navigation viewControllers] objectAtIndex:0];
+    thumbnailVC.homepage = nil;
+    [thumbnailVC updateView];
+    navigation = (UINavigationController*)[[contentTabView viewControllers] objectAtIndex:2];
+    HAMFavoritesViewController *favoritesVC = [[navigation viewControllers] objectAtIndex:0];
+    [favoritesVC loadCollections];
+    [[HAMBeaconManager beaconManager] startMonitor];
     return YES;
 }
 

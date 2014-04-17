@@ -14,8 +14,6 @@
 
 + (HAMHomepageData*)homepageWithBeaconID:(NSString*)beaconID major:(NSNumber*)major minor:(NSNumber*)minor;
 
-+ (void) addHomepage:(HAMHomepageData*) home;
-
 + (NSMutableDictionary*) homepageDict;
 + (NSMutableArray*) homepageVisited;
 

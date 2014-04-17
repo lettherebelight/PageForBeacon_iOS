@@ -7,7 +7,7 @@
 //
 
 #import "HAMHomepageViewController.h"
-#import "HAMHomepage.h"
+//#import "HAMHomepage.h"
 #import "HAMHomepageManager.h"
 #import "Reachability.h"
 #import "HAMCouponDetailViewController.h"

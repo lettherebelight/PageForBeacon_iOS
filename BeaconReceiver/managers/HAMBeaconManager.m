@@ -6,19 +6,27 @@
 //  Copyright (c) 2014年 Beacon Test Group. All rights reserved.
 //
 
+#import <AVOSCloud/AVOSCloud.h>
 #import "HAMBeaconManager.h"
 #import "HAMLogTool.h"
+#import "HAMTools.h"
 #import "HAMHomepageData.h"
 #import "HAMHomepageManager.h"
+#import "HAMDataManager.h"
 
 @implementation HAMBeaconManager
 @synthesize delegate;
+@synthesize detailDelegate;
 
 static HAMBeaconManager* beaconManager = nil;
+static NSArray* beaconIDArray;
+
+static float distanceRangeMin = 1;
+static float distanceRangeMax = 2;
 
 NSMutableArray *beaconRegions;
 CLLocationManager *locationManager;
-CLBeacon *closestBeacon;
+CLBeacon *nearestBeacon;
 NSMutableArray *beaconsAround = nil;
 bool allowNotify = YES;
 bool isInBackground = NO;
@@ -41,7 +49,15 @@ bool isInBackground = NO;
 }
 
 + (NSArray*)beaconIDArray{
-    NSMutableArray *beaconIDArray = [NSMutableArray arrayWithObjects:@"B9407F30-F5F8-466E-AFF9-25556B57FE6D", @"F62D3F65-2FCB-AB76-00AB-68186B10300D", nil];
+    //NSMutableArray *beaconIDArray = [NSMutableArray arrayWithObjects:@"B9407F30-F5F8-466E-AFF9-25556B57FE6D", @"F62D3F65-2FCB-AB76-00AB-68186B10300D", nil];
+    if ([HAMTools isWebAvailable]) {
+        AVQuery *query = [AVQuery queryWithClassName:@"Global"];
+        NSArray *objectArray = [query findObjects];
+        if (objectArray != nil) {
+            AVObject *globalObject = [objectArray objectAtIndex:0];
+            beaconIDArray = (NSArray*)[globalObject objectForKey:@"proximityUUIDs"];
+        }
+    }
     return beaconIDArray;
 }
 
@@ -49,16 +65,18 @@ bool isInBackground = NO;
 - (void)startMonitor {
     locationManager = [[CLLocationManager alloc] init];
     locationManager.delegate = [HAMBeaconManager beaconManager];
-    beaconRegions = [NSMutableArray array];
-    closestBeacon = [[CLBeacon alloc] init];
+    nearestBeacon = nil;
     beaconsAround = [NSMutableArray array];
+    beaconRegions = [NSMutableArray array];
     
     for (NSString* BId in [HAMBeaconManager beaconIDArray])
     {
         NSUUID *uuid = [[NSUUID alloc] initWithUUIDString:BId];
         CLBeaconRegion *region = [[CLBeaconRegion alloc] initWithProximityUUID:uuid identifier:BId];
         region.notifyEntryStateOnDisplay = YES;
-        [beaconRegions addObject:region];
+        if (region != nil) {
+            [beaconRegions addObject:region];
+        }
     }
     
     for (CLBeaconRegion* beaconRegion in beaconRegions)
@@ -68,8 +86,17 @@ bool isInBackground = NO;
     }
 }
 
+- (Boolean)beacon:(CLBeacon*)beacon1 theSameAsBeacon:(CLBeacon*)beacon2 {
+    if (beacon1 == nil || beacon2 == nil) {
+        return NO;
+    }
+    NSString *info1 = [[NSString alloc] initWithFormat:@"%@%@%@", beacon1.proximityUUID.UUIDString, beacon1.major, beacon1.minor];
+    NSString *info2 = [[NSString alloc] initWithFormat:@"%@%@%@", beacon2.proximityUUID.UUIDString, beacon2.major, beacon2.minor];
+    return [info1 isEqualToString:info2];
+}
+
 - (void)getAndDisplayHomepagesAround {
-    if (delegate) {
+    /*if (delegate) {
         NSMutableArray *objectsAround;
         objectsAround = [NSMutableArray array];
         for (CLBeacon* beacon in beaconsAround) {
@@ -79,6 +106,30 @@ bool isInBackground = NO;
             }
         }
         [delegate displayHomepage:objectsAround];
+    }*/
+    HAMHomepageData *homepage = nil;
+    if (beaconsAround != nil && [beaconsAround count] > 0) {
+        CLBeacon *beacon = [beaconsAround objectAtIndex:0];
+        if (beacon.accuracy > distanceRangeMin || [self beacon:beacon theSameAsBeacon:nearestBeacon]) {
+            return;
+        } else {
+            nearestBeacon = beacon;
+            homepage = [HAMHomepageManager homepageWithBeaconID:beacon.proximityUUID.UUIDString major:beacon.major minor:beacon.minor];
+            if (homepage != nil && homepage.historyListRecord == nil) {
+                [HAMDataManager addAHistoryRecord:homepage];
+            } else if (homepage != nil) {
+                [HAMDataManager updateHistoryRecord:homepage.historyListRecord];
+            }
+        }
+    }
+    else {
+        nearestBeacon = nil;
+    }
+    if (delegate != nil) {
+        [delegate displayHomepage:homepage];
+    }
+    if (detailDelegate != nil) {
+        [detailDelegate displayHomepage:homepage];
     }
 }
 
@@ -142,10 +193,12 @@ bool isInBackground = NO;
 {
     bool needToNotificate = YES;
     
+    //beaconsAround = [NSMutableArray array];
+    
     NSArray *removedBeaconInfo = [self removeBeaconByUUID:region.identifier];
     
     for (CLBeacon* beacon in beacons) {
-        if (beacon == nil || beacon.accuracy > 1) {
+        if (beacon == nil || beacon.accuracy > distanceRangeMax) {
             continue;
         }
         NSString *currentBInfo = [NSString stringWithFormat:@"%@%@", beacon.major, beacon.minor];

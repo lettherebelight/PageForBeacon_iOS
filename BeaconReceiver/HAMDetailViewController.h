@@ -7,10 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "HAMBeaconManager.h"
 
 @class HAMHomepageData;
 
-@interface HAMDetailViewController : UIViewController <UIWebViewDelegate> {
+@interface HAMDetailViewController : UIViewController <UIWebViewDelegate, HAMBeaconManagerDelegate> {
     NSString *pageURL;
     NSString *pageTitle;
 }

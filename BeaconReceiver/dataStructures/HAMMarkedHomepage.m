@@ -2,8 +2,8 @@
 //  HAMMarkedHomepage.m
 //  BeaconReceiver
 //
-//  Created by Dai Yue on 14-4-14.
-//  Copyright (c) 2014年 Beacon Test Group. All rights reserved.
+//  Created by daiyue on 4/16/14.
+//  Copyright (c) 2014 Beacon Test Group. All rights reserved.
 //
 
 #import "HAMMarkedHomepage.h"
@@ -12,6 +12,7 @@
 
 @implementation HAMMarkedHomepage
 
+@dynamic date;
 @dynamic homepage;
 
 @end

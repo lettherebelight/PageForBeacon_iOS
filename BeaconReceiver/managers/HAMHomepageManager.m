@@ -6,10 +6,12 @@
 //  Copyright (c) 2014年 Beacon Test Group. All rights reserved.
 //
 
+#import <AVOSCloud/AVOSCloud.h>
 #import "HAMHomepageManager.h"
-#import "Reachability.h"
 #import "HAMHomepageData.h"
 #import "HAMTools.h"
+#import "HAMDataManager.h"
+#import "HAMLogTool.h"
 
 @implementation HAMHomepageManager
 
@@ -25,10 +27,6 @@ static NSMutableArray *homepageVisited = nil;
     return homepageVisited;
 }
 
-+ (void)addHomepage:(HAMHomepageData *)home {
-    
-}
-
 + (NSMutableDictionary*) homepageDict {
     @synchronized(self) {
         if (homepageDict == nil) {
@@ -38,6 +36,32 @@ static NSMutableArray *homepageVisited = nil;
     return homepageDict;
 }
 
++ (HAMHomepageData*)homepageWithBeaconID:(NSString *)beaconID major:(NSNumber *)major minor:(NSNumber *)minor {
+    HAMHomepageData *pageData = [HAMDataManager pageDataWithBID:beaconID major:major minor:minor];
+    if (pageData == nil && [HAMTools isWebAvailable]) {
+        AVQuery *query = [AVQuery queryWithClassName:@"Beacon"];
+        [query whereKey:@"proximity_uuid" equalTo:beaconID];
+        [query whereKey:@"major" equalTo:major];
+        [query whereKey:@"minor" equalTo:minor];
+        NSArray *objectArray = [query findObjects];
+        if (objectArray != nil && [objectArray count] > 0) {
+            pageData = [HAMDataManager newPageData];
+            AVObject *beaconObject = [objectArray objectAtIndex:0];
+            pageData.beaconID = beaconID;
+            pageData.beaconMajor = major;
+            pageData.beaconMinor = minor;
+            pageData.backImage = (NSString*)[beaconObject objectForKey:@"preview_background"];
+            pageData.thumbnail = (NSString*)[beaconObject objectForKey:@"preview_thumbnail"];
+            pageData.pageURL = (NSString*)[beaconObject objectForKey:@"page_url"];
+            pageData.pageTitle = (NSString*)[beaconObject objectForKey:@"page_title"];
+            pageData.dataID = beaconObject.objectId;
+            [HAMDataManager saveData];
+        }
+    }
+    return pageData;
+}
+
+/*
 + (HAMHomepageData*)homepageWithBeaconID:(NSString*)beaconID major:(NSNumber*)major minor:(NSNumber*)minor {
     HAMHomepageData *homepage = [[HAMHomepageManager homepageDict] objectForKey:[NSString stringWithFormat:@"%@%@%@", beaconID, major, minor]];
     
@@ -64,7 +88,7 @@ static NSMutableArray *homepageVisited = nil;
                     if (pageID != nil) {
                         NSString *url = [NSString stringWithFormat:@"%@/pageview/%@", hostURL, pageID];
                         homepage.pageURL = url;
-                        homepage.pageID = pageID;
+                        //homepage.pageID = pageID;
                         NSString *pageurlStr = [NSString stringWithFormat:@"%@/1/pages/%@", hostURL, pageID];
                         NSURL *pageUrl = [NSURL URLWithString:pageurlStr];
                         NSURLRequest *pageRequest = [[NSURLRequest alloc]initWithURL:pageUrl cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:10];
@@ -88,5 +112,6 @@ static NSMutableArray *homepageVisited = nil;
     }
     return homepage;
 }
+ */
 
 @end

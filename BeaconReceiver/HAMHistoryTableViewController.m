@@ -9,7 +9,7 @@
 #import "HAMHistoryTableViewController.h"
 #import "HAMCouponDetailViewController.h"
 #import "HAMLogTool.h"
-#import "HAMHomepage.h"
+//#import "HAMHomepage.h"
 #import "HAMHomepageManager.h"
 
 @interface HAMHistoryTableViewController ()

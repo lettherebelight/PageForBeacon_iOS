@@ -12,7 +12,6 @@
 
 @interface HAMHomeViewController : UIViewController <HAMSideBarDelegate, HAMBeaconManagerDelegate> {
     UITabBarController *contentTabView;
-    NSString *homepageInfo;
 }
 
 @end

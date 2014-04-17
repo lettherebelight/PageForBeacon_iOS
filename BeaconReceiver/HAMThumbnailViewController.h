@@ -10,10 +10,11 @@
 
 @class HAMHomepageData;
 
-@interface HAMThumbnailViewController : UIViewController
+@interface HAMThumbnailViewController : UIViewController {
+    HAMHomepageData *selPage;
+}
 
-@property (weak, nonatomic) IBOutlet UIImageView *thumbnailImage;
-@property (weak, nonatomic) IBOutlet UIImageView *backgroundImage;
+@property (weak, nonatomic) IBOutlet UIScrollView *listScrollView;
 
 @property HAMHomepageData *homepage;
 

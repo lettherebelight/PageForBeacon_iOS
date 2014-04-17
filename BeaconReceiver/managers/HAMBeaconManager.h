@@ -9,15 +9,18 @@
 #import <Foundation/Foundation.h>
 #import <CoreLocation/CoreLocation.h>
 
+@class HAMHomepageData;
+
 @protocol HAMBeaconManagerDelegate <NSObject>
 
-- (void)displayHomepage:(NSArray*) homepageArray;
+- (void)displayHomepage:(HAMHomepageData*)homepage;
 
 @end
 
 @interface HAMBeaconManager : NSObject <CLLocationManagerDelegate>
 
 @property (nonatomic, retain) id<HAMBeaconManagerDelegate> delegate;
+@property (nonatomic, retain) id<HAMBeaconManagerDelegate> detailDelegate;
 
 - (void)startMonitor;
 
