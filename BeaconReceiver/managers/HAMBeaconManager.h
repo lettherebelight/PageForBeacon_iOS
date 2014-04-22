@@ -23,6 +23,7 @@
 @property (nonatomic, retain) id<HAMBeaconManagerDelegate> detailDelegate;
 
 - (void)startMonitor;
+- (void)stopMonitor;
 
 + (HAMBeaconManager*)beaconManager;
 + (NSArray*)beaconIDArray;

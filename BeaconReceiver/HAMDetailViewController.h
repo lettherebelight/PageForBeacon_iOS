@@ -14,6 +14,7 @@
 @interface HAMDetailViewController : UIViewController <UIWebViewDelegate, HAMBeaconManagerDelegate> {
     NSString *pageURL;
     NSString *pageTitle;
+    UIGestureRecognizer *backToHomeRecognizer;
 }
 
 @property (weak, nonatomic) IBOutlet UIWebView *detailWebView;

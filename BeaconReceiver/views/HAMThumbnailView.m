@@ -31,9 +31,12 @@
         
         UIImage *background = [HAMTools imageFromURL:page.backImage];
         if (background != nil) {
-            UIImageView *backImageView = [[UIImageView alloc] initWithImage:[HAMTools image:background staysShapChangeToSize:self.frame.size]];
+            UIImage *image = [HAMTools image:background staysShapeChangeToSize:self.frame.size];
+            backImageView = [[UIImageView alloc] initWithImage:image];
             [backImageView setCenter:CGPointMake(self.frame.size.width / 2.0f, self.frame.size.height / 2.0f)];
             [self addSubview:backImageView];
+            image = nil;
+            background = nil;
         }
         
         /*
@@ -47,14 +50,24 @@
         UIImage *thumbnail = [HAMTools imageFromURL:page.thumbnail];
         CGSize maxSize = CGSizeMake(500.0f, 400.0f);
         if (thumbnail != nil) {
-            UIImageView *imageView = [[UIImageView alloc] initWithImage:[HAMTools image:thumbnail changeToMaxSize:maxSize]];
+            UIImage *image = [HAMTools image:thumbnail changeToMaxSize:maxSize];
+            imageView = [[UIImageView alloc] initWithImage:image];
             [imageView setCenter:CGPointMake(self.frame.size.width / 2.0f, self.frame.size.height / 2.0f)];
             [self addSubview:imageView];
+            thumbnail = nil;
         }
         
         [self setBackgroundColor:[UIColor whiteColor]];
     }
     return self;
+}
+
+- (void)removeFromSuperview {
+    [super removeFromSuperview];
+    backImageView.image = nil;
+    backImageView = nil;
+    imageView.image = nil;
+    imageView = nil;
 }
 
 /*

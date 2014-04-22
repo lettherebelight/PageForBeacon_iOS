@@ -12,6 +12,9 @@
 
 @interface HAMHomeViewController : UIViewController <HAMSideBarDelegate, HAMBeaconManagerDelegate> {
     UITabBarController *contentTabView;
+    Boolean nearestPageIsNil;
+    Boolean canShowNilPage;
+    NSTimer *timer;
 }
 
 @end

@@ -27,26 +27,26 @@ static HAMTourManager *tourManager;
 - (void) newVisitor {
     tour = [AVObject objectWithClassName:@"Tour"];
     [tour setObject:@"534d27dce4b0275ea1a07ff7" forKey:@"user_id"];
-    [tour saveInBackground];
+    [tour save];
 }
 
 - (void)addHistory:(NSString *)dataID {
     [tour addObject:dataID forKey:@"beacons"];
-    [tour saveInBackground];
+    [tour save];
 }
 
 - (void)addFavorite:(NSString *)dataID {
     [tour addObject:dataID forKey:@"favorites"];
-    [tour saveInBackground];
+    [tour save];
 }
 
 - (void)deleteFavorite:(NSString *)dataID {
     [tour removeObject:dataID forKey:@"favorites"];
-    [tour saveInBackground];
+    [tour save];
 }
 
 - (void)saveTour {
-    [tour saveInBackground];
+    [tour save];
 }
 
 @end

@@ -10,6 +10,7 @@
 #import "HAMTools.h"
 #import "HAMHomepageData.h"
 #import "HAMDataManager.h"
+#import "HAMThumbnailViewController.h"
 
 @interface HAMDetailViewController ()
 
@@ -18,13 +19,18 @@
 @implementation HAMDetailViewController
 
 static int loadingViewTag = 22;
+UIColor *alertTintColor;
 
 - (void)displayHomepage:(HAMHomepageData *)homepage {
     if (homepage != nil) {
         if (homepage == self.homepage) {
             self.navigationItem.title = pageTitle;
+            self.navigationController.navigationBar.barTintColor = nil;
+            [self.navigationController.navigationBar removeGestureRecognizer:backToHomeRecognizer];
         } else {
             self.navigationItem.title = [NSString stringWithFormat:@"新展品\t\t%@", pageTitle];
+            self.navigationController.navigationBar.barTintColor = alertTintColor;
+            [self.navigationController.navigationBar addGestureRecognizer:backToHomeRecognizer];
         }
     }
 }
@@ -46,17 +52,32 @@ static int loadingViewTag = 22;
     //initialize
     pageURL = @"http://www.baidu.com";
     pageTitle = @"title";
+    backToHomeRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(backToHome)];
+    
+    self.navigationController.navigationBar.barTintColor = nil;
+    alertTintColor = [UIColor colorWithRed:237.0f / 255 green:239 / 255 blue:241 / 255 alpha:1];
     if ([self homepage] != nil) {
         pageURL = [self homepage].pageURL;
         pageTitle = [self homepage].pageTitle;
     }
     [HAMBeaconManager beaconManager].detailDelegate = self;
     // Set Navigation Bar
+    //self.navigationController.navigationBar.barTintColor = normalTintColor;
+    //self.navigationController.navigationBar.titleTextAttributes = [NSDictionary dictionaryWithObject:[UIColor whiteColor] forKey:@"UITextAttributeTextColor"];
     UIBarButtonItem *favItem;
     if (self.homepage.markedListRecord == nil) {
-        favItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemBookmarks target:self action:@selector(performFavorite)];
+        //favItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemBookmarks target:self action:@selector(performFavorite)];
+        //favItem = [[UIBarButtonItem alloc] initWithTitle:@"MARK" style:UIBarButtonItemStylePlain target:self action:@selector(performFavorite)];
+        UIImage *originImage = [[UIImage imageNamed:@"fav-normal.png"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+        UIImage *image = [HAMTools image:originImage changeToSize:CGSizeMake(22.0f, 22.0f)];
+        
+        favItem = [[UIBarButtonItem alloc] initWithImage:image style:UIBarButtonItemStylePlain target:self action:@selector(performFavorite)];
     } else {
-        favItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(performUnFavorite)];
+        //favItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemBookmarks target:self action:@selector(performUnFavorite)];
+        UIImage *originImage = [[UIImage imageNamed:@"fav-selected-normal.png"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+        UIImage *image = [HAMTools image:originImage changeToSize:CGSizeMake(22.0f, 22.0f)];
+        
+        favItem = [[UIBarButtonItem alloc] initWithImage:image style:UIBarButtonItemStyleBordered target:self action:@selector(performUnFavorite)];
     }
     UIBarButtonItem *refreshItem;
     refreshItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh target:self action:@selector(performRefresh)];
@@ -75,20 +96,38 @@ static int loadingViewTag = 22;
     }
 }
 
+- (void)backToHome {
+    [self.navigationController.navigationBar removeGestureRecognizer:backToHomeRecognizer];
+    HAMThumbnailViewController *parentView = [self.navigationController.viewControllers objectAtIndex:0];
+    [self.navigationController popViewControllerAnimated:NO];
+    [parentView performSegueWithIdentifier:@"showDetailPage" sender:parentView];
+    //[self removeFromParentViewController];
+}
+
 - (void)performRefresh {
     [self.detailWebView reload];
 }
 
 - (void)performFavorite {
     [HAMDataManager addAMarkedRecord:self.homepage];
-    UIBarButtonItem *bItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(performUnFavorite)];
-    self.navigationItem.rightBarButtonItem= bItem;
+    UIImage *originImage = [[UIImage imageNamed:@"fav-selected-normal.png"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+    UIImage *image = [HAMTools image:originImage changeToSize:CGSizeMake(22.0f, 22.0f)];
+    
+    UIBarButtonItem *favItem = [[UIBarButtonItem alloc] initWithImage:image style:UIBarButtonItemStyleBordered target:self action:@selector(performUnFavorite)];
+    self.navigationItem.rightBarButtonItem= favItem;
 }
 
 - (void)performUnFavorite {
     [HAMDataManager removeMarkedRecord:self.homepage];
-    UIBarButtonItem *bItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemBookmarks target:self action:@selector(performFavorite)];
-    self.navigationItem.rightBarButtonItem= bItem;
+    UIImage *originImage = [[UIImage imageNamed:@"fav-normal.png"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+    UIImage *image = [HAMTools image:originImage changeToSize:CGSizeMake(22.0f, 22.0f)];
+    
+    UIBarButtonItem *favItem = [[UIBarButtonItem alloc] initWithImage:image style:UIBarButtonItemStylePlain target:self action:@selector(performFavorite)];
+    self.navigationItem.rightBarButtonItem= favItem;
+}
+
+- (void)viewWillDisappear:(BOOL)animated {
+    [self.detailWebView stopLoading];
 }
 
 - (void)didReceiveMemoryWarning
@@ -122,8 +161,8 @@ static int loadingViewTag = 22;
 - (void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error {
     UIView *view = (UIView*)[self.view viewWithTag:loadingViewTag];
     [view removeFromSuperview];
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"加载失败" message:nil delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
-    [alert show];
+    //UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"加载失败" message:nil delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
+    //[alert show];
 }
 
 

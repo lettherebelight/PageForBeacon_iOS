@@ -22,7 +22,7 @@ static HAMBeaconManager* beaconManager = nil;
 static NSArray* beaconIDArray;
 
 static float distanceRangeMin = 1;
-static float distanceRangeMax = 2;
+static float distanceRangeMax = 1.8;
 
 NSMutableArray *beaconRegions;
 CLLocationManager *locationManager;
@@ -69,7 +69,17 @@ bool isInBackground = NO;
     beaconsAround = [NSMutableArray array];
     beaconRegions = [NSMutableArray array];
     
-    for (NSString* BId in [HAMBeaconManager beaconIDArray])
+    
+    
+    NSEnumerator *enumerator = [locationManager.monitoredRegions objectEnumerator];
+    for (CLBeaconRegion *region in enumerator) {
+        [locationManager stopMonitoringForRegion:region];
+    }
+    
+    
+    NSArray *idArray = [HAMBeaconManager beaconIDArray];
+    
+    for (NSString* BId in idArray)
     {
         NSUUID *uuid = [[NSUUID alloc] initWithUUIDString:BId];
         CLBeaconRegion *region = [[CLBeaconRegion alloc] initWithProximityUUID:uuid identifier:BId];
@@ -83,6 +93,25 @@ bool isInBackground = NO;
     {
         [locationManager startMonitoringForRegion:beaconRegion];
         [locationManager startRangingBeaconsInRegion:beaconRegion];
+    }
+}
+
+- (void)stopMonitor {
+    NSArray *idArray = [HAMBeaconManager beaconIDArray];
+    
+    for (NSString* BId in idArray)
+    {
+        NSUUID *uuid = [[NSUUID alloc] initWithUUIDString:BId];
+        CLBeaconRegion *region = [[CLBeaconRegion alloc] initWithProximityUUID:uuid identifier:BId];
+        region.notifyEntryStateOnDisplay = YES;
+        if (region != nil) {
+            [beaconRegions addObject:region];
+        }
+    }
+    
+    for (CLBeaconRegion* beaconRegion in beaconRegions)
+    {
+        [locationManager stopMonitoringForRegion:beaconRegion];
     }
 }
 
@@ -122,7 +151,9 @@ bool isInBackground = NO;
             }
         }
     }
-    else {
+    else if (nearestBeacon == nil){
+        return;
+    } else {
         nearestBeacon = nil;
     }
     if (delegate != nil) {
@@ -149,11 +180,13 @@ bool isInBackground = NO;
 }
 
 - (void)locationManager:(CLLocationManager *)manager didEnterRegion:(CLRegion *)region {
-    //[HAMLogTool debug:[NSString stringWithFormat:@"enter region: %@", region.identifier]];
+    [HAMLogTool debug:[NSString stringWithFormat:@"enter region: %@", region.identifier]];
+    [locationManager startRangingBeaconsInRegion:(CLBeaconRegion*)region];
 }
 
 - (void)locationManager:(CLLocationManager *)manager didExitRegion:(CLRegion *)region {
     //[HAMLogTool debug:[NSString stringWithFormat:@"exit region: %@", region.identifier]];
+    [locationManager stopRangingBeaconsInRegion:(CLBeaconRegion*)region];
     [self removeBeaconByUUID:region.identifier];
     [self getAndDisplayHomepagesAround];
 }
@@ -198,7 +231,8 @@ bool isInBackground = NO;
     NSArray *removedBeaconInfo = [self removeBeaconByUUID:region.identifier];
     
     for (CLBeacon* beacon in beacons) {
-        if (beacon == nil || beacon.accuracy > distanceRangeMax) {
+        [HAMLogTool debug:[NSString stringWithFormat:@"accuracy:%f", beacon.accuracy]];
+        if (beacon == nil || beacon.accuracy > distanceRangeMax || beacon.accuracy < 0) {
             continue;
         }
         NSString *currentBInfo = [NSString stringWithFormat:@"%@%@", beacon.major, beacon.minor];

@@ -18,6 +18,7 @@
 
 @property HAMHomepageData *homepage;
 
+- (void)initView;
 - (void)updateView;
 
 @end

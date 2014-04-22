@@ -20,4 +20,9 @@
 
 @property (nonatomic, retain) id<HAMSideBarDelegate> delegate;
 
+@property (weak, nonatomic) IBOutlet UIButton *homeButton;
+@property (weak, nonatomic) IBOutlet UIButton *favButton;
+@property (weak, nonatomic) IBOutlet UIButton *refreshButton;
+
+
 @end

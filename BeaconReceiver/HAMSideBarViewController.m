@@ -40,12 +40,16 @@
 - (IBAction)homeButtonClicked:(id)sender {
     if (self.delegate != nil ) {
         [self.delegate showHomePage];
+        [[self homeButton] setSelected:YES];
+        [[self favButton] setSelected:NO];
     }
 }
 
 - (IBAction)favoritesButtonClicked:(id)sender {
     if (self.delegate != nil ) {
         [self.delegate showFavorites];
+        [[self homeButton] setSelected:NO];
+        [[self favButton] setSelected:YES];
     }
 }
 

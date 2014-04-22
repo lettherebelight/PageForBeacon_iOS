@@ -10,6 +10,7 @@
 #import "HAMAppDelegate.h"
 #import "HAMLogTool.h"
 #import "HAMBeaconManager.h"
+#import "HAMTourManager.h"
 
 @implementation HAMAppDelegate
 
@@ -56,6 +57,8 @@
 - (void)applicationWillTerminate:(UIApplication *)application
 {
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
+    [[HAMBeaconManager beaconManager] stopMonitor];
+    [[HAMTourManager tourManager] saveTour];
     [self saveContext];
 }
 

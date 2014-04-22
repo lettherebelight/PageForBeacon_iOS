@@ -67,6 +67,23 @@
 		66B162BF18FE887E00EFE554 /* HAMHomepageData.m in Sources */ = {isa = PBXBuildFile; fileRef = 66B162BD18FE887E00EFE554 /* HAMHomepageData.m */; };
 		66B162C218FE887E00EFE554 /* HAMMarkedHomepage.m in Sources */ = {isa = PBXBuildFile; fileRef = 66B162C118FE887E00EFE554 /* HAMMarkedHomepage.m */; };
 		66B162C318FE887E00EFE554 /* HAMMarkedHomepage.m in Sources */ = {isa = PBXBuildFile; fileRef = 66B162C118FE887E00EFE554 /* HAMMarkedHomepage.m */; };
+		66B162EA1900081800EFE554 /* fav-selected-normal.png in Resources */ = {isa = PBXBuildFile; fileRef = 66B162E41900081800EFE554 /* fav-selected-normal.png */; };
+		66B162EB1900081800EFE554 /* fav-selected-normal.png in Resources */ = {isa = PBXBuildFile; fileRef = 66B162E41900081800EFE554 /* fav-selected-normal.png */; };
+		66B162EC1900081800EFE554 /* fav-selected-pressed.png in Resources */ = {isa = PBXBuildFile; fileRef = 66B162E51900081800EFE554 /* fav-selected-pressed.png */; };
+		66B162ED1900081800EFE554 /* fav-selected-pressed.png in Resources */ = {isa = PBXBuildFile; fileRef = 66B162E51900081800EFE554 /* fav-selected-pressed.png */; };
+		66B162EE1900081800EFE554 /* home-normal.png in Resources */ = {isa = PBXBuildFile; fileRef = 66B162E61900081800EFE554 /* home-normal.png */; };
+		66B162EF1900081800EFE554 /* home-normal.png in Resources */ = {isa = PBXBuildFile; fileRef = 66B162E61900081800EFE554 /* home-normal.png */; };
+		66B162F01900081800EFE554 /* home-pressed.png in Resources */ = {isa = PBXBuildFile; fileRef = 66B162E71900081800EFE554 /* home-pressed.png */; };
+		66B162F11900081800EFE554 /* home-pressed.png in Resources */ = {isa = PBXBuildFile; fileRef = 66B162E71900081800EFE554 /* home-pressed.png */; };
+		66B162F21900081800EFE554 /* share-normal.png in Resources */ = {isa = PBXBuildFile; fileRef = 66B162E81900081800EFE554 /* share-normal.png */; };
+		66B162F31900081800EFE554 /* share-normal.png in Resources */ = {isa = PBXBuildFile; fileRef = 66B162E81900081800EFE554 /* share-normal.png */; };
+		66B162F41900081800EFE554 /* share-pressed.png in Resources */ = {isa = PBXBuildFile; fileRef = 66B162E91900081800EFE554 /* share-pressed.png */; };
+		66B162F51900081800EFE554 /* share-pressed.png in Resources */ = {isa = PBXBuildFile; fileRef = 66B162E91900081800EFE554 /* share-pressed.png */; };
+		66B162F7190009DC00EFE554 /* reset-normal.png in Resources */ = {isa = PBXBuildFile; fileRef = 66B162F6190009DC00EFE554 /* reset-normal.png */; };
+		66B162F8190009DC00EFE554 /* reset-normal.png in Resources */ = {isa = PBXBuildFile; fileRef = 66B162F6190009DC00EFE554 /* reset-normal.png */; };
+		66B162FA1900171700EFE554 /* fav-normal.png in Resources */ = {isa = PBXBuildFile; fileRef = 66B162F91900171700EFE554 /* fav-normal.png */; };
+		66B162FB1900171700EFE554 /* fav-normal.png in Resources */ = {isa = PBXBuildFile; fileRef = 66B162F91900171700EFE554 /* fav-normal.png */; };
+		66B162FD1905517100EFE554 /* CoreBluetooth.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 66B162FC1905517100EFE554 /* CoreBluetooth.framework */; };
 		66C48E9F18FD63A200829379 /* HAMThumbnailView.m in Sources */ = {isa = PBXBuildFile; fileRef = 66C48E9E18FD63A200829379 /* HAMThumbnailView.m */; };
 		66C48EA018FD63A200829379 /* HAMThumbnailView.m in Sources */ = {isa = PBXBuildFile; fileRef = 66C48E9E18FD63A200829379 /* HAMThumbnailView.m */; };
 		66C5EB1518CDB1FB00B8A666 /* HAMHistoryTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 66C5EB1418CDB1FB00B8A666 /* HAMHistoryTableViewController.m */; };
@@ -152,6 +169,15 @@
 		66B162BD18FE887E00EFE554 /* HAMHomepageData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HAMHomepageData.m; sourceTree = "<group>"; };
 		66B162C018FE887E00EFE554 /* HAMMarkedHomepage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HAMMarkedHomepage.h; sourceTree = "<group>"; };
 		66B162C118FE887E00EFE554 /* HAMMarkedHomepage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HAMMarkedHomepage.m; sourceTree = "<group>"; };
+		66B162E41900081800EFE554 /* fav-selected-normal.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "fav-selected-normal.png"; path = "icons/fav-selected-normal.png"; sourceTree = "<group>"; };
+		66B162E51900081800EFE554 /* fav-selected-pressed.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "fav-selected-pressed.png"; path = "icons/fav-selected-pressed.png"; sourceTree = "<group>"; };
+		66B162E61900081800EFE554 /* home-normal.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "home-normal.png"; path = "icons/home-normal.png"; sourceTree = "<group>"; };
+		66B162E71900081800EFE554 /* home-pressed.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "home-pressed.png"; path = "icons/home-pressed.png"; sourceTree = "<group>"; };
+		66B162E81900081800EFE554 /* share-normal.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "share-normal.png"; path = "icons/share-normal.png"; sourceTree = "<group>"; };
+		66B162E91900081800EFE554 /* share-pressed.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "share-pressed.png"; path = "icons/share-pressed.png"; sourceTree = "<group>"; };
+		66B162F6190009DC00EFE554 /* reset-normal.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "reset-normal.png"; path = "icons/reset-normal.png"; sourceTree = "<group>"; };
+		66B162F91900171700EFE554 /* fav-normal.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "fav-normal.png"; path = "icons/fav-normal.png"; sourceTree = "<group>"; };
+		66B162FC1905517100EFE554 /* CoreBluetooth.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreBluetooth.framework; path = System/Library/Frameworks/CoreBluetooth.framework; sourceTree = SDKROOT; };
 		66C48E9D18FD63A200829379 /* HAMThumbnailView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HAMThumbnailView.h; sourceTree = "<group>"; };
 		66C48E9E18FD63A200829379 /* HAMThumbnailView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HAMThumbnailView.m; sourceTree = "<group>"; };
 		66C5EB1318CDB1FB00B8A666 /* HAMHistoryTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HAMHistoryTableViewController.h; sourceTree = "<group>"; };
@@ -166,10 +192,11 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				66B01ADF18D5DB9500CD5EDF /* SystemConfiguration.framework in Frameworks */,
+				66B162FD1905517100EFE554 /* CoreBluetooth.framework in Frameworks */,
 				6657B42318FCDB1700099EC6 /* CoreLocation.framework in Frameworks */,
 				6657B42118FCDAE000099EC6 /* CoreTelephony.framework in Frameworks */,
 				6657B41F18FCDAD400099EC6 /* MobileCoreServices.framework in Frameworks */,
-				66B01ADF18D5DB9500CD5EDF /* SystemConfiguration.framework in Frameworks */,
 				6668B6AD18F6ABB400A12655 /* CoreData.framework in Frameworks */,
 				66C5EB1818CE9B6800B8A666 /* MapKit.framework in Frameworks */,
 				6636EC9618B502DD00F94E6C /* libsqlite3.0.dylib in Frameworks */,
@@ -215,6 +242,7 @@
 		6636EC4318B39EF000F94E6C /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				66B162FC1905517100EFE554 /* CoreBluetooth.framework */,
 				6657B42218FCDB1700099EC6 /* CoreLocation.framework */,
 				6657B42018FCDAE000099EC6 /* CoreTelephony.framework */,
 				6657B41E18FCDAD400099EC6 /* MobileCoreServices.framework */,
@@ -337,10 +365,26 @@
 		6668B6C318F7D2C700A12655 /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				66B162C418FFF62E00EFE554 /* icons */,
 				6668B6C418F7D47F00A12655 /* index_image.png */,
 			);
 			name = Images;
 			path = images;
+			sourceTree = "<group>";
+		};
+		66B162C418FFF62E00EFE554 /* icons */ = {
+			isa = PBXGroup;
+			children = (
+				66B162F91900171700EFE554 /* fav-normal.png */,
+				66B162F6190009DC00EFE554 /* reset-normal.png */,
+				66B162E41900081800EFE554 /* fav-selected-normal.png */,
+				66B162E51900081800EFE554 /* fav-selected-pressed.png */,
+				66B162E61900081800EFE554 /* home-normal.png */,
+				66B162E71900081800EFE554 /* home-pressed.png */,
+				66B162E81900081800EFE554 /* share-normal.png */,
+				66B162E91900081800EFE554 /* share-pressed.png */,
+			);
+			name = icons;
 			sourceTree = "<group>";
 		};
 		66C48E9C18FD638400829379 /* views */ = {
@@ -462,11 +506,19 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				66B162EC1900081800EFE554 /* fav-selected-pressed.png in Resources */,
+				66B162EE1900081800EFE554 /* home-normal.png in Resources */,
 				6668B6C518F7D47F00A12655 /* index_image.png in Resources */,
 				6636EC5B18B39EF000F94E6C /* Main_iPad.storyboard in Resources */,
+				66B162FA1900171700EFE554 /* fav-normal.png in Resources */,
+				66B162F7190009DC00EFE554 /* reset-normal.png in Resources */,
+				66B162F41900081800EFE554 /* share-pressed.png in Resources */,
 				6636EC6018B39EF000F94E6C /* Images.xcassets in Resources */,
 				6636EC5818B39EF000F94E6C /* Main_iPhone.storyboard in Resources */,
+				66B162F21900081800EFE554 /* share-normal.png in Resources */,
 				6636EC4F18B39EF000F94E6C /* InfoPlist.strings in Resources */,
+				66B162F01900081800EFE554 /* home-pressed.png in Resources */,
+				66B162EA1900081800EFE554 /* fav-selected-normal.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -474,7 +526,15 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				66B162F31900081800EFE554 /* share-normal.png in Resources */,
 				6636EC7118B39EF000F94E6C /* InfoPlist.strings in Resources */,
+				66B162EF1900081800EFE554 /* home-normal.png in Resources */,
+				66B162EB1900081800EFE554 /* fav-selected-normal.png in Resources */,
+				66B162F8190009DC00EFE554 /* reset-normal.png in Resources */,
+				66B162F11900081800EFE554 /* home-pressed.png in Resources */,
+				66B162FB1900171700EFE554 /* fav-normal.png in Resources */,
+				66B162F51900081800EFE554 /* share-pressed.png in Resources */,
+				66B162ED1900081800EFE554 /* fav-selected-pressed.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -673,6 +733,11 @@
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "BeaconReceiver/BeaconReceiver-Prefix.pch";
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
+					"$(SRCROOT)/BeaconReceiver/EstimoteSDK/Headers",
+				);
 				INFOPLIST_FILE = "BeaconReceiver/BeaconReceiver-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
@@ -694,6 +759,11 @@
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "BeaconReceiver/BeaconReceiver-Prefix.pch";
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
+					"$(SRCROOT)/BeaconReceiver/EstimoteSDK/Headers",
+				);
 				INFOPLIST_FILE = "BeaconReceiver/BeaconReceiver-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";

@@ -119,11 +119,15 @@
     [originalImage drawInRect:CGRectMake(0, 0, size.width, size.height)];
     UIImage *reSizeImage = UIGraphicsGetImageFromCurrentImageContext();
     UIGraphicsEndImageContext();
+    originalImage = nil;
     return reSizeImage;
 }
 
 +(UIImage*)image:(UIImage*)originalImage changeToMaxSize:(CGSize)size {
     CGSize realSize;
+    if (originalImage.size.height < size.height && originalImage.size.width < size.width) {
+        return originalImage;
+    }
     if (size.height / originalImage.size.height < size.width / originalImage.size.width) {
         realSize = CGSizeMake(originalImage.size.width * size.height / originalImage.size.height, size.height);
     } else {
@@ -133,6 +137,7 @@
     [originalImage drawInRect:CGRectMake(0, 0, realSize.width, realSize.height)];
     UIImage *reSizeImage = UIGraphicsGetImageFromCurrentImageContext();
     UIGraphicsEndImageContext();
+    originalImage = nil;
     return reSizeImage;
 }
 
@@ -147,10 +152,11 @@
     [originalImage drawInRect:CGRectMake(0, 0, realSize.width, realSize.height)];
     UIImage *reSizeImage = UIGraphicsGetImageFromCurrentImageContext();
     UIGraphicsEndImageContext();
+    originalImage = nil;
     return reSizeImage;
 }
 
-+(UIImage*)image:(UIImage*)originalImage staysShapChangeToSize:(CGSize)size {
++(UIImage*)image:(UIImage*)originalImage staysShapeChangeToSize:(CGSize)size {
     UIImage *resizedImage = [HAMTools image:originalImage changeToMinSize:size];
     CGRect newImageRect;
     if (resizedImage.size.width == size.width) {
@@ -165,6 +171,9 @@
     UIImage* smallImage = [UIImage imageWithCGImage:subImageRef];
     
     UIGraphicsEndImageContext();
+    
+    originalImage = nil;
+    resizedImage = nil;
     
     return smallImage;
 }

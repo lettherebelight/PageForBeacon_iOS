@@ -11,6 +11,8 @@
 #import "HAMDataManager.h"
 #import "HAMHomepageData.h"
 #import "HAMThumbnailView.h"
+#import "HAMTools.h"
+#import <MediaPlayer/MediaPlayer.h>
 
 @interface HAMThumbnailViewController ()
 
@@ -39,7 +41,7 @@
     self.navigationItem.backBarButtonItem = temporaryBarButtonItem;
     self.hidesBottomBarWhenPushed = YES;
     
-    [self updateView];
+    [self initView];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -58,12 +60,23 @@
     // Dispose of any resources that can be recreated.
 }
 
-- (void)updateView {
+- (void)clearViews {
+    long count = [[self.listScrollView subviews] count];
+    long i;
+    for (i = count - 1; i >= 0; i--) {
+        HAMThumbnailView *view = [[self.listScrollView subviews] objectAtIndex:i];
+        [view removeFromSuperview];
+        view = nil;
+    }
+}
+
+- (void)initView {
+    [self clearViews];
     float viewHeight = [self listScrollView].frame.size.height;
     float marginUp = 0.0f;
     CGPoint scrollOffset = CGPointMake(0.0f, 0.0f);
     NSArray *historyPages = [HAMDataManager fetchHistoryRecords];
-    int historyCount;
+    long historyCount;
     int i;
     if (homepage == nil) {
         i = 1;
@@ -108,7 +121,84 @@
         [view addSubview:titleTF];
         [view setBackgroundColor:[UIColor whiteColor]];
         [[self listScrollView] addSubview:view];
+        /*if ([HAMTools isWebAvailable] == YES) {
+         MPMoviePlayerViewController *playerVC;
+         NSString *urlString = @"http://artbeacon.qiniudn.com/background.mp4";
+         NSURL *url = [NSURL URLWithString:urlString];
+         playerVC = [[MPMoviePlayerViewController alloc] initWithContentURL:url];
+         [self presentMoviePlayerViewControllerAnimated:playerVC];
+         [playerVC.moviePlayer play];
+         
+         }
+         */
     }
+}
+
+- (void)updateView {
+    [self clearViews];
+    selPage = homepage;
+    selPage = homepage;
+    float viewHeight = [self listScrollView].frame.size.height;
+    float marginUp = 0.0f;
+    CGPoint scrollOffset = CGPointMake(0.0f, viewHeight);
+    NSArray *historyPages = [HAMDataManager fetchHistoryRecords];
+    long historyCount;
+    int i;
+    if (homepage == nil) {
+        i = 1;
+        historyCount = [historyPages count];
+    } else {
+        i = 0;
+        historyCount = [historyPages count] - 1;
+    }
+    //for (UIView* view in [[self listScrollView] subviews]) {
+    //    [view removeFromSuperview];
+    //}
+    [self listScrollView].contentSize = CGSizeMake([self listScrollView].frame.size.width, (historyCount+1) * viewHeight + 2.0f * marginUp);
+    [self listScrollView].contentOffset = scrollOffset;
+    for (HAMHomepageData* pageData in historyPages) {
+        if (i == 0) {
+            i++;
+            continue;
+        }
+        HAMThumbnailView *view = [[HAMThumbnailView alloc] initWithFrame:CGRectMake(0.0f, marginUp + viewHeight * i, [self listScrollView].frame.size.width,viewHeight) pageData:pageData];
+        
+        UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(onClickViewWithRecognizer:)];
+        [view addGestureRecognizer:tapGesture];
+        
+        [[self listScrollView] addSubview:view];
+        i++;
+    }
+    
+    if (homepage != nil) {
+        HAMThumbnailView *view = [[HAMThumbnailView alloc] initWithFrame:CGRectMake(0.0f, marginUp, [self listScrollView].frame.size.width,viewHeight) pageData:homepage];
+        
+        UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(onClickViewWithRecognizer:)];
+        [view addGestureRecognizer:tapGesture];
+        
+        [[self listScrollView] addSubview:view];
+    }
+    else {
+         UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, [self listScrollView].frame.size.width,viewHeight)];
+        UITextField *titleTF = [[UITextField alloc] initWithFrame:CGRectMake(0.0f, 50.0f, [self listScrollView].frame.size.width, 100.0f)];
+        [titleTF setTextAlignment:NSTextAlignmentCenter];
+        [titleTF setEnabled:NO];
+        titleTF.text = @"no beacon around";
+        [view addSubview:titleTF];
+        [view setBackgroundColor:[UIColor whiteColor]];
+        [[self listScrollView] addSubview:view];
+        /*if ([HAMTools isWebAvailable] == YES) {
+            MPMoviePlayerViewController *playerVC;
+            NSString *urlString = @"http://artbeacon.qiniudn.com/background.mp4";
+            NSURL *url = [NSURL URLWithString:urlString];
+            playerVC = [[MPMoviePlayerViewController alloc] initWithContentURL:url];
+            [self presentMoviePlayerViewControllerAnimated:playerVC];
+            [playerVC.moviePlayer play];
+            
+        }
+         */
+    }
+    [[self listScrollView] setContentOffset:CGPointMake(0, 0) animated:YES];
 }
 
 - (void)onClickViewWithRecognizer:(UITapGestureRecognizer*) recognizer {

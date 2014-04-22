@@ -40,6 +40,7 @@
     // Do any additional setup after loading the view.
     self.hidesBottomBarWhenPushed = YES;
     //set navigation bar
+    self.navigationController.navigationBar.barTintColor = nil;
     UIBarButtonItem *temporaryBarButtonItem = [[UIBarButtonItem alloc] init];
     temporaryBarButtonItem.title = @"";
     self.navigationItem.backBarButtonItem = temporaryBarButtonItem;
@@ -52,21 +53,12 @@
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
+    self.navigationController.navigationBar.barTintColor = nil;
     [self loadCollections];
-    CATransition *transition = [CATransition animation];
-    [transition setDuration:0.3];
-    [transition setType:kCATransitionMoveIn];
-    [transition setSubtype:kCATransitionFromLeft];
-    [self.tabBarController.view.layer addAnimation:transition forKey:nil];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
-    CATransition *transition = [CATransition animation];
-    [transition setDuration:0.3];
-    [transition setType:kCATransitionReveal];
-    [transition setSubtype:kCATransitionFromRight];
-    [self.tabBarController.view.layer addAnimation:transition forKey:nil];
 }
 
 - (void)performShare {

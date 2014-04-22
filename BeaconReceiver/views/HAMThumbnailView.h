@@ -10,10 +10,15 @@
 
 @class HAMHomepageData;
 
-@interface HAMThumbnailView : UIView
+@interface HAMThumbnailView : UIView {
+    UIImageView *backImageView;
+    UIImageView *imageView;
+}
+
+@property HAMHomepageData* pageData;
 
 - (id)initWithFrame:(CGRect)frame pageData:(HAMHomepageData*)page;
 
-@property HAMHomepageData* pageData;
+- (void)removeFromSuperview;
 
 @end
