@@ -7,7 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import <CoreLocation/CoreLocation.h>
+#import <ESTBeaconManager.h>
 
 @class HAMHomepageData;
 
@@ -17,17 +17,17 @@
 
 @end
 
-@interface HAMBeaconManager : NSObject <CLLocationManagerDelegate>
+@interface HAMBeaconManager : NSObject <ESTBeaconManagerDelegate>
 
 @property (nonatomic, retain) id<HAMBeaconManagerDelegate> delegate;
 @property (nonatomic, retain) id<HAMBeaconManagerDelegate> detailDelegate;
 
+- (void)setupESTBeaconManager;
 - (void)startMonitor;
 - (void)stopMonitor;
 
 + (HAMBeaconManager*)beaconManager;
 + (NSArray*)beaconIDArray;
-+ (void)setNotifyStatus:(Boolean)status;
 + (void)setBackGroundStatus:(Boolean)status;
 
 @end

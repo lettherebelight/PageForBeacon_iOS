@@ -2,7 +2,7 @@
 //  HAMHomepageData.m
 //  BeaconReceiver
 //
-//  Created by daiyue on 4/16/14.
+//  Created by daiyue on 4/22/14.
 //  Copyright (c) 2014 Beacon Test Group. All rights reserved.
 //
 
@@ -21,6 +21,7 @@
 @dynamic pageURL;
 @dynamic thumbnail;
 @dynamic dataID;
+@dynamic range;
 @dynamic historyListRecord;
 @dynamic markedListRecord;
 

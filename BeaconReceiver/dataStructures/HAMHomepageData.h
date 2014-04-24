@@ -2,7 +2,7 @@
 //  HAMHomepageData.h
 //  BeaconReceiver
 //
-//  Created by daiyue on 4/16/14.
+//  Created by daiyue on 4/22/14.
 //  Copyright (c) 2014 Beacon Test Group. All rights reserved.
 //
 
@@ -21,6 +21,7 @@
 @property (nonatomic, retain) NSString * pageURL;
 @property (nonatomic, retain) NSString * thumbnail;
 @property (nonatomic, retain) NSString * dataID;
+@property (nonatomic, retain) NSNumber * range;
 @property (nonatomic, retain) HAMHistoryHomepage *historyListRecord;
 @property (nonatomic, retain) HAMMarkedHomepage *markedListRecord;
 

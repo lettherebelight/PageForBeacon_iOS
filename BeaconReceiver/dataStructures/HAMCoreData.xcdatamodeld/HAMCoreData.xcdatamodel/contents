@@ -12,6 +12,7 @@
         <attribute name="dataID" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="pageTitle" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="pageURL" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="range" optional="YES" attributeType="Float" defaultValueString="0.0" syncable="YES"/>
         <attribute name="thumbnail" optional="YES" attributeType="String" syncable="YES"/>
         <relationship name="historyListRecord" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="HAMHistoryHomepage" inverseName="homepage" inverseEntity="HAMHistoryHomepage" syncable="YES"/>
         <relationship name="markedListRecord" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="HAMMarkedHomepage" inverseName="homepage" inverseEntity="HAMMarkedHomepage" syncable="YES"/>
@@ -22,7 +23,7 @@
     </entity>
     <elements>
         <element name="HAMHistoryHomepage" positionX="-234" positionY="72" width="128" height="73"/>
-        <element name="HAMHomepageData" positionX="-63" positionY="-18" width="128" height="195"/>
+        <element name="HAMHomepageData" positionX="-63" positionY="-18" width="128" height="210"/>
         <element name="HAMMarkedHomepage" positionX="-236" positionY="-22" width="128" height="73"/>
     </elements>
 </model>
