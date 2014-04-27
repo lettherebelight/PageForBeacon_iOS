@@ -7,6 +7,7 @@
 //
 
 #import <AVOSCloud/AVOSCloud.h>
+#import <AVOSCloudSNS/AVOSCloudSNS.h>
 #import "HAMAppDelegate.h"
 #import "HAMLogTool.h"
 #import "HAMBeaconManager.h"

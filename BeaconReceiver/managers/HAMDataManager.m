@@ -72,7 +72,7 @@ static NSManagedObjectContext *context;
             [context deleteObject:historyPage];
         }
     }
-    if (fetchedHistoryObjects == nil || [fetchedHistoryObjects count] == 0) {
+    if (fetchedpageDataObjects == nil || [fetchedpageDataObjects count] == 0) {
     } else {
         for (HAMHomepageData* pageData in fetchedpageDataObjects) {
             [context deleteObject:pageData];

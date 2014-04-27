@@ -24,6 +24,12 @@ static HAMTourManager *tourManager;
     return tourManager;
 }
 
+- (NSString*)currentVisitor {
+    NSString *visitorID;
+    visitorID = [tour objectForKey:@"user_id"];
+    return visitorID;
+}
+
 - (void) newVisitor {
     tour = [AVObject objectWithClassName:@"Tour"];
     [tour setObject:@"534d27dce4b0275ea1a07ff7" forKey:@"user_id"];

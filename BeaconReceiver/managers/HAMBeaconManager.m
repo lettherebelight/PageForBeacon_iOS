@@ -20,8 +20,6 @@
 
 static HAMBeaconManager* beaconManager = nil;
 
-static float defaultDistanceRangeMin = 1;
-static float defaultDistanceRangeMax = 1.5;
 static float defaultDistanceDelta = 0.5;
 
 ESTBeaconManager *estBeaconManager;
@@ -105,19 +103,75 @@ bool isInBackground = NO;
     return [info1 isEqualToString:info2];
 }
 
-- (void)removeBeaconWithUUID:(NSString*)uuid {
+- (Boolean)removeBeacon:(ESTBeacon*)currentBeacon {
     long i;
-    for (i = [beaconsAround count] - 1; i >= 0; i--) {
-        CLBeacon *beacon = [beaconsAround objectAtIndex:i];
-        if ([beacon.proximityUUID.UUIDString isEqualToString:uuid]) {
+    long count = [beaconsAround count];
+    for (i = count - 1; i >= 0; i--) {
+        ESTBeacon *beacon = [beaconsAround objectAtIndex:i];
+        if ([self beacon:beacon theSameAsBeacon:currentBeacon]) {
             [beaconsAround removeObjectAtIndex:i];
+            return YES;
         }
     }
+    return NO;
+}
+- (void)addBeacon:(ESTBeacon*)currentBeacon {
+    long i;
+    long count = [beaconsAround count];
+    for (i = 0; i < count; i++) {
+        ESTBeacon *beacon = (ESTBeacon*)[beaconsAround objectAtIndex:i];
+        if (currentBeacon.distance.floatValue < beacon.distance.floatValue) {
+            [beaconsAround insertObject:currentBeacon atIndex:i];
+            return;
+        }
+    }
+    [beaconsAround addObject:currentBeacon];
 }
 - (void)beaconManager:(ESTBeaconManager *)manager didRangeBeacons:(NSArray *)beacons inRegion:(ESTBeaconRegion *)region {
     for (ESTBeacon* beacon in beacons) {
         [HAMLogTool debug:[NSString stringWithFormat:@"distance:%@", beacon.distance]];
+        HAMHomepageData *pageData = [HAMHomepageManager homepageWithBeaconID:beacon.proximityUUID.UUIDString major:beacon.major minor:beacon.minor];
+        if (pageData == nil) {
+            continue;
+        }
+        if ([self removeBeacon:beacon] == YES && beacon.distance.floatValue <= (pageData.range.floatValue + defaultDistanceDelta)) {
+            [self addBeacon:beacon];
+        }
+        else if (beacon.distance.floatValue <= pageData.range.floatValue) {
+            [self addBeacon:beacon];
+        }
     }
+    ESTBeacon* currentBeacon;
+    if ([beaconsAround count] == 0) {
+        currentBeacon = nil;
+        if (nearestBeacon == nil) {
+            return;
+        }
+    }
+    else {
+        currentBeacon = [beaconsAround objectAtIndex:0];
+    }
+    if ([self beacon:currentBeacon theSameAsBeacon:nearestBeacon] == NO) {
+        nearestBeacon = currentBeacon;
+        HAMHomepageData* pageData;
+        if (currentBeacon == nil) {
+            pageData = nil;
+        } else {
+            pageData = [HAMHomepageManager homepageWithBeaconID:currentBeacon.proximityUUID.UUIDString major:currentBeacon.major minor:currentBeacon.minor];
+            if (pageData != nil && pageData.historyListRecord == nil) {
+                [HAMDataManager addAHistoryRecord:pageData];
+            } else if (pageData != nil) {
+                [HAMDataManager updateHistoryRecord:pageData.historyListRecord];
+            }
+        }
+        if (delegate != nil) {
+            [delegate displayHomepage:pageData];
+        }
+        if (detailDelegate != nil) {
+            [detailDelegate displayHomepage:pageData];
+        }
+    }
+    
 }
 
 /*

@@ -15,34 +15,51 @@
 
 @implementation HAMHomepageManager
 
-static NSMutableDictionary *homepageDict = nil;
-static NSMutableArray *homepageVisited = nil;
+static float defaultDistanceRangeMin = 1;
 
++ (void)homepageFromWebWithBeaconID:(NSString *)beaconID major:(NSNumber *)major minor:(NSNumber *)minor {
+    @synchronized (self) {
+        HAMHomepageData *pageData = [HAMDataManager pageDataWithBID:beaconID major:major minor:minor];
+        if (pageData == nil && [HAMTools isWebAvailable]) {
+            AVQuery *query = [AVQuery queryWithClassName:@"Beacon"];
+            [query whereKey:@"proximity_uuid" equalTo:beaconID];
+            [query whereKey:@"major" equalTo:major];
+            [query whereKey:@"minor" equalTo:minor];
+            [query findObjectsInBackgroundWithBlock:^(NSArray *objectArray, NSError *error) {
+                @synchronized (self) {
+                    HAMHomepageData *pageData = [HAMDataManager pageDataWithBID:beaconID major:major minor:minor];
+                    if (pageData == nil && error == nil && objectArray != nil && [objectArray count] > 0) {
+                        pageData = [HAMDataManager newPageData];
+                        AVObject *beaconObject = [objectArray objectAtIndex:0];
+                        pageData.beaconID = beaconID;
+                        pageData.beaconMajor = major;
+                        pageData.beaconMinor = minor;
+                        pageData.range = (NSNumber*)[beaconObject objectForKey:@"range"];
+                        if (pageData.range <= 0) {
+                            pageData.range = [NSNumber numberWithFloat:defaultDistanceRangeMin];
+                        }
+                        pageData.backImage = (NSString*)[beaconObject objectForKey:@"preview_background"];
+                        pageData.thumbnail = (NSString*)[beaconObject objectForKey:@"preview_thumbnail"];
+                        pageData.pageURL = (NSString*)[beaconObject objectForKey:@"page_url"];
+                        pageData.pageTitle = (NSString*)[beaconObject objectForKey:@"page_title"];
+                        pageData.dataID = beaconObject.objectId;
+                        [HAMDataManager saveData];
+                    }
+                }
+            }];
+        }
+    }
+}
 
 + (HAMHomepageData*)homepageWithBeaconID:(NSString *)beaconID major:(NSNumber *)major minor:(NSNumber *)minor {
     HAMHomepageData *pageData = [HAMDataManager pageDataWithBID:beaconID major:major minor:minor];
-    if (pageData == nil && [HAMTools isWebAvailable]) {
-        AVQuery *query = [AVQuery queryWithClassName:@"Beacon"];
-        [query whereKey:@"proximity_uuid" equalTo:beaconID];
-        [query whereKey:@"major" equalTo:major];
-        [query whereKey:@"minor" equalTo:minor];
-        NSArray *objectArray = [query findObjects];
-        if (objectArray != nil && [objectArray count] > 0) {
-            pageData = [HAMDataManager newPageData];
-            AVObject *beaconObject = [objectArray objectAtIndex:0];
-            pageData.beaconID = beaconID;
-            pageData.beaconMajor = major;
-            pageData.beaconMinor = minor;
-            pageData.range = (NSNumber*)[beaconObject objectForKey:@"range"];
-            pageData.backImage = (NSString*)[beaconObject objectForKey:@"preview_background"];
-            pageData.thumbnail = (NSString*)[beaconObject objectForKey:@"preview_thumbnail"];
-            pageData.pageURL = (NSString*)[beaconObject objectForKey:@"page_url"];
-            pageData.pageTitle = (NSString*)[beaconObject objectForKey:@"page_title"];
-            pageData.dataID = beaconObject.objectId;
-            [HAMDataManager saveData];
-        }
+    if (pageData != nil) {
+        return pageData;
     }
-    return pageData;
+    else {
+        [HAMHomepageManager homepageFromWebWithBeaconID:beaconID major:major minor:minor];
+        return nil;
+    }
 }
 
 @end

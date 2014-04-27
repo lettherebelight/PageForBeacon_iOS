@@ -11,12 +11,24 @@
 #import "HAMHomepageData.h"
 #import "HAMDataManager.h"
 #import "HAMThumbnailViewController.h"
+#import "HAMCommentsManager.h"
+#import "HAMCommentData.h"
+#import "HAMTourManager.h"
 
 @interface HAMDetailViewController ()
 
 @end
 
 @implementation HAMDetailViewController
+
+@synthesize commentView;
+
+typedef enum commentState {
+    UPSTATE = 0,
+    DOWNSTATE
+}CommentState;
+
+CommentState state = DOWNSTATE;
 
 static int loadingViewTag = 22;
 UIColor *alertTintColor;
@@ -62,18 +74,13 @@ UIColor *alertTintColor;
     }
     [HAMBeaconManager beaconManager].detailDelegate = self;
     // Set Navigation Bar
-    //self.navigationController.navigationBar.barTintColor = normalTintColor;
-    //self.navigationController.navigationBar.titleTextAttributes = [NSDictionary dictionaryWithObject:[UIColor whiteColor] forKey:@"UITextAttributeTextColor"];
     UIBarButtonItem *favItem;
     if (self.homepage.markedListRecord == nil) {
-        //favItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemBookmarks target:self action:@selector(performFavorite)];
-        //favItem = [[UIBarButtonItem alloc] initWithTitle:@"MARK" style:UIBarButtonItemStylePlain target:self action:@selector(performFavorite)];
         UIImage *originImage = [[UIImage imageNamed:@"fav-normal.png"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
         UIImage *image = [HAMTools image:originImage changeToSize:CGSizeMake(22.0f, 22.0f)];
         
         favItem = [[UIBarButtonItem alloc] initWithImage:image style:UIBarButtonItemStylePlain target:self action:@selector(performFavorite)];
     } else {
-        //favItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemBookmarks target:self action:@selector(performUnFavorite)];
         UIImage *originImage = [[UIImage imageNamed:@"fav-selected-normal.png"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
         UIImage *image = [HAMTools image:originImage changeToSize:CGSizeMake(22.0f, 22.0f)];
         
@@ -94,7 +101,15 @@ UIColor *alertTintColor;
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"无网络连接" message:nil delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
         [alert show];
     }
+    
+    //set comment part
+    [self.commentText.layer setCornerRadius:10.0f];
+    comments = [[HAMCommentsManager commentsManager] commentsWithPageDataID:self.homepage.dataID];
+    [HAMCommentsManager commentsManager].delegate = self;
+    [[HAMCommentsManager commentsManager] updateComments];
 }
+
+#pragma mark - navigation bar selectors
 
 - (void)backToHome {
     [self.navigationController.navigationBar removeGestureRecognizer:backToHomeRecognizer];
@@ -165,6 +180,83 @@ UIColor *alertTintColor;
     //[alert show];
 }
 
+#pragma mark - perform UITableViewDelegate
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    
+    if (indexPath.row == 0) {
+        if (commentView.frame.origin.y > 700) {
+            //pull comment up
+            [UIView animateWithDuration:0.75 delay:0.15 options:UIViewAnimationOptionCurveEaseOut animations:^{
+                
+                CGRect frame = commentView.frame;
+                frame.origin.y = 200;
+                commentView.frame = frame;
+                
+            } completion:nil];
+        }
+        else{
+            [UIView animateWithDuration:0.75 delay:0.15 options:UIViewAnimationOptionCurveEaseOut animations:^{
+                
+                CGRect frame = commentView.frame;
+                frame.origin.y = 710;
+                commentView.frame = frame;
+                
+            } completion:nil];
+        }
+        
+    }
+}
+
+#pragma mark - performUITableViewDataSource
+
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+    return 1;
+}
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    if (comments == nil) {
+        return 1;
+    } else {
+        return [comments count] + 1;
+    }
+}
+
+- (UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    if (indexPath.row == 0) {
+        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"commentTitle"];
+        return cell;
+    }
+    else {
+        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"commentHistory"];
+        HAMCommentData *data = [comments objectAtIndex:indexPath.row - 1];
+        if (data != nil) {
+            UITextField *textField = (UITextField*)[cell viewWithTag:1];
+            textField.text = data.content;
+        }
+        return cell;
+    }
+    
+}
+
+#pragma mark - comment
+- (IBAction)commentButtonClicked:(id)sender {
+    comments = [[HAMCommentsManager commentsManager] commentsWithPageDataID:self.homepage.dataID];
+    [[self commentsTable] reloadData];
+    HAMCommentData *data = [[HAMCommentData alloc] init];
+    if([self homepage] != nil) {
+        data.pageDataID = [self homepage].dataID;
+        data.userID = [[HAMTourManager tourManager] currentVisitor];
+        data.content = [self commentText].text;
+        [[HAMCommentsManager commentsManager] addComment:data];
+    }
+    [[HAMCommentsManager commentsManager] updateComments];
+}
+
+- (void)refresh {
+    comments = [[HAMCommentsManager commentsManager] commentsWithPageDataID:self.homepage.dataID];
+    [[self commentsTable] reloadData];
+}
 
 /*
 #pragma mark - Navigation
