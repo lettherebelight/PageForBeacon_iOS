@@ -54,6 +54,7 @@ bool isInBackground = NO;
     if ([HAMTools isWebAvailable]) {
         AVQuery *query = [AVQuery queryWithClassName:@"Global"];
         NSArray *objectArray = [query findObjects];
+        //NSArray *objectArray = nil;
         beaconIDArray = [NSArray array];
         if (objectArray != nil) {
             AVObject *globalObject = [objectArray objectAtIndex:0];
@@ -69,22 +70,38 @@ bool isInBackground = NO;
     beaconsAround = [NSMutableArray array];
     beaconRegions = [NSMutableArray array];
     
-    NSArray *idArray = [HAMBeaconManager beaconIDArray];
-    
-    for (NSString* BId in idArray)
-    {
-        NSUUID *uuid = [[NSUUID alloc] initWithUUIDString:BId];
-        ESTBeaconRegion *region = [[ESTBeaconRegion alloc] initWithProximityUUID:uuid identifier:BId];
-        region.notifyEntryStateOnDisplay = YES;
-        if (region != nil) {
-            [beaconRegions addObject:region];
-        }
+    if ([HAMTools isWebAvailable]) {
+        AVQuery *query = [AVQuery queryWithClassName:@"Global"];
+        [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+            if (!error) {
+                // The find succeeded.
+                if (objects != nil && [objects count] > 0) {
+                    NSArray *beaconIDArray = [NSArray array];
+                    AVObject *globalObject = [objects objectAtIndex:0];
+                    beaconIDArray = (NSArray*)[globalObject objectForKey:@"proximityUUIDs"];
+                    for (NSString* BId in beaconIDArray)
+                    {
+                        NSUUID *uuid = [[NSUUID alloc] initWithUUIDString:BId];
+                        ESTBeaconRegion *region = [[ESTBeaconRegion alloc] initWithProximityUUID:uuid identifier:BId];
+                        region.notifyEntryStateOnDisplay = YES;
+                        if (region != nil) {
+                            [beaconRegions addObject:region];
+                        }
+                    }
+                    
+                    for (ESTBeaconRegion* beaconRegion in beaconRegions)
+                    {
+                        //[estBeaconManager stopRangingBeaconsInRegion:beaconRegion];
+                        [estBeaconManager startRangingBeaconsInRegion:beaconRegion];
+                    }
+                }
+            } else {
+                // Log details of the failure
+                NSLog(@"Error: %@ %@", error, [error userInfo]);
+            }
+        }];
     }
     
-    for (ESTBeaconRegion* beaconRegion in beaconRegions)
-    {
-        [estBeaconManager startRangingBeaconsInRegion:beaconRegion];
-    }
 }
 
 - (void)stopMonitor {

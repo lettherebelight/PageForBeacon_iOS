@@ -1,50 +1,52 @@
 //
-//  HAMDetailViewController.m
+//  HAMDetailViewController_iPhone.m
 //  BeaconReceiver
 //
-//  Created by Dai Yue on 14-4-11.
-//  Copyright (c) 2014年 Beacon Test Group. All rights reserved.
+//  Created by daiyue on 4/27/14.
+//  Copyright (c) 2014 Beacon Test Group. All rights reserved.
 //
 
-#import "HAMDetailViewController.h"
-#import "HAMTools.h"
+#import "HAMArtDetailViewController_iPhone.h"
 #import "HAMHomepageData.h"
 #import "HAMDataManager.h"
-#import "HAMThumbnailViewController.h"
-#import "HAMCommentsManager.h"
-#import "HAMCommentData.h"
-#import "HAMTourManager.h"
+#import "HAMDiscoverTableViewController_iPhone.h"
+#import "HAMTools.h"
 
-@interface HAMDetailViewController ()
+@interface HAMArtDetailViewController_iPhone ()
 
 @end
 
-@implementation HAMDetailViewController
+@implementation HAMArtDetailViewController_iPhone
 
-@synthesize commentView;
-
-typedef enum commentState {
-    UPSTATE = 0,
-    DOWNSTATE
-}CommentState;
-
-CommentState state = DOWNSTATE;
-
-static int loadingViewTag = 22;
+int loadingViewTag = 22;
 UIColor *alertTintColor;
+HAMHomepageData *newPage;
 
 - (void)displayHomepage:(HAMHomepageData *)homepage {
     if (homepage != nil) {
         if (homepage == self.homepage) {
             self.navigationItem.title = pageTitle;
             self.navigationController.navigationBar.barTintColor = nil;
-            [self.navigationController.navigationBar removeGestureRecognizer:backToHomeRecognizer];
+            [self.navigationController.navigationBar removeGestureRecognizer:switchDetailViewRecognizer];
         } else {
+            newPage = homepage;
             self.navigationItem.title = [NSString stringWithFormat:@"新展品\t\t%@", pageTitle];
             self.navigationController.navigationBar.barTintColor = alertTintColor;
-            [self.navigationController.navigationBar addGestureRecognizer:backToHomeRecognizer];
+            [self.navigationController.navigationBar addGestureRecognizer:switchDetailViewRecognizer];
         }
     }
+}
+
+- (void)switchDetailView {
+    [self.navigationController.navigationBar removeGestureRecognizer:switchDetailViewRecognizer];
+    UIViewController *parent = [self parentViewController];
+    UITabBarController *root = (UITabBarController*)[parent parentViewController];
+    [root setSelectedIndex:0];
+    UINavigationController *discoverNavigation = (UINavigationController*)[root selectedViewController];
+    HAMDiscoverTableViewController_iPhone *discoverViewController = (HAMDiscoverTableViewController_iPhone*)[[discoverNavigation viewControllers] objectAtIndex:0];
+    discoverViewController.pageForSegue = newPage;
+    [self.navigationController popViewControllerAnimated:NO];
+    [discoverViewController performSegueWithIdentifier:@"showArtDetailPage" sender:discoverViewController];
 }
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
@@ -64,7 +66,8 @@ UIColor *alertTintColor;
     //initialize
     pageURL = @"http://www.baidu.com";
     pageTitle = @"title";
-    backToHomeRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(backToHome)];
+    switchDetailViewRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(switchDetailView)];
+    newPage = nil;
     
     self.navigationController.navigationBar.barTintColor = nil;
     alertTintColor = [UIColor colorWithRed:237.0f / 255 green:239 / 255 blue:241 / 255 alpha:1];
@@ -91,7 +94,7 @@ UIColor *alertTintColor;
     NSArray *barItems = [[NSArray alloc] initWithObjects:favItem, refreshItem, nil];
     self.navigationItem.rightBarButtonItems = barItems;
     self.navigationItem.title = pageTitle;
-
+    
     // Load Website
     if ([HAMTools isWebAvailable]) {
         NSURLRequest *request =[NSURLRequest requestWithURL:[NSURL URLWithString:pageURL]];
@@ -101,22 +104,6 @@ UIColor *alertTintColor;
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"无网络连接" message:nil delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
         [alert show];
     }
-    
-    //set comment part
-    [self.commentText.layer setCornerRadius:10.0f];
-    comments = [[HAMCommentsManager commentsManager] commentsWithPageDataID:self.homepage.dataID];
-    [HAMCommentsManager commentsManager].delegate = self;
-    [[HAMCommentsManager commentsManager] updateComments];
-}
-
-#pragma mark - navigation bar selectors
-
-- (void)backToHome {
-    [self.navigationController.navigationBar removeGestureRecognizer:backToHomeRecognizer];
-    HAMThumbnailViewController *parentView = [self.navigationController.viewControllers objectAtIndex:0];
-    [self.navigationController popViewControllerAnimated:NO];
-    [parentView performSegueWithIdentifier:@"showDetailPage" sender:parentView];
-    //[self removeFromParentViewController];
 }
 
 - (void)performRefresh {
@@ -141,8 +128,13 @@ UIColor *alertTintColor;
     self.navigationItem.rightBarButtonItem= favItem;
 }
 
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+}
+
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
+    [self.navigationController popViewControllerAnimated:NO];
     [self.detailWebView stopLoading];
 }
 
@@ -181,83 +173,7 @@ UIColor *alertTintColor;
     //[alert show];
 }
 
-#pragma mark - perform UITableViewDelegate
 
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    
-    if (indexPath.row == 0) {
-        if (commentView.frame.origin.y > 700) {
-            //pull comment up
-            [UIView animateWithDuration:0.75 delay:0.15 options:UIViewAnimationOptionCurveEaseOut animations:^{
-                
-                CGRect frame = commentView.frame;
-                frame.origin.y = 200;
-                commentView.frame = frame;
-                
-            } completion:nil];
-        }
-        else{
-            [UIView animateWithDuration:0.75 delay:0.15 options:UIViewAnimationOptionCurveEaseOut animations:^{
-                
-                CGRect frame = commentView.frame;
-                frame.origin.y = 710;
-                commentView.frame = frame;
-                
-            } completion:nil];
-        }
-        
-    }
-}
-
-#pragma mark - performUITableViewDataSource
-
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return 1;
-}
-
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    if (comments == nil) {
-        return 1;
-    } else {
-        return [comments count] + 1;
-    }
-}
-
-- (UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (indexPath.row == 0) {
-        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"commentTitle"];
-        return cell;
-    }
-    else {
-        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"commentHistory"];
-        HAMCommentData *data = [comments objectAtIndex:indexPath.row - 1];
-        if (data != nil) {
-            UITextField *textField = (UITextField*)[cell viewWithTag:1];
-            textField.text = data.content;
-        }
-        return cell;
-    }
-    
-}
-
-#pragma mark - comment
-- (IBAction)commentButtonClicked:(id)sender {
-    comments = [[HAMCommentsManager commentsManager] commentsWithPageDataID:self.homepage.dataID];
-    [[self commentsTable] reloadData];
-    HAMCommentData *data = [[HAMCommentData alloc] init];
-    if([self homepage] != nil) {
-        data.pageDataID = [self homepage].dataID;
-        data.userID = [[HAMTourManager tourManager] currentVisitor];
-        data.content = [self commentText].text;
-        [[HAMCommentsManager commentsManager] addComment:data];
-    }
-    [[HAMCommentsManager commentsManager] updateComments];
-}
-
-- (void)refresh {
-    comments = [[HAMCommentsManager commentsManager] commentsWithPageDataID:self.homepage.dataID];
-    [[self commentsTable] reloadData];
-}
 
 /*
 #pragma mark - Navigation

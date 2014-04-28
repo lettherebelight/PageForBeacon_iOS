@@ -15,6 +15,7 @@
 + (HAMTourManager*)tourManager;
 
 - (NSString*)currentVisitor;
+- (void)newVisitorWithID:(NSString*)userID;
 - (void)newVisitor;
 - (void)addHistory:(NSString*)dataID;
 - (void)addFavorite:(NSString*)dataID;

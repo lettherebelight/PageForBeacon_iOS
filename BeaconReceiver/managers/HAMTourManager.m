@@ -36,6 +36,12 @@ static HAMTourManager *tourManager;
     [tour save];
 }
 
+- (void)newVisitorWithID:(NSString *)userID {
+    tour = [AVObject objectWithClassName:@"Tour"];
+    [tour setObject:userID forKey:@"user_id"];
+    [tour save];
+}
+
 - (void)addHistory:(NSString *)dataID {
     [tour addObject:dataID forKey:@"beacons"];
     [tour save];
