@@ -21,6 +21,7 @@
 
 @property (nonatomic, retain) id<HAMBeaconManagerDelegate> delegate;
 @property (nonatomic, retain) id<HAMBeaconManagerDelegate> detailDelegate;
+@property ESTBeacon *nearestBeacon;
 
 - (void)setupESTBeaconManager;
 - (void)startMonitor;

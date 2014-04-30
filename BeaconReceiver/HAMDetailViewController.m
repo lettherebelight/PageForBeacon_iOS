@@ -113,9 +113,18 @@ UIColor *alertTintColor;
 
 - (void)backToHome {
     [self.navigationController.navigationBar removeGestureRecognizer:backToHomeRecognizer];
+    UIViewController *view = [self parentViewController];
+    UITabBarController *root = (UITabBarController*)[view parentViewController];
+    [root setSelectedIndex:1];
+    UINavigationController *thumbnailNavigation = (UINavigationController*)[root selectedViewController];
+    HAMThumbnailViewController *thumbnailView = [thumbnailNavigation.viewControllers objectAtIndex:0];
+    [self.navigationController popViewControllerAnimated:NO];
+    [thumbnailView performSegueWithIdentifier:@"showDetailPage" sender:thumbnailView];
+    /*
     HAMThumbnailViewController *parentView = [self.navigationController.viewControllers objectAtIndex:0];
     [self.navigationController popViewControllerAnimated:NO];
     [parentView performSegueWithIdentifier:@"showDetailPage" sender:parentView];
+     */
     //[self removeFromParentViewController];
 }
 
@@ -143,6 +152,7 @@ UIColor *alertTintColor;
 
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
+    [self.navigationController popViewControllerAnimated:NO];
     [self.detailWebView stopLoading];
 }
 

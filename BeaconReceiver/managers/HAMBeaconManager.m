@@ -15,8 +15,10 @@
 #import "HAMDataManager.h"
 
 @implementation HAMBeaconManager
+
 @synthesize delegate;
 @synthesize detailDelegate;
+@synthesize nearestBeacon;
 
 static HAMBeaconManager* beaconManager = nil;
 
@@ -24,7 +26,6 @@ static float defaultDistanceDelta = 0.5;
 
 ESTBeaconManager *estBeaconManager;
 NSMutableArray *beaconRegions;
-ESTBeacon *nearestBeacon;
 NSMutableArray *beaconsAround = nil;
 bool isInBackground = NO;
 

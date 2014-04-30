@@ -117,7 +117,7 @@
         UITextField *titleTF = [[UITextField alloc] initWithFrame:CGRectMake(0.0f, 50.0f, [self listScrollView].frame.size.width, 100.0f)];
         [titleTF setTextAlignment:NSTextAlignmentCenter];
         [titleTF setEnabled:NO];
-        titleTF.text = @"no beacon around";
+        titleTF.text = @"sensing the world.";
         [view addSubview:titleTF];
         [view setBackgroundColor:[UIColor whiteColor]];
         [[self listScrollView] addSubview:view];
@@ -183,7 +183,7 @@
         UITextField *titleTF = [[UITextField alloc] initWithFrame:CGRectMake(0.0f, 50.0f, [self listScrollView].frame.size.width, 100.0f)];
         [titleTF setTextAlignment:NSTextAlignmentCenter];
         [titleTF setEnabled:NO];
-        titleTF.text = @"no beacon around";
+        titleTF.text = @"sensing the world.";
         [view addSubview:titleTF];
         [view setBackgroundColor:[UIColor whiteColor]];
         [[self listScrollView] addSubview:view];
