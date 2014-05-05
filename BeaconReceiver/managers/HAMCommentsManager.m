@@ -54,6 +54,7 @@ static HAMCommentsManager *commentsManager;
                             comment.userID = [commentObject objectForKey:@"user_id"];
                             comment.pageDataID = [commentObject objectForKey:@"beacon_id"];
                             comment.content = [commentObject objectForKey:@"content"];
+                            comment.userName = [commentObject objectForKey:@"user_name"];
                             [self.comments addObject:comment];
                         }
                     }
@@ -76,6 +77,7 @@ static HAMCommentsManager *commentsManager;
     [commentObject setObject:comment.userID forKey:@"user_id"];
     [commentObject setObject:comment.pageDataID forKey:@"beacon_id"];
     [commentObject setObject:comment.content forKey:@"content"];
+    [commentObject setObject:comment.userName forKey:@"user_name"];
     [commentObject save];
 }
 

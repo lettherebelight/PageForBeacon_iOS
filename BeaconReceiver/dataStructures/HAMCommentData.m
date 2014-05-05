@@ -10,6 +10,7 @@
 
 @implementation HAMCommentData
 
+@synthesize userName;
 @synthesize userID;
 @synthesize pageDataID;
 @synthesize content;

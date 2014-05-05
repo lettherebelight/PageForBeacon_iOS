@@ -11,7 +11,7 @@
 #import "HAMDataManager.h"
 #import "HAMTools.h"
 #import "HAMHomepageData.h"
-#import "HAMArtDetailViewController_iPhone.h"
+#import "HAMArtDetailTabController_iPhone.h"
 #import <AVOSCloud/AVOSCloud.h>
 
 @interface HAMFavoritesTableViewController_iPhone ()
@@ -156,7 +156,8 @@
     // Get the new view controller using [segue destinationViewController].
     // Pass the selected object to the new view controller.
     if ([segue.identifier isEqualToString:@"showArtDetailPage"]) {
-        HAMArtDetailViewController_iPhone *detailVC = segue.destinationViewController;
+        HAMArtDetailTabController_iPhone *detailVC = segue.destinationViewController;
+        [detailVC setHidesBottomBarWhenPushed:YES];
         NSIndexPath *index = [self.tableView indexPathForSelectedRow];
         detailVC.homepage = [pageArray objectAtIndex:index.row];
     }

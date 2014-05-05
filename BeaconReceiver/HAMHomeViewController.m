@@ -71,10 +71,19 @@
 
 #pragma mark - perform delegate
 
-- (void)displayHomepage:(HAMHomepageData*)homepage {
+- (void)displayHomepage:(NSArray*)stuffsAround {
     HAMHomepageData *nearestPage = nil;
     UINavigationController *navigation = (UINavigationController*)[contentTabView.viewControllers objectAtIndex:1];
     HAMThumbnailViewController *thumbnailVC = (HAMThumbnailViewController*)[navigation.viewControllers objectAtIndex:0];
+    if ([stuffsAround count] == 0) {
+        nearestPageIsNil = YES;
+        if (canShowNilPage == YES) {
+            thumbnailVC.homepage = nil;
+            [thumbnailVC updateView];
+        }
+        return;
+    }
+    HAMHomepageData *homepage = [stuffsAround objectAtIndex:0];
     if (homepage != nil) {
         nearestPage = homepage;
         //[contentTabView setSelectedIndex:1];

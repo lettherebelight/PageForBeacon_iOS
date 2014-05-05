@@ -12,6 +12,7 @@
 #import "HAMLogTool.h"
 #import "HAMBeaconManager.h"
 #import "HAMTourManager.h"
+#import "HAMUserManager.h"
 
 @interface HAMIndexViewController_iPhone ()
 
@@ -48,6 +49,12 @@
         if (!error) {
             [AVUser loginWithAuthData:object block:^(AVUser *user, NSError *error) {
                 if (!error) {
+                    NSDictionary *userDict = object;
+                    NSString *name = [userDict objectForKey:@"username"];
+                    NSString *avatar = [userDict objectForKey:@"avatar"];
+                    NSDictionary *userRawData = [userDict objectForKey:@"raw-user"];
+                    NSString *description = [userRawData objectForKey:@"description"];
+                    [[HAMUserManager userManager] newUserWithUserID:user.objectId name:name avatar:avatar description:description];
                     [self logInWithUser:user];
                 }
                 else {
@@ -62,11 +69,6 @@
     
 }
 
-- (void)logInWithUser:(AVUser*)user {
-    [[HAMTourManager tourManager]newVisitorWithID:user.objectId];
-    [self performSegueWithIdentifier:@"finishLogIn" sender:self];
-}
-
 - (IBAction)logInFromQQ:(id)sender {
     [AVOSCloudSNS setupPlatform:AVOSCloudSNSQQ withAppKey:@"1101349087" andAppSecret:@"BAj9jn2xOw9eM7c2" andRedirectURI:@"http://www.weibo.com"];
     
@@ -75,6 +77,10 @@
         if (!error) {
             [AVUser loginWithAuthData:object block:^(AVUser *user, NSError *error) {
                 if (!error) {
+                    NSDictionary *userDict = object;
+                    NSString *name = [userDict objectForKey:@"username"];
+                    NSString *avatar = [userDict objectForKey:@"avatar"];
+                    [[HAMUserManager userManager] newUserWithUserID:user.objectId name:name avatar:avatar description:nil];
                     [self logInWithUser:user];
                 }
                 else {
@@ -87,6 +93,18 @@
         }
     } toPlatform:AVOSCloudSNSQQ];
 }
+
+- (IBAction)defaultLogIn:(id)sender {
+    [[HAMTourManager tourManager]newVisitor];
+    [[HAMUserManager userManager] newUserWithUserID:[HAMTourManager tourManager].currentVisitor name:@"匿名用户" avatar:nil description:nil];
+    [self performSegueWithIdentifier:@"finishLogIn" sender:self];
+}
+
+- (void)logInWithUser:(AVUser*)user {
+    [[HAMTourManager tourManager]newVisitorWithID:user.objectId];
+    [self performSegueWithIdentifier:@"finishLogIn" sender:self];
+}
+
 
 /*
 #pragma mark - Navigation

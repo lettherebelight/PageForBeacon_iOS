@@ -47,7 +47,11 @@
     }
 }
 
-- (void)displayHomepage:(HAMHomepageData *)curHomepage {
+- (void)displayHomepage:(NSArray*)stuffsAround {
+    if ([stuffsAround count] == 0) {
+        return;
+    }
+    HAMHomepageData *curHomepage = [stuffsAround objectAtIndex:0];
     self.homepage = curHomepage;
     [self updateView];
 }
@@ -203,6 +207,7 @@
     // Pass the selected object to the new view controller.
     if ([segue.identifier isEqualToString:@"showArtDetailPage"]) {
         HAMArtDetailViewController_iPhone *detailVC = segue.destinationViewController;
+        [detailVC setHidesBottomBarWhenPushed:YES];
         if (self.pageForSegue != nil) {
             detailVC.homepage = self.pageForSegue;
             self.pageForSegue = nil;

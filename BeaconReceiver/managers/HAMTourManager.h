@@ -8,6 +8,8 @@
 
 #import <Foundation/Foundation.h>
 
+@class HAMHomepageData;
+
 @class AVObject;
 
 @interface HAMTourManager : NSObject
@@ -17,9 +19,10 @@
 - (NSString*)currentVisitor;
 - (void)newVisitorWithID:(NSString*)userID;
 - (void)newVisitor;
-- (void)addHistory:(NSString*)dataID;
-- (void)addFavorite:(NSString*)dataID;
-- (void)deleteFavorite:(NSString*)dataID;
+- (void)approachStuff:(HAMHomepageData*)data;
+- (void)leaveStuff:(HAMHomepageData*)data;
+- (void)addFavoriteStuff:(HAMHomepageData*)data;
+- (void)removeFavoriteStuff:(HAMHomepageData*)data;
 - (void)saveTour;
 
 @property AVObject *tour;

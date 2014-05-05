@@ -9,10 +9,8 @@
 #import <UIKit/UIKit.h>
 #import "HAMBeaconManager.h"
 
-@interface HAMArtDetailViewController_iPhone : UIViewController <HAMBeaconManagerDelegate, UIWebViewDelegate> {
+@interface HAMArtDetailViewController_iPhone : UIViewController <UIWebViewDelegate> {
     NSString *pageURL;
-    NSString *pageTitle;
-    UIGestureRecognizer *switchDetailViewRecognizer;
 }
 
 @property (weak, nonatomic) IBOutlet UIWebView *detailWebView;

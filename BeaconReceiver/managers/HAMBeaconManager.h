@@ -13,7 +13,8 @@
 
 @protocol HAMBeaconManagerDelegate <NSObject>
 
-- (void)displayHomepage:(HAMHomepageData*)homepage;
+//- (void)displayHomepage:(HAMHomepageData*)homepage;
+- (void)displayHomepage:(NSArray*)stuffsAround;
 
 @end
 

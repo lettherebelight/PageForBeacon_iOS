@@ -12,7 +12,7 @@
 #import "HAMTools.h"
 #import "HAMHomepageData.h"
 #import "HAMHomepageManager.h"
-#import "HAMDataManager.h"
+#import "HAMTourManager.h"
 
 @implementation HAMBeaconManager
 
@@ -28,6 +28,11 @@ ESTBeaconManager *estBeaconManager;
 NSMutableArray *beaconRegions;
 NSMutableArray *beaconsAround = nil;
 bool isInBackground = NO;
+
+HAMHomepageData *lastPageData = nil;
+HAMHomepageData *nearestPageData = nil;
+int nearestTime = 0;
+int beaconsAroundCount = 0;
 
 + (HAMBeaconManager*)beaconManager{
     @synchronized(self) {
@@ -121,6 +126,18 @@ bool isInBackground = NO;
     return [info1 isEqualToString:info2];
 }
 
+- (Boolean)pageData:(HAMHomepageData*)data1 theSameAsPageData:(HAMHomepageData*)data2 {
+    if (data1 == nil && data2 == nil) {
+        return YES;
+    }
+    if (data1 == nil || data2 == nil) {
+        return NO;
+    }
+    NSString *info1 = [[NSString alloc] initWithFormat:@"%@%@%@", data1.beaconID, data1.beaconMajor, data1.beaconMinor];
+    NSString *info2 = [[NSString alloc] initWithFormat:@"%@%@%@", data2.beaconID, data2.beaconMajor, data2.beaconMinor];
+    return [info1 isEqualToString:info2];
+}
+
 - (Boolean)removeBeacon:(ESTBeacon*)currentBeacon {
     long i;
     long count = [beaconsAround count];
@@ -159,8 +176,54 @@ bool isInBackground = NO;
             [self addBeacon:beacon];
         }
     }
-    ESTBeacon* currentBeacon;
-    if ([beaconsAround count] == 0) {
+    [self showHomepages];
+}
+
+- (void)showHomepages {
+    ESTBeacon *currentBeacon;
+    HAMHomepageData *currentPageData;
+    NSMutableArray *stuffsAround = [NSMutableArray array];
+    long i, count = [beaconsAround count];
+    for (i = 0; i < count; i++) {
+        currentBeacon = [beaconsAround objectAtIndex:i];
+        HAMHomepageData *pageData = [HAMHomepageManager homepageWithBeaconID:currentBeacon.proximityUUID.UUIDString major:currentBeacon.major minor:currentBeacon.minor];
+        if (pageData != nil) {
+            [stuffsAround addObject:pageData];
+        }
+    }
+    
+    if (count == 0) {
+        currentPageData = nil;
+    }
+    
+    if ([self pageData:currentPageData theSameAsPageData:nearestPageData]) {
+        nearestTime ++;
+    } else {
+        nearestTime = 0;
+        lastPageData = nearestPageData;
+        nearestPageData = currentPageData;
+    }
+    
+    if (nearestTime >= 3) {
+        if (lastPageData != nil) {
+            [[HAMTourManager tourManager] leaveStuff:lastPageData];
+        }
+        if (currentPageData != nil) {
+            [[HAMTourManager tourManager] approachStuff:currentPageData];
+        }
+    }
+    
+    if (count != beaconsAroundCount || nearestTime >= 3) {
+        if (delegate != nil) {
+            [delegate displayHomepage:stuffsAround];
+        }
+        if (detailDelegate != nil) {
+            [detailDelegate displayHomepage:stuffsAround];
+        }
+    }
+    
+    /*
+    if (count == 0) {
         currentBeacon = nil;
         if (nearestBeacon == nil) {
             return;
@@ -170,26 +233,28 @@ bool isInBackground = NO;
         currentBeacon = [beaconsAround objectAtIndex:0];
     }
     if ([self beacon:currentBeacon theSameAsBeacon:nearestBeacon] == NO) {
+        if (nearestBeacon != nil) {
+            HAMHomepageData* pageData = [HAMHomepageManager homepageWithBeaconID:nearestBeacon.proximityUUID.UUIDString major:nearestBeacon.major minor:nearestBeacon.minor];
+            [[HAMTourManager tourManager] leaveStuff:pageData];
+        }
         nearestBeacon = currentBeacon;
         HAMHomepageData* pageData;
         if (currentBeacon == nil) {
             pageData = nil;
         } else {
             pageData = [HAMHomepageManager homepageWithBeaconID:currentBeacon.proximityUUID.UUIDString major:currentBeacon.major minor:currentBeacon.minor];
-            if (pageData != nil && pageData.historyListRecord == nil) {
-                [HAMDataManager addAHistoryRecord:pageData];
-            } else if (pageData != nil) {
-                [HAMDataManager updateHistoryRecord:pageData.historyListRecord];
+            if (pageData != nil) {
+                [[HAMTourManager tourManager] approachStuff:pageData];
             }
         }
         if (delegate != nil) {
-            [delegate displayHomepage:pageData];
+            [delegate displayHomepage:stuffsAround];
         }
         if (detailDelegate != nil) {
-            [detailDelegate displayHomepage:pageData];
+            [detailDelegate displayHomepage:stuffsAround];
         }
     }
-    
+     */
 }
 
 /*

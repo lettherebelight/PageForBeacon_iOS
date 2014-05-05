@@ -109,7 +109,6 @@ static NSManagedObjectContext *context;
     markedPage.date = [NSDate date];
     markedPage.homepage = home;
     home.markedListRecord = markedPage;
-    [[HAMTourManager tourManager] addFavorite:home.dataID];
     [appDelegate saveContext];
 }
 + (void)removeMarkedRecord:(HAMHomepageData *)home {
@@ -117,7 +116,6 @@ static NSManagedObjectContext *context;
         return;
     }
     [[self context] deleteObject:home.markedListRecord];
-    [[HAMTourManager tourManager] deleteFavorite:home.dataID];
     [appDelegate saveContext];
 }
 + (void)addAHistoryRecord:(HAMHomepageData*)home {
@@ -128,7 +126,6 @@ static NSManagedObjectContext *context;
     historyPage.date = [NSDate date];
     historyPage.homepage = home;
     home.historyListRecord = historyPage;
-    [[HAMTourManager tourManager] addHistory:home.dataID];
     [appDelegate saveContext];
 }
 + (NSArray*)fetchMarkedRecords {

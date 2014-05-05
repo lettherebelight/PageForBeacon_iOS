@@ -10,6 +10,7 @@
 
 @interface HAMCommentData : NSObject
 
+@property NSString *userName;
 @property NSString *userID;
 @property NSString *pageDataID;
 @property NSString *content;

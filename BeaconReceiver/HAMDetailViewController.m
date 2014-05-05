@@ -9,7 +9,7 @@
 #import "HAMDetailViewController.h"
 #import "HAMTools.h"
 #import "HAMHomepageData.h"
-#import "HAMDataManager.h"
+#import "HAMTourManager.h"
 #import "HAMThumbnailViewController.h"
 #import "HAMCommentsManager.h"
 #import "HAMCommentData.h"
@@ -33,7 +33,11 @@ CommentState state = DOWNSTATE;
 static int loadingViewTag = 22;
 UIColor *alertTintColor;
 
-- (void)displayHomepage:(HAMHomepageData *)homepage {
+- (void)displayHomepage:(NSArray*)stuffsAround {
+    if ([stuffsAround count] == 0) {
+        return;
+    }
+    HAMHomepageData *homepage = [stuffsAround objectAtIndex:0];
     if (homepage != nil) {
         if (homepage == self.homepage) {
             self.navigationItem.title = pageTitle;
@@ -133,7 +137,7 @@ UIColor *alertTintColor;
 }
 
 - (void)performFavorite {
-    [HAMDataManager addAMarkedRecord:self.homepage];
+    [[HAMTourManager tourManager] addFavoriteStuff:self.homepage];
     UIImage *originImage = [[UIImage imageNamed:@"fav-selected-normal.png"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
     UIImage *image = [HAMTools image:originImage changeToSize:CGSizeMake(22.0f, 22.0f)];
     
@@ -142,7 +146,7 @@ UIColor *alertTintColor;
 }
 
 - (void)performUnFavorite {
-    [HAMDataManager removeMarkedRecord:self.homepage];
+    [[HAMTourManager tourManager] removeFavoriteStuff:self.homepage];
     UIImage *originImage = [[UIImage imageNamed:@"fav-normal.png"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
     UIImage *image = [HAMTools image:originImage changeToSize:CGSizeMake(22.0f, 22.0f)];
     

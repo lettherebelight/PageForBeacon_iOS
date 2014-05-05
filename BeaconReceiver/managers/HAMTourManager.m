@@ -7,6 +7,9 @@
 //
 
 #import "HAMTourManager.h"
+#import "HAMDataManager.h"
+#import "HAMHomepageData.h"
+#import "HAMDataManager.h"
 #import <AVOSCloud/AVOSCloud.h>
 
 @implementation HAMTourManager
@@ -42,18 +45,48 @@ static HAMTourManager *tourManager;
     [tour save];
 }
 
-- (void)addHistory:(NSString *)dataID {
-    [tour addObject:dataID forKey:@"beacons"];
+- (void)approachStuff:(HAMHomepageData *)data {
+    AVObject *tourEvent = [AVObject objectWithClassName:@"TourEvent"];
+    [tourEvent setObject:[self currentVisitor] forKey:@"user_id"];
+    [tourEvent setObject:data.dataID forKey:@"beacon_id"];
+    [tourEvent setObject:@"approach" forKey:@"event"];
+    [tourEvent saveInBackground];
+    if (data.historyListRecord == nil) {
+        [HAMDataManager addAHistoryRecord:data];
+        [tour addObject:data.dataID forKey:@"beacons"];
+        [tour save];
+    } else {
+        [HAMDataManager updateHistoryRecord:data.historyListRecord];
+    }
+}
+
+- (void)leaveStuff:(HAMHomepageData *)data {
+    AVObject *tourEvent = [AVObject objectWithClassName:@"TourEvent"];
+    [tourEvent setObject:[self currentVisitor] forKey:@"user_id"];
+    [tourEvent setObject:data.dataID forKey:@"beacon_id"];
+    [tourEvent setObject:@"leave" forKey:@"event"];
+    [tourEvent saveInBackground];
+}
+
+- (void)addFavoriteStuff:(HAMHomepageData *)data {
+    AVObject *tourEvent = [AVObject objectWithClassName:@"TourEvent"];
+    [tourEvent setObject:[self currentVisitor] forKey:@"user_id"];
+    [tourEvent setObject:data.dataID forKey:@"beacon_id"];
+    [tourEvent setObject:@"favorate" forKey:@"event"];
+    [tourEvent saveInBackground];
+    [HAMDataManager addAMarkedRecord:data];
+    [tour addObject:data.dataID forKey:@"favorites"];
     [tour save];
 }
 
-- (void)addFavorite:(NSString *)dataID {
-    [tour addObject:dataID forKey:@"favorites"];
-    [tour save];
-}
-
-- (void)deleteFavorite:(NSString *)dataID {
-    [tour removeObject:dataID forKey:@"favorites"];
+- (void)removeFavoriteStuff:(HAMHomepageData *)data {
+    AVObject *tourEvent = [AVObject objectWithClassName:@"TourEvent"];
+    [tourEvent setObject:[self currentVisitor] forKey:@"user_id"];
+    [tourEvent setObject:data.dataID forKey:@"beacon_id"];
+    [tourEvent setObject:@"defavorate" forKey:@"event"];
+    [tourEvent saveInBackground];
+    [HAMDataManager removeMarkedRecord:data];
+    [tour removeObject:data.dataID forKey:@"favorites"];
     [tour save];
 }
 
