@@ -194,6 +194,8 @@ int beaconsAroundCount = 0;
     
     if (count == 0) {
         currentPageData = nil;
+    } else {
+        currentPageData = [stuffsAround objectAtIndex:0];
     }
     
     if ([self pageData:currentPageData theSameAsPageData:nearestPageData]) {
@@ -204,7 +206,7 @@ int beaconsAroundCount = 0;
         nearestPageData = currentPageData;
     }
     
-    if (nearestTime >= 3) {
+    if (nearestTime == 3) {
         if (lastPageData != nil) {
             [[HAMTourManager tourManager] leaveStuff:lastPageData];
         }
@@ -213,7 +215,8 @@ int beaconsAroundCount = 0;
         }
     }
     
-    if (count != beaconsAroundCount || nearestTime >= 3) {
+    if (count != beaconsAroundCount || nearestTime == 3) {
+        beaconsAroundCount = count;
         if (delegate != nil) {
             [delegate displayHomepage:stuffsAround];
         }
@@ -321,7 +324,7 @@ int beaconsAroundCount = 0;
         if (i == [beaconsAround count]) {
             [beaconsAround addObject:beacon];
         }
-        if (allowNotify == YES && needToNotificate == YES && isInBackground == YES) {
+        if (isInBackground == YES) {
             HAMHomepageData *homepage = [HAMHomepageManager homepageWithBeaconID:beacon.proximityUUID.UUIDString major:beacon.major minor:beacon.minor];
             if (homepage != nil) {
                 [[UIApplication sharedApplication] cancelAllLocalNotifications];

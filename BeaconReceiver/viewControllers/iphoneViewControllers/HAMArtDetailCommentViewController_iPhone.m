@@ -126,8 +126,6 @@
 
 #pragma mark - comment
 - (IBAction)commentButtonClicked:(id)sender {
-    [self.commentText resignFirstResponder];
-    self.commentText.text = nil;
     comments = [[HAMCommentsManager commentsManager] commentsWithPageDataID:self.homepage.dataID];
     [[self commentsTable] reloadData];
     HAMCommentData *data = [[HAMCommentData alloc] init];
@@ -139,6 +137,8 @@
         [[HAMCommentsManager commentsManager] addComment:data];
     }
     [[HAMCommentsManager commentsManager] updateComments];
+    [self.commentText resignFirstResponder];
+    self.commentText.text = nil;
 }
 
 - (void)refresh {

@@ -37,13 +37,13 @@ HAMHomepageData *newPage;
             newPage = homepage;
             self.navigationItem.title = [NSString stringWithFormat:@"新展品\t\t%@", pageTitle];
             self.navigationController.navigationBar.barTintColor = alertTintColor;
-            [self.navigationController.navigationBar addGestureRecognizer:switchDetailViewRecognizer];
+            [self.navigationController.navigationBar addSubview:switchArea];
         }
     }
 }
 
 - (void)switchDetailView {
-    [self.navigationController.navigationBar removeGestureRecognizer:switchDetailViewRecognizer];
+    [switchArea removeFromSuperview];
     UIViewController *parent = [self parentViewController];
     UITabBarController *root = (UITabBarController*)[parent parentViewController];
     [root setSelectedIndex:0];
@@ -83,16 +83,16 @@ HAMHomepageData *newPage;
     self.navigationItem.title = pageTitle;
     UIBarButtonItem *favItem;
     if (self.homepage.markedListRecord == nil) {
-        UIImage *originImage = [[UIImage imageNamed:@"fav-normal.png"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
-        UIImage *image = [HAMTools image:originImage changeToSize:CGSizeMake(22.0f, 22.0f)];
-        
-        favItem = [[UIBarButtonItem alloc] initWithImage:image style:UIBarButtonItemStylePlain target:self action:@selector(performFavorite)];
+        UIImage *favImage = [[UIImage imageNamed:@"ios7-heart-outline.png"] imageWithRenderingMode:UIImageRenderingModeAutomatic];
+        favItem = [[UIBarButtonItem alloc] initWithImage:favImage style:UIBarButtonItemStylePlain target:self action:@selector(performFavorite)];
     } else {
-        UIImage *originImage = [[UIImage imageNamed:@"fav-selected-normal.png"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
-        UIImage *image = [HAMTools image:originImage changeToSize:CGSizeMake(22.0f, 22.0f)];
-        
-        favItem = [[UIBarButtonItem alloc] initWithImage:image style:UIBarButtonItemStyleBordered target:self action:@selector(performUnFavorite)];
+        UIImage *favImage = [[UIImage imageNamed:@"ios7-heart.png"] imageWithRenderingMode:UIImageRenderingModeAutomatic];
+        favItem = [[UIBarButtonItem alloc] initWithImage:favImage style:UIBarButtonItemStyleBordered target:self action:@selector(performUnFavorite)];
     }
+    
+    switchArea = [[UIView alloc] initWithFrame:CGRectMake(50, 0, 220, self.navigationController.navigationBar.frame.size.height)];
+    [switchArea addGestureRecognizer:switchDetailViewRecognizer];
+    
     //UIBarButtonItem *refreshItem;
     //refreshItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh target:self action:@selector(performRefresh)];
     //UIBarButtonItem *flexibleSpace = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
@@ -105,10 +105,8 @@ HAMHomepageData *newPage;
 
 - (void)performFavorite {
     [[HAMTourManager tourManager] addFavoriteStuff:self.homepage];
-    UIImage *originImage = [[UIImage imageNamed:@"fav-selected-normal.png"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
-    UIImage *image = [HAMTools image:originImage changeToSize:CGSizeMake(22.0f, 22.0f)];
-    
-    UIBarButtonItem *favItem = [[UIBarButtonItem alloc] initWithImage:image style:UIBarButtonItemStyleBordered target:self action:@selector(performUnFavorite)];
+    UIImage *favImage = [[UIImage imageNamed:@"ios7-heart.png"] imageWithRenderingMode:UIImageRenderingModeAutomatic];
+    UIBarButtonItem *favItem = [[UIBarButtonItem alloc] initWithImage:favImage style:UIBarButtonItemStyleBordered target:self action:@selector(performUnFavorite)];
     self.navigationItem.rightBarButtonItem= favItem;
     //barItems = [NSMutableArray arrayWithObjects:[barItems objectAtIndex:0], [barItems objectAtIndex:1], favItem, nil];
     //[self setToolbarItems:barItems];
@@ -117,10 +115,8 @@ HAMHomepageData *newPage;
 
 - (void)performUnFavorite {
     [[HAMTourManager tourManager] removeFavoriteStuff:self.homepage];
-    UIImage *originImage = [[UIImage imageNamed:@"fav-normal.png"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
-    UIImage *image = [HAMTools image:originImage changeToSize:CGSizeMake(22.0f, 22.0f)];
-    
-    UIBarButtonItem *favItem = [[UIBarButtonItem alloc] initWithImage:image style:UIBarButtonItemStylePlain target:self action:@selector(performFavorite)];
+    UIImage *favImage = [[UIImage imageNamed:@"ios7-heart-outline.png"] imageWithRenderingMode:UIImageRenderingModeAutomatic];
+    UIBarButtonItem *favItem = [[UIBarButtonItem alloc] initWithImage:favImage style:UIBarButtonItemStylePlain target:self action:@selector(performFavorite)];
     self.navigationItem.rightBarButtonItem= favItem;
     //barItems = [NSMutableArray arrayWithObjects:[barItems objectAtIndex:0], [barItems objectAtIndex:1], favItem, nil];
     //[self setToolbarItems:barItems];

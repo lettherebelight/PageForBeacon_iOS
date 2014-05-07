@@ -13,6 +13,7 @@
     NSString *pageTitle;
     NSMutableArray *barItems;
     UIGestureRecognizer *switchDetailViewRecognizer;
+    UIView *switchArea;
 }
 
 @property HAMHomepageData *homepage;

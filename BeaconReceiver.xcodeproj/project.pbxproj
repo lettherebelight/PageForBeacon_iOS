@@ -70,6 +70,35 @@
 		6679658119172DE000D9C4FF /* HAMFavoritesCollectionViewController_iPhone.m in Sources */ = {isa = PBXBuildFile; fileRef = 6679657F19172DE000D9C4FF /* HAMFavoritesCollectionViewController_iPhone.m */; };
 		667965841917A36C00D9C4FF /* HAMHomepageData.m in Sources */ = {isa = PBXBuildFile; fileRef = 667965831917A36C00D9C4FF /* HAMHomepageData.m */; };
 		667965851917A36C00D9C4FF /* HAMHomepageData.m in Sources */ = {isa = PBXBuildFile; fileRef = 667965831917A36C00D9C4FF /* HAMHomepageData.m */; };
+		6679658F1917ACC800D9C4FF /* OLImage.m in Sources */ = {isa = PBXBuildFile; fileRef = 6679658A1917ACC800D9C4FF /* OLImage.m */; };
+		667965901917ACC800D9C4FF /* OLImage.m in Sources */ = {isa = PBXBuildFile; fileRef = 6679658A1917ACC800D9C4FF /* OLImage.m */; };
+		667965911917ACC800D9C4FF /* OLImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6679658C1917ACC800D9C4FF /* OLImageView.m */; };
+		667965921917ACC800D9C4FF /* OLImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6679658C1917ACC800D9C4FF /* OLImageView.m */; };
+		6679659A1917AE2A00D9C4FF /* gif.gif in Resources */ = {isa = PBXBuildFile; fileRef = 667965941917AE2A00D9C4FF /* gif.gif */; };
+		6679659B1917AE2A00D9C4FF /* gif.gif in Resources */ = {isa = PBXBuildFile; fileRef = 667965941917AE2A00D9C4FF /* gif.gif */; };
+		667965A71917B0D400D9C4FF /* background_nobeacon.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 667965A61917B0D400D9C4FF /* background_nobeacon.jpg */; };
+		667965A81917B0D400D9C4FF /* background_nobeacon.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 667965A61917B0D400D9C4FF /* background_nobeacon.jpg */; };
+		667965B11917BB5100D9C4FF /* ios7-chatbubble-outline.png in Resources */ = {isa = PBXBuildFile; fileRef = 667965AC1917BB5100D9C4FF /* ios7-chatbubble-outline.png */; };
+		667965B21917BB5100D9C4FF /* ios7-chatbubble-outline.png in Resources */ = {isa = PBXBuildFile; fileRef = 667965AC1917BB5100D9C4FF /* ios7-chatbubble-outline.png */; };
+		667965B31917BB5100D9C4FF /* ios7-eye-outline.png in Resources */ = {isa = PBXBuildFile; fileRef = 667965AD1917BB5100D9C4FF /* ios7-eye-outline.png */; };
+		667965B41917BB5100D9C4FF /* ios7-eye-outline.png in Resources */ = {isa = PBXBuildFile; fileRef = 667965AD1917BB5100D9C4FF /* ios7-eye-outline.png */; };
+		667965B51917BB5100D9C4FF /* ios7-glasses-outline.png in Resources */ = {isa = PBXBuildFile; fileRef = 667965AE1917BB5100D9C4FF /* ios7-glasses-outline.png */; };
+		667965B61917BB5100D9C4FF /* ios7-glasses-outline.png in Resources */ = {isa = PBXBuildFile; fileRef = 667965AE1917BB5100D9C4FF /* ios7-glasses-outline.png */; };
+		667965B71917BB5100D9C4FF /* ios7-heart-outline.png in Resources */ = {isa = PBXBuildFile; fileRef = 667965AF1917BB5100D9C4FF /* ios7-heart-outline.png */; };
+		667965B81917BB5100D9C4FF /* ios7-heart-outline.png in Resources */ = {isa = PBXBuildFile; fileRef = 667965AF1917BB5100D9C4FF /* ios7-heart-outline.png */; };
+		667965B91917BB5100D9C4FF /* ios7-heart.png in Resources */ = {isa = PBXBuildFile; fileRef = 667965B01917BB5100D9C4FF /* ios7-heart.png */; };
+		667965BA1917BB5100D9C4FF /* ios7-heart.png in Resources */ = {isa = PBXBuildFile; fileRef = 667965B01917BB5100D9C4FF /* ios7-heart.png */; };
+		667965C01917BB5600D9C4FF /* ios7-chatbubble-outline@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 667965BB1917BB5600D9C4FF /* ios7-chatbubble-outline@2x.png */; };
+		667965C11917BB5600D9C4FF /* ios7-chatbubble-outline@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 667965BB1917BB5600D9C4FF /* ios7-chatbubble-outline@2x.png */; };
+		667965C21917BB5600D9C4FF /* ios7-eye-outline@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 667965BC1917BB5600D9C4FF /* ios7-eye-outline@2x.png */; };
+		667965C31917BB5600D9C4FF /* ios7-eye-outline@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 667965BC1917BB5600D9C4FF /* ios7-eye-outline@2x.png */; };
+		667965C41917BB5600D9C4FF /* ios7-glasses-outline@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 667965BD1917BB5600D9C4FF /* ios7-glasses-outline@2x.png */; };
+		667965C51917BB5600D9C4FF /* ios7-glasses-outline@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 667965BD1917BB5600D9C4FF /* ios7-glasses-outline@2x.png */; };
+		667965C61917BB5600D9C4FF /* ios7-heart-outline@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 667965BE1917BB5600D9C4FF /* ios7-heart-outline@2x.png */; };
+		667965C71917BB5600D9C4FF /* ios7-heart-outline@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 667965BE1917BB5600D9C4FF /* ios7-heart-outline@2x.png */; };
+		667965C81917BB5600D9C4FF /* ios7-heart@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 667965BF1917BB5600D9C4FF /* ios7-heart@2x.png */; };
+		667965C91917BB5600D9C4FF /* ios7-heart@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 667965BF1917BB5600D9C4FF /* ios7-heart@2x.png */; };
+		667965CB1917CBF600D9C4FF /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 667965CA1917CBF600D9C4FF /* QuartzCore.framework */; };
 		669BDB02190953E6006E99D6 /* HAMCommentsManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 669BDB01190953E6006E99D6 /* HAMCommentsManager.m */; };
 		669BDB03190953E6006E99D6 /* HAMCommentsManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 669BDB01190953E6006E99D6 /* HAMCommentsManager.m */; };
 		669BDB0619095502006E99D6 /* HAMCommentData.m in Sources */ = {isa = PBXBuildFile; fileRef = 669BDB0519095502006E99D6 /* HAMCommentData.m */; };
@@ -199,6 +228,23 @@
 		6679657F19172DE000D9C4FF /* HAMFavoritesCollectionViewController_iPhone.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HAMFavoritesCollectionViewController_iPhone.m; path = viewControllers/iphoneViewControllers/HAMFavoritesCollectionViewController_iPhone.m; sourceTree = "<group>"; };
 		667965821917A36C00D9C4FF /* HAMHomepageData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HAMHomepageData.h; sourceTree = "<group>"; };
 		667965831917A36C00D9C4FF /* HAMHomepageData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HAMHomepageData.m; sourceTree = "<group>"; };
+		667965891917ACC800D9C4FF /* OLImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OLImage.h; sourceTree = "<group>"; };
+		6679658A1917ACC800D9C4FF /* OLImage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OLImage.m; sourceTree = "<group>"; };
+		6679658B1917ACC800D9C4FF /* OLImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OLImageView.h; sourceTree = "<group>"; };
+		6679658C1917ACC800D9C4FF /* OLImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OLImageView.m; sourceTree = "<group>"; };
+		667965941917AE2A00D9C4FF /* gif.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = gif.gif; sourceTree = "<group>"; };
+		667965A61917B0D400D9C4FF /* background_nobeacon.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = background_nobeacon.jpg; sourceTree = "<group>"; };
+		667965AC1917BB5100D9C4FF /* ios7-chatbubble-outline.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ios7-chatbubble-outline.png"; sourceTree = "<group>"; };
+		667965AD1917BB5100D9C4FF /* ios7-eye-outline.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ios7-eye-outline.png"; sourceTree = "<group>"; };
+		667965AE1917BB5100D9C4FF /* ios7-glasses-outline.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ios7-glasses-outline.png"; sourceTree = "<group>"; };
+		667965AF1917BB5100D9C4FF /* ios7-heart-outline.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ios7-heart-outline.png"; sourceTree = "<group>"; };
+		667965B01917BB5100D9C4FF /* ios7-heart.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ios7-heart.png"; sourceTree = "<group>"; };
+		667965BB1917BB5600D9C4FF /* ios7-chatbubble-outline@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ios7-chatbubble-outline@2x.png"; sourceTree = "<group>"; };
+		667965BC1917BB5600D9C4FF /* ios7-eye-outline@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ios7-eye-outline@2x.png"; sourceTree = "<group>"; };
+		667965BD1917BB5600D9C4FF /* ios7-glasses-outline@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ios7-glasses-outline@2x.png"; sourceTree = "<group>"; };
+		667965BE1917BB5600D9C4FF /* ios7-heart-outline@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ios7-heart-outline@2x.png"; sourceTree = "<group>"; };
+		667965BF1917BB5600D9C4FF /* ios7-heart@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ios7-heart@2x.png"; sourceTree = "<group>"; };
+		667965CA1917CBF600D9C4FF /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		669BDB00190953E6006E99D6 /* HAMCommentsManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HAMCommentsManager.h; path = BeaconReceiver/managers/HAMCommentsManager.h; sourceTree = "<group>"; };
 		669BDB01190953E6006E99D6 /* HAMCommentsManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HAMCommentsManager.m; path = BeaconReceiver/managers/HAMCommentsManager.m; sourceTree = "<group>"; };
 		669BDB0419095502006E99D6 /* HAMCommentData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HAMCommentData.h; sourceTree = "<group>"; };
@@ -245,6 +291,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				667965CB1917CBF600D9C4FF /* QuartzCore.framework in Frameworks */,
 				66B01ADF18D5DB9500CD5EDF /* SystemConfiguration.framework in Frameworks */,
 				66B162FD1905517100EFE554 /* CoreBluetooth.framework in Frameworks */,
 				6657B42318FCDB1700099EC6 /* CoreLocation.framework in Frameworks */,
@@ -300,6 +347,7 @@
 		6636EC4318B39EF000F94E6C /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				667965CA1917CBF600D9C4FF /* QuartzCore.framework */,
 				669BDB08190CE93E006E99D6 /* AVOSCloudSNS.framework */,
 				66B163021906A0F000EFE554 /* libEstimoteSDK.a */,
 				66B162FC1905517100EFE554 /* CoreBluetooth.framework */,
@@ -433,6 +481,7 @@
 		6668B6C318F7D2C700A12655 /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				667965931917AE1700D9C4FF /* iPhone */,
 				66B162C418FFF62E00EFE554 /* icons */,
 				6668B6C418F7D47F00A12655 /* index_image.png */,
 			);
@@ -458,6 +507,7 @@
 		6679655C1911296D00D9C4FF /* ThirdPartSDKs */ = {
 			isa = PBXGroup;
 			children = (
+				667965861917AC9A00D9C4FF /* OLImageView */,
 				6679655D191129CD00D9C4FF /* SVProgressHUD */,
 				667965581910DE0F00D9C4FF /* Nimbus */,
 			);
@@ -473,6 +523,61 @@
 				6679656119112A0700D9C4FF /* SVProgressHUD.m */,
 			);
 			name = SVProgressHUD;
+			sourceTree = "<group>";
+		};
+		667965861917AC9A00D9C4FF /* OLImageView */ = {
+			isa = PBXGroup;
+			children = (
+				667965891917ACC800D9C4FF /* OLImage.h */,
+				6679658A1917ACC800D9C4FF /* OLImage.m */,
+				6679658B1917ACC800D9C4FF /* OLImageView.h */,
+				6679658C1917ACC800D9C4FF /* OLImageView.m */,
+			);
+			name = OLImageView;
+			path = BeaconReceiver/ThirdPartSDKs/OLImageView;
+			sourceTree = "<group>";
+		};
+		667965931917AE1700D9C4FF /* iPhone */ = {
+			isa = PBXGroup;
+			children = (
+				667965A91917B96000D9C4FF /* icons */,
+				667965A61917B0D400D9C4FF /* background_nobeacon.jpg */,
+				667965941917AE2A00D9C4FF /* gif.gif */,
+			);
+			path = iPhone;
+			sourceTree = "<group>";
+		};
+		667965A91917B96000D9C4FF /* icons */ = {
+			isa = PBXGroup;
+			children = (
+				667965AB1917BB3F00D9C4FF /* 44 */,
+				667965AA1917BB3C00D9C4FF /* 22 */,
+			);
+			path = icons;
+			sourceTree = "<group>";
+		};
+		667965AA1917BB3C00D9C4FF /* 22 */ = {
+			isa = PBXGroup;
+			children = (
+				667965AC1917BB5100D9C4FF /* ios7-chatbubble-outline.png */,
+				667965AD1917BB5100D9C4FF /* ios7-eye-outline.png */,
+				667965AE1917BB5100D9C4FF /* ios7-glasses-outline.png */,
+				667965AF1917BB5100D9C4FF /* ios7-heart-outline.png */,
+				667965B01917BB5100D9C4FF /* ios7-heart.png */,
+			);
+			path = 22;
+			sourceTree = "<group>";
+		};
+		667965AB1917BB3F00D9C4FF /* 44 */ = {
+			isa = PBXGroup;
+			children = (
+				667965BB1917BB5600D9C4FF /* ios7-chatbubble-outline@2x.png */,
+				667965BC1917BB5600D9C4FF /* ios7-eye-outline@2x.png */,
+				667965BD1917BB5600D9C4FF /* ios7-glasses-outline@2x.png */,
+				667965BE1917BB5600D9C4FF /* ios7-heart-outline@2x.png */,
+				667965BF1917BB5600D9C4FF /* ios7-heart@2x.png */,
+			);
+			path = 44;
 			sourceTree = "<group>";
 		};
 		669BDB0B190CEA9E006E99D6 /* ipadViewControllers */ = {
@@ -638,19 +743,31 @@
 			buildActionMask = 2147483647;
 			files = (
 				66B162EC1900081800EFE554 /* fav-selected-pressed.png in Resources */,
+				667965C01917BB5600D9C4FF /* ios7-chatbubble-outline@2x.png in Resources */,
 				66B162EE1900081800EFE554 /* home-normal.png in Resources */,
+				667965B11917BB5100D9C4FF /* ios7-chatbubble-outline.png in Resources */,
 				6668B6C518F7D47F00A12655 /* index_image.png in Resources */,
 				6636EC5B18B39EF000F94E6C /* Main_iPad.storyboard in Resources */,
+				667965C21917BB5600D9C4FF /* ios7-eye-outline@2x.png in Resources */,
+				667965C81917BB5600D9C4FF /* ios7-heart@2x.png in Resources */,
+				667965B71917BB5100D9C4FF /* ios7-heart-outline.png in Resources */,
 				66B162FA1900171700EFE554 /* fav-normal.png in Resources */,
 				66B162F7190009DC00EFE554 /* reset-normal.png in Resources */,
 				66B162F41900081800EFE554 /* share-pressed.png in Resources */,
 				6679656219112A0700D9C4FF /* SVProgressHUD.bundle in Resources */,
 				6636EC6018B39EF000F94E6C /* Images.xcassets in Resources */,
+				6679659A1917AE2A00D9C4FF /* gif.gif in Resources */,
+				667965C41917BB5600D9C4FF /* ios7-glasses-outline@2x.png in Resources */,
 				6636EC5818B39EF000F94E6C /* Main_iPhone.storyboard in Resources */,
+				667965A71917B0D400D9C4FF /* background_nobeacon.jpg in Resources */,
 				66B162F21900081800EFE554 /* share-normal.png in Resources */,
+				667965C61917BB5600D9C4FF /* ios7-heart-outline@2x.png in Resources */,
+				667965B31917BB5100D9C4FF /* ios7-eye-outline.png in Resources */,
 				6636EC4F18B39EF000F94E6C /* InfoPlist.strings in Resources */,
+				667965B51917BB5100D9C4FF /* ios7-glasses-outline.png in Resources */,
 				66B162F01900081800EFE554 /* home-pressed.png in Resources */,
 				66B162EA1900081800EFE554 /* fav-selected-normal.png in Resources */,
+				667965B91917BB5100D9C4FF /* ios7-heart.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -658,16 +775,28 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6679659B1917AE2A00D9C4FF /* gif.gif in Resources */,
 				66B162F31900081800EFE554 /* share-normal.png in Resources */,
+				667965BA1917BB5100D9C4FF /* ios7-heart.png in Resources */,
+				667965C11917BB5600D9C4FF /* ios7-chatbubble-outline@2x.png in Resources */,
+				667965C31917BB5600D9C4FF /* ios7-eye-outline@2x.png in Resources */,
 				6636EC7118B39EF000F94E6C /* InfoPlist.strings in Resources */,
 				66B162EF1900081800EFE554 /* home-normal.png in Resources */,
+				667965B21917BB5100D9C4FF /* ios7-chatbubble-outline.png in Resources */,
 				66B162EB1900081800EFE554 /* fav-selected-normal.png in Resources */,
+				667965C91917BB5600D9C4FF /* ios7-heart@2x.png in Resources */,
 				66B162F8190009DC00EFE554 /* reset-normal.png in Resources */,
+				667965A81917B0D400D9C4FF /* background_nobeacon.jpg in Resources */,
 				6679656319112A0700D9C4FF /* SVProgressHUD.bundle in Resources */,
+				667965B81917BB5100D9C4FF /* ios7-heart-outline.png in Resources */,
 				66B162F11900081800EFE554 /* home-pressed.png in Resources */,
+				667965C71917BB5600D9C4FF /* ios7-heart-outline@2x.png in Resources */,
+				667965B41917BB5100D9C4FF /* ios7-eye-outline.png in Resources */,
 				66B162FB1900171700EFE554 /* fav-normal.png in Resources */,
 				66B162F51900081800EFE554 /* share-pressed.png in Resources */,
 				66B162ED1900081800EFE554 /* fav-selected-pressed.png in Resources */,
+				667965C51917BB5600D9C4FF /* ios7-glasses-outline@2x.png in Resources */,
+				667965B61917BB5100D9C4FF /* ios7-glasses-outline.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -694,12 +823,14 @@
 				669EA17E190FD5A400E9E4CC /* HAMUserViewController_iPhone.m in Sources */,
 				6668B6CF18F7D7FC00A12655 /* HAMFavoritesViewController.m in Sources */,
 				6636EC5518B39EF000F94E6C /* HAMAppDelegate.m in Sources */,
+				667965911917ACC800D9C4FF /* OLImageView.m in Sources */,
 				66C48E9F18FD63A200829379 /* HAMThumbnailView.m in Sources */,
 				6668B6C818F7D4AA00A12655 /* HAMIndexViewController.m in Sources */,
 				6679657819167D5400D9C4FF /* HAMArtDetailTabController_iPhone.m in Sources */,
 				6679656419112A0700D9C4FF /* SVProgressHUD.m in Sources */,
 				66774E1718FC110F0097701F /* HAMDataManager.m in Sources */,
 				6679657C191711C800D9C4FF /* HAMArtDetailCommentViewController_iPhone.m in Sources */,
+				6679658F1917ACC800D9C4FF /* OLImage.m in Sources */,
 				667965841917A36C00D9C4FF /* HAMHomepageData.m in Sources */,
 				6668B6CB18F7D60A00A12655 /* HAMThumbnailViewController.m in Sources */,
 				66A9A745190D47100043639A /* HAMArtDetailViewController_iPhone.m in Sources */,
@@ -737,6 +868,7 @@
 				6679656D19112D8500D9C4FF /* HAMUserData.m in Sources */,
 				6668B6BF18F7B29000A12655 /* HAMHomeViewController.m in Sources */,
 				6636EC8A18B4A63C00F94E6C /* HAMLogTool.m in Sources */,
+				667965921917ACC800D9C4FF /* OLImageView.m in Sources */,
 				667965711916670E00D9C4FF /* HAMDiscoverCollectionViewController_iPhone.m in Sources */,
 				6668B6CC18F7D60A00A12655 /* HAMThumbnailViewController.m in Sources */,
 				66B01AE318D5DCAB00CD5EDF /* Reachability.m in Sources */,
@@ -748,6 +880,7 @@
 				66C48EA018FD63A200829379 /* HAMThumbnailView.m in Sources */,
 				669BDB0719095502006E99D6 /* HAMCommentData.m in Sources */,
 				6636EC7318B39EF000F94E6C /* BeaconReceiverTests.m in Sources */,
+				667965901917ACC800D9C4FF /* OLImage.m in Sources */,
 				6668B6D418F7DAEA00A12655 /* HAMDetailViewController.m in Sources */,
 				6668B6D018F7D7FC00A12655 /* HAMFavoritesViewController.m in Sources */,
 				66B162B718FE85D200EFE554 /* HAMTourManager.m in Sources */,

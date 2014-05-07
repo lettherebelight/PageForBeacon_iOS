@@ -12,7 +12,8 @@
 @class HAMHomepageData;
 
 @interface HAMDiscoverCollectionViewController_iPhone : UICollectionViewController <HAMBeaconManagerDelegate> {
-    
+    UIView *defaultView;
+    int defaultViewTag;
 }
 
 @property NSArray *stuffsAround;

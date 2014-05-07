@@ -98,10 +98,11 @@
 }
 */
 
-/*
+
 - (void)application:(UIApplication *)application didReceiveLocalNotification:(UILocalNotification *)notification
 {
-    if ([self.window.rootViewController isKindOfClass:[UITabBarController class]])
+    NSLog(@"%@",notification);
+    /*if ([self.window.rootViewController isKindOfClass:[UITabBarController class]])
     {
         //UITabBarController *rootView = self.window.rootViewController;
         //[rootView setSelectedIndex:0];
@@ -110,9 +111,8 @@
         //HAMCoupon *coupon = [[notification userInfo] objectForKey:@"coupon"];
         //if(coupon) recommandedView.notifiedCoupon = coupon;
         [recommandedView performSegueWithIdentifier:@"showCouponDetail" sender:recommandedView];
-    }
+    }*/
 }
-*/
 
 
 - (void)saveContext

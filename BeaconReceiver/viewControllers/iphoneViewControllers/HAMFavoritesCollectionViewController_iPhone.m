@@ -48,7 +48,7 @@ HAMHomepageData *pageForSegue;
     self.navigationItem.backBarButtonItem = temporaryBarButtonItem;
     UIBarButtonItem *bItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAction target:self action:@selector(performShare)];
     self.navigationItem.rightBarButtonItem= bItem;
-    
+
     [self initView];
 }
 
@@ -86,48 +86,60 @@ HAMHomepageData *pageForSegue;
 -(UICollectionViewCell*)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     UICollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"artCell" forIndexPath:indexPath];
     
-    cell.layer.cornerRadius = 10.0f;
+    //cell
+    UIView *view = [cell viewWithTag:1];
+    view.layer.cornerRadius = 6.0f;
+    [view.layer setMasksToBounds:YES];
+    
+    //shadow
+    UIView *shadowView = [cell viewWithTag:7];
+    [shadowView.layer setShadowColor:[UIColor lightGrayColor].CGColor];
+    [shadowView.layer setShadowOpacity:0.4f];
+    [shadowView.layer setShadowRadius:1.0f];
+    [shadowView.layer setShadowOffset:CGSizeMake(1.0, 1.0)];
+    shadowView.layer.cornerRadius = 6.0f;
     
     HAMHomepageData *pageData;
     
     pageData = [pageArray objectAtIndex:indexPath.row];
     
-    UIImageView *imageView = (UIImageView*)[cell viewWithTag:1];
+    UIImageView *imageView = (UIImageView*)[view viewWithTag:6];
     UIImage *thumbnail = [HAMTools imageFromURL:pageData.thumbnail];
     UIImage *image = [HAMTools image:thumbnail changeToMaxSize:imageView.frame.size];
     imageView.image = image;
     thumbnail = nil;
     image = nil;
     
-    UILabel *titleLabel = (UILabel*)[cell viewWithTag:2];
+    UILabel *titleLabel = (UILabel*)[view viewWithTag:2];
     titleLabel.text = pageData.pageTitle;
     
-    UITextView *contentTV = (UITextView*)[cell viewWithTag:5];
+    UITextView *contentTV = (UITextView*)[view viewWithTag:5];
     contentTV.text = pageData.describe;
     
-    UIButton *commentButton = (UIButton*)[cell viewWithTag:3];
+    UIButton *commentButton = (UIButton*)[view viewWithTag:3];
+    UIImage *commentImage = [[UIImage imageNamed:@"ios7-chatbubble-outline.png"] imageWithRenderingMode:UIImageRenderingModeAutomatic];
+    [commentButton setImage:commentImage forState:UIControlStateNormal];
     [commentButton addTarget:self action:@selector(commentClicked:) forControlEvents:UIControlEventTouchUpInside];
+    commentImage = nil;
     
-    UIButton *favButton = (UIButton*)[cell viewWithTag:4];
-    UIImage *originImage = [[UIImage imageNamed:@"fav-selected-normal"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
-    UIImage *btnImage = [HAMTools image:originImage changeToSize:CGSizeMake(22.0f, 22.0f)];
-    [favButton setImage:btnImage forState:UIControlStateNormal];
+    UIButton *favButton = (UIButton*)[view viewWithTag:4];
+    UIImage *favImage = [[UIImage imageNamed:@"ios7-heart.png"] imageWithRenderingMode:UIImageRenderingModeAutomatic];
+    [favButton setImage:favImage forState:UIControlStateNormal];
     [favButton addTarget:self action:@selector(performUnFavorite:) forControlEvents:UIControlEventTouchUpInside];
-    originImage = nil;
-    btnImage = nil;
+    favImage = nil;
 
     return cell;
 }
 
 - (void)commentClicked:(UIButton*)button {
-    UICollectionViewCell *cell = (UICollectionViewCell*)button.superview.superview;
-    int i = [self.collectionView indexPathForCell:cell].row;
+    UICollectionViewCell *cell = (UICollectionViewCell*)button.superview.superview.superview;
+    long i = [self.collectionView indexPathForCell:cell].row;
     pageForSegue = [pageArray objectAtIndex:i];
     [self performSegueWithIdentifier:@"showArtDetailComment" sender:self];
 }
 
 - (void)performUnFavorite:(UIButton*)button {
-    UICollectionViewCell *cell = (UICollectionViewCell*)button.superview.superview;
+    UICollectionViewCell *cell = (UICollectionViewCell*)button.superview.superview.superview;
     long i = [self.collectionView indexPathForCell:cell].row;
     [[HAMTourManager tourManager] removeFavoriteStuff:[pageArray objectAtIndex:i]];
     
