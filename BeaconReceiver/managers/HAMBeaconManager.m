@@ -98,6 +98,7 @@ int beaconsAroundCount = 0;
                     for (ESTBeaconRegion* beaconRegion in beaconRegions)
                     {
                         //[estBeaconManager stopRangingBeaconsInRegion:beaconRegion];
+                        [estBeaconManager startMonitoringForRegion:beaconRegion];
                         [estBeaconManager startRangingBeaconsInRegion:beaconRegion];
                     }
                 }
@@ -114,7 +115,16 @@ int beaconsAroundCount = 0;
     for (ESTBeaconRegion* beaconRegion in beaconRegions)
     {
         [estBeaconManager stopRangingBeaconsInRegion:beaconRegion];
+        [estBeaconManager stopMonitoringForRegion:beaconRegion];
     }
+}
+
+- (void)beaconManager:(ESTBeaconManager *)manager didEnterRegion:(ESTBeaconRegion *)region {
+    [estBeaconManager startRangingBeaconsInRegion:region];
+}
+
+- (void)beaconManager:(ESTBeaconManager *)manager didExitRegion:(ESTBeaconRegion *)region {
+    [estBeaconManager stopRangingBeaconsInRegion:region];
 }
 
 - (Boolean)beacon:(ESTBeacon*)beacon1 theSameAsBeacon:(ESTBeacon*)beacon2 {
@@ -174,6 +184,20 @@ int beaconsAroundCount = 0;
         }
         else if (beacon.distance.floatValue <= pageData.range.floatValue) {
             [self addBeacon:beacon];
+            if (isInBackground == YES) {
+                [[UIApplication sharedApplication] cancelAllLocalNotifications];
+                UILocalNotification *localNotification = [[UILocalNotification alloc] init];
+                NSDate *now = [NSDate date];
+                localNotification.fireDate = now;
+                if (pageData.pageTitle  == nil) {
+                    localNotification.alertBody = @"beacon  found";
+                }
+                else {
+                    localNotification.alertBody = pageData.pageTitle;
+                }
+                localNotification.soundName = UILocalNotificationDefaultSoundName;
+                [[UIApplication sharedApplication] scheduleLocalNotification:localNotification];
+            }
         }
     }
     [self showHomepages];
@@ -216,7 +240,7 @@ int beaconsAroundCount = 0;
     }
     
     if (count != beaconsAroundCount || nearestTime == 3) {
-        beaconsAroundCount = count;
+        beaconsAroundCount = (int)count;
         if (delegate != nil) {
             [delegate displayHomepage:stuffsAround];
         }

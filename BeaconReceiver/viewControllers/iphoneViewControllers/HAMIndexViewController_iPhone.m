@@ -33,6 +33,7 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    currentUser = nil;
 }
 
 - (void)didReceiveMemoryWarning
@@ -55,6 +56,7 @@
                     NSDictionary *userRawData = [userDict objectForKey:@"raw-user"];
                     NSString *description = [userRawData objectForKey:@"description"];
                     [[HAMUserManager userManager] newUserWithUserID:user.objectId name:name avatar:avatar description:description];
+                    currentUser = user;
                     [self logInWithUser:user];
                 }
                 else {
@@ -81,6 +83,7 @@
                     NSString *name = [userDict objectForKey:@"username"];
                     NSString *avatar = [userDict objectForKey:@"avatar"];
                     [[HAMUserManager userManager] newUserWithUserID:user.objectId name:name avatar:avatar description:nil];
+                    currentUser = user;
                     [self logInWithUser:user];
                 }
                 else {
@@ -92,6 +95,12 @@
             NSLog(@"%@",error);
         }
     } toPlatform:AVOSCloudSNSQQ];
+}
+
+- (void)viewDidAppear:(BOOL)animated {
+    if (currentUser != nil) {
+        [self logInWithUser:currentUser];
+    }
 }
 
 - (IBAction)defaultLogIn:(id)sender {

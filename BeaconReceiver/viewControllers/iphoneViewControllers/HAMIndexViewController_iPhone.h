@@ -8,6 +8,10 @@
 
 #import <UIKit/UIKit.h>
 
-@interface HAMIndexViewController_iPhone : UIViewController
+@class AVUser;
+
+@interface HAMIndexViewController_iPhone : UIViewController {
+    AVUser *currentUser;
+}
 
 @end
