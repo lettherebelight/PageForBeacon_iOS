@@ -145,7 +145,13 @@
     HAMHomepageData *pageData;
     
     pageData = [stuffsAround objectAtIndex:indexPath.row];
-
+    
+    /*
+    NSString *beaconInfo = [NSString stringWithFormat:@"%@/%@/%@", pageData.beaconID, pageData.beaconMajor, pageData.beaconMinor];
+    [[HAMBeaconManager beaconManager].debugTextFields setValue:[view viewWithTag:8] forKey:beaconInfo];
+    */
+    [view viewWithTag:8].hidden = YES;
+     
     UIImageView *imageView = (UIImageView*)[view viewWithTag:6];
     UIImage *thumbnail = [HAMTools imageFromURL:pageData.thumbnail];
     UIImage *image = [HAMTools image:thumbnail changeToMaxSize:imageView.frame.size];

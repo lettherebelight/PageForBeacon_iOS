@@ -90,7 +90,7 @@
 -(void)textViewDidBeginEditing:(UITextView *)textView
 {
     CGRect frame = textView.frame;
-    int offset = frame.origin.y + frame.size.height - (self.view.frame.size.height - 216.0);//键盘高度216
+    int offset = frame.origin.y + frame.size.height + 5.0 - (self.view.frame.size.height - 216.0);//键盘高度216
     
     NSTimeInterval animationDuration = 0.30f;
     [UIView beginAnimations:@"ResizeForKeyboard" context:nil];

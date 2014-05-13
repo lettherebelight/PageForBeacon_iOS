@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>PreferenceSpecifiers</key>
+	<array>
+		<dict>
+			<key>Type</key>
+			<string>PSGroupSpecifier</string>
+			<key>Title</key>
+			<string>登录设置</string>
+		</dict>
+		<dict>
+			<key>Type</key>
+			<string>PSMultiValueSpecifier</string>
+			<key>Title</key>
+			<string>登录方式</string>
+			<key>Key</key>
+			<string>login_setting</string>
+			<key>DefaultValue</key>
+			<string>choose</string>
+			<key>Titles</key>
+			<array>
+				<string>新浪微博</string>
+				<string>QQ</string>
+				<string>登录时选择</string>
+			</array>
+			<key>Values</key>
+			<array>
+				<string>weibo</string>
+				<string>qq</string>
+				<string>choose</string>
+			</array>
+		</dict>
+	</array>
+	<key>StringsTable</key>
+	<string>Root</string>
+</dict>
+</plist>

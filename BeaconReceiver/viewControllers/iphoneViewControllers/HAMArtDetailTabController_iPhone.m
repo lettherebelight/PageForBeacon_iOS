@@ -9,7 +9,6 @@
 #import "HAMArtDetailTabController_iPhone.h"
 #import "HAMHomepageData.h"
 #import "HAMTourManager.h"
-#import "HAMDiscoverTableViewController_iPhone.h"
 #import "HAMDiscoverCollectionViewController_iPhone.h"
 #import "HAMTools.h"
 #import "SVProgressHUD.h"

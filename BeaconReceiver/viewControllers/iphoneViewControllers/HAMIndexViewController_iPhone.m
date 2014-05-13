@@ -20,6 +20,14 @@
 
 @implementation HAMIndexViewController_iPhone
 
+typedef enum loginType {
+    CHOOSE = 0,
+    WEIBO,
+    QQ
+}LoginType;
+
+LoginType loginSetting;
+
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -29,17 +37,58 @@
     return self;
 }
 
+- (void)getSettings {
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    NSString *login = [defaults stringForKey:@"login_setting"];
+    if ([login isEqualToString:@"weibo"]) {
+        loginSetting = WEIBO;
+    } else if ([login isEqualToString:@"qq"]) {
+        loginSetting = QQ;
+    } else {
+        loginSetting = CHOOSE;
+    }
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     currentUser = nil;
+    [self getSettings];
 }
 
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+- (void)loginFromWeibo {
+    [AVOSCloudSNS setupPlatform:AVOSCloudSNSSinaWeibo withAppKey:@"464699941" andAppSecret:@"768924e9a4ef519a95809253ebc886ea" andRedirectURI:@"http://www.weibo.com"];
+    
+    [AVOSCloudSNS loginWithCallback:^(id object, NSError *error) {
+        //you code here
+        if (!error) {
+            [AVUser loginWithAuthData:object block:^(AVUser *user, NSError *error) {
+                if (!error) {
+                    NSDictionary *userDict = object;
+                    NSString *name = [userDict objectForKey:@"username"];
+                    NSString *avatar = [userDict objectForKey:@"avatar"];
+                    NSDictionary *userRawData = [userDict objectForKey:@"raw-user"];
+                    NSString *description = [userRawData objectForKey:@"description"];
+                    [[HAMUserManager userManager] newUserWithUserID:user.objectId name:name avatar:avatar description:description];
+                    currentUser = user;
+                    [self logInWithUser:user];
+                }
+                else {
+                    NSLog(@"%@",error);
+                }
+            }];
+        }
+        else {
+            NSLog(@"%@",error);
+        }
+    } toPlatform:AVOSCloudSNSSinaWeibo];
 }
 
 - (IBAction)logInFromWeibo:(id)sender {
@@ -71,6 +120,32 @@
     
 }
 
+- (void)loginFromQQ {
+    [AVOSCloudSNS setupPlatform:AVOSCloudSNSQQ withAppKey:@"1101349087" andAppSecret:@"BAj9jn2xOw9eM7c2" andRedirectURI:@"http://www.weibo.com"];
+    
+    [AVOSCloudSNS loginWithCallback:^(id object, NSError *error) {
+        //you code here
+        if (!error) {
+            [AVUser loginWithAuthData:object block:^(AVUser *user, NSError *error) {
+                if (!error) {
+                    NSDictionary *userDict = object;
+                    NSString *name = [userDict objectForKey:@"username"];
+                    NSString *avatar = [userDict objectForKey:@"avatar"];
+                    [[HAMUserManager userManager] newUserWithUserID:user.objectId name:name avatar:avatar description:nil];
+                    currentUser = user;
+                    [self logInWithUser:user];
+                }
+                else {
+                    NSLog(@"%@",error);
+                }
+            }];
+        }
+        else {
+            NSLog(@"%@",error);
+        }
+    } toPlatform:AVOSCloudSNSQQ];
+}
+
 - (IBAction)logInFromQQ:(id)sender {
     [AVOSCloudSNS setupPlatform:AVOSCloudSNSQQ withAppKey:@"1101349087" andAppSecret:@"BAj9jn2xOw9eM7c2" andRedirectURI:@"http://www.weibo.com"];
     
@@ -100,6 +175,11 @@
 - (void)viewDidAppear:(BOOL)animated {
     if (currentUser != nil) {
         [self logInWithUser:currentUser];
+    }
+    if (loginSetting == WEIBO) {
+        [self loginFromWeibo];
+    } else if (loginSetting == QQ) {
+        [self loginFromQQ];
     }
 }
 
