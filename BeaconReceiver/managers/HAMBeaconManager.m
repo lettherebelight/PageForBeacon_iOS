@@ -296,4 +296,50 @@ int beaconsAroundCount = 0;
      */
 }
 
+#pragma mark - Server Methods
+
+-(AVObject*)queryBeacon:(CLBeacon*)beacon{
+    AVQuery *query = [AVQuery queryWithClassName:@"Beacon"];
+    [query whereKey:@"proximity_uuid" equalTo:beacon.proximityUUID.UUIDString];
+    [query whereKey:@"major" equalTo:beacon.major];
+    [query whereKey:@"minor" equalTo:beacon.minor];
+    
+    NSArray* beaconArray = [query findObjects];
+    if (beaconArray == nil || beaconArray.count == 0) {
+        return nil;
+    }
+    return beaconArray[0];
+}
+
+-(AVObject*)beaconAVObjectFromCLBeacon:(CLBeacon*)beacon{
+    AVObject* beaconObject = [AVObject objectWithClassName:@"Beacon"];
+    [beaconObject setObject:beacon.proximityUUID.UUIDString forKey:@"proximity_uuid"];
+    [beaconObject setObject:beacon.major forKey:@"major"];
+    [beaconObject setObject:beacon.minor forKey:@"minor"];
+    return beaconObject;
+}
+
+- (void)addBeaconToServer:(CLBeacon*)beacon{
+    AVObject* beaconObject = [self beaconAVObjectFromCLBeacon:beacon];
+    [beaconObject save];
+}
+
+- (void)addBeaconToServer:(CLBeacon*)beacon withTarget:(id)target callback:(SEL)callback{
+    AVObject* beaconObject = [self beaconAVObjectFromCLBeacon:beacon];
+    [beaconObject saveInBackgroundWithTarget:target selector:callback];
+}
+
+//TODO: May need perform in background
+- (void)bindThing:(HAMHomepageData*)thing toBeacon:(CLBeacon*)beacon withTarget:(id)target callback:(SEL)callback{
+    AVObject* beaconObject = [self queryBeacon:beacon];
+    
+    AVObject* thingObject = nil;
+    if (thing != nil) {
+        thingObject = [AVObject objectWithoutDataWithClassName:@"Stuff" objectId:thing.dataID];
+    }
+
+    [beaconObject setObject:thingObject forKey:@"stuff"];
+    [beaconObject saveInBackgroundWithTarget:target selector:callback];
+}
+
 @end

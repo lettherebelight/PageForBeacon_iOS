@@ -9,6 +9,7 @@
 #import "HAMHomepageData.h"
 #import "HAMHistoryHomepage.h"
 #import "HAMMarkedHomepage.h"
+#import <AVOSCloud/AVOSCloud.h>
 
 
 @implementation HAMHomepageData
@@ -17,6 +18,7 @@
 @dynamic beaconID;
 @dynamic beaconMajor;
 @dynamic beaconMinor;
+//TODO: change to stuff id
 @dynamic dataID;
 @dynamic pageTitle;
 @dynamic pageURL;
@@ -25,5 +27,15 @@
 @dynamic describe;
 @dynamic historyListRecord;
 @dynamic markedListRecord;
+
+- (void)saveToServerWithTarget:(id)target callback:(SEL)callback{
+    AVObject* object = [AVObject objectWithClassName:@"Stuff"];
+    [object setObject:self.pageTitle forKey:@"name"];
+    [object setObject:self.thumbnail forKey:@"preview_thumbnail"];
+    [object setObject:self.pageURL forKey:@"page_url"];
+    //type?
+    //preview background?
+    [object setObject:self.describe forKey:@"description"];
+}
 
 @end
