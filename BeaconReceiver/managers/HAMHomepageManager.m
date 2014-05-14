@@ -15,7 +15,18 @@
 
 @implementation HAMHomepageManager
 
+static HAMHomepageManager* homepageManager = nil;
+
 static float defaultDistanceRangeMin = 1;
+
++ (HAMHomepageManager*)homepageManager {
+    @synchronized(self) {
+        if (homepageManager == nil) {
+            homepageManager = [[HAMHomepageManager alloc] init];
+        }
+    }
+    return homepageManager;
+}
 
 + (void)homepageFromWebWithBeaconID:(NSString *)beaconID major:(NSNumber *)major minor:(NSNumber *)minor {
     @synchronized (self) {
@@ -62,6 +73,31 @@ static float defaultDistanceRangeMin = 1;
     else {
         [HAMHomepageManager homepageFromWebWithBeaconID:beaconID major:major minor:minor];
         return nil;
+    }
+}
+
+- (void)updateThingsInWorld {
+    @synchronized (self) {
+        AVQuery *query = [AVQuery queryWithClassName:@"Thing"];
+        [query orderByDescending:@"createdAt"];
+        [query findObjectsInBackgroundWithBlock:^(NSArray *objectArray, NSError *error) {
+            if (error == nil && objectArray != nil && [objectArray count] > 0) {
+                for (AVObject *thingObj in objectArray) {
+                    HAMHomepageData *pageData = [HAMDataManager newPageData];
+                    pageData.beaconID = nil;
+                    pageData.beaconMajor = nil;
+                    pageData.beaconMinor = nil;
+                    pageData.range = nil;
+                    pageData.backImage = (NSString*)[thingObj objectForKey:@"preview_background"];
+                    pageData.thumbnail = (NSString*)[thingObj objectForKey:@"preview_thumbnail"];
+                    pageData.pageURL = (NSString*)[thingObj objectForKey:@"page_url"];
+                    pageData.pageTitle = (NSString*)[thingObj objectForKey:@"name"];
+                    pageData.describe = (NSString*)[thingObj objectForKey:@"description"];
+                    pageData.dataID = thingObj.objectId;
+                    [thingsInWorld addObject:pageData];
+                }
+            }
+        }];
     }
 }
 

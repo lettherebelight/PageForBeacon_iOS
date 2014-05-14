@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="5064" systemVersion="13C1021" minimumToolsVersion="Xcode 4.3" macOSVersion="Automatic" iOSVersion="Automatic">
+<model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="5063" systemVersion="13C64" minimumToolsVersion="Xcode 4.3" macOSVersion="Automatic" iOSVersion="Automatic">
+    <entity name="HAMGlobalData" representedClassName="HAMGlobalData" syncable="YES">
+        <attribute name="lastLogin" optional="YES" attributeType="String" syncable="YES"/>
+    </entity>
     <entity name="HAMHistoryHomepage" representedClassName="HAMHistoryHomepage" syncable="YES">
         <attribute name="date" optional="YES" attributeType="Date" syncable="YES"/>
         <relationship name="homepage" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="HAMHomepageData" inverseName="historyListRecord" inverseEntity="HAMHomepageData" syncable="YES"/>
@@ -26,5 +29,6 @@
         <element name="HAMHistoryHomepage" positionX="-234" positionY="72" width="128" height="73"/>
         <element name="HAMHomepageData" positionX="-63" positionY="-18" width="128" height="225"/>
         <element name="HAMMarkedHomepage" positionX="-236" positionY="-22" width="128" height="73"/>
+        <element name="HAMGlobalData" positionX="-144" positionY="90" width="128" height="60"/>
     </elements>
 </model>

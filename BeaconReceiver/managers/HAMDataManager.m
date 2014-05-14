@@ -11,7 +11,7 @@
 #import "HAMMarkedHomepage.h"
 #import "HAMHistoryHomepage.h"
 #import "HAMAppDelegate.h"
-#import "HAMTourManager.h"
+#import "HAMGlobalData.h"
 
 @implementation HAMDataManager
 
@@ -44,6 +44,23 @@ static NSManagedObjectContext *context;
         [[self context] deleteObject:object];
     }
     [appDelegate saveContext];
+}
+
++ (HAMGlobalData*)globalData {
+    @synchronized(self) {
+        HAMGlobalData *globalData;
+        NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
+        NSEntityDescription *globalDataEntity = [NSEntityDescription entityForName:@"HAMGlobalData" inManagedObjectContext:[self context]];
+        [fetchRequest setEntity:globalDataEntity];
+        NSError *error1 = nil;
+        NSArray *fetchedGlobalObjects = [context executeFetchRequest:fetchRequest error:&error1];
+        if (fetchedGlobalObjects == nil || [fetchedGlobalObjects count] == 0) {
+            globalData = [NSEntityDescription insertNewObjectForEntityForName:@"HAMHGlobalData" inManagedObjectContext:[self context]];
+        } else{
+            globalData = [fetchedGlobalObjects objectAtIndex:0];
+        }
+        return globalData;
+    }
 }
 
 + (void)clearData {

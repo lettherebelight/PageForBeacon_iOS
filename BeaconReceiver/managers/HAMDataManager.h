@@ -11,6 +11,7 @@
 @class HAMHomepageData;
 @class HAMHistoryHomepage;
 @class HAMAppDelegate;
+@class HAMGlobalData;
 
 @interface HAMDataManager : NSObject
 
@@ -28,5 +29,6 @@
 + (NSArray*)fetchMarkedRecords;
 + (NSArray*)fetchHistoryRecords;
 + (void)updateHistoryRecord:(HAMHistoryHomepage*)history;
++ (HAMGlobalData*)globalData;
 
 @end

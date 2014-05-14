@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		662FE78B192367D500CF0C41 /* HAMGlobalData.m in Sources */ = {isa = PBXBuildFile; fileRef = 662FE78A192367D500CF0C41 /* HAMGlobalData.m */; };
 		6636EC4518B39EF000F94E6C /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6636EC4418B39EF000F94E6C /* Foundation.framework */; };
 		6636EC4718B39EF000F94E6C /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6636EC4618B39EF000F94E6C /* CoreGraphics.framework */; };
 		6636EC4918B39EF000F94E6C /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6636EC4818B39EF000F94E6C /* UIKit.framework */; };
@@ -159,6 +160,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		662FE789192367D500CF0C41 /* HAMGlobalData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HAMGlobalData.h; sourceTree = "<group>"; };
+		662FE78A192367D500CF0C41 /* HAMGlobalData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HAMGlobalData.m; sourceTree = "<group>"; };
 		6636EC4118B39EF000F94E6C /* BeaconReceiver.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BeaconReceiver.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6636EC4418B39EF000F94E6C /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		6636EC4618B39EF000F94E6C /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -446,6 +449,8 @@
 				667965821917A36C00D9C4FF /* HAMHomepageData.h */,
 				667965831917A36C00D9C4FF /* HAMHomepageData.m */,
 				6668B6AE18F6ACB900A12655 /* HAMCoreData.xcdatamodeld */,
+				662FE789192367D500CF0C41 /* HAMGlobalData.h */,
+				662FE78A192367D500CF0C41 /* HAMGlobalData.m */,
 				66B162C018FE887E00EFE554 /* HAMMarkedHomepage.h */,
 				66B162C118FE887E00EFE554 /* HAMMarkedHomepage.m */,
 				66B162B818FE887D00EFE554 /* HAMHistoryHomepage.h */,
@@ -803,6 +808,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				662FE78B192367D500CF0C41 /* HAMGlobalData.m in Sources */,
 				6636EC5118B39EF000F94E6C /* main.m in Sources */,
 				6636EC8918B4A63C00F94E6C /* HAMLogTool.m in Sources */,
 				66A9A739190D04D40043639A /* HAMIndexViewController_iPhone.m in Sources */,

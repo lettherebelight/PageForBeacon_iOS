@@ -34,7 +34,7 @@
 - (void)updateView {
     if (stuffsAround == nil || [stuffsAround count] < 1) {
         [self.collectionView reloadData];
-        self.navigationItem.title = @"感应中";
+        //self.navigationItem.title = @"感应中";
     } else {
         /*
          int cellHeight = 150;
@@ -44,12 +44,16 @@
          self.tableView.center = center;
          } completion:nil];
          */
-        self.navigationItem.title = [NSString stringWithFormat:@"周围有%u个展品", [stuffsAround count]];
+        //self.navigationItem.title = [NSString stringWithFormat:@"周围有%u个展品", [stuffsAround count]];
         [self.collectionView reloadData];
         //[self.collectionView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:1 inSection:0] atScrollPosition:UITableViewScrollPositionTop animated:NO];
         //[self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0] atScrollPosition:UITableViewScrollPositionTop animated:YES];
         
     }
+}
+
+- (IBAction)changStatus:(id)sender {
+    
 }
 
 - (void)displayHomepage:(NSArray*)curStuffsAround {
@@ -78,7 +82,7 @@
     [HAMDataManager clearData];
     [[HAMBeaconManager beaconManager] startMonitor];
     
-    self.navigationItem.title = @"感应中";
+    //self.navigationItem.title = @"感应中";
     
     //set default view
     defaultView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, self.collectionView.frame.size.height)];

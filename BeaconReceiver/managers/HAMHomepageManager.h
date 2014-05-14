@@ -10,7 +10,12 @@
 
 @class HAMHomepageData;
 
-@interface HAMHomepageManager : NSObject
+@interface HAMHomepageManager : NSObject {
+    NSTimer *updateTimer;
+    NSMutableArray *thingsInWorld;
+}
+
++ (HAMHomepageManager*)homepageManager;
 
 + (HAMHomepageData*)homepageWithBeaconID:(NSString*)beaconID major:(NSNumber*)major minor:(NSNumber*)minor;
 
