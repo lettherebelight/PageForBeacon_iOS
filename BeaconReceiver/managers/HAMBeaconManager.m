@@ -39,10 +39,20 @@ int beaconsAroundCount = 0;
     @synchronized(self) {
         if (beaconManager == nil) {
             beaconManager = [[HAMBeaconManager alloc] init];
-            [beaconManager setupLocationManager];
         }
     }
     return beaconManager;
+}
+
+-(id)init{
+    if (self = [super init]) {
+        nearestBeacon = nil;
+        beaconsAround = [NSMutableArray array];
+        beaconRegions = [NSMutableArray array];
+        debugTextFields = [NSMutableDictionary dictionary];
+        [self setupLocationManager];
+    }
+    return self;
 }
 
 - (void)setupLocationManager {
@@ -55,11 +65,6 @@ int beaconsAroundCount = 0;
 }
 
 - (void)startMonitor {
-    nearestBeacon = nil;
-    beaconsAround = [NSMutableArray array];
-    beaconRegions = [NSMutableArray array];
-    debugTextFields = [NSMutableDictionary dictionary];
-    
     if ([HAMTools isWebAvailable]) {
         AVQuery *query = [AVQuery queryWithClassName:@"Global"];
         [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
@@ -183,13 +188,13 @@ int beaconsAroundCount = 0;
         }
         
         
-        /*
-        UITextField *debugTF = (UITextField*)[debugTextFields objectForKey:[NSString stringWithFormat:@"%@/%@/%@", pageData.beaconID, pageData.beaconMajor, pageData.beaconMinor]];
-        if (debugTF != nil) {
-            //debugTF.text = [NSString stringWithFormat:@"dis:%f", beacon.accuracy];
-            debugTF.text = [NSString stringWithFormat:@"%@/%@  %f", beacon.major, beacon.minor, beacon.accuracy];
-        }
-        */
+        
+//        UITextField *debugTF = (UITextField*)[debugTextFields objectForKey:[NSString stringWithFormat:@"%@/%@/%@", pageData.beaconID, pageData.beaconMajor, pageData.beaconMinor]];
+//        if (debugTF != nil) {
+//            //debugTF.text = [NSString stringWithFormat:@"dis:%f", beacon.accuracy];
+//            debugTF.text = [NSString stringWithFormat:@"%@/%@  %f", beacon.major, beacon.minor, beacon.accuracy];
+//        }
+        
         
         if ([self removeBeacon:beacon] == YES && beacon.accuracy <= (pageData.range.floatValue + defaultDistanceDelta)) {
             [self addBeacon:beacon];
@@ -260,40 +265,6 @@ int beaconsAroundCount = 0;
             [detailDelegate displayHomepage:stuffsAround];
         }
     }
-    
-    /*
-     if (count == 0) {
-     currentBeacon = nil;
-     if (nearestBeacon == nil) {
-     return;
-     }
-     }
-     else {
-     currentBeacon = [beaconsAround objectAtIndex:0];
-     }
-     if ([self beacon:currentBeacon theSameAsBeacon:nearestBeacon] == NO) {
-     if (nearestBeacon != nil) {
-     HAMHomepageData* pageData = [HAMHomepageManager homepageWithBeaconID:nearestBeacon.proximityUUID.UUIDString major:nearestBeacon.major minor:nearestBeacon.minor];
-     [[HAMTourManager tourManager] leaveStuff:pageData];
-     }
-     nearestBeacon = currentBeacon;
-     HAMHomepageData* pageData;
-     if (currentBeacon == nil) {
-     pageData = nil;
-     } else {
-     pageData = [HAMHomepageManager homepageWithBeaconID:currentBeacon.proximityUUID.UUIDString major:currentBeacon.major minor:currentBeacon.minor];
-     if (pageData != nil) {
-     [[HAMTourManager tourManager] approachStuff:pageData];
-     }
-     }
-     if (delegate != nil) {
-     [delegate displayHomepage:stuffsAround];
-     }
-     if (detailDelegate != nil) {
-     [detailDelegate displayHomepage:stuffsAround];
-     }
-     }
-     */
 }
 
 #pragma mark - Server Methods

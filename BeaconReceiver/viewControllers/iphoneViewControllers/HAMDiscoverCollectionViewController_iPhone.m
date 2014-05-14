@@ -105,6 +105,7 @@
     [super viewWillAppear:animated];
     self.navigationController.navigationBar.barTintColor = nil;
     [self initView];
+    //self.view.layer.shouldRasterize = YES;
 }
 
 - (void)didReceiveMemoryWarning
@@ -145,23 +146,23 @@
     [shadowView.layer setShadowRadius:1.0f];
     [shadowView.layer setShadowOffset:CGSizeMake(1.0, 1.0)];
     shadowView.layer.cornerRadius = 6.0f;
-    
+
     HAMHomepageData *pageData;
     
     pageData = [stuffsAround objectAtIndex:indexPath.row];
     
-    /*
+    
     NSString *beaconInfo = [NSString stringWithFormat:@"%@/%@/%@", pageData.beaconID, pageData.beaconMajor, pageData.beaconMinor];
     [[HAMBeaconManager beaconManager].debugTextFields setValue:[view viewWithTag:8] forKey:beaconInfo];
-    */
-    [view viewWithTag:8].hidden = YES;
+    
+    //[view viewWithTag:8].hidden = YES;
      
     UIImageView *imageView = (UIImageView*)[view viewWithTag:6];
     UIImage *thumbnail = [HAMTools imageFromURL:pageData.thumbnail];
     UIImage *image = [HAMTools image:thumbnail changeToMaxSize:imageView.frame.size];
     imageView.image = image;
-    thumbnail = nil;
-    image = nil;
+    //thumbnail = nil;
+    //image = nil;
     
     UILabel *titleLabel = (UILabel*)[view viewWithTag:2];
     titleLabel.text = pageData.pageTitle;

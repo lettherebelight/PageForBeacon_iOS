@@ -131,7 +131,7 @@ HAMHomepageData *newPage;
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
     //[self.navigationController setToolbarHidden:YES animated:animated];
-    [self.navigationController popViewControllerAnimated:NO];
+    //[self.navigationController popViewControllerAnimated:NO];
 }
 
 /*
