@@ -19,11 +19,16 @@ static HAMCommentsManager *commentsManager;
     @synchronized(self) {
         if (commentsManager == nil) {
             commentsManager = [[HAMCommentsManager alloc] init];
-            commentsManager.timer = [NSTimer scheduledTimerWithTimeInterval:300 target:self selector:@selector(handleTimer) userInfo:nil repeats:NO];
-
         }
     }
     return commentsManager;
+}
+
+-(id)init{
+    if (self = [super init]) {
+        self.timer = nil;
+    }
+    return self;
 }
 
 - (NSArray*)commentsWithPageDataID:(NSString *)pageDataID {
@@ -64,12 +69,16 @@ static HAMCommentsManager *commentsManager;
                 }
             }];
         }
-        [self.timer setFireDate:[NSDate date]];
+        if (self.timer == nil) {
+            self.timer = [NSTimer scheduledTimerWithTimeInterval:30.0f target:self selector:@selector(handleTimer) userInfo:nil repeats:YES];
+            [self.timer setFireDate:[NSDate date]];
+        }
     }
 }
 
-+ (void)handleTimer {
+- (void)handleTimer {
     [[HAMCommentsManager commentsManager] updateComments];
+    NSLog(@"%@",self.timer);
 }
 
 - (void)addComment:(HAMCommentData *)comment {
