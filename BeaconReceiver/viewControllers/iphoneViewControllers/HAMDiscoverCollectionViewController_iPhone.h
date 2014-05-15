@@ -8,15 +8,19 @@
 
 #import <UIKit/UIKit.h>
 #import "HAMBeaconManager.h"
+#import "HAMHomepageManager.h"
 
 @class HAMHomepageData;
 
-@interface HAMDiscoverCollectionViewController_iPhone : UICollectionViewController <HAMBeaconManagerDelegate> {
+@interface HAMDiscoverCollectionViewController_iPhone : UICollectionViewController <HAMBeaconManagerDelegate, HAMHomepageManagerDelegate> {
     UIView *defaultView;
     int defaultViewTag;
 }
 
+@property (weak, nonatomic) IBOutlet UISegmentedControl *segmentedControl;
+
 @property NSArray *stuffsAround;
+@property NSArray *stuffsInWorld;
 @property HAMHomepageData *pageForSegue;
 
 @end

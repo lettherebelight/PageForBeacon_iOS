@@ -23,6 +23,7 @@
 + (void)clearData;
 + (HAMHomepageData*)newPageData;
 + (HAMHomepageData*)pageDataWithBID:(NSString*)beaconID major:(NSNumber*)major minor:(NSNumber*)minor;
++ (HAMHomepageData*)pageDataWithThingID:(NSString*)thingID;
 + (void)addAMarkedRecord:(HAMHomepageData*)home;
 + (void)removeMarkedRecord:(HAMHomepageData*)home;
 + (void)addAHistoryRecord:(HAMHomepageData*)home;

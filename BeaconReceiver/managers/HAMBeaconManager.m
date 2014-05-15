@@ -189,11 +189,11 @@ int beaconsAroundCount = 0;
         
         
         
-//        UITextField *debugTF = (UITextField*)[debugTextFields objectForKey:[NSString stringWithFormat:@"%@/%@/%@", pageData.beaconID, pageData.beaconMajor, pageData.beaconMinor]];
-//        if (debugTF != nil) {
-//            //debugTF.text = [NSString stringWithFormat:@"dis:%f", beacon.accuracy];
-//            debugTF.text = [NSString stringWithFormat:@"%@/%@  %f", beacon.major, beacon.minor, beacon.accuracy];
-//        }
+        UITextField *debugTF = (UITextField*)[debugTextFields objectForKey:[NSString stringWithFormat:@"%@/%@/%@", pageData.beaconID, pageData.beaconMajor, pageData.beaconMinor]];
+        if (debugTF != nil) {
+            //debugTF.text = [NSString stringWithFormat:@"dis:%f", beacon.accuracy];
+            debugTF.text = [NSString stringWithFormat:@"%@/%@  %f", beacon.major, beacon.minor, beacon.accuracy];
+        }
         
         
         if ([self removeBeacon:beacon] == YES && beacon.accuracy <= (pageData.range.floatValue + defaultDistanceDelta)) {

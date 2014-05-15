@@ -23,7 +23,15 @@
 @implementation HAMDiscoverCollectionViewController_iPhone
 
 @synthesize pageForSegue;
+@synthesize stuffsInWorld;
 @synthesize stuffsAround;
+
+typedef enum discoverType {
+    AROUND = 0,
+    WORLD
+}DiscoverType;
+
+DiscoverType discoverStatus = AROUND;
 
 - (void)initView {
     //stuffsAround = nil;
@@ -32,33 +40,35 @@
 }
 
 - (void)updateView {
-    if (stuffsAround == nil || [stuffsAround count] < 1) {
-        [self.collectionView reloadData];
-        //self.navigationItem.title = @"感应中";
-    } else {
-        /*
-         int cellHeight = 150;
-         CGPoint center = self.tableView.center;
-         self.tableView.center = CGPointMake(center.x, center.y - cellHeight);
-         [UIView animateWithDuration:0.75 delay:0.15 options:UIViewAnimationOptionCurveEaseOut animations:^{
-         self.tableView.center = center;
-         } completion:nil];
-         */
-        //self.navigationItem.title = [NSString stringWithFormat:@"周围有%u个展品", [stuffsAround count]];
-        [self.collectionView reloadData];
-        //[self.collectionView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:1 inSection:0] atScrollPosition:UITableViewScrollPositionTop animated:NO];
-        //[self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0] atScrollPosition:UITableViewScrollPositionTop animated:YES];
-        
+    [self.collectionView reloadData];
+    if ([self.collectionView numberOfItemsInSection:0] > 0) {
+        NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:0];
+        [self.collectionView scrollToItemAtIndexPath:indexPath atScrollPosition:UICollectionViewScrollPositionTop animated:NO];
     }
 }
 
 - (IBAction)changStatus:(id)sender {
-    
+    if ([self.segmentedControl selectedSegmentIndex] == 0) {
+        discoverStatus = AROUND;
+        [self updateView];
+    } else if ([self.segmentedControl selectedSegmentIndex] == 1) {
+        discoverStatus = WORLD;
+        [self updateView];
+    }
+}
+
+- (void)updateThings:(NSArray *)thingsAround {
+    stuffsInWorld = thingsAround;
+    if (discoverStatus == WORLD) {
+        [self updateView];
+    }
 }
 
 - (void)displayHomepage:(NSArray*)curStuffsAround {
     stuffsAround = curStuffsAround;
-    [self updateView];
+    if (discoverStatus == AROUND) {
+        [self updateView];
+    }
 }
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
@@ -81,6 +91,7 @@
     [HAMBeaconManager beaconManager].delegate = self;
     [HAMDataManager clearData];
     [[HAMBeaconManager beaconManager] startMonitor];
+    [HAMHomepageManager homepageManager].delegate = self;
     
     //self.navigationItem.title = @"感应中";
     
@@ -119,14 +130,25 @@
 }
 
 -(NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
-    if (stuffsAround != nil && [stuffsAround count] > 0) {
+    if (discoverStatus == AROUND) {
+        if (stuffsAround != nil && [stuffsAround count] > 0) {
+            if ([self.view viewWithTag:defaultViewTag] != nil) {
+                [[self.view viewWithTag:defaultViewTag] removeFromSuperview];
+            }
+            return [stuffsAround count];
+        }
+        if ([self.view viewWithTag:defaultViewTag] == nil) {
+            [self.view addSubview:defaultView];
+        }
+        return 0;
+    } else if (discoverStatus == WORLD) {
         if ([self.view viewWithTag:defaultViewTag] != nil) {
             [[self.view viewWithTag:defaultViewTag] removeFromSuperview];
         }
-        return [stuffsAround count];
-    }
-    if ([self.view viewWithTag:defaultViewTag] == nil) {
-        [self.view addSubview:defaultView];
+        if (stuffsInWorld != nil) {
+            return [stuffsInWorld count];
+        }
+        return 0;
     }
     return 0;
 }
@@ -149,14 +171,35 @@
 
     HAMHomepageData *pageData;
     
-    pageData = [stuffsAround objectAtIndex:indexPath.row];
+    
+    //set data
+    if (discoverStatus == AROUND) {
+        pageData = [stuffsAround objectAtIndex:indexPath.row];
+    } else if (discoverStatus == WORLD) {
+        pageData = [stuffsInWorld objectAtIndex:indexPath.row];
+    }
+    
+    if (pageData == nil) {
+        return nil;
+    }
     
     
-    NSString *beaconInfo = [NSString stringWithFormat:@"%@/%@/%@", pageData.beaconID, pageData.beaconMajor, pageData.beaconMinor];
-    [[HAMBeaconManager beaconManager].debugTextFields setValue:[view viewWithTag:8] forKey:beaconInfo];
+    //debug
+    if (pageData.beaconID != nil) {
+        NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+        bool debugSetting = [defaults boolForKey:@"debugSetting"];
+        if (debugSetting == YES) {
+            [view viewWithTag:8].hidden = NO;
+            NSString *beaconInfo = [NSString stringWithFormat:@"%@/%@/%@", pageData.beaconID, pageData.beaconMajor, pageData.beaconMinor];
+            [[HAMBeaconManager beaconManager].debugTextFields setValue:[view viewWithTag:8] forKey:beaconInfo];
+        } else {
+            [view viewWithTag:8].hidden = YES;
+        }
+    } else {
+        [view viewWithTag:8].hidden = YES;
+    }
     
-    //[view viewWithTag:8].hidden = YES;
-     
+    //set view
     UIImageView *imageView = (UIImageView*)[view viewWithTag:6];
     UIImage *thumbnail = [HAMTools imageFromURL:pageData.thumbnail];
     UIImage *image = [HAMTools image:thumbnail changeToMaxSize:imageView.frame.size];

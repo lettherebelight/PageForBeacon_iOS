@@ -56,10 +56,10 @@ static HAMCommentsManager *commentsManager;
                         self.comments = [NSMutableArray array];
                         for (AVObject* commentObject in objectArray) {
                             HAMCommentData *comment = [[HAMCommentData alloc] init];
-                            comment.userID = [commentObject objectForKey:@"user_id"];
-                            comment.pageDataID = [commentObject objectForKey:@"beacon_id"];
+                            comment.userID = [commentObject objectForKey:@"userID"];
+                            comment.pageDataID = [commentObject objectForKey:@"thingID"];
                             comment.content = [commentObject objectForKey:@"content"];
-                            comment.userName = [commentObject objectForKey:@"user_name"];
+                            comment.userName = [commentObject objectForKey:@"userName"];
                             [self.comments addObject:comment];
                         }
                     }
@@ -83,10 +83,10 @@ static HAMCommentsManager *commentsManager;
 
 - (void)addComment:(HAMCommentData *)comment {
     AVObject *commentObject = [AVObject objectWithClassName:@"Comment"];
-    [commentObject setObject:comment.userID forKey:@"user_id"];
-    [commentObject setObject:comment.pageDataID forKey:@"beacon_id"];
+    [commentObject setObject:comment.userID forKey:@"userID"];
+    [commentObject setObject:comment.pageDataID forKey:@"thingID"];
     [commentObject setObject:comment.content forKey:@"content"];
-    [commentObject setObject:comment.userName forKey:@"user_name"];
+    [commentObject setObject:comment.userName forKey:@"userName"];
     [commentObject save];
 }
 

@@ -1,18 +1,18 @@
 //
-//  HAMUserViewController_iPhone.m
+//  HAMUserCollectionViewController_iPhone.m
 //  BeaconReceiver
 //
-//  Created by daiyue on 4/29/14.
+//  Created by daiyue on 5/15/14.
 //  Copyright (c) 2014 Beacon Test Group. All rights reserved.
 //
 
-#import "HAMUserViewController_iPhone.h"
+#import "HAMUserCollectionViewController_iPhone.h"
 
-@interface HAMUserViewController_iPhone ()
+@interface HAMUserCollectionViewController_iPhone ()
 
 @end
 
-@implementation HAMUserViewController_iPhone
+@implementation HAMUserCollectionViewController_iPhone
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -27,9 +27,10 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    self.userStatusTV.layer.borderColor = [UIColor lightGrayColor].CGColor;
-    self.userStatusTV.layer.borderWidth = 1.0f;
-    self.userStatusTV.layer.cornerRadius = 5.0f;
+    
+    //navigation bar
+    //UIBarButtonItem *customInfoButton = [[UIBarButtonItem alloc] initWithTitle:@"个人信息" style:UIBarButtonItemStylePlain target:self action:@selector(showCustomEditPage)];
+    //UIBarButtonItem *bindBeaconButton = [[UIBarButtonItem alloc] initWithTitle:@"绑定beacon" style:UIBarButtonItemStylePlain target:self action:@selector(bindBeacon)];
     
 }
 
@@ -38,13 +39,6 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
-
-- (IBAction)setBeacon:(id)sender {
-}
-
-- (IBAction)save:(id)sender {
-}
-
 
 /*
 #pragma mark - Navigation

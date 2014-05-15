@@ -15,6 +15,8 @@
 
 @implementation HAMHomepageManager
 
+@synthesize delegate;
+
 static HAMHomepageManager* homepageManager = nil;
 
 static float defaultDistanceRangeMin = 1;
@@ -28,13 +30,58 @@ static float defaultDistanceRangeMin = 1;
     return homepageManager;
 }
 
+- (id)init {
+    if (self = [super init]) {
+        thingsInWorld = [NSMutableArray array];
+        updateTimer = [NSTimer scheduledTimerWithTimeInterval:30.0f target:self selector:@selector(handleTimer) userInfo:nil repeats:YES];
+        [updateTimer setFireDate:[NSDate date]];
+    }
+    return self;
+}
+
+- (void)handleTimer {
+    [self updateThingsInWorld];
+}
+
+- (void)updateThingsInWorld {
+    @synchronized (self) {
+        AVQuery *query = [AVQuery queryWithClassName:@"Thing"];
+        [query orderByDescending:@"createdAt"];
+        [query findObjectsInBackgroundWithBlock:^(NSArray *objectArray, NSError *error) {
+            if (error == nil && objectArray != nil && [objectArray count] > 0) {
+                thingsInWorld = nil;
+                thingsInWorld = [NSMutableArray array];
+                for (AVObject *thingObj in objectArray) {
+                    HAMHomepageData *pageData = [HAMDataManager pageDataWithThingID:thingObj.objectId];
+                    if (pageData == nil) {
+                        pageData = [HAMDataManager newPageData];
+                        pageData.beaconID = nil;
+                        pageData.beaconMajor = nil;
+                        pageData.beaconMinor = nil;
+                        pageData.range = nil;
+                        pageData.thumbnail = (NSString*)[thingObj objectForKey:@"coverURL"];
+                        pageData.pageURL = (NSString*)[thingObj objectForKey:@"url"];
+                        pageData.pageTitle = (NSString*)[thingObj objectForKey:@"title"];
+                        pageData.describe = (NSString*)[thingObj objectForKey:@"content"];
+                        pageData.dataID = thingObj.objectId;
+                    }
+                    [thingsInWorld addObject:pageData];
+                }
+                if (delegate != nil) {
+                    [delegate updateThings:thingsInWorld];
+                }
+            }
+        }];
+    }
+}
+
 + (void)homepageFromWebWithBeaconID:(NSString *)beaconID major:(NSNumber *)major minor:(NSNumber *)minor {
     @synchronized (self) {
         HAMHomepageData *pageData = [HAMDataManager pageDataWithBID:beaconID major:major minor:minor];
         if (pageData == nil && [HAMTools isWebAvailable]) {
             AVQuery *query = [AVQuery queryWithClassName:@"Beacon"];
-            [query includeKey:@"stuff"];
-            [query whereKey:@"proximity_uuid" equalTo:beaconID];
+            [query includeKey:@"thing"];
+            [query whereKey:@"proximityUUID" equalTo:beaconID];
             [query whereKey:@"major" equalTo:major];
             [query whereKey:@"minor" equalTo:minor];
             [query findObjectsInBackgroundWithBlock:^(NSArray *objectArray, NSError *error) {
@@ -50,13 +97,13 @@ static float defaultDistanceRangeMin = 1;
                         if (pageData.range <= 0) {
                             pageData.range = [NSNumber numberWithFloat:defaultDistanceRangeMin];
                         }
-                        AVObject *stuffObject = [beaconObject objectForKey:@"stuff"];
-                        pageData.backImage = (NSString*)[stuffObject objectForKey:@"preview_background"];
-                        pageData.thumbnail = (NSString*)[stuffObject objectForKey:@"preview_thumbnail"];
-                        pageData.pageURL = (NSString*)[stuffObject objectForKey:@"page_url"];
-                        pageData.pageTitle = (NSString*)[stuffObject objectForKey:@"name"];
-                        pageData.describe = (NSString*)[stuffObject objectForKey:@"description"];
-                        pageData.dataID = beaconObject.objectId;
+                        AVObject *thingObject = [beaconObject objectForKey:@"thing"];
+                        //pageData.backImage = (NSString*)[thingObject objectForKey:@"preview_background"];
+                        pageData.thumbnail = (NSString*)[thingObject objectForKey:@"coverURL"];
+                        pageData.pageURL = (NSString*)[thingObject objectForKey:@"url"];
+                        pageData.pageTitle = (NSString*)[thingObject objectForKey:@"title"];
+                        pageData.describe = (NSString*)[thingObject objectForKey:@"content"];
+                        pageData.dataID = thingObject.objectId;
                         [HAMDataManager saveData];
                     }
                 }
@@ -73,31 +120,6 @@ static float defaultDistanceRangeMin = 1;
     else {
         [HAMHomepageManager homepageFromWebWithBeaconID:beaconID major:major minor:minor];
         return nil;
-    }
-}
-
-- (void)updateThingsInWorld {
-    @synchronized (self) {
-        AVQuery *query = [AVQuery queryWithClassName:@"Thing"];
-        [query orderByDescending:@"createdAt"];
-        [query findObjectsInBackgroundWithBlock:^(NSArray *objectArray, NSError *error) {
-            if (error == nil && objectArray != nil && [objectArray count] > 0) {
-                for (AVObject *thingObj in objectArray) {
-                    HAMHomepageData *pageData = [HAMDataManager newPageData];
-                    pageData.beaconID = nil;
-                    pageData.beaconMajor = nil;
-                    pageData.beaconMinor = nil;
-                    pageData.range = nil;
-                    pageData.backImage = (NSString*)[thingObj objectForKey:@"preview_background"];
-                    pageData.thumbnail = (NSString*)[thingObj objectForKey:@"preview_thumbnail"];
-                    pageData.pageURL = (NSString*)[thingObj objectForKey:@"page_url"];
-                    pageData.pageTitle = (NSString*)[thingObj objectForKey:@"name"];
-                    pageData.describe = (NSString*)[thingObj objectForKey:@"description"];
-                    pageData.dataID = thingObj.objectId;
-                    [thingsInWorld addObject:pageData];
-                }
-            }
-        }];
     }
 }
 

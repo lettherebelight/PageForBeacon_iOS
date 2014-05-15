@@ -29,26 +29,26 @@ static HAMTourManager *tourManager;
 
 - (NSString*)currentVisitor {
     NSString *visitorID;
-    visitorID = [tour objectForKey:@"user_id"];
+    visitorID = [tour objectForKey:@"userID"];
     return visitorID;
 }
 
 - (void) newVisitor {
     tour = [AVObject objectWithClassName:@"Tour"];
-    [tour setObject:@"534d27dce4b0275ea1a07ff7" forKey:@"user_id"];
+    [tour setObject:@"534d27dce4b0275ea1a07ff7" forKey:@"userID"];
     [tour save];
 }
 
 - (void)newVisitorWithID:(NSString *)userID {
     tour = [AVObject objectWithClassName:@"Tour"];
-    [tour setObject:userID forKey:@"user_id"];
+    [tour setObject:userID forKey:@"userID"];
     [tour save];
 }
 
 - (void)approachStuff:(HAMHomepageData *)data {
     AVObject *tourEvent = [AVObject objectWithClassName:@"TourEvent"];
-    [tourEvent setObject:[self currentVisitor] forKey:@"user_id"];
-    [tourEvent setObject:data.dataID forKey:@"beacon_id"];
+    [tourEvent setObject:[self currentVisitor] forKey:@"userID"];
+    [tourEvent setObject:data.dataID forKey:@"thingID"];
     [tourEvent setObject:@"approach" forKey:@"event"];
     [tourEvent saveInBackground];
     if (data.historyListRecord == nil) {
@@ -62,16 +62,16 @@ static HAMTourManager *tourManager;
 
 - (void)leaveStuff:(HAMHomepageData *)data {
     AVObject *tourEvent = [AVObject objectWithClassName:@"TourEvent"];
-    [tourEvent setObject:[self currentVisitor] forKey:@"user_id"];
-    [tourEvent setObject:data.dataID forKey:@"beacon_id"];
+    [tourEvent setObject:[self currentVisitor] forKey:@"userID"];
+    [tourEvent setObject:data.dataID forKey:@"thingID"];
     [tourEvent setObject:@"leave" forKey:@"event"];
     [tourEvent saveInBackground];
 }
 
 - (void)addFavoriteStuff:(HAMHomepageData *)data {
     AVObject *tourEvent = [AVObject objectWithClassName:@"TourEvent"];
-    [tourEvent setObject:[self currentVisitor] forKey:@"user_id"];
-    [tourEvent setObject:data.dataID forKey:@"beacon_id"];
+    [tourEvent setObject:[self currentVisitor] forKey:@"userID"];
+    [tourEvent setObject:data.dataID forKey:@"thingID"];
     [tourEvent setObject:@"favorite" forKey:@"event"];
     [tourEvent saveInBackground];
     [HAMDataManager addAMarkedRecord:data];
@@ -81,8 +81,8 @@ static HAMTourManager *tourManager;
 
 - (void)removeFavoriteStuff:(HAMHomepageData *)data {
     AVObject *tourEvent = [AVObject objectWithClassName:@"TourEvent"];
-    [tourEvent setObject:[self currentVisitor] forKey:@"user_id"];
-    [tourEvent setObject:data.dataID forKey:@"beacon_id"];
+    [tourEvent setObject:[self currentVisitor] forKey:@"userID"];
+    [tourEvent setObject:data.dataID forKey:@"thingID"];
     [tourEvent setObject:@"unfavorite" forKey:@"event"];
     [tourEvent saveInBackground];
     [HAMDataManager removeMarkedRecord:data];

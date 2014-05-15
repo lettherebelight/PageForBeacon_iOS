@@ -8,29 +8,17 @@
 			<key>Type</key>
 			<string>PSGroupSpecifier</string>
 			<key>Title</key>
-			<string>登录设置</string>
+			<string>调试设置</string>
 		</dict>
 		<dict>
 			<key>Type</key>
-			<string>PSMultiValueSpecifier</string>
+			<string>PSToggleSwitchSpecifier</string>
 			<key>Title</key>
-			<string>登录方式</string>
+			<string>调试开关</string>
 			<key>Key</key>
-			<string>login_setting</string>
+			<string>debugSetting</string>
 			<key>DefaultValue</key>
 			<string>choose</string>
-			<key>Titles</key>
-			<array>
-				<string>新浪微博</string>
-				<string>QQ</string>
-				<string>登录时选择</string>
-			</array>
-			<key>Values</key>
-			<array>
-				<string>weibo</string>
-				<string>qq</string>
-				<string>choose</string>
-			</array>
 		</dict>
 	</array>
 	<key>StringsTable</key>

@@ -55,7 +55,7 @@ static NSManagedObjectContext *context;
         NSError *error1 = nil;
         NSArray *fetchedGlobalObjects = [context executeFetchRequest:fetchRequest error:&error1];
         if (fetchedGlobalObjects == nil || [fetchedGlobalObjects count] == 0) {
-            globalData = [NSEntityDescription insertNewObjectForEntityForName:@"HAMHGlobalData" inManagedObjectContext:[self context]];
+            globalData = [NSEntityDescription insertNewObjectForEntityForName:@"HAMGlobalData" inManagedObjectContext:[self context]];
         } else{
             globalData = [fetchedGlobalObjects objectAtIndex:0];
         }
@@ -105,6 +105,21 @@ static NSManagedObjectContext *context;
 
 + (HAMHomepageData*)pageDataWithBID:(NSString *)beaconID major:(NSNumber *)major minor:(NSNumber *)minor {
     NSPredicate *query = [NSPredicate predicateWithFormat:@"beaconID = %@ AND beaconMajor = %@ AND beaconMinor = %@", beaconID, major, minor];
+    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
+    NSEntityDescription *entity = [NSEntityDescription entityForName:@"HAMHomepageData" inManagedObjectContext:[self context]];
+    [fetchRequest setEntity:entity];
+    [fetchRequest setPredicate:query];
+    NSError *error = nil;
+    NSArray *fetchedObjects = [context executeFetchRequest:fetchRequest error:&error];
+    if (fetchedObjects == nil || [fetchedObjects count] == 0) {
+        return nil;
+    } else {
+        return [fetchedObjects objectAtIndex:0];
+    }
+}
+
++ (HAMHomepageData*)pageDataWithThingID:(NSString *)thingID {
+    NSPredicate *query = [NSPredicate predicateWithFormat:@"dataID = %@", thingID];
     NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
     NSEntityDescription *entity = [NSEntityDescription entityForName:@"HAMHomepageData" inManagedObjectContext:[self context]];
     [fetchRequest setEntity:entity];

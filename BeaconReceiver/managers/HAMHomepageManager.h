@@ -10,10 +10,18 @@
 
 @class HAMHomepageData;
 
+@protocol HAMHomepageManagerDelegate <NSObject>
+
+- (void)updateThings:(NSArray*)thingsAround;
+
+@end
+
 @interface HAMHomepageManager : NSObject {
     NSTimer *updateTimer;
     NSMutableArray *thingsInWorld;
 }
+
+@property (nonatomic, retain) id<HAMHomepageManagerDelegate> delegate;
 
 + (HAMHomepageManager*)homepageManager;
 
