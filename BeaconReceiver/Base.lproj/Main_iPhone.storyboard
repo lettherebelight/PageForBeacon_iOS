@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="5056" systemVersion="13C1021" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="R2C-Bb-sFj">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="5053" systemVersion="13C64" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="R2C-Bb-sFj">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3733"/>
     </dependencies>
@@ -331,7 +331,7 @@
                     <navigationItem key="navigationItem" id="pxz-2m-xDj">
                         <nil key="title"/>
                         <segmentedControl key="titleView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="bar" selectedSegmentIndex="0" id="2Cq-z1-agf">
-                            <rect key="frame" x="8" y="7" width="304" height="31"/>
+                            <rect key="frame" x="10" y="6" width="300" height="32"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <segments>
                                 <segment title="附近"/>
@@ -349,7 +349,7 @@
                 </collectionViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Yta-oR-3gJ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1176" y="-58"/>
+            <point key="canvasLocation" x="1176" y="-52"/>
         </scene>
         <!--Favorites Collection View Controller i Phone-->
         <scene sceneID="P4r-8C-fJe">
@@ -473,7 +473,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="JiL-jr-MOr" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2239" y="257"/>
+            <point key="canvasLocation" x="2239" y="-117"/>
         </scene>
         <!--Art Detail Comment View Controller i Phone - 评论-->
         <scene sceneID="Sdf-ZH-aeO">
@@ -552,7 +552,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="GXE-h6-HeH" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2239" y="953"/>
+            <point key="canvasLocation" x="2239" y="605"/>
         </scene>
         <!--Navigation Controller - 收藏-->
         <scene sceneID="9nj-Ix-rPt">
@@ -674,11 +674,83 @@
                             <outlet property="delegate" destination="iSb-AF-Tm4" id="TAP-vY-4u1"/>
                         </connections>
                     </collectionView>
-                    <navigationItem key="navigationItem" id="3Nx-Eo-SHn"/>
+                    <navigationItem key="navigationItem" id="3Nx-Eo-SHn">
+                        <nil key="title"/>
+                        <barButtonItem key="leftBarButtonItem" title="我的信息" id="wG6-sM-svO"/>
+                        <barButtonItem key="rightBarButtonItem" title="绑定Beacon" id="hgx-Gd-xir">
+                            <connections>
+                                <segue destination="WTY-99-R5u" kind="push" id="3bs-3k-osH"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                 </collectionViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Y3i-9n-I38" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1176" y="1357"/>
+        </scene>
+        <!--Beacon List View Controller - 附近所有iBeacon-->
+        <scene sceneID="16T-nk-DfE">
+            <objects>
+                <viewController id="WTY-99-R5u" customClass="HAMBeaconListViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="2Hv-9i-KFx"/>
+                        <viewControllerLayoutGuide type="bottom" id="kC7-8i-Oct"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="b5A-Sr-KWF">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="xNk-yE-AkR">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="518"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <connections>
+                                    <outlet property="dataSource" destination="WTY-99-R5u" id="8vV-um-qFF"/>
+                                    <outlet property="delegate" destination="WTY-99-R5u" id="9rP-s9-aVy"/>
+                                </connections>
+                            </tableView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                    </view>
+                    <navigationItem key="navigationItem" title="附近所有iBeacon" id="af5-IM-6Lp">
+                        <barButtonItem key="rightBarButtonItem" title="添加UUID" id="KYq-KV-JO8"/>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="beaconTableView" destination="xNk-yE-AkR" id="q2w-eh-zll"/>
+                        <segue destination="PAh-sO-b2G" kind="push" identifier="FromBeaconListToCreateThing" id="KZa-fh-9Qa"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="EIA-ag-sgo" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1564" y="1357"/>
+        </scene>
+        <!--Create Thing View Controller-->
+        <scene sceneID="c4a-be-lBh">
+            <objects>
+                <viewController id="PAh-sO-b2G" customClass="HAMCreateThingViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="gtd-af-DDE"/>
+                        <viewControllerLayoutGuide type="bottom" id="4l8-ZT-GTv"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="f2q-eK-fY9">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LNr-J6-gSd">
+                                <rect key="frame" x="78" y="219" width="42" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="kas-Iw-EUa"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="PaX-Z6-94K" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1960" y="1357"/>
         </scene>
         <!--Art Detail Tab Controller i Phone-->
         <scene sceneID="6FB-QA-L2t">

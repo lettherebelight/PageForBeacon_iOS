@@ -29,8 +29,8 @@
     // Do any additional setup after loading the view.
     
     //navigation bar
-    //UIBarButtonItem *customInfoButton = [[UIBarButtonItem alloc] initWithTitle:@"个人信息" style:UIBarButtonItemStylePlain target:self action:@selector(showCustomEditPage)];
-    //UIBarButtonItem *bindBeaconButton = [[UIBarButtonItem alloc] initWithTitle:@"绑定beacon" style:UIBarButtonItemStylePlain target:self action:@selector(bindBeacon)];
+//    UIBarButtonItem *customInfoButton = [[UIBarButtonItem alloc] initWithTitle:@"个人信息" style:UIBarButtonItemStylePlain target:self action:@selector(showCustomEditPage)];
+//    UIBarButtonItem *bindBeaconButton = [[UIBarButtonItem alloc] initWithTitle:@"绑定beacon" style:UIBarButtonItemStylePlain target:self action:@selector(bindBeacon)];
     
 }
 

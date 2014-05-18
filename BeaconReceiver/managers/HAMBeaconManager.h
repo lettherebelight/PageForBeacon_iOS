@@ -10,6 +10,7 @@
 #import <CoreLocation/CoreLocation.h>
 
 @class HAMHomepageData;
+@class HAMThing;
 
 @protocol HAMBeaconManagerDelegate <NSObject>
 
@@ -17,6 +18,13 @@
 
 @end
 
+enum HAMBeaconState : NSInteger {
+    HAMBeaconStateOwnedByMe,
+    HAMBeaconStateOwnedByOthers,
+    HAMBeaconStateFree,
+};
+
+typedef enum HAMBeaconState HAMBeaconState;
 
 @interface HAMBeaconManager : NSObject <CLLocationManagerDelegate>
 
@@ -30,5 +38,8 @@
 
 + (HAMBeaconManager*)beaconManager;
 + (void)setBackGroundStatus:(Boolean)status;
+
+- (NSDictionary*)beaconDictionary;
+- (NSString*)descriptionOfUUID:(NSString*)uuid;
 
 @end

@@ -27,14 +27,4 @@
 @dynamic historyListRecord;
 @dynamic markedListRecord;
 
-- (void)saveToServerWithTarget:(id)target callback:(SEL)callback{
-    AVObject* object = [AVObject objectWithClassName:@"Thing"];
-    [object setObject:self.pageTitle forKey:@"title"];
-    [object setObject:self.thumbnail forKey:@"coverURL"];
-    [object setObject:self.pageURL forKey:@"url"];
-    //type?
-    //preview background?
-    [object setObject:self.describe forKey:@"content"];
-}
-
 @end

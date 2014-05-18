@@ -91,7 +91,7 @@ DiscoverType discoverStatus = AROUND;
     [HAMBeaconManager beaconManager].delegate = self;
     [HAMDataManager clearData];
     [[HAMBeaconManager beaconManager] startMonitor];
-    [HAMHomepageManager homepageManager].delegate = self;
+    [HAMThingManager thingManager].delegate = self;
     
     //self.navigationItem.title = @"感应中";
     

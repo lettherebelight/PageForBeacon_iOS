@@ -9,24 +9,25 @@
 #import <Foundation/Foundation.h>
 
 @class HAMHomepageData;
+@class HAMThing;
 
-@protocol HAMHomepageManagerDelegate <NSObject>
+@protocol HAMThingManagerDelegate <NSObject>
 
 - (void)updateThings:(NSArray*)thingsAround;
 
 @end
 
-@interface HAMHomepageManager : NSObject {
+@interface HAMThingManager : NSObject {
     NSTimer *updateTimer;
     NSMutableArray *thingsInWorld;
 }
 
-@property (nonatomic, retain) id<HAMHomepageManagerDelegate> delegate;
+@property (nonatomic, retain) id<HAMThingManagerDelegate> delegate;
 
-+ (HAMHomepageManager*)homepageManager;
++ (HAMThingManager*)thingManager;
 
 + (HAMHomepageData*)homepageWithBeaconID:(NSString*)beaconID major:(NSNumber*)major minor:(NSNumber*)minor;
 
-+ (void)homepageFromWebWithBeaconID:(NSString *)beaconID major:(NSNumber *)major minor:(NSNumber *)minor;
+//+ (void)homepageFromWebWithBeaconID:(NSString *)beaconID major:(NSNumber *)major minor:(NSNumber *)minor;
 
 @end

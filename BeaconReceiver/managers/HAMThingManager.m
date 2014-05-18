@@ -7,24 +7,28 @@
 //
 
 #import <AVOSCloud/AVOSCloud.h>
-#import "HAMHomepageManager.h"
+#import <CoreLocation/CoreLocation.h>
+
+#import "HAMThing.h"
+
+#import "HAMThingManager.h"
 #import "HAMHomepageData.h"
 #import "HAMTools.h"
 #import "HAMDataManager.h"
 #import "HAMLogTool.h"
 
-@implementation HAMHomepageManager
+@implementation HAMThingManager
 
 @synthesize delegate;
 
-static HAMHomepageManager* homepageManager = nil;
+static HAMThingManager* homepageManager = nil;
 
 static float defaultDistanceRangeMin = 1;
 
-+ (HAMHomepageManager*)homepageManager {
++ (HAMThingManager*)thingManager {
     @synchronized(self) {
         if (homepageManager == nil) {
-            homepageManager = [[HAMHomepageManager alloc] init];
+            homepageManager = [[HAMThingManager alloc] init];
         }
     }
     return homepageManager;
@@ -112,14 +116,14 @@ static float defaultDistanceRangeMin = 1;
     }
 }
 
-+ (HAMHomepageData*)homepageWithBeaconID:(NSString *)beaconID major:(NSNumber *)major minor:(NSNumber *)minor {
++ (HAMHomepageData*)homepageWithBeaconID:(NSString*)beaconID major:(NSNumber*)major minor:(NSNumber*)minor{
     HAMHomepageData *pageData = [HAMDataManager pageDataWithBID:beaconID major:major minor:minor];
-    if (pageData != nil) {
-        return pageData;
-    }
-    else {
-        [HAMHomepageManager homepageFromWebWithBeaconID:beaconID major:major minor:minor];
-        return nil;
+     if (pageData != nil) {
+     return pageData;
+     }
+     else {
+     [HAMThingManager homepageFromWebWithBeaconID:beaconID major:major minor:minor];
+     return nil;
     }
 }
 

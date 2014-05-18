@@ -8,11 +8,11 @@
 
 #import <UIKit/UIKit.h>
 #import "HAMBeaconManager.h"
-#import "HAMHomepageManager.h"
+#import "HAMThingManager.h"
 
 @class HAMHomepageData;
 
-@interface HAMDiscoverCollectionViewController_iPhone : UICollectionViewController <HAMBeaconManagerDelegate, HAMHomepageManagerDelegate> {
+@interface HAMDiscoverCollectionViewController_iPhone : UICollectionViewController <HAMBeaconManagerDelegate, HAMThingManagerDelegate> {
     UIView *defaultView;
     int defaultViewTag;
 }

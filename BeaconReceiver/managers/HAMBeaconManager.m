@@ -7,12 +7,28 @@
 //
 
 #import "HAMBeaconManager.h"
+
 #import <AVOSCloud/AVOSCloud.h>
+
+#import "HAMThing.h"
+
+//#import "HAMBeaconDictionary.h"
+#import "HAMHomepageData.h"
+#import "HAMThingManager.h"
+#import "HAMTourManager.h"
+#import "HAMAVOSManager.h"
+
 #import "HAMLogTool.h"
 #import "HAMTools.h"
-#import "HAMHomepageData.h"
-#import "HAMHomepageManager.h"
-#import "HAMTourManager.h"
+
+@interface HAMBeaconManager(){
+    NSMutableDictionary* beaconDictionary;
+}
+
+@property NSMutableDictionary* descriptionDictionary;
+//@property HAMBeaconDictionary* beaconThingDictionary;
+
+@end
 
 @implementation HAMBeaconManager
 
@@ -28,6 +44,7 @@ static float defaultDistanceDelta = 0.5;
 CLLocationManager *locationManager;
 NSMutableArray *beaconRegions;
 NSMutableArray *beaconsAround = nil;
+
 bool isInBackground = NO;
 
 HAMHomepageData *lastPageData = nil;
@@ -46,6 +63,8 @@ int beaconsAroundCount = 0;
 
 -(id)init{
     if (self = [super init]) {
+        beaconDictionary = [NSMutableDictionary dictionary];
+        
         nearestBeacon = nil;
         beaconsAround = [NSMutableArray array];
         beaconRegions = [NSMutableArray array];
@@ -65,39 +84,69 @@ int beaconsAroundCount = 0;
 }
 
 - (void)startMonitor {
-    if ([HAMTools isWebAvailable]) {
-        AVQuery *query = [AVQuery queryWithClassName:@"Global"];
-        [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
-            if (!error) {
-                // The find succeeded.
-                if (objects != nil && [objects count] > 0) {
-                    NSArray *beaconIDArray = [NSArray array];
-                    AVObject *globalObject = [objects objectAtIndex:0];
-                    beaconIDArray = (NSArray*)[globalObject objectForKey:@"proximityUUIDs"];
-                    for (NSString* BId in beaconIDArray)
-                    {
-                        NSUUID *uuid = [[NSUUID alloc] initWithUUIDString:BId];
-                        CLBeaconRegion *region = [[CLBeaconRegion alloc] initWithProximityUUID:uuid identifier:BId];
-                        region.notifyEntryStateOnDisplay = YES;
-                        if (region != nil) {
-                            [beaconRegions addObject:region];
-                        }
-                    }
-                    
-                    for (CLBeaconRegion* beaconRegion in beaconRegions)
-                    {
-                        //[estBeaconManager stopRangingBeaconsInRegion:beaconRegion];
-                        [locationManager startMonitoringForRegion:beaconRegion];
-                        [locationManager startRangingBeaconsInRegion:beaconRegion];
-                    }
-                }
-            } else {
-                // Log details of the failure
-                NSLog(@"Error: %@ %@", error, [error userInfo]);
-            }
-        }];
+    if (![HAMTools isWebAvailable]) {
+        return;
     }
+    AVQuery *query = [AVQuery queryWithClassName:@"BeaconUUID"];
     
+    [query findObjectsInBackgroundWithBlock:^(NSArray *uuidInfoArray, NSError *error) {
+        if (error) {
+            NSLog(@"Error: %@ %@", error, [error userInfo]);
+            return;
+        }
+        if (uuidInfoArray == nil || uuidInfoArray.count == 0) {
+            return;
+        }
+        
+        //                    NSArray *beaconIDArray = [NSArray array];
+//                    AVObject *globalObject = [objects objectAtIndex:0];
+//                    beaconIDArray = (NSArray*)[globalObject objectForKey:@"proximityUUIDs"];
+        
+        self.descriptionDictionary = [NSMutableDictionary dictionary];
+//        self.beaconThingDictionary = [HAMBeaconDictionary dictionary];
+        NSMutableArray* beaconUUIDArray = [NSMutableArray array];
+                
+        //parse data
+        for (int i = 0; i < uuidInfoArray.count; i++) {
+            AVObject* beaconObject = uuidInfoArray[i];
+            NSString* beaconUUID = [beaconObject objectForKey:@"proximityUUID"];
+            [beaconUUIDArray addObject:beaconUUID];
+//            NSNumber* major = [beaconObject objectForKey:@"major"];
+//            NSNumber* minor = [beaconObject objectForKey:@"minor"];
+            
+            //save description
+            NSString* description = [beaconObject objectForKey:@"description"];
+            if (description == nil) {
+                description = @"未知iBeacon";
+            }
+            [self.descriptionDictionary setObject:description forKey:beaconUUID];
+            
+//            //save thing
+//            AVObject* thingObject = [beaconObject objectForKey:@"thing"];
+//            HAMThing* thing = [HAMThing thingWithThingObject:thingObject];
+//
+//            [self.beaconThingDictionary setValue:thing forBeaconUUID:beaconUUID major:major minor:minor];
+        }
+        
+        //start ranging
+        for (int i = 0; i < beaconUUIDArray.count; i++)
+        {
+            NSString* uuidString = beaconUUIDArray[i];
+            NSUUID *uuid = [[NSUUID alloc] initWithUUIDString:uuidString];
+            CLBeaconRegion *region = [[CLBeaconRegion alloc]initWithProximityUUID:uuid identifier:uuidString];
+            region.notifyEntryStateOnDisplay = YES;
+            if (region != nil) {
+                [beaconRegions addObject:region];
+            }
+        }
+        
+        for (CLBeaconRegion* beaconRegion in beaconRegions)
+        {
+                    //[estBeaconManager stopRangingBeaconsInRegion:beaconRegion];
+            [locationManager startMonitoringForRegion:beaconRegion];
+            [locationManager startRangingBeaconsInRegion:beaconRegion];
+        }
+    }];
 }
 
 - (void)stopMonitor {
@@ -154,11 +203,19 @@ int beaconsAroundCount = 0;
     [beaconsAround addObject:currentBeacon];
 }
 
+#pragma mark - LocationManager Delegate
+
 - (void)locationManager:(CLLocationManager *)manager didEnterRegion:(CLRegion *)region {
     [locationManager startRangingBeaconsInRegion:(CLBeaconRegion *)region];
+    
 }
 
 - (void)locationManager:(CLLocationManager *)manager didExitRegion:(CLRegion *)region {
+    //update beaconDictionary
+    CLBeaconRegion* beaconRegion = (CLBeaconRegion*)region;
+    NSString* uuid = beaconRegion.proximityUUID.UUIDString;
+    [beaconDictionary removeObjectForKey:uuid];
+    
     [locationManager stopRangingBeaconsInRegion:(CLBeaconRegion *)region];
 }
 
@@ -180,21 +237,23 @@ int beaconsAroundCount = 0;
 }
 
 - (void)locationManager:(CLLocationManager *)manager didRangeBeacons:(NSArray *)beacons inRegion:(CLBeaconRegion *)region {
+    
+    //update beaconDictionary
+    NSString* uuid = region.proximityUUID.UUIDString;
+    [beaconDictionary setObject:beacons forKey:uuid];
+    
     for (CLBeacon* beacon in beacons) {
-        [HAMLogTool debug:[NSString stringWithFormat:@"distance:%f", beacon.accuracy]];
-        HAMHomepageData *pageData = [HAMHomepageManager homepageWithBeaconID:beacon.proximityUUID.UUIDString major:beacon.major minor:beacon.minor];
+//        [HAMLogTool debug:[NSString stringWithFormat:@"distance:%f", beacon.accuracy]];
+        HAMHomepageData *pageData = [HAMThingManager homepageWithBeaconID:beacon.proximityUUID.UUIDString major:beacon.major minor:beacon.minor];
         if (pageData == nil || beacon.accuracy < 0) {
             continue;
         }
-        
-        
         
         UITextField *debugTF = (UITextField*)[debugTextFields objectForKey:[NSString stringWithFormat:@"%@/%@/%@", pageData.beaconID, pageData.beaconMajor, pageData.beaconMinor]];
         if (debugTF != nil) {
             //debugTF.text = [NSString stringWithFormat:@"dis:%f", beacon.accuracy];
             debugTF.text = [NSString stringWithFormat:@"%@/%@  %f", beacon.major, beacon.minor, beacon.accuracy];
         }
-        
         
         if ([self removeBeacon:beacon] == YES && beacon.accuracy <= (pageData.range.floatValue + defaultDistanceDelta)) {
             [self addBeacon:beacon];
@@ -227,7 +286,7 @@ int beaconsAroundCount = 0;
     long i, count = [beaconsAround count];
     for (i = 0; i < count; i++) {
         currentBeacon = [beaconsAround objectAtIndex:i];
-        HAMHomepageData *pageData = [HAMHomepageManager homepageWithBeaconID:currentBeacon.proximityUUID.UUIDString major:currentBeacon.major minor:currentBeacon.minor];
+        HAMHomepageData *pageData = [HAMThingManager homepageWithBeaconID:currentBeacon.proximityUUID.UUIDString major:currentBeacon.major minor:currentBeacon.minor];
         if (pageData != nil) {
             [stuffsAround addObject:pageData];
         }
@@ -267,50 +326,18 @@ int beaconsAroundCount = 0;
     }
 }
 
-#pragma mark - Server Methods
+#pragma mark - BeaconDictionary Methods
 
--(AVObject*)queryBeacon:(CLBeacon*)beacon{
-    AVQuery *query = [AVQuery queryWithClassName:@"Beacon"];
-    [query whereKey:@"proximity_uuid" equalTo:beacon.proximityUUID.UUIDString];
-    [query whereKey:@"major" equalTo:beacon.major];
-    [query whereKey:@"minor" equalTo:beacon.minor];
-    
-    NSArray* beaconArray = [query findObjects];
-    if (beaconArray == nil || beaconArray.count == 0) {
-        return nil;
-    }
-    return beaconArray[0];
+-(NSDictionary*)beaconDictionary{
+    return [NSDictionary dictionaryWithDictionary:beaconDictionary];
 }
 
--(AVObject*)beaconAVObjectFromCLBeacon:(CLBeacon*)beacon{
-    AVObject* beaconObject = [AVObject objectWithClassName:@"Beacon"];
-    [beaconObject setObject:beacon.proximityUUID.UUIDString forKey:@"proximity_uuid"];
-    [beaconObject setObject:beacon.major forKey:@"major"];
-    [beaconObject setObject:beacon.minor forKey:@"minor"];
-    return beaconObject;
+- (NSString*)descriptionOfUUID:(NSString*)uuid{
+    return [self.descriptionDictionary objectForKey:uuid];
 }
 
-- (void)addBeaconToServer:(CLBeacon*)beacon{
-    AVObject* beaconObject = [self beaconAVObjectFromCLBeacon:beacon];
-    [beaconObject save];
-}
-
-- (void)addBeaconToServer:(CLBeacon*)beacon withTarget:(id)target callback:(SEL)callback{
-    AVObject* beaconObject = [self beaconAVObjectFromCLBeacon:beacon];
-    [beaconObject saveInBackgroundWithTarget:target selector:callback];
-}
-
-//TODO: May need perform in background
-- (void)bindThing:(HAMHomepageData*)thing toBeacon:(CLBeacon*)beacon withTarget:(id)target callback:(SEL)callback{
-    AVObject* beaconObject = [self queryBeacon:beacon];
-    
-    AVObject* thingObject = nil;
-    if (thing != nil) {
-        thingObject = [AVObject objectWithoutDataWithClassName:@"Stuff" objectId:thing.dataID];
-    }
-
-    [beaconObject setObject:thingObject forKey:@"stuff"];
-    [beaconObject saveInBackgroundWithTarget:target selector:callback];
-}
+//- (HAMThing*)thingOfBeacon:(CLBeacon*)beacon{
+//    return [self.beaconThingDictionary objectForBeacon:beacon];
+//}
 
 @end
