@@ -40,17 +40,6 @@ LoginType loginSetting;
     return self;
 }
 
-- (void)getSettings {
-    HAMGlobalData *globalData = [HAMDataManager globalData];
-    if ([globalData.lastLogin isEqualToString:@"WEIBO"]) {
-        loginSetting = WEIBO;
-    } else if ([globalData.lastLogin isEqualToString:@"QQ"]) {
-        loginSetting = QQ;
-    } else {
-        loginSetting = CHOOSE;
-    }
-}
-
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -63,6 +52,43 @@ LoginType loginSetting;
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+- (void)viewDidAppear:(BOOL)animated {
+    if (currentUser != nil) {
+        [self logInWithUser:currentUser];
+    }
+    if (loginSetting == WEIBO) {
+        [self loginFromWeibo];
+    } else if (loginSetting == QQ) {
+        [self loginFromQQ];
+    }
+}
+
+- (IBAction)defaultLogIn:(id)sender {
+    [[HAMTourManager tourManager] newVisitor];
+    [[HAMUserManager userManager] newUserWithUserID:[HAMTourManager tourManager].currentVisitor name:@"匿名用户" avatar:nil description:nil];
+    [self performSegueWithIdentifier:@"finishLogIn" sender:self];
+}
+
+- (IBAction)logInFromWeibo:(id)sender {
+    [self loginFromWeibo];
+    
+}
+
+- (IBAction)logInFromQQ:(id)sender {
+    [self loginFromQQ];
+}
+
+- (void)getSettings {
+    HAMGlobalData *globalData = [HAMDataManager globalData];
+    if ([globalData.lastLogin isEqualToString:@"WEIBO"]) {
+        loginSetting = WEIBO;
+    } else if ([globalData.lastLogin isEqualToString:@"QQ"]) {
+        loginSetting = QQ;
+    } else {
+        loginSetting = CHOOSE;
+    }
 }
 
 - (void)loginFromWeibo {
@@ -83,6 +109,8 @@ LoginType loginSetting;
                     NSString *description = [userRawData objectForKey:@"description"];
                     [[HAMUserManager userManager] newUserWithUserID:user.objectId name:name avatar:avatar description:description];
                     currentUser = user;
+                    user.username = name;
+                    [user save];
                     [self logInWithUser:user];
                 }
                 else {
@@ -94,11 +122,6 @@ LoginType loginSetting;
             NSLog(@"%@",error);
         }
     } toPlatform:AVOSCloudSNSSinaWeibo];
-}
-
-- (IBAction)logInFromWeibo:(id)sender {
-    [self loginFromWeibo];
-    
 }
 
 - (void)loginFromQQ {
@@ -116,6 +139,8 @@ LoginType loginSetting;
                     NSString *avatar = [userDict objectForKey:@"avatar"];
                     [[HAMUserManager userManager] newUserWithUserID:user.objectId name:name avatar:avatar description:nil];
                     currentUser = user;
+                    user.username = name;
+                    [user save];
                     [self logInWithUser:user];
                 }
                 else {
@@ -127,27 +152,6 @@ LoginType loginSetting;
             NSLog(@"%@",error);
         }
     } toPlatform:AVOSCloudSNSQQ];
-}
-
-- (IBAction)logInFromQQ:(id)sender {
-    [self loginFromQQ];
-}
-
-- (void)viewDidAppear:(BOOL)animated {
-    if (currentUser != nil) {
-        [self logInWithUser:currentUser];
-    }
-    if (loginSetting == WEIBO) {
-        [self loginFromWeibo];
-    } else if (loginSetting == QQ) {
-        [self loginFromQQ];
-    }
-}
-
-- (IBAction)defaultLogIn:(id)sender {
-    [[HAMTourManager tourManager]newVisitor];
-    [[HAMUserManager userManager] newUserWithUserID:[HAMTourManager tourManager].currentVisitor name:@"匿名用户" avatar:nil description:nil];
-    [self performSegueWithIdentifier:@"finishLogIn" sender:self];
 }
 
 - (void)logInWithUser:(AVUser*)user {

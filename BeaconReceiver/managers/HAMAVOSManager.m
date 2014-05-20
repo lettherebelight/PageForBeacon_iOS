@@ -79,7 +79,11 @@
     thing.url = [thingObject objectForKey:@"url"];
     thing.title = [thingObject objectForKey:@"title"];
     thing.content = [thingObject objectForKey:@"content"];
-    thing.cover = [thingObject objectForKey:@"cover"];
+    
+    AVFile* coverFile = [thingObject objectForKey:@"cover"];
+    NSData *coverData = [coverFile getData];
+    thing.cover = [UIImage imageWithData:coverData];
+    
     thing.coverURL = [thingObject objectForKey:@"coverURL"];
     thing.creator = [thingObject objectForKey:@"creator"];
     
@@ -93,8 +97,13 @@
     [thingObject setObject:thing.url forKey:@"url"];
     [thingObject setObject:thing.title forKey:@"title"];
     [thingObject setObject:thing.content forKey:@"content"];
-    [thingObject setObject:thing.cover forKey:@"cover"];
-    [thingObject setObject:thing.coverURL forKey:@"coverURL"];
+    
+    AVFile* coverFile = [self saveImage:thing.cover];
+    if (coverFile != nil) {
+        [thingObject setObject:coverFile forKey:@"cover"];
+        [thingObject setObject:coverFile.url forKey:@"coverURL"];
+    }
+    
     [thingObject setObject:thing.creator forKey:@"creator"];
 
     return thingObject;
@@ -177,9 +186,28 @@
     //save thing
     AVObject* thingObject = [self saveThing:thing];
     
+    //TODO: must change here!
     [beaconObject setObject:[NSNumber numberWithInteger:range] forKey:@"range"];
     [beaconObject setObject:thingObject forKey:@"thing"];
     [beaconObject saveInBackgroundWithTarget:target selector:callback];
+}
+
+#pragma mark - File
+
+#pragma mark - File Save
+
++ (AVFile*)saveImage:(UIImage*)image{
+    if (image == nil) {
+        return nil;
+    }
+    
+    NSData *imageData = UIImageJPEGRepresentation(image, 0.75);
+    AVFile *file = [AVFile fileWithData:imageData];
+    if ([file save] == NO) {
+        [HAMLogTool error:@"save image file failed."];
+        return nil;
+    };
+    return file;
 }
 
 @end

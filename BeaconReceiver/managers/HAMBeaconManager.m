@@ -111,8 +111,6 @@ int beaconsAroundCount = 0;
             AVObject* beaconObject = uuidInfoArray[i];
             NSString* beaconUUID = [beaconObject objectForKey:@"proximityUUID"];
             [beaconUUIDArray addObject:beaconUUID];
-//            NSNumber* major = [beaconObject objectForKey:@"major"];
-//            NSNumber* minor = [beaconObject objectForKey:@"minor"];
             
             //save description
             NSString* description = [beaconObject objectForKey:@"description"];
@@ -120,12 +118,6 @@ int beaconsAroundCount = 0;
                 description = @"未知iBeacon";
             }
             [self.descriptionDictionary setObject:description forKey:beaconUUID];
-            
-//            //save thing
-//            AVObject* thingObject = [beaconObject objectForKey:@"thing"];
-//            HAMThing* thing = [HAMThing thingWithThingObject:thingObject];
-//
-//            [self.beaconThingDictionary setValue:thing forBeaconUUID:beaconUUID major:major minor:minor];
         }
         
         //start ranging
@@ -196,6 +188,9 @@ int beaconsAroundCount = 0;
     for (i = 0; i < count; i++) {
         CLBeacon *beacon = (CLBeacon*)[beaconsAround objectAtIndex:i];
         if (currentBeacon.accuracy < beacon.accuracy) {
+            if (currentBeacon == nil) {
+                return;
+            }
             [beaconsAround insertObject:currentBeacon atIndex:i];
             return;
         }
@@ -245,6 +240,7 @@ int beaconsAroundCount = 0;
     for (CLBeacon* beacon in beacons) {
 //        [HAMLogTool debug:[NSString stringWithFormat:@"distance:%f", beacon.accuracy]];
         HAMHomepageData *pageData = [HAMThingManager homepageWithBeaconID:beacon.proximityUUID.UUIDString major:beacon.major minor:beacon.minor];
+        HAMThing *thing = [HAMAVOSManager thingWithBeacon:beacon];
         if (pageData == nil || beacon.accuracy < 0) {
             continue;
         }

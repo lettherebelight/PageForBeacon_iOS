@@ -92,8 +92,12 @@ static float defaultDistanceRangeMin = 1;
                 @synchronized (self) {
                     HAMHomepageData *pageData = [HAMDataManager pageDataWithBID:beaconID major:major minor:minor];
                     if (pageData == nil && error == nil && objectArray != nil && [objectArray count] > 0) {
-                        pageData = [HAMDataManager newPageData];
                         AVObject *beaconObject = [objectArray objectAtIndex:0];
+                        AVObject *thingObject = [beaconObject objectForKey:@"thing"];
+                        if (thingObject == nil) {
+                            return;
+                        }
+                        pageData = [HAMDataManager newPageData];
                         pageData.beaconID = beaconID;
                         pageData.beaconMajor = major;
                         pageData.beaconMinor = minor;
@@ -101,7 +105,7 @@ static float defaultDistanceRangeMin = 1;
                         if (pageData.range <= 0) {
                             pageData.range = [NSNumber numberWithFloat:defaultDistanceRangeMin];
                         }
-                        AVObject *thingObject = [beaconObject objectForKey:@"thing"];
+                        
                         //pageData.backImage = (NSString*)[thingObject objectForKey:@"preview_background"];
                         pageData.thumbnail = (NSString*)[thingObject objectForKey:@"coverURL"];
                         pageData.pageURL = (NSString*)[thingObject objectForKey:@"url"];

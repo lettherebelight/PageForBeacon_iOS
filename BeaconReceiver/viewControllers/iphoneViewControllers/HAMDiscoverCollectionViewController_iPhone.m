@@ -84,9 +84,19 @@ DiscoverType discoverStatus = AROUND;
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    
+    //navigation bar
     self.navigationController.navigationBar.barTintColor = nil;
     UIBarButtonItem *temporaryBarButtonItem = [[UIBarButtonItem alloc] init];
     temporaryBarButtonItem.title = @"";
+    
+    //tab bar
+    /*[self.tabBarController.tabBar setBackgroundColor:[UIColor colorWithRed:1.000 green:1.000 blue:1.000 alpha:1.000]];
+    self.tabBarController.tabBar.alpha = 0.3;
+    self.tabBarController.tabBar.translucent = YES;
+    */
+     
+    //init
     self.navigationItem.backBarButtonItem = temporaryBarButtonItem;
     [HAMBeaconManager beaconManager].delegate = self;
     [HAMDataManager clearData];

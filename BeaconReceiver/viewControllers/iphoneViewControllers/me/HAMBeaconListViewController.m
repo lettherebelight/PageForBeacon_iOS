@@ -31,6 +31,8 @@
 @property CLBeacon* beaconSelected;
 @end
 
+static const double kRefreshTimeInterval = 1.0f;
+
 @implementation HAMBeaconListViewController
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
@@ -50,7 +52,7 @@
 
 - (void)viewWillAppear:(BOOL)animated{
     [self refreshTableView];
-    self.refreshTimer = [NSTimer scheduledTimerWithTimeInterval:1.0f target:self selector:@selector(refreshTableView) userInfo:nil repeats:YES];
+    self.refreshTimer = [NSTimer scheduledTimerWithTimeInterval:kRefreshTimeInterval target:self selector:@selector(refreshTableView) userInfo:nil repeats:YES];
     [self.refreshTimer setFireDate:[NSDate date]];
 
 }
@@ -176,7 +178,7 @@
             delegate:self
             cancelButtonTitle:@"取消"
             destructiveButtonTitle:@"解除绑定"
-            otherButtonTitles:@"绑定新的thing",@"haha",nil];
+            otherButtonTitles:@"绑定新的thing",nil];
         [actionSheet showInView:self.view];
     } else {
         //own by others

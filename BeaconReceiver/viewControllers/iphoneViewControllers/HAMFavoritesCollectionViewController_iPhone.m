@@ -45,9 +45,6 @@ HAMHomepageData *pageForSegue;
     self.navigationController.navigationBar.barTintColor = nil;
     UIBarButtonItem *temporaryBarButtonItem = [[UIBarButtonItem alloc] init];
     temporaryBarButtonItem.title = @"";
-    self.navigationItem.backBarButtonItem = temporaryBarButtonItem;
-    UIBarButtonItem *bItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAction target:self action:@selector(performShare)];
-    self.navigationItem.rightBarButtonItem= bItem;
 
     [self initView];
 }
@@ -63,14 +60,13 @@ HAMHomepageData *pageForSegue;
     [self initView];
 }
 
-- (void)performShare {
+- (IBAction)shareButtonClicked:(id)sender {
     NSString *message = [NSString stringWithFormat:@"http://ghxz.qiniudn.com/tour.html#/%@", [HAMTourManager tourManager].tour.objectId];
     UIImage *image = nil;//[UIImage imageNamed:nil];
     NSArray *arrayOfActivityItems = [NSArray arrayWithObjects:message, image, nil];
     UIActivityViewController *activityVC = [[UIActivityViewController alloc] initWithActivityItems:arrayOfActivityItems applicationActivities:nil];
     [self presentViewController:activityVC animated:YES completion:Nil];
 }
-
 
 -(NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView {
     return 1;

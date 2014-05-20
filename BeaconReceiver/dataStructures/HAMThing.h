@@ -16,7 +16,7 @@
 @property NSString* url;
 @property NSString* title;
 @property NSString* content;
-@property AVObject* cover;
+@property UIImage* cover;
 @property NSString* coverURL;
 
 @property AVUser* creator;

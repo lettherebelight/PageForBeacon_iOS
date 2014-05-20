@@ -29,6 +29,12 @@
 + (AVObject*)thingAVObjectWithThing:(HAMThing*)thing;
 + (AVObject*)saveThing:(HAMThing*)thing;
 
++ (HAMThing*)thingWithBeacon:(CLBeacon*)beacon;
++ (HAMThing*)thingWithBeaconID:(NSString *)beaconID major:(NSNumber *)major minor:(NSNumber *)minor;
+
 + (void)unbindThingToBeacon:(CLBeacon*)beacon withTarget:(id)target callback:(SEL)callback;
++ (void)bindThing:(HAMThing*)thing range:(CLProximity)range toBeacon:(CLBeacon*)beacon withTarget:(id)target callback:(SEL)callback;
+
++ (AVFile*)saveImage:(UIImage*)image;
 
 @end
