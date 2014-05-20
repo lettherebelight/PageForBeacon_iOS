@@ -13,6 +13,7 @@
 #import "HAMTools.h"
 #import "HAMHomepageData.h"
 #import "HAMArtDetailTabController_iPhone.h"
+#import "HAMThing.h"
 #import <AVOSCloud/AVOSCloud.h>
 
 @interface HAMFavoritesCollectionViewController_iPhone ()
@@ -21,11 +22,9 @@
 
 @implementation HAMFavoritesCollectionViewController_iPhone
 
-HAMHomepageData *pageForSegue;
-
 - (void)initView {
-    pageForSegue = nil;
-    pageArray = [HAMDataManager fetchMarkedRecords];
+    thingForSegue = nil;
+    thingArray = [HAMDataManager fetchMarkedRecords];
     [self.collectionView reloadData];
 }
 
@@ -73,8 +72,8 @@ HAMHomepageData *pageForSegue;
 }
 
 -(NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
-    if (pageArray != nil) {
-        return [pageArray count];
+    if (thingArray != nil) {
+        return [thingArray count];
     }
     return 0;
 }
@@ -95,22 +94,22 @@ HAMHomepageData *pageForSegue;
     [shadowView.layer setShadowOffset:CGSizeMake(1.0, 1.0)];
     shadowView.layer.cornerRadius = 6.0f;
     
-    HAMHomepageData *pageData;
+    HAMThing *thing;
     
-    pageData = [pageArray objectAtIndex:indexPath.row];
+    thing = [thingArray objectAtIndex:indexPath.row];
     
     UIImageView *imageView = (UIImageView*)[view viewWithTag:6];
-    UIImage *thumbnail = [HAMTools imageFromURL:pageData.thumbnail];
+    UIImage *thumbnail = [HAMTools imageFromURL:thing.coverURL];
     UIImage *image = [HAMTools image:thumbnail changeToMaxSize:imageView.frame.size];
     imageView.image = image;
     thumbnail = nil;
     image = nil;
     
     UILabel *titleLabel = (UILabel*)[view viewWithTag:2];
-    titleLabel.text = pageData.pageTitle;
+    titleLabel.text = thing.title;
     
     UITextView *contentTV = (UITextView*)[view viewWithTag:5];
-    contentTV.text = pageData.describe;
+    contentTV.text = thing.content;
     
     UIButton *commentButton = (UIButton*)[view viewWithTag:3];
     UIImage *commentImage = [[UIImage imageNamed:@"ios7-chatbubble-outline.png"] imageWithRenderingMode:UIImageRenderingModeAutomatic];
@@ -130,14 +129,14 @@ HAMHomepageData *pageForSegue;
 - (void)commentClicked:(UIButton*)button {
     UICollectionViewCell *cell = (UICollectionViewCell*)button.superview.superview.superview;
     long i = [self.collectionView indexPathForCell:cell].row;
-    pageForSegue = [pageArray objectAtIndex:i];
+    thingForSegue = [thingArray objectAtIndex:i];
     [self performSegueWithIdentifier:@"showArtDetailComment" sender:self];
 }
 
 - (void)performUnFavorite:(UIButton*)button {
     UICollectionViewCell *cell = (UICollectionViewCell*)button.superview.superview.superview;
     long i = [self.collectionView indexPathForCell:cell].row;
-    [[HAMTourManager tourManager] removeFavoriteStuff:[pageArray objectAtIndex:i]];
+    [[HAMTourManager tourManager] removeFavoriteThing:[thingArray objectAtIndex:i]];
     
     [self initView];
     
@@ -156,13 +155,13 @@ HAMHomepageData *pageForSegue;
         HAMArtDetailTabController_iPhone *detailVC = segue.destinationViewController;
         [detailVC setHidesBottomBarWhenPushed:YES];
         NSIndexPath *index = [[self.collectionView indexPathsForSelectedItems] objectAtIndex:0];
-        detailVC.homepage = [pageArray objectAtIndex:index.row];
+        detailVC.thing = [thingArray objectAtIndex:index.row];
     } else if ([segue.identifier isEqualToString:@"showArtDetailComment"]) {
         HAMArtDetailTabController_iPhone *detailVC = segue.destinationViewController;
         [detailVC setHidesBottomBarWhenPushed:YES];
-        if (pageForSegue != nil) {
-            detailVC.homepage = pageForSegue;
-            pageForSegue = nil;
+        if (thingForSegue != nil) {
+            detailVC.thing = thingForSegue;
+            thingForSegue = nil;
         }
         [detailVC setSelectedIndex:1];
     }

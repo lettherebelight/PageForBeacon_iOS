@@ -8,8 +8,11 @@
 
 #import <UIKit/UIKit.h>
 
+@class HAMThing;
+
 @interface HAMFavoritesCollectionViewController_iPhone : UICollectionViewController {
-    NSArray *pageArray;
+    NSArray *thingArray;
+    HAMThing *thingForSegue;
 }
 
 @end

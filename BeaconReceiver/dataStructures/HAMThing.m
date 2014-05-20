@@ -12,6 +12,7 @@
 
 @implementation HAMThing
 
+@synthesize objectID;
 @synthesize type;
 @synthesize url;
 @synthesize title;
@@ -19,5 +20,17 @@
 @synthesize cover;
 @synthesize coverURL;
 @synthesize creator;
+
+- (BOOL)isEqual:(id)object {
+    if ([object isKindOfClass:[HAMThing class]] == NO) {
+        return NO;
+    }
+    HAMThing *thingObj = (HAMThing*)object;
+    return [objectID isEqualToString:thingObj.objectID];
+}
+
+- (BOOL)isEqualToThing:(HAMThing *)thing {
+    return [objectID isEqualToString:thing.objectID];
+}
 
 @end

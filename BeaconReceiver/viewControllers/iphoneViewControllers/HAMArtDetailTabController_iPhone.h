@@ -16,6 +16,6 @@
     UIView *switchArea;
 }
 
-@property HAMHomepageData *homepage;
+@property HAMThing *thing;
 
 @end

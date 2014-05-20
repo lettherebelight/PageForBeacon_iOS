@@ -8,6 +8,7 @@
 
 #import "HAMArtDetailTabController_iPhone.h"
 #import "HAMHomepageData.h"
+#import "HAMThing.h"
 #import "HAMTourManager.h"
 #import "HAMDiscoverCollectionViewController_iPhone.h"
 #import "HAMTools.h"
@@ -20,20 +21,20 @@
 @implementation HAMArtDetailTabController_iPhone
 
 UIColor *alertTintColor;
-HAMHomepageData *newPage;
+HAMThing *newThing;
 
-- (void)displayHomepage:(NSArray*)stuffsAround {
-    if ([stuffsAround count] == 0) {
+- (void)displayThings:(NSArray *)things {
+    if ([things count] == 0) {
         return;
     }
-    HAMHomepageData *homepage = [stuffsAround objectAtIndex:0];
-    if (homepage != nil) {
-        if (homepage == self.homepage) {
+    HAMThing *thing = [things objectAtIndex:0];
+    if (thing != nil) {
+        if ([thing isEqualToThing:self.thing]) {
             self.navigationItem.title = pageTitle;
             self.navigationController.navigationBar.barTintColor = nil;
             [self.navigationController.navigationBar removeGestureRecognizer:switchDetailViewRecognizer];
         } else {
-            newPage = homepage;
+            newThing = thing;
             self.navigationItem.title = [NSString stringWithFormat:@"新展品\t\t%@", pageTitle];
             self.navigationController.navigationBar.barTintColor = alertTintColor;
             [self.navigationController.navigationBar addSubview:switchArea];
@@ -48,7 +49,7 @@ HAMHomepageData *newPage;
     [root setSelectedIndex:0];
     UINavigationController *discoverNavigation = (UINavigationController*)[root selectedViewController];
     HAMDiscoverCollectionViewController_iPhone *discoverViewController = (HAMDiscoverCollectionViewController_iPhone*)[[discoverNavigation viewControllers] objectAtIndex:0];
-    discoverViewController.pageForSegue = newPage;
+    discoverViewController.thingForSegue = newThing;
     [self.navigationController popViewControllerAnimated:NO];
     [discoverViewController performSegueWithIdentifier:@"showArtDetailPage" sender:discoverViewController];
 }
@@ -69,25 +70,26 @@ HAMHomepageData *newPage;
     pageTitle = @"title";
     
     switchDetailViewRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(switchDetailView)];
-    newPage = nil;
+    newThing = nil;
     
     self.navigationController.navigationBar.barTintColor = nil;
     alertTintColor = [UIColor colorWithRed:237.0f / 255 green:239 / 255 blue:241 / 255 alpha:1];
-    if ([self homepage] != nil) {
-        pageTitle = [self homepage].pageTitle;
+    if (self.thing != nil) {
+        pageTitle = self.thing.title;
     }
     [HAMBeaconManager beaconManager].detailDelegate = self;
     
     // Set Navigation Bar
     self.navigationItem.title = pageTitle;
-    UIBarButtonItem *favItem;
-    if (self.homepage.markedListRecord == nil) {
-        UIImage *favImage = [[UIImage imageNamed:@"ios7-heart-outline.png"] imageWithRenderingMode:UIImageRenderingModeAutomatic];
-        favItem = [[UIBarButtonItem alloc] initWithImage:favImage style:UIBarButtonItemStylePlain target:self action:@selector(performFavorite)];
-    } else {
-        UIImage *favImage = [[UIImage imageNamed:@"ios7-heart.png"] imageWithRenderingMode:UIImageRenderingModeAutomatic];
-        favItem = [[UIBarButtonItem alloc] initWithImage:favImage style:UIBarButtonItemStyleBordered target:self action:@selector(performUnFavorite)];
-    }
+//    UIBarButtonItem *favItem;
+//    if (self.homepage.markedListRecord == nil) {
+//        UIImage *favImage = [[UIImage imageNamed:@"ios7-heart-outline.png"] imageWithRenderingMode:UIImageRenderingModeAutomatic];
+//        favItem = [[UIBarButtonItem alloc] initWithImage:favImage style:UIBarButtonItemStylePlain target:self action:@selector(performFavorite)];
+//    } else {
+//        UIImage *favImage = [[UIImage imageNamed:@"ios7-heart.png"] imageWithRenderingMode:UIImageRenderingModeAutomatic];
+//        favItem = [[UIBarButtonItem alloc] initWithImage:favImage style:UIBarButtonItemStyleBordered target:self action:@selector(performUnFavorite)];
+//    }
+//    barItems = [NSMutableArray arrayWithObjects:favItem, nil];
     
     switchArea = [[UIView alloc] initWithFrame:CGRectMake(50, 0, 220, self.navigationController.navigationBar.frame.size.height)];
     [switchArea addGestureRecognizer:switchDetailViewRecognizer];
@@ -95,7 +97,6 @@ HAMHomepageData *newPage;
     //UIBarButtonItem *refreshItem;
     //refreshItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh target:self action:@selector(performRefresh)];
     //UIBarButtonItem *flexibleSpace = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
-    barItems = [NSMutableArray arrayWithObjects:favItem, nil];
     //barItems = [NSMutableArray arrayWithObjects:flexibleSpace, refreshItem, favItem, nil];
     //[self setToolbarItems:barItems];
     self.navigationItem.rightBarButtonItems = barItems;
@@ -103,7 +104,7 @@ HAMHomepageData *newPage;
 }
 
 - (void)performFavorite {
-    [[HAMTourManager tourManager] addFavoriteStuff:self.homepage];
+    [[HAMTourManager tourManager] addFavoriteThing:self.thing];
     UIImage *favImage = [[UIImage imageNamed:@"ios7-heart.png"] imageWithRenderingMode:UIImageRenderingModeAutomatic];
     UIBarButtonItem *favItem = [[UIBarButtonItem alloc] initWithImage:favImage style:UIBarButtonItemStyleBordered target:self action:@selector(performUnFavorite)];
     self.navigationItem.rightBarButtonItem= favItem;
@@ -113,7 +114,7 @@ HAMHomepageData *newPage;
 }
 
 - (void)performUnFavorite {
-    [[HAMTourManager tourManager] removeFavoriteStuff:self.homepage];
+    [[HAMTourManager tourManager] removeFavoriteThing:self.thing];
     UIImage *favImage = [[UIImage imageNamed:@"ios7-heart-outline.png"] imageWithRenderingMode:UIImageRenderingModeAutomatic];
     UIBarButtonItem *favItem = [[UIBarButtonItem alloc] initWithImage:favImage style:UIBarButtonItemStylePlain target:self action:@selector(performFavorite)];
     self.navigationItem.rightBarButtonItem= favItem;

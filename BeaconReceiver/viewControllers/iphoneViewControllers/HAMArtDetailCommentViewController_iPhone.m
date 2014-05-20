@@ -13,6 +13,7 @@
 #import "HAMUserManager.h"
 #import "HAMUserData.h"
 #import "HAMArtDetailTabController_iPhone.h"
+#import "HAMThing.h"
 
 @interface HAMArtDetailCommentViewController_iPhone ()
 
@@ -37,12 +38,12 @@
     //[self.commentsTable setSeparatorStyle:UITableViewCellSeparatorStyleNone];
     
     HAMArtDetailTabController_iPhone *detailTabVC = (HAMArtDetailTabController_iPhone*)self.parentViewController;
-    self.homepage = detailTabVC.homepage;
+    self.thing = detailTabVC.thing;
     
     [self.commentText.layer setCornerRadius:10.0f];
     [self.commentText.layer setBorderColor:[[UIColor lightGrayColor] CGColor]];
     [self.commentText.layer setBorderWidth:0.5f];
-    comments = [[HAMCommentsManager commentsManager] commentsWithPageDataID:self.homepage.dataID];
+    comments = [[HAMCommentsManager commentsManager] commentsWithPageDataID:self.thing.objectID];
     [HAMCommentsManager commentsManager].delegate = self;
     [[HAMCommentsManager commentsManager] updateComments];
     
@@ -90,7 +91,7 @@
 -(void)textViewDidBeginEditing:(UITextView *)textView
 {
     CGRect frame = textView.frame;
-    int offset = frame.origin.y + frame.size.height + 5.0 - (self.view.frame.size.height - 216.0);//键盘高度216
+    int offset = frame.origin.y + frame.size.height + 38.0 - (self.view.frame.size.height - 216.0);//键盘高度216
     
     NSTimeInterval animationDuration = 0.30f;
     [UIView beginAnimations:@"ResizeForKeyboard" context:nil];
@@ -126,12 +127,12 @@
 
 #pragma mark - comment
 - (IBAction)commentButtonClicked:(id)sender {
-    comments = [[HAMCommentsManager commentsManager] commentsWithPageDataID:self.homepage.dataID];
+    comments = [[HAMCommentsManager commentsManager] commentsWithPageDataID:self.thing.objectID];
     [[self commentsTable] reloadData];
     HAMCommentData *data = [[HAMCommentData alloc] init];
-    if([self homepage] != nil) {
+    if(self.thing != nil) {
         data.userName = [HAMUserManager userManager].currentUser.name;
-        data.pageDataID = [self homepage].dataID;
+        data.pageDataID = self.thing.objectID;
         data.userID = [[HAMTourManager tourManager] currentVisitor];
         data.content = [self commentText].text;
         [[HAMCommentsManager commentsManager] addComment:data];
@@ -142,7 +143,7 @@
 }
 
 - (void)refresh {
-    comments = [[HAMCommentsManager commentsManager] commentsWithPageDataID:self.homepage.dataID];
+    comments = [[HAMCommentsManager commentsManager] commentsWithPageDataID:self.thing.objectID];
     [[self commentsTable] reloadData];
     if (comments == nil || [comments count] < 1) {
         return;

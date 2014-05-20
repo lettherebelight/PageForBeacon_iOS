@@ -14,7 +14,7 @@
 
 @protocol HAMBeaconManagerDelegate <NSObject>
 
-- (void)displayHomepage:(NSArray*)stuffsAround;
+- (void)displayThings:(NSArray*)thingsAround;
 
 @end
 
@@ -33,11 +33,11 @@ typedef enum HAMBeaconState HAMBeaconState;
 @property CLBeacon *nearestBeacon;
 @property NSMutableDictionary *debugTextFields;
 
++ (HAMBeaconManager*)beaconManager;
+- (void)setBackGroundStatus:(Boolean)status;
+
 - (void)startMonitor;
 - (void)stopMonitor;
-
-+ (HAMBeaconManager*)beaconManager;
-+ (void)setBackGroundStatus:(Boolean)status;
 
 - (NSDictionary*)beaconDictionary;
 - (NSString*)descriptionOfUUID:(NSString*)uuid;

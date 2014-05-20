@@ -65,11 +65,11 @@ LoginType loginSetting;
     }
 }
 
-- (IBAction)defaultLogIn:(id)sender {
-    [[HAMTourManager tourManager] newVisitor];
-    [[HAMUserManager userManager] newUserWithUserID:[HAMTourManager tourManager].currentVisitor name:@"匿名用户" avatar:nil description:nil];
-    [self performSegueWithIdentifier:@"finishLogIn" sender:self];
-}
+//- (IBAction)defaultLogIn:(id)sender {
+//    [[HAMTourManager tourManager] newVisitor];
+//    [[HAMUserManager userManager] newUserWithUserID:[HAMTourManager tourManager].currentVisitor name:@"匿名用户" avatar:nil description:nil];
+//    [self performSegueWithIdentifier:@"finishLogIn" sender:self];
+//}
 
 - (IBAction)logInFromWeibo:(id)sender {
     [self loginFromWeibo];

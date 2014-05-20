@@ -14,6 +14,6 @@
 }
 
 @property (weak, nonatomic) IBOutlet UIWebView *detailWebView;
-@property HAMHomepageData *homepage;
+@property HAMThing *thing;
 
 @end

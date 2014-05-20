@@ -15,6 +15,7 @@
 #import "HAMArtDetailTabController_iPhone.h"
 #import "OLImageView.h"
 #import "OLImage.h"
+#import "HAMThing.h"
 
 @interface HAMDiscoverCollectionViewController_iPhone ()
 
@@ -22,9 +23,9 @@
 
 @implementation HAMDiscoverCollectionViewController_iPhone
 
-@synthesize pageForSegue;
-@synthesize stuffsInWorld;
-@synthesize stuffsAround;
+@synthesize thingForSegue;
+@synthesize thingsAround;
+@synthesize thingsInWorld;
 
 typedef enum discoverType {
     AROUND = 0,
@@ -35,7 +36,7 @@ DiscoverType discoverStatus = AROUND;
 
 - (void)initView {
     //stuffsAround = nil;
-    pageForSegue = nil;
+    thingForSegue = nil;
     [self.collectionView reloadData];
 }
 
@@ -57,15 +58,15 @@ DiscoverType discoverStatus = AROUND;
     }
 }
 
-- (void)updateThings:(NSArray *)thingsAround {
-    stuffsInWorld = thingsAround;
+- (void)updateThings:(NSArray *)things {
+    thingsInWorld = things;
     if (discoverStatus == WORLD) {
         [self updateView];
     }
 }
 
-- (void)displayHomepage:(NSArray*)curStuffsAround {
-    stuffsAround = curStuffsAround;
+- (void)displayThings:(NSArray *)things {
+    thingsAround = things;
     if (discoverStatus == AROUND) {
         [self updateView];
     }
@@ -141,11 +142,11 @@ DiscoverType discoverStatus = AROUND;
 
 -(NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
     if (discoverStatus == AROUND) {
-        if (stuffsAround != nil && [stuffsAround count] > 0) {
+        if (thingsAround != nil && [thingsAround count] > 0) {
             if ([self.view viewWithTag:defaultViewTag] != nil) {
                 [[self.view viewWithTag:defaultViewTag] removeFromSuperview];
             }
-            return [stuffsAround count];
+            return [thingsAround count];
         }
         if ([self.view viewWithTag:defaultViewTag] == nil) {
             [self.view addSubview:defaultView];
@@ -155,8 +156,8 @@ DiscoverType discoverStatus = AROUND;
         if ([self.view viewWithTag:defaultViewTag] != nil) {
             [[self.view viewWithTag:defaultViewTag] removeFromSuperview];
         }
-        if (stuffsInWorld != nil) {
-            return [stuffsInWorld count];
+        if (thingsInWorld != nil) {
+            return [thingsInWorld count];
         }
         return 0;
     }
@@ -179,49 +180,49 @@ DiscoverType discoverStatus = AROUND;
     [shadowView.layer setShadowOffset:CGSizeMake(1.0, 1.0)];
     shadowView.layer.cornerRadius = 6.0f;
 
-    HAMHomepageData *pageData;
+    HAMThing *thing;
     
     
     //set data
     if (discoverStatus == AROUND) {
-        pageData = [stuffsAround objectAtIndex:indexPath.row];
+        thing = [thingsAround objectAtIndex:indexPath.row];
     } else if (discoverStatus == WORLD) {
-        pageData = [stuffsInWorld objectAtIndex:indexPath.row];
+        thing = [thingsInWorld objectAtIndex:indexPath.row];
     }
     
-    if (pageData == nil) {
+    if (thing == nil) {
         return nil;
     }
     
     
     //debug
-    if (pageData.beaconID != nil) {
-        NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-        bool debugSetting = [defaults boolForKey:@"debugSetting"];
-        if (debugSetting == YES) {
-            [view viewWithTag:8].hidden = NO;
-            NSString *beaconInfo = [NSString stringWithFormat:@"%@/%@/%@", pageData.beaconID, pageData.beaconMajor, pageData.beaconMinor];
-            [[HAMBeaconManager beaconManager].debugTextFields setValue:[view viewWithTag:8] forKey:beaconInfo];
-        } else {
-            [view viewWithTag:8].hidden = YES;
-        }
-    } else {
-        [view viewWithTag:8].hidden = YES;
-    }
+//    if (pageData.beaconID != nil) {
+//        NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+//        bool debugSetting = [defaults boolForKey:@"debugSetting"];
+//        if (debugSetting == YES) {
+//            [view viewWithTag:8].hidden = NO;
+//            NSString *beaconInfo = [NSString stringWithFormat:@"%@/%@/%@", pageData.beaconID, pageData.beaconMajor, pageData.beaconMinor];
+//            [[HAMBeaconManager beaconManager].debugTextFields setValue:[view viewWithTag:8] forKey:beaconInfo];
+//        } else {
+//            [view viewWithTag:8].hidden = YES;
+//        }
+//    } else {
+//        [view viewWithTag:8].hidden = YES;
+//    }
     
     //set view
     UIImageView *imageView = (UIImageView*)[view viewWithTag:6];
-    UIImage *thumbnail = [HAMTools imageFromURL:pageData.thumbnail];
+    UIImage *thumbnail = [HAMTools imageFromURL:thing.coverURL];
     UIImage *image = [HAMTools image:thumbnail changeToMaxSize:imageView.frame.size];
     imageView.image = image;
     //thumbnail = nil;
     //image = nil;
     
     UILabel *titleLabel = (UILabel*)[view viewWithTag:2];
-    titleLabel.text = pageData.pageTitle;
+    titleLabel.text = thing.title;
     
     UITextView *contentTV = (UITextView*)[view viewWithTag:5];
-    contentTV.text = pageData.describe;
+    contentTV.text = thing.content;
     //contentTV.frame = CGRectMake(contentTV.frame.origin.x, contentTV.frame.origin.y, contentTV.frame.size.width, contentTV.contentSize.height);
     //cell.frame = CGRectMake(cell.frame.origin.x, cell.frame.origin.y, cell.frame.size.width, cell.frame.size.height - 100.0f + contentTV.frame.size.height);
     
@@ -231,35 +232,39 @@ DiscoverType discoverStatus = AROUND;
     [commentButton addTarget:self action:@selector(commentClicked:) forControlEvents:UIControlEventTouchUpInside];
     commentImage = nil;
     
-    UIButton *favButton = (UIButton*)[view viewWithTag:4];
-    if (pageData.markedListRecord == nil) {
-        UIImage *favImage = [[UIImage imageNamed:@"ios7-heart-outline.png"] imageWithRenderingMode:UIImageRenderingModeAutomatic];
-        [favButton setImage:favImage forState:UIControlStateNormal];
-        [favButton removeTarget:self action:@selector(performUnFavorite:) forControlEvents:UIControlEventTouchUpInside];
-        [favButton addTarget:self action:@selector(performFavorite:) forControlEvents:UIControlEventTouchUpInside];
-        favImage = nil;
-    }
-    else {
-        UIImage *favImage = [[UIImage imageNamed:@"ios7-heart.png"] imageWithRenderingMode:UIImageRenderingModeAutomatic];
-        [favButton setImage:favImage forState:UIControlStateNormal];
-        [favButton removeTarget:self action:@selector(performFavorite:) forControlEvents:UIControlEventTouchUpInside];
-        [favButton addTarget:self action:@selector(performUnFavorite:) forControlEvents:UIControlEventTouchUpInside];
-        favImage = nil;
-    }
+//    UIButton *favButton = (UIButton*)[view viewWithTag:4];
+//    if (pageData.markedListRecord == nil) {
+//        UIImage *favImage = [[UIImage imageNamed:@"ios7-heart-outline.png"] imageWithRenderingMode:UIImageRenderingModeAutomatic];
+//        [favButton setImage:favImage forState:UIControlStateNormal];
+//        [favButton removeTarget:self action:@selector(performUnFavorite:) forControlEvents:UIControlEventTouchUpInside];
+//        [favButton addTarget:self action:@selector(performFavorite:) forControlEvents:UIControlEventTouchUpInside];
+//        favImage = nil;
+//    }
+//    else {
+//        UIImage *favImage = [[UIImage imageNamed:@"ios7-heart.png"] imageWithRenderingMode:UIImageRenderingModeAutomatic];
+//        [favButton setImage:favImage forState:UIControlStateNormal];
+//        [favButton removeTarget:self action:@selector(performFavorite:) forControlEvents:UIControlEventTouchUpInside];
+//        [favButton addTarget:self action:@selector(performUnFavorite:) forControlEvents:UIControlEventTouchUpInside];
+//        favImage = nil;
+//    }
     return cell;
 }
 
 - (void)commentClicked:(UIButton*)button {
     UICollectionViewCell *cell = (UICollectionViewCell*)button.superview.superview.superview;
     long i = [self.collectionView indexPathForCell:cell].row;
-    pageForSegue = [self.stuffsAround objectAtIndex:i];
+    if (discoverStatus == AROUND) {
+        thingForSegue = [self.thingsAround objectAtIndex:i];
+    } else {
+        thingForSegue = [self.thingsInWorld objectAtIndex:i];
+    }
     [self performSegueWithIdentifier:@"showArtDetailComment" sender:self];
 }
 
 - (void)performFavorite:(UIButton*)button {
     UICollectionViewCell *cell = (UICollectionViewCell*)button.superview.superview.superview;
     long i = [self.collectionView indexPathForCell:cell].row;
-    [[HAMTourManager tourManager] addFavoriteStuff:[self.stuffsAround objectAtIndex:i]];
+    [[HAMTourManager tourManager] addFavoriteThing:[self.thingsAround objectAtIndex:i]];
     
     UIButton *favButton = (UIButton*)[cell viewWithTag:4];
     UIImage *favImage = [[UIImage imageNamed:@"ios7-heart.png"] imageWithRenderingMode:UIImageRenderingModeAutomatic];
@@ -274,7 +279,7 @@ DiscoverType discoverStatus = AROUND;
 - (void)performUnFavorite:(UIButton*)button {
     UICollectionViewCell *cell = (UICollectionViewCell*)button.superview.superview.superview;
     long i = [self.collectionView indexPathForCell:cell].row;
-    [[HAMTourManager tourManager] removeFavoriteStuff:[self.stuffsAround objectAtIndex:i]];
+    [[HAMTourManager tourManager] removeFavoriteThing:[self.thingsAround objectAtIndex:i]];
     
     UIButton *favButton = (UIButton*)[cell viewWithTag:4];
     UIImage *favImage = [[UIImage imageNamed:@"ios7-heart-outline.png.png"] imageWithRenderingMode:UIImageRenderingModeAutomatic];
@@ -297,20 +302,20 @@ DiscoverType discoverStatus = AROUND;
     if ([segue.identifier isEqualToString:@"showArtDetailPage"]) {
         HAMArtDetailTabController_iPhone *detailVC = segue.destinationViewController;
         [detailVC setHidesBottomBarWhenPushed:YES];
-        if (self.pageForSegue != nil) {
-            detailVC.homepage = self.pageForSegue;
-            self.pageForSegue = nil;
+        if (self.thingForSegue != nil) {
+            detailVC.thing = self.thingForSegue;
+            self.thingForSegue = nil;
         }
         else {
             NSIndexPath *index = [[self.collectionView indexPathsForSelectedItems] objectAtIndex:0];
-            detailVC.homepage = [stuffsAround objectAtIndex:index.row];
+            detailVC.thing = [thingsAround objectAtIndex:index.row];
         }
     } else if ([segue.identifier isEqualToString:@"showArtDetailComment"]) {
         HAMArtDetailTabController_iPhone *detailVC = segue.destinationViewController;
         [detailVC setHidesBottomBarWhenPushed:YES];
-        if (self.pageForSegue != nil) {
-            detailVC.homepage = self.pageForSegue;
-            self.pageForSegue = nil;
+        if (self.thingForSegue != nil) {
+            detailVC.thing = self.thingForSegue;
+            self.thingForSegue = nil;
         }
         [detailVC setSelectedIndex:1];
     }

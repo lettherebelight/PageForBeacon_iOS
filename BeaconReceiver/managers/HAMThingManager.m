@@ -52,28 +52,29 @@ static float defaultDistanceRangeMin = 1;
         AVQuery *query = [AVQuery queryWithClassName:@"Thing"];
         [query orderByDescending:@"createdAt"];
         [query findObjectsInBackgroundWithBlock:^(NSArray *objectArray, NSError *error) {
-            if (error == nil && objectArray != nil && [objectArray count] > 0) {
-                thingsInWorld = nil;
-                thingsInWorld = [NSMutableArray array];
-                for (AVObject *thingObj in objectArray) {
-                    HAMHomepageData *pageData = [HAMDataManager pageDataWithThingID:thingObj.objectId];
-                    if (pageData == nil) {
-                        pageData = [HAMDataManager newPageData];
-                        pageData.beaconID = nil;
-                        pageData.beaconMajor = nil;
-                        pageData.beaconMinor = nil;
-                        pageData.range = nil;
-                        pageData.thumbnail = (NSString*)[thingObj objectForKey:@"coverURL"];
-                        pageData.pageURL = (NSString*)[thingObj objectForKey:@"url"];
-                        pageData.pageTitle = (NSString*)[thingObj objectForKey:@"title"];
-                        pageData.describe = (NSString*)[thingObj objectForKey:@"content"];
-                        pageData.dataID = thingObj.objectId;
-                    }
-                    [thingsInWorld addObject:pageData];
-                }
-                if (delegate != nil) {
-                    [delegate updateThings:thingsInWorld];
-                }
+            if (error != nil || objectArray == nil || [objectArray count] == 0) {
+                return;
+            }
+            thingsInWorld = nil;
+            thingsInWorld = [NSMutableArray array];
+            for (AVObject *thingObject in objectArray) {
+                HAMThing *thing = [[HAMThing alloc] init];
+                thing.objectID = thingObject.objectId;
+                thing.type = [thingObject objectForKey:@"type"];
+                thing.url = [thingObject objectForKey:@"url"];
+                thing.title = [thingObject objectForKey:@"title"];
+                thing.content = [thingObject objectForKey:@"content"];
+                
+                AVFile* coverFile = [thingObject objectForKey:@"cover"];
+                NSData *coverData = [coverFile getData];
+                thing.cover = [UIImage imageWithData:coverData];
+                
+                thing.coverURL = [thingObject objectForKey:@"coverURL"];
+                thing.creator = [thingObject objectForKey:@"creator"];
+                [thingsInWorld addObject:thing];
+            }
+            if (delegate != nil) {
+                [delegate updateThings:thingsInWorld];
             }
         }];
     }

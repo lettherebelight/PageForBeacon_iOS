@@ -13,6 +13,7 @@
 #import "HAMTools.h"
 #import "SVProgressHUD.h"
 #import "HAMArtDetailTabController_iPhone.h"
+#import "HAMThing.h"
 
 @interface HAMArtDetailViewController_iPhone ()
 
@@ -40,10 +41,10 @@ int loadingViewTag = 22;
     pageURL = @"http://www.baidu.com";
     
     HAMArtDetailTabController_iPhone *detailTabVC = (HAMArtDetailTabController_iPhone*)self.parentViewController;
-    self.homepage = detailTabVC.homepage;
+    self.thing = detailTabVC.thing;
     
-    if (self.homepage != nil) {
-        pageURL = self.homepage.pageURL;
+    if (self.thing != nil) {
+        pageURL = self.thing.url;
     }
     
     // Load Website

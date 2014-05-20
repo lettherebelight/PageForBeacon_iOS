@@ -75,6 +75,7 @@
 + (HAMThing*)thingWithThingAVObject:(AVObject *)thingObject{
     HAMThing* thing = [[HAMThing alloc] init];
     
+    thing.objectID = thingObject.objectId;
     thing.type = [thingObject objectForKey:@"type"];
     thing.url = [thingObject objectForKey:@"url"];
     thing.title = [thingObject objectForKey:@"title"];

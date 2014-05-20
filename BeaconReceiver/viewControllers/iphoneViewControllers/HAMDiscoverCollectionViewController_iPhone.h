@@ -10,7 +10,7 @@
 #import "HAMBeaconManager.h"
 #import "HAMThingManager.h"
 
-@class HAMHomepageData;
+@class HAMThing;
 
 @interface HAMDiscoverCollectionViewController_iPhone : UICollectionViewController <HAMBeaconManagerDelegate, HAMThingManagerDelegate> {
     UIView *defaultView;
@@ -19,8 +19,8 @@
 
 @property (weak, nonatomic) IBOutlet UISegmentedControl *segmentedControl;
 
-@property NSArray *stuffsAround;
-@property NSArray *stuffsInWorld;
-@property HAMHomepageData *pageForSegue;
+@property NSArray *thingsAround;
+@property NSArray *thingsInWorld;
+@property HAMThing *thingForSegue;
 
 @end

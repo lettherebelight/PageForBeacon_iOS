@@ -11,6 +11,8 @@
 
 @interface HAMThing : NSObject
 
+@property NSString* objectID;
+
 @property NSString* type;
 
 @property NSString* url;
@@ -20,5 +22,7 @@
 @property NSString* coverURL;
 
 @property AVUser* creator;
+
+- (BOOL)isEqualToThing:(HAMThing*)thing;
 
 @end

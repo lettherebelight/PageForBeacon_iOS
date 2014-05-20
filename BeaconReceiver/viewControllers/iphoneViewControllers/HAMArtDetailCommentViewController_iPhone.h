@@ -9,13 +9,13 @@
 #import <UIKit/UIKit.h>
 #import "HAMCommentsManager.h"
 
-@class HAMHomepageData;
+@class HAMThing;
 
 @interface HAMArtDetailCommentViewController_iPhone : UIViewController <UITableViewDataSource, UITextViewDelegate, HAMCommentsManagerDelegate> {
     NSArray *comments;
 }
 
-@property HAMHomepageData *homepage;
+@property HAMThing *thing;
 @property (weak, nonatomic) IBOutlet UITableView *commentsTable;
 @property (weak, nonatomic) IBOutlet UITextView *commentText;
 
