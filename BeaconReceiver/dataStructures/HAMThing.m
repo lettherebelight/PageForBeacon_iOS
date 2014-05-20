@@ -9,6 +9,7 @@
 #import "HAMThing.h"
 
 #import "HAMBeaconManager.h"
+#import "HAMAVOSManager.h"
 
 @implementation HAMThing
 
@@ -18,8 +19,11 @@
 @synthesize title;
 @synthesize content;
 @synthesize cover;
+@synthesize coverFile;
 @synthesize coverURL;
 @synthesize creator;
+
+#pragma mark - Equal
 
 - (BOOL)isEqual:(id)object {
     if ([object isKindOfClass:[HAMThing class]] == NO) {
@@ -31,6 +35,55 @@
 
 - (BOOL)isEqualToThing:(HAMThing *)thing {
     return [objectID isEqualToString:thing.objectID];
+}
+
+#pragma mark - Type
+
+- (HAMThingType)setTypeWithTypeString:(NSString*)typeString{
+    if ([typeString isEqualToString:@"art"]) {
+        self.type = HAMThingTypeArt;
+    }
+    else if ([typeString isEqualToString:@"card"]) {
+        self.type = HAMThingTypeCard;
+    }
+    else{
+        self.type = HAMThingTypeOther;
+    }
+    return self.type;
+}
+
+- (NSString*)typeString{
+    switch (self.type) {
+        case HAMThingTypeArt:
+            return @"art";
+            break;
+            
+        case HAMThingTypeCard:
+            return @"card";
+            break;
+            
+        default:
+            return @"other";
+            break;
+    }
+}
+
+#pragma mark - Cover
+
+- (UIImage*)cover{
+    //lazy loading
+    if (self.cover != nil) {
+        return cover;
+    }
+    
+    if (self.coverFile != nil) {
+        [self fetchCover];
+    }
+    return cover;
+}
+
+- (void)fetchCover{
+    cover = [HAMAVOSManager imageFromFile:self.coverFile];
 }
 
 @end

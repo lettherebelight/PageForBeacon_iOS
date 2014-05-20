@@ -9,20 +9,31 @@
 #import <Foundation/Foundation.h>
 #import <AVOSCloud/AVOSCloud.h>
 
+enum HAMThingType : NSInteger {
+    HAMThingTypeArt,
+    HAMThingTypeCard,
+    HAMThingTypeOther
+};
+typedef enum HAMThingType HAMThingType;
+
 @interface HAMThing : NSObject
 
-@property NSString* objectID;
+@property (nonatomic) NSString* objectID;
 
-@property NSString* type;
+@property (nonatomic) HAMThingType type;
 
-@property NSString* url;
-@property NSString* title;
-@property NSString* content;
-@property UIImage* cover;
-@property NSString* coverURL;
+@property (nonatomic) NSString* url;
+@property (nonatomic) NSString* title;
+@property (nonatomic) NSString* content;
+@property (nonatomic) UIImage* cover;
+@property (nonatomic) AVFile* coverFile;
+@property (nonatomic) NSString* coverURL;
 
-@property AVUser* creator;
+@property (nonatomic) AVUser* creator;
 
 - (BOOL)isEqualToThing:(HAMThing*)thing;
+
+- (HAMThingType)setTypeWithTypeString:(NSString*)typeString;
+- (NSString*)typeString;
 
 @end

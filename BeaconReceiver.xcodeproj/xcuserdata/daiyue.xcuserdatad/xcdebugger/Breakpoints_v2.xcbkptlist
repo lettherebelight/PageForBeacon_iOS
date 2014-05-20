@@ -186,11 +186,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "BeaconReceiver/HAMAppDelegate.m"
-            timestampString = "420283340.934268"
+            timestampString = "422295940.371271"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "69"
-            endingLineNumber = "69"
+            startingLineNumber = "78"
+            endingLineNumber = "78"
             landmarkName = "@implementation HAMAppDelegate"
             landmarkType = "3">
          </BreakpointContent>
@@ -362,11 +362,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "BeaconReceiver/HAMAppDelegate.m"
-            timestampString = "420283351.951838"
+            timestampString = "422295940.371271"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "214"
-            endingLineNumber = "214"
+            startingLineNumber = "223"
+            endingLineNumber = "223"
             landmarkName = "@implementation HAMAppDelegate"
             landmarkType = "3">
          </BreakpointContent>
@@ -394,11 +394,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "BeaconReceiver/HAMAppDelegate.m"
-            timestampString = "421072111.063252"
+            timestampString = "422295940.371271"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "107"
-            endingLineNumber = "107"
+            startingLineNumber = "116"
+            endingLineNumber = "116"
             landmarkName = "-application:didReceiveLocalNotification:"
             landmarkType = "5">
          </BreakpointContent>
@@ -520,11 +520,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "BeaconReceiver/HAMAppDelegate.m"
-            timestampString = "420283351.951838"
+            timestampString = "422295940.371271"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "144"
-            endingLineNumber = "144"
+            startingLineNumber = "153"
+            endingLineNumber = "153"
             landmarkName = "-managedObjectContext"
             landmarkType = "5">
          </BreakpointContent>
@@ -536,11 +536,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "BeaconReceiver/HAMAppDelegate.m"
-            timestampString = "420283351.951838"
+            timestampString = "422295940.371271"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "121"
-            endingLineNumber = "121"
+            startingLineNumber = "130"
+            endingLineNumber = "130"
             landmarkName = "-saveContext"
             landmarkType = "5">
          </BreakpointContent>
@@ -1810,11 +1810,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "BeaconReceiver/viewControllers/iphoneViewControllers/HAMArtDetailViewController_iPhone.m"
-            timestampString = "422266235.885986"
+            timestampString = "421493189.344963"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "67"
-            endingLineNumber = "67"
+            startingLineNumber = "66"
+            endingLineNumber = "66"
             landmarkName = "-viewWillDisappear:"
             landmarkType = "5">
          </BreakpointContent>
@@ -1826,11 +1826,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "BeaconReceiver/viewControllers/iphoneViewControllers/HAMArtDetailViewController_iPhone.m"
-            timestampString = "422266235.885986"
+            timestampString = "421493189.344963"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "62"
-            endingLineNumber = "62"
+            startingLineNumber = "61"
+            endingLineNumber = "61"
             landmarkName = "-viewWillAppear:"
             landmarkType = "5">
          </BreakpointContent>
@@ -1906,11 +1906,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "BeaconReceiver/viewControllers/iphoneViewControllers/HAMArtDetailCommentViewController_iPhone.m"
-            timestampString = "422266235.885986"
+            timestampString = "420968543.870542"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "93"
-            endingLineNumber = "93"
+            startingLineNumber = "92"
+            endingLineNumber = "92"
             landmarkName = "-textViewDidBeginEditing:"
             landmarkType = "5">
          </BreakpointContent>
@@ -1922,11 +1922,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "BeaconReceiver/viewControllers/iphoneViewControllers/HAMArtDetailCommentViewController_iPhone.m"
-            timestampString = "422266235.885986"
+            timestampString = "420968543.870542"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "110"
-            endingLineNumber = "110"
+            startingLineNumber = "109"
+            endingLineNumber = "109"
             landmarkName = "-textViewShouldReturn:"
             landmarkType = "5">
          </BreakpointContent>
@@ -1938,11 +1938,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "BeaconReceiver/viewControllers/iphoneViewControllers/HAMDiscoverCollectionViewController_iPhone.m"
-            timestampString = "422266235.885986"
+            timestampString = "422196770.460915"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "264"
-            endingLineNumber = "264"
+            startingLineNumber = "259"
+            endingLineNumber = "259"
             landmarkName = "-performFavorite:"
             landmarkType = "5">
          </BreakpointContent>
@@ -1954,11 +1954,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "BeaconReceiver/viewControllers/iphoneViewControllers/HAMDiscoverCollectionViewController_iPhone.m"
-            timestampString = "422266235.885986"
+            timestampString = "422196770.460915"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "226"
-            endingLineNumber = "226"
+            startingLineNumber = "225"
+            endingLineNumber = "225"
             landmarkName = "-collectionView:cellForItemAtIndexPath:"
             landmarkType = "5">
          </BreakpointContent>
@@ -1970,11 +1970,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "BeaconReceiver/viewControllers/iphoneViewControllers/HAMArtDetailTabController_iPhone.m"
-            timestampString = "422266235.885986"
+            timestampString = "421493189.344963"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "70"
-            endingLineNumber = "70"
+            startingLineNumber = "69"
+            endingLineNumber = "69"
             landmarkName = "-viewDidLoad"
             landmarkType = "5">
          </BreakpointContent>
@@ -1986,12 +1986,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "BeaconReceiver/viewControllers/iphoneViewControllers/HAMArtDetailTabController_iPhone.m"
-            timestampString = "422266235.885986"
+            timestampString = "421493189.344963"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "27"
-            endingLineNumber = "27"
-            landmarkName = "-displayThings:"
+            startingLineNumber = "26"
+            endingLineNumber = "26"
+            landmarkName = "-displayHomepage:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -2002,12 +2002,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "BeaconReceiver/viewControllers/iphoneViewControllers/HAMArtDetailTabController_iPhone.m"
-            timestampString = "422266235.885986"
+            timestampString = "421493189.344963"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "38"
-            endingLineNumber = "38"
-            landmarkName = "-displayThings:"
+            startingLineNumber = "37"
+            endingLineNumber = "37"
+            landmarkName = "-displayHomepage:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -2018,11 +2018,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "BeaconReceiver/viewControllers/iphoneViewControllers/HAMDiscoverCollectionViewController_iPhone.m"
-            timestampString = "422266235.885986"
+            timestampString = "422196770.460915"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "212"
-            endingLineNumber = "212"
+            startingLineNumber = "211"
+            endingLineNumber = "211"
             landmarkName = "-collectionView:cellForItemAtIndexPath:"
             landmarkType = "5">
          </BreakpointContent>
@@ -2050,11 +2050,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "BeaconReceiver/HAMAppDelegate.m"
-            timestampString = "421238592.972335"
+            timestampString = "422295940.371271"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "42"
-            endingLineNumber = "42"
+            startingLineNumber = "51"
+            endingLineNumber = "51"
             landmarkName = "-applicationDidEnterBackground:"
             landmarkType = "5">
          </BreakpointContent>
@@ -2066,11 +2066,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "BeaconReceiver/HAMAppDelegate.m"
-            timestampString = "421238594.500158"
+            timestampString = "422295940.371271"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "34"
-            endingLineNumber = "34"
+            startingLineNumber = "43"
+            endingLineNumber = "43"
             landmarkName = "-applicationWillResignActive:"
             landmarkType = "5">
          </BreakpointContent>
@@ -2082,11 +2082,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "BeaconReceiver/HAMAppDelegate.m"
-            timestampString = "421238595.818145"
+            timestampString = "422295940.371271"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "49"
-            endingLineNumber = "49"
+            startingLineNumber = "58"
+            endingLineNumber = "58"
             landmarkName = "-applicationWillEnterForeground:"
             landmarkType = "5">
          </BreakpointContent>
@@ -2098,11 +2098,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "BeaconReceiver/HAMAppDelegate.m"
-            timestampString = "421238605.566021"
+            timestampString = "422295940.371271"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "55"
-            endingLineNumber = "55"
+            startingLineNumber = "64"
+            endingLineNumber = "64"
             landmarkName = "-applicationDidBecomeActive:"
             landmarkType = "5">
          </BreakpointContent>
@@ -2130,11 +2130,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "BeaconReceiver/HAMAppDelegate.m"
-            timestampString = "421238729.430089"
+            timestampString = "422295940.371271"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "56"
-            endingLineNumber = "56"
+            startingLineNumber = "65"
+            endingLineNumber = "65"
             landmarkName = "-applicationDidBecomeActive:"
             landmarkType = "5">
          </BreakpointContent>
@@ -2208,11 +2208,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "BeaconReceiver/managers/HAMBeaconManager.m"
-            timestampString = "422256414.835284"
+            timestampString = "422099564.471774"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "202"
-            endingLineNumber = "202"
+            startingLineNumber = "194"
+            endingLineNumber = "194"
             landmarkName = "-addBeacon:"
             landmarkType = "5">
          </BreakpointContent>
@@ -2224,11 +2224,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "BeaconReceiver/managers/HAMBeaconManager.m"
-            timestampString = "422256414.835284"
+            timestampString = "422099564.471774"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "208"
-            endingLineNumber = "208"
+            startingLineNumber = "200"
+            endingLineNumber = "200"
             landmarkName = "@implementation HAMBeaconManager"
             landmarkType = "3">
          </BreakpointContent>
@@ -2240,11 +2240,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "BeaconReceiver/managers/HAMBeaconManager.m"
-            timestampString = "422256414.835284"
+            timestampString = "422099564.471774"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "149"
-            endingLineNumber = "149"
+            startingLineNumber = "141"
+            endingLineNumber = "141"
             landmarkName = "-startMonitor"
             landmarkType = "5">
          </BreakpointContent>
@@ -2256,11 +2256,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "BeaconReceiver/managers/HAMBeaconManager.m"
-            timestampString = "422256414.835284"
+            timestampString = "422099564.471774"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "212"
-            endingLineNumber = "212"
+            startingLineNumber = "204"
+            endingLineNumber = "204"
             landmarkName = "-locationManager:didEnterRegion:"
             landmarkType = "5">
          </BreakpointContent>
@@ -2272,11 +2272,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "BeaconReceiver/managers/HAMBeaconManager.m"
-            timestampString = "422256414.835284"
+            timestampString = "422099564.471774"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "220"
-            endingLineNumber = "220"
+            startingLineNumber = "212"
+            endingLineNumber = "212"
             landmarkName = "-locationManager:didExitRegion:"
             landmarkType = "5">
          </BreakpointContent>
@@ -2288,11 +2288,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "BeaconReceiver/managers/HAMBeaconManager.m"
-            timestampString = "422256414.835284"
+            timestampString = "422099564.471774"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "219"
-            endingLineNumber = "219"
+            startingLineNumber = "211"
+            endingLineNumber = "211"
             landmarkName = "-locationManager:didExitRegion:"
             landmarkType = "5">
          </BreakpointContent>
@@ -2303,13 +2303,45 @@
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "BeaconReceiver/viewControllers/iphoneViewControllers/HAMDiscoverCollectionViewController_iPhone.m"
-            timestampString = "422266235.885986"
+            filePath = "BeaconReceiver/managers/HAMBeaconManager.m"
+            timestampString = "422193198.40177"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "211"
-            endingLineNumber = "211"
+            startingLineNumber = "242"
+            endingLineNumber = "242"
+            landmarkName = "-locationManager:didRangeBeacons:inRegion:"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "BeaconReceiver/viewControllers/iphoneViewControllers/HAMDiscoverCollectionViewController_iPhone.m"
+            timestampString = "422196770.460915"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "210"
+            endingLineNumber = "210"
             landmarkName = "-collectionView:cellForItemAtIndexPath:"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "BeaconReceiver/managers/HAMBeaconManager.m"
+            timestampString = "422193198.40177"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "242"
+            endingLineNumber = "242"
+            landmarkName = "-locationManager:didRangeBeacons:inRegion:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -2382,11 +2414,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "BeaconReceiver/managers/HAMBeaconManager.m"
-            timestampString = "422256414.835284"
+            timestampString = "422099564.471774"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "209"
-            endingLineNumber = "209"
+            startingLineNumber = "201"
+            endingLineNumber = "201"
             landmarkName = "@implementation HAMBeaconManager"
             landmarkType = "3">
          </BreakpointContent>
@@ -2398,11 +2430,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "BeaconReceiver/viewControllers/iphoneViewControllers/HAMDiscoverCollectionViewController_iPhone.m"
-            timestampString = "422266235.885986"
+            timestampString = "421770563.149968"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "55"
-            endingLineNumber = "55"
+            startingLineNumber = "54"
+            endingLineNumber = "54"
             landmarkName = "-changStatus:"
             landmarkType = "5">
          </BreakpointContent>
@@ -2414,11 +2446,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "BeaconReceiver/viewControllers/iphoneViewControllers/HAMDiscoverCollectionViewController_iPhone.m"
-            timestampString = "422266235.885986"
+            timestampString = "421770563.149968"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "62"
-            endingLineNumber = "62"
+            startingLineNumber = "61"
+            endingLineNumber = "61"
             landmarkName = "-updateThings:"
             landmarkType = "5">
          </BreakpointContent>
@@ -2430,11 +2462,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "BeaconReceiver/viewControllers/iphoneViewControllers/HAMDiscoverCollectionViewController_iPhone.m"
-            timestampString = "422266235.885986"
+            timestampString = "421770563.149968"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "52"
-            endingLineNumber = "52"
+            startingLineNumber = "51"
+            endingLineNumber = "51"
             landmarkName = "-changStatus:"
             landmarkType = "5">
          </BreakpointContent>
@@ -2446,11 +2478,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "BeaconReceiver/viewControllers/iphoneViewControllers/HAMDiscoverCollectionViewController_iPhone.m"
-            timestampString = "422266235.885986"
+            timestampString = "421770563.149968"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "56"
-            endingLineNumber = "56"
+            startingLineNumber = "55"
+            endingLineNumber = "55"
             landmarkName = "-changStatus:"
             landmarkType = "5">
          </BreakpointContent>
@@ -2526,11 +2558,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "BeaconReceiver/managers/HAMBeaconManager.m"
-            timestampString = "422256414.835284"
+            timestampString = "422099564.471774"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "293"
-            endingLineNumber = "293"
+            startingLineNumber = "235"
+            endingLineNumber = "235"
             landmarkName = "-locationManager:didRangeBeacons:inRegion:"
             landmarkType = "5">
          </BreakpointContent>
@@ -2542,11 +2574,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "BeaconReceiver/managers/HAMBeaconManager.m"
-            timestampString = "422256414.835284"
+            timestampString = "422017696.579906"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "95"
-            endingLineNumber = "95"
+            startingLineNumber = "87"
+            endingLineNumber = "87"
             landmarkName = "-startMonitor"
             landmarkType = "5">
          </BreakpointContent>
@@ -2590,11 +2622,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "BeaconReceiver/managers/HAMAVOSManager.m"
-            timestampString = "422256414.835284"
+            timestampString = "422295940.371271"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "158"
-            endingLineNumber = "158"
+            startingLineNumber = "214"
+            endingLineNumber = "214"
             landmarkName = "+unbindThingToBeacon:withTarget:callback:"
             landmarkType = "5">
          </BreakpointContent>
@@ -2686,11 +2718,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "BeaconReceiver/managers/HAMBeaconManager.m"
-            timestampString = "422256414.835284"
+            timestampString = "422099564.471774"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "199"
-            endingLineNumber = "199"
+            startingLineNumber = "191"
+            endingLineNumber = "191"
             landmarkName = "-addBeacon:"
             landmarkType = "5">
          </BreakpointContent>
@@ -2702,11 +2734,27 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "BeaconReceiver/managers/HAMBeaconManager.m"
-            timestampString = "422256414.835284"
+            timestampString = "422099564.471774"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "194"
-            endingLineNumber = "194"
+            startingLineNumber = "186"
+            endingLineNumber = "186"
+            landmarkName = "-addBeacon:"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "BeaconReceiver/managers/HAMBeaconManager.m"
+            timestampString = "422099564.471774"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "192"
+            endingLineNumber = "192"
             landmarkName = "-addBeacon:"
             landmarkType = "5">
          </BreakpointContent>
@@ -2718,11 +2766,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "BeaconReceiver/managers/HAMBeaconManager.m"
-            timestampString = "422256414.835284"
+            timestampString = "422099564.471774"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "200"
-            endingLineNumber = "200"
+            startingLineNumber = "190"
+            endingLineNumber = "190"
             landmarkName = "-addBeacon:"
             landmarkType = "5">
          </BreakpointContent>
@@ -2734,11 +2782,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "BeaconReceiver/managers/HAMBeaconManager.m"
-            timestampString = "422256414.835284"
+            timestampString = "422099746.779437"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "198"
-            endingLineNumber = "198"
+            startingLineNumber = "189"
+            endingLineNumber = "189"
             landmarkName = "-addBeacon:"
             landmarkType = "5">
          </BreakpointContent>
@@ -2750,11 +2798,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "BeaconReceiver/managers/HAMBeaconManager.m"
-            timestampString = "422256414.835284"
+            timestampString = "422099747.384739"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "197"
-            endingLineNumber = "197"
+            startingLineNumber = "187"
+            endingLineNumber = "187"
             landmarkName = "-addBeacon:"
             landmarkType = "5">
          </BreakpointContent>
@@ -2766,12 +2814,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "BeaconReceiver/managers/HAMBeaconManager.m"
-            timestampString = "422256414.835284"
+            timestampString = "422193189.998323"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "195"
-            endingLineNumber = "195"
-            landmarkName = "-addBeacon:"
+            startingLineNumber = "244"
+            endingLineNumber = "244"
+            landmarkName = "-locationManager:didRangeBeacons:inRegion:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -2781,46 +2829,14 @@
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "BeaconReceiver/dataStructures/HAMThing.m"
-            timestampString = "422256011.645524"
+            filePath = "BeaconReceiver/viewControllers/iphoneViewControllers/me/HAMCreateThingViewController.h"
+            timestampString = "422302942.68316"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "25"
-            endingLineNumber = "25"
-            landmarkName = "-isEqual:"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "BeaconReceiver/managers/HAMBeaconManager.m"
-            timestampString = "422256424.501093"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "258"
-            endingLineNumber = "258"
-            landmarkName = "-flushBeaconDictionary"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "BeaconReceiver/managers/HAMBeaconManager.m"
-            timestampString = "422266612.072633"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "280"
-            endingLineNumber = "280"
-            landmarkName = "-showThings"
-            landmarkType = "5">
+            startingLineNumber = "17"
+            endingLineNumber = "17"
+            landmarkName = "@interface HAMCreateThingViewController"
+            landmarkType = "2">
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

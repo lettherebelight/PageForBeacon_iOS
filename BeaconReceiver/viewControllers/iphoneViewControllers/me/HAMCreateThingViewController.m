@@ -26,12 +26,13 @@
 
 @property (weak, nonatomic) IBOutlet UIImageView *coverImageView;
 @property UIImage* coverImage;
+@property UIImagePickerController* imagePicker;
 
 - (IBAction)confirmButtonClicked:(id)sender;
 
 @end
 
-static NSString* const kHAMDefaultThingType = @"art";
+static HAMThingType kHAMDefaultThingType = HAMThingTypeArt;
 
 @implementation HAMCreateThingViewController
 
@@ -138,27 +139,55 @@ static NSString* const kHAMDefaultThingType = @"art";
 
 - (void)tapedImageView:(UITapGestureRecognizer*)gesture{
 //    + (NSArray *)availableMediaTypesForSourceType:(UIImagePickerControllerSourceType)sourceType;
+    
     UIActionSheet* actionSheet = [[UIActionSheet alloc]
                                   initWithTitle:@"设置封面图片"
                                   delegate:self
                                   cancelButtonTitle:@"取消"
                                   destructiveButtonTitle:nil
-                                  otherButtonTitles:@"拍照",@"从相册中选取",nil];
+                                  otherButtonTitles:nil];
+
+    
+    if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]){
+        NSArray* availableMediaTypes = [UIImagePickerController availableMediaTypesForSourceType:UIImagePickerControllerSourceTypeCamera];
+        for (NSString* mediaType in availableMediaTypes) {
+            if ([mediaType isEqualToString:(NSString*)kUTTypeImage]) {
+                //support taking picture
+                [actionSheet addButtonWithTitle:@"拍照"];
+                break;
+            }
+        }
+    }
+    
+    if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypePhotoLibrary]){
+        NSArray* availableMediaTypes = [UIImagePickerController availableMediaTypesForSourceType:UIImagePickerControllerSourceTypePhotoLibrary];
+        for (NSString* mediaType in availableMediaTypes) {
+            if ([mediaType isEqualToString:(NSString*)kUTTypeImage]) {
+                //support choosing picture
+                [actionSheet addButtonWithTitle:@"从照片库选取"];
+                break;
+            }
+        }
+    }
+    
     [actionSheet showInView:self.view];
 }
 
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex{
-    UIImagePickerController* picker = [[UIImagePickerController alloc] init];
-    picker.delegate = self;
-    picker.allowsEditing = YES;
+    if (self.imagePicker == nil) {
+        self.imagePicker = [[UIImagePickerController alloc] init];
+        self.imagePicker.delegate = self;
+        self.imagePicker.allowsEditing = YES;
+        self.imagePicker.mediaTypes = [NSArray arrayWithObjects:(NSString*)kUTTypeImage,nil];
+    }
     
     switch (buttonIndex) {
         case 0:
-            picker.sourceType = UIImagePickerControllerSourceTypeCamera;
+            self.imagePicker.sourceType = UIImagePickerControllerSourceTypeCamera;
             break;
             
         case 1:
-            picker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
+            self.imagePicker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
             break;
             
         default:
@@ -166,15 +195,15 @@ static NSString* const kHAMDefaultThingType = @"art";
             break;
     }
     
-    [self presentViewController:picker animated:YES completion:nil];
+    [self presentViewController:self.imagePicker animated:YES completion:nil];
 }
 
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info{
     if (![[info objectForKey:UIImagePickerControllerMediaType] isEqualToString:(NSString*)kUTTypeImage]) {
-        //selected a video or something else
+        [SVProgressHUD showErrorWithStatus:@"这不是合法的封面类型。"];
         return;
     }
-    UIImage* image = [info objectForKey:UIImagePickerControllerOriginalImage];
+    UIImage* image = [info objectForKey:UIImagePickerControllerEditedImage];
     self.coverImageView.image = image;
     self.coverImage = image;
     [self dismissViewControllerAnimated:YES completion:nil];

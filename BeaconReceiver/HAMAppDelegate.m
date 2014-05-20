@@ -13,6 +13,8 @@
 #import "HAMBeaconManager.h"
 #import "HAMTourManager.h"
 
+#import "HAMAVOSManager.h"
+
 @implementation HAMAppDelegate
 
 @synthesize managedObjectContext = _managedObjectContext;
@@ -24,6 +26,13 @@
     // Override point for customization after application launch.
     [AVOSCloud setApplicationId:@"s55x7mngao4iv95w2ebsjpo80o2moqwlmolk66fjhpr7xys6"
                       clientKey:@"ljqpcds0mt9cn3noaqs3armqgcyhew4setb788pdqc5fbow1"];
+    //----------------------API Testing----------------------
+    
+    HAMThing* thing = [HAMAVOSManager thingWithObjectID:@"537361b7e4b0b0e5cce3c331"];
+    [HAMAVOSManager saveFavoriteThingForCurrentUser:thing];
+    
+    //-------------------API Testing ends--------------------
+    
     return YES;
 }
 							

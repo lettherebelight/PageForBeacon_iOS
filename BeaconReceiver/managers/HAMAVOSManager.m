@@ -19,6 +19,10 @@
 #pragma mark - Beacon Conversion
 
 + (AVObject*)beaconAVObjectWithCLBeacon:(CLBeacon*)beacon{
+    if (beacon == nil) {
+        return nil;
+    }
+    
     AVObject* beaconObject = [AVObject objectWithClassName:@"Beacon"];
     [beaconObject setObject:beacon.proximityUUID.UUIDString forKey:@"proximityUUID"];
     [beaconObject setObject:beacon.major forKey:@"major"];
@@ -29,6 +33,10 @@
 #pragma mark - Beacon Query
 
 + (AVObject*)queryBeaconAVObjectWithCLBeacon:(CLBeacon*)beacon{
+    if (beacon == nil) {
+        return nil;
+    }
+    
     AVQuery *query = [AVQuery queryWithClassName:@"Beacon"];
     [query whereKey:@"proximityUUID" equalTo:beacon.proximityUUID.UUIDString];
     [query whereKey:@"major" equalTo:beacon.major];
@@ -42,6 +50,11 @@
 }
 
 + (HAMBeaconState)ownStateOfBeacon:(CLBeacon*)beacon{
+    if (beacon == nil) {
+        [HAMLogTool warn:@"query own state of beacon nil"];
+        return HAMBeaconStateOwnedByOthers;
+    }
+    
     HAMThing* thing = [self thingWithBeacon:beacon];
     
     if (thing.creator == nil) {
@@ -56,14 +69,50 @@
     return HAMBeaconStateOwnedByOthers;
 }
 
++ (CLProximity)rangeOfBeacon:(CLBeacon*)beacon{
+    if (beacon == nil) {
+        [HAMLogTool warn:@"query range of beacon nil"];
+        return CLProximityUnknown;
+    }
+    
+    AVObject* beaconObject = [self queryBeaconAVObjectWithCLBeacon:beacon];
+    NSString* rangeString = [beaconObject objectForKey:@"range"];
+    
+    if (rangeString == nil) {
+        return CLProximityImmediate;
+    }
+    if ([rangeString isEqualToString:@"immediate"]) {
+        return CLProximityImmediate;
+    }
+    if ([rangeString isEqualToString:@"near"]) {
+        return CLProximityNear;
+    }
+    if ([rangeString isEqualToString:@"far"]) {
+        return CLProximityFar;
+    }
+    
+    [HAMLogTool warn:@"range of beacon unknown"];
+    return CLProximityUnknown;
+}
+
 #pragma mark - Beacon Save
 
 + (void)saveCLBeacon:(CLBeacon*)beacon{
+    if (beacon == nil) {
+        [HAMLogTool warn:@"trying to save beacon nil"];
+        return;
+    }
+    
     AVObject* beaconObject = [self beaconAVObjectWithCLBeacon:beacon];
     [beaconObject save];
 }
 
 + (void)saveCLBeacon:(CLBeacon*)beacon withTarget:(id)target callback:(SEL)callback{
+    if (beacon == nil) {
+        [HAMLogTool warn:@"trying to save beacon nil"];
+        return;
+    }
+    
     AVObject* beaconObject = [self beaconAVObjectWithCLBeacon:beacon];
     [beaconObject saveInBackgroundWithTarget:target selector:callback];
 }
@@ -73,36 +122,53 @@
 #pragma mark - Thing Conversion
 
 + (HAMThing*)thingWithThingAVObject:(AVObject *)thingObject{
+    if (thingObject == nil) {
+        return nil;
+    }
+    
     HAMThing* thing = [[HAMThing alloc] init];
     
     thing.objectID = thingObject.objectId;
-    thing.type = [thingObject objectForKey:@"type"];
+    
+    NSString* typeString = [thingObject objectForKey:@"type"];
+    [thing setTypeWithTypeString:typeString];
     thing.url = [thingObject objectForKey:@"url"];
     thing.title = [thingObject objectForKey:@"title"];
     thing.content = [thingObject objectForKey:@"content"];
-    
-    AVFile* coverFile = [thingObject objectForKey:@"cover"];
-    NSData *coverData = [coverFile getData];
-    thing.cover = [UIImage imageWithData:coverData];
-    
+    thing.coverFile = [thingObject objectForKey:@"cover"];
+    thing.cover = nil;
     thing.coverURL = [thingObject objectForKey:@"coverURL"];
     thing.creator = [thingObject objectForKey:@"creator"];
     
     return thing;
 }
 
-+ (AVObject*)thingAVObjectWithThing:(HAMThing*)thing{
++ (AVObject*)thingAVObjectWithThing:(HAMThing*)thing shouldSaveCover:(Boolean)shouldSaveCover{
+    if (thing == nil) {
+        return nil;
+    }
+    
     AVObject* thingObject = [AVObject objectWithClassName:@"Thing"];
     
-    [thingObject setObject:thing.type forKey:@"type"];
+    if (thing.objectID != nil) {
+        thingObject.objectId = thing.objectID;
+    }
+    
+    NSString* typeString = [thing typeString];
+    [thingObject setObject:typeString forKey:@"type"];
     [thingObject setObject:thing.url forKey:@"url"];
     [thingObject setObject:thing.title forKey:@"title"];
     [thingObject setObject:thing.content forKey:@"content"];
     
-    AVFile* coverFile = [self saveImage:thing.cover];
-    if (coverFile != nil) {
-        [thingObject setObject:coverFile forKey:@"cover"];
-        [thingObject setObject:coverFile.url forKey:@"coverURL"];
+    if (shouldSaveCover) {
+        AVFile* coverFile = [self saveImage:thing.cover];
+        if (coverFile != nil) {
+            [thingObject setObject:coverFile forKey:@"cover"];
+            [thingObject setObject:coverFile.url forKey:@"coverURL"];
+        }
+    } else {
+        [thingObject setObject:thing.coverFile forKey:@"cover"];
+        [thingObject setObject:thing.coverURL forKey:@"coverURL"];
     }
     
     [thingObject setObject:thing.creator forKey:@"creator"];
@@ -112,10 +178,27 @@
 
 #pragma mark - Thing Query
 
++ (HAMThing*)thingWithObjectID:(NSString*)objectID{
+    if (objectID == nil) {
+        [HAMLogTool warn:@"query thing with objectID nil"];
+        return nil;
+    }
+    
+    AVQuery *query = [AVQuery queryWithClassName:@"Thing"];
+    AVObject *thingObject = [query getObjectWithId:objectID];
+    
+    return [self thingWithThingAVObject:thingObject];
+}
+
 #pragma mark - Thing Save
 
 + (AVObject*)saveThing:(HAMThing*)thing{
-    AVObject* thingObject = [self thingAVObjectWithThing:thing];
+    if (thing == nil) {
+        [HAMLogTool warn:@"trying to save thing nil"];
+        return nil;
+    }
+    
+    AVObject* thingObject = [self thingAVObjectWithThing:thing shouldSaveCover:YES];
     [thingObject save];
     return thingObject;
 }
@@ -125,6 +208,10 @@
 #pragma mark - Thing & Beacon Query
 
 + (HAMThing*)thingWithBeacon:(CLBeacon*)beacon{
+    if (beacon == nil) {
+        return nil;
+    }
+    
     NSString* uuid = beacon.proximityUUID.UUIDString;
     NSNumber* major = beacon.major;
     NSNumber* minor = beacon.minor;
@@ -155,6 +242,10 @@
 #pragma mark - Thing & Beacon Save
 
 + (void)unbindThingToBeacon:(CLBeacon*)beacon withTarget:(id)target callback:(SEL)callback{
+    if (beacon == nil) {
+        return;
+    }
+    
     AVObject* beaconObject = [self queryBeaconAVObjectWithCLBeacon:beacon];
     if (beaconObject == nil) {
         //unbind thing from unrecorded beacon, normally won't happen
@@ -187,13 +278,45 @@
     //save thing
     AVObject* thingObject = [self saveThing:thing];
     
-    //TODO: must change here!
-    [beaconObject setObject:[NSNumber numberWithInteger:range] forKey:@"range"];
+    NSString* rangeString;
+    switch (range) {
+        case CLProximityImmediate:
+            rangeString = @"immediate";
+            break;
+            
+        case CLProximityNear:
+            rangeString = @"near";
+            break;
+            
+        case CLProximityFar:
+            rangeString = @"far";
+            break;
+            
+        default:
+            rangeString = @"immediate";
+            break;
+    }
+    [beaconObject setObject:rangeString forKey:@"range"];
     [beaconObject setObject:thingObject forKey:@"thing"];
     [beaconObject saveInBackgroundWithTarget:target selector:callback];
 }
 
 #pragma mark - File
+
+#pragma mark - File Query
+
++ (UIImage*)imageFromFile:(AVFile*)file{
+    if (file == nil) {
+        return nil;
+    }
+    
+    NSData *coverData = [file getData];
+    if (coverData == nil) {
+        return nil;
+    }
+    
+    return [UIImage imageWithData:coverData];
+}
 
 #pragma mark - File Save
 
@@ -209,6 +332,76 @@
         return nil;
     };
     return file;
+}
+
+#pragma mark - Favorites
+
+#pragma mark - Favorites Query
+
+//TODO: may need unsync version!
++ (NSArray*)allFavoriteThingsOfCurrentUser{
+    AVUser* user = [AVUser currentUser];
+    NSArray* favoritesObjectArray = [user objectForKey:@"favorites"];
+    if (favoritesObjectArray == nil || favoritesObjectArray.count == 0) {
+        //no favorites
+        return [NSArray array];
+    }
+    
+    NSMutableArray* favoritesArray = [NSMutableArray array];
+    for (int i = 0; i < favoritesObjectArray.count; i++) {
+        AVObject* thingObject = favoritesObjectArray[i];
+        [thingObject fetch];
+        
+        HAMThing* thing = [self thingWithThingAVObject:thingObject];
+        [favoritesArray addObject:thing];
+    }
+    
+    return [NSArray arrayWithArray:favoritesArray];
+}
+
++ (Boolean)isThingFavoriteOfCurrentUser:(HAMThing*)targetThing{
+    if (targetThing == nil || targetThing.objectID == nil) {
+        return false;
+    }
+    
+    AVUser* user = [AVUser currentUser];
+    NSArray* favoritesObjectArray = [user objectForKey:@"favorites"];
+    if (favoritesObjectArray == nil || favoritesObjectArray.count == 0) {
+        //no favorites
+        return NO;
+    }
+    
+    for (int i = 0; i < favoritesObjectArray.count; i++) {
+        AVObject* thingObject = favoritesObjectArray[i];
+        if (thingObject.objectId == targetThing.objectID) {
+            return YES;
+        }
+    }
+    return NO;
+}
+
+#pragma mark - Favorites Save
+
++ (void)saveFavoriteThingForCurrentUser:(HAMThing*)thing{
+    if (thing == nil) {
+        [HAMLogTool warn:@"save nil favorite thing for current user"];
+        return;
+    }
+    
+    AVUser* user = [AVUser currentUser];
+    AVObject* thingObject = [self thingAVObjectWithThing:thing shouldSaveCover:NO];
+    [user addUniqueObject:thingObject forKey:@"favorites"];
+}
+
++ (void)removeFavoriteThingFromCurrentUser:(HAMThing*)thing{
+    if (thing == nil) {
+        [HAMLogTool warn:@"remove nil favorite thing for current user"];
+        return;
+    }
+    
+    AVUser* user = [AVUser currentUser];
+    AVObject* thingObject = [self thingAVObjectWithThing:thing shouldSaveCover:NO];
+    [user removeObject:thingObject forKey:@"favorites"];
 }
 
 @end

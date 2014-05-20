@@ -58,6 +58,7 @@ static float defaultDistanceRangeMin = 1;
             thingsInWorld = nil;
             thingsInWorld = [NSMutableArray array];
             for (AVObject *thingObject in objectArray) {
+                //TODO: Please use [HAMAVOSManager thingWithThingAVObject]
                 HAMThing *thing = [[HAMThing alloc] init];
                 thing.objectID = thingObject.objectId;
                 thing.type = [thingObject objectForKey:@"type"];
