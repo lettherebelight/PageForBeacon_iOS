@@ -13,6 +13,7 @@
 #import "HAMDiscoverCollectionViewController_iPhone.h"
 #import "HAMTools.h"
 #import "SVProgressHUD.h"
+#import "HAMAVOSManager.h"
 
 @interface HAMArtDetailTabController_iPhone ()
 
@@ -81,15 +82,15 @@ HAMThing *newThing;
     
     // Set Navigation Bar
     self.navigationItem.title = pageTitle;
-//    UIBarButtonItem *favItem;
-//    if (self.homepage.markedListRecord == nil) {
-//        UIImage *favImage = [[UIImage imageNamed:@"ios7-heart-outline.png"] imageWithRenderingMode:UIImageRenderingModeAutomatic];
-//        favItem = [[UIBarButtonItem alloc] initWithImage:favImage style:UIBarButtonItemStylePlain target:self action:@selector(performFavorite)];
-//    } else {
-//        UIImage *favImage = [[UIImage imageNamed:@"ios7-heart.png"] imageWithRenderingMode:UIImageRenderingModeAutomatic];
-//        favItem = [[UIBarButtonItem alloc] initWithImage:favImage style:UIBarButtonItemStyleBordered target:self action:@selector(performUnFavorite)];
-//    }
-//    barItems = [NSMutableArray arrayWithObjects:favItem, nil];
+    UIBarButtonItem *favItem;
+    if ([HAMAVOSManager isThingFavoriteOfCurrentUser:self.thing]) {
+        UIImage *favImage = [[UIImage imageNamed:@"ios7-heart.png"] imageWithRenderingMode:UIImageRenderingModeAutomatic];
+        favItem = [[UIBarButtonItem alloc] initWithImage:favImage style:UIBarButtonItemStyleBordered target:self action:@selector(performUnFavorite)];
+    } else {
+        UIImage *favImage = [[UIImage imageNamed:@"ios7-heart-outline.png"] imageWithRenderingMode:UIImageRenderingModeAutomatic];
+        favItem = [[UIBarButtonItem alloc] initWithImage:favImage style:UIBarButtonItemStylePlain target:self action:@selector(performFavorite)];
+    }
+    barItems = [NSMutableArray arrayWithObjects:favItem, nil];
     
     switchArea = [[UIView alloc] initWithFrame:CGRectMake(50, 0, 220, self.navigationController.navigationBar.frame.size.height)];
     [switchArea addGestureRecognizer:switchDetailViewRecognizer];

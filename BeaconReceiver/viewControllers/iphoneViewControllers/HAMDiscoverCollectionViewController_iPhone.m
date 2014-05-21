@@ -16,6 +16,7 @@
 #import "OLImageView.h"
 #import "OLImage.h"
 #import "HAMThing.h"
+#import "HAMAVOSManager.h"
 
 @interface HAMDiscoverCollectionViewController_iPhone ()
 
@@ -232,21 +233,21 @@ DiscoverType discoverStatus = AROUND;
     [commentButton addTarget:self action:@selector(commentClicked:) forControlEvents:UIControlEventTouchUpInside];
     commentImage = nil;
     
-//    UIButton *favButton = (UIButton*)[view viewWithTag:4];
-//    if (pageData.markedListRecord == nil) {
-//        UIImage *favImage = [[UIImage imageNamed:@"ios7-heart-outline.png"] imageWithRenderingMode:UIImageRenderingModeAutomatic];
-//        [favButton setImage:favImage forState:UIControlStateNormal];
-//        [favButton removeTarget:self action:@selector(performUnFavorite:) forControlEvents:UIControlEventTouchUpInside];
-//        [favButton addTarget:self action:@selector(performFavorite:) forControlEvents:UIControlEventTouchUpInside];
-//        favImage = nil;
-//    }
-//    else {
-//        UIImage *favImage = [[UIImage imageNamed:@"ios7-heart.png"] imageWithRenderingMode:UIImageRenderingModeAutomatic];
-//        [favButton setImage:favImage forState:UIControlStateNormal];
-//        [favButton removeTarget:self action:@selector(performFavorite:) forControlEvents:UIControlEventTouchUpInside];
-//        [favButton addTarget:self action:@selector(performUnFavorite:) forControlEvents:UIControlEventTouchUpInside];
-//        favImage = nil;
-//    }
+    UIButton *favButton = (UIButton*)[view viewWithTag:4];
+    if ([HAMAVOSManager isThingFavoriteOfCurrentUser:thing]) {
+        UIImage *favImage = [[UIImage imageNamed:@"ios7-heart.png"] imageWithRenderingMode:UIImageRenderingModeAutomatic];
+        [favButton setImage:favImage forState:UIControlStateNormal];
+        [favButton removeTarget:self action:@selector(performFavorite:) forControlEvents:UIControlEventTouchUpInside];
+        [favButton addTarget:self action:@selector(performUnFavorite:) forControlEvents:UIControlEventTouchUpInside];
+        favImage = nil;
+    }
+    else {
+        UIImage *favImage = [[UIImage imageNamed:@"ios7-heart-outline.png"] imageWithRenderingMode:UIImageRenderingModeAutomatic];
+        [favButton setImage:favImage forState:UIControlStateNormal];
+        [favButton removeTarget:self action:@selector(performUnFavorite:) forControlEvents:UIControlEventTouchUpInside];
+        [favButton addTarget:self action:@selector(performFavorite:) forControlEvents:UIControlEventTouchUpInside];
+        favImage = nil;
+    }
     return cell;
 }
 
@@ -265,7 +266,6 @@ DiscoverType discoverStatus = AROUND;
     UICollectionViewCell *cell = (UICollectionViewCell*)button.superview.superview.superview;
     long i = [self.collectionView indexPathForCell:cell].row;
     [[HAMTourManager tourManager] addFavoriteThing:[self.thingsAround objectAtIndex:i]];
-    
     UIButton *favButton = (UIButton*)[cell viewWithTag:4];
     UIImage *favImage = [[UIImage imageNamed:@"ios7-heart.png"] imageWithRenderingMode:UIImageRenderingModeAutomatic];
     [favButton setImage:favImage forState:UIControlStateNormal];

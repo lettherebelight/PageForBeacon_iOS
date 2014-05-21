@@ -29,10 +29,7 @@
     
     bool isInBackground;
     
-    HAMHomepageData *lastPageData;
-    HAMHomepageData *nearestPageData;
-    int nearestTime;
-    int beaconsAroundCount;
+    NSMutableArray *previousThings;
     
     NSTimer *flushTimer;
 }
@@ -73,10 +70,8 @@ static float defaultDistanceDelta = 0.5;
         
         isInBackground = NO;
         
-        lastPageData = nil;
-        nearestPageData = nil;
-        nearestTime = 0;
-        beaconsAroundCount = 0;
+        previousThings = [NSMutableArray array];
+        
         [self setupLocationManager];
     }
     return self;
@@ -259,6 +254,9 @@ static float defaultDistanceDelta = 0.5;
     for (id key in keyArray) {
         NSArray *beacons = [beaconDictionary objectForKey:key];
         for (CLBeacon *beacon in beacons) {
+            if ([HAMAVOSManager rangeOfBeacon:beacon]) {
+                ;
+            }
             if ([self removeBeacon:beacon] == NO && isInBackground == YES) {
                 HAMThing *thing = [HAMAVOSManager thingWithBeacon:beacon];
                 if (thing != nil) {
@@ -281,12 +279,16 @@ static float defaultDistanceDelta = 0.5;
             [thingsAround addObject:thing];
         }
     }
+    if ([previousThings isEqual:thingsAround]) {
+        return;
+    }
     if (delegate != nil) {
         [delegate displayThings:thingsAround];
     }
     if (detailDelegate != nil) {
         [detailDelegate displayThings:thingsAround];
     }
+    previousThings = thingsAround;
 }
 
 - (void)locationManager:(CLLocationManager *)manager didRangeBeacons:(NSArray *)beacons inRegion:(CLBeaconRegion *)region {

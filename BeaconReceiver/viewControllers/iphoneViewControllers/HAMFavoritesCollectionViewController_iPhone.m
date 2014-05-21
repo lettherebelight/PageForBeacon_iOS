@@ -14,6 +14,7 @@
 #import "HAMHomepageData.h"
 #import "HAMArtDetailTabController_iPhone.h"
 #import "HAMThing.h"
+#import "HAMAVOSManager.h"
 #import <AVOSCloud/AVOSCloud.h>
 
 @interface HAMFavoritesCollectionViewController_iPhone ()
@@ -24,7 +25,7 @@
 
 - (void)initView {
     thingForSegue = nil;
-    thingArray = [HAMDataManager fetchMarkedRecords];
+    thingArray = [HAMAVOSManager allFavoriteThingsOfCurrentUser];
     [self.collectionView reloadData];
 }
 

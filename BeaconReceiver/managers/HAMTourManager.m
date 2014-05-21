@@ -10,6 +10,7 @@
 #import "HAMDataManager.h"
 #import "HAMThing.h"
 #import "HAMDataManager.h"
+#import "HAMAVOSManager.h"
 #import <AVOSCloud/AVOSCloud.h>
 
 @implementation HAMTourManager
@@ -64,6 +65,7 @@ static HAMTourManager *tourManager;
 }
 
 - (void)addFavoriteThing:(HAMThing*)thing {
+    [HAMAVOSManager saveFavoriteThingForCurrentUser:thing];
     AVObject *tourEvent = [AVObject objectWithClassName:@"TourEvent"];
     [tourEvent setObject:[self currentVisitor] forKey:@"userID"];
     [tourEvent setObject:thing.objectID forKey:@"thingID"];
@@ -74,6 +76,7 @@ static HAMTourManager *tourManager;
 }
 
 - (void)removeFavoriteThing:(HAMThing*)thing {
+    [HAMAVOSManager removeFavoriteThingFromCurrentUser:thing];
     AVObject *tourEvent = [AVObject objectWithClassName:@"TourEvent"];
     [tourEvent setObject:[self currentVisitor] forKey:@"userID"];
     [tourEvent setObject:thing.objectID forKey:@"thingID"];

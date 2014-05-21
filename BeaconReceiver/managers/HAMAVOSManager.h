@@ -27,6 +27,7 @@
 
 + (AVObject*)queryBeaconAVObjectWithCLBeacon:(CLBeacon*)beacon;
 + (HAMBeaconState)ownStateOfBeacon:(CLBeacon*)beacon;
++ (CLProximity)rangeOfBeacon:(CLBeacon*)beacon;
 
 #pragma mark - Beacon Save
 
@@ -43,6 +44,7 @@
 #pragma mark - Thing Query
 
 + (HAMThing*)thingWithObjectID:(NSString*)objectID;
++ (NSArray*)thingsOfCurrentUser;
 
 #pragma mark - Thing Save
 

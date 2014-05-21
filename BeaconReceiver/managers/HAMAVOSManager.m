@@ -184,10 +184,33 @@
         return nil;
     }
     
-    AVQuery *query = [AVQuery queryWithClassName:@"Thing"];
-    AVObject *thingObject = [query getObjectWithId:objectID];
+    AVQuery* query = [AVQuery queryWithClassName:@"Thing"];
+    AVObject* thingObject = [query getObjectWithId:objectID];
     
     return [self thingWithThingAVObject:thingObject];
+}
+
++ (NSArray*)thingsOfCurrentUser{
+    AVUser* user = [AVUser currentUser];
+    if (user == nil) {
+        return nil;
+    }
+    
+    AVQuery* query = [AVQuery queryWithClassName:@"Thing"];
+    [query whereKey:@"creator" equalTo:user];
+    NSArray* thingObjectArray = [query findObjects];
+    
+    if (thingObjectArray == nil || thingObjectArray.count == 0) {
+        return @[];
+    }
+    
+    NSMutableArray* thingArray = [NSMutableArray array];
+    for (int i = 0; i < thingObjectArray.count; i++) {
+        AVObject* thingObject = thingObjectArray[i];
+        HAMThing* thing = [self thingWithThingAVObject:thingObject];
+        [thingArray addObject:thing];
+    }
+    return thingArray;
 }
 
 #pragma mark - Thing Save
@@ -373,7 +396,7 @@
     
     for (int i = 0; i < favoritesObjectArray.count; i++) {
         AVObject* thingObject = favoritesObjectArray[i];
-        if (thingObject.objectId == targetThing.objectID) {
+        if ([thingObject.objectId isEqualToString:targetThing.objectID]) {
             return YES;
         }
     }
@@ -390,7 +413,9 @@
     
     AVUser* user = [AVUser currentUser];
     AVObject* thingObject = [self thingAVObjectWithThing:thing shouldSaveCover:NO];
-    [user addUniqueObject:thingObject forKey:@"favorites"];
+    //The favorite array's is ordered by adding consequence. So didn't use addUniqueObject here. Please don't add favorite things that are already favorite, so that there would be no duplicate things in the favorite array.
+    [user addObject:thingObject forKey:@"favorites"];
+    [user save];
 }
 
 + (void)removeFavoriteThingFromCurrentUser:(HAMThing*)thing{
@@ -402,6 +427,7 @@
     AVUser* user = [AVUser currentUser];
     AVObject* thingObject = [self thingAVObjectWithThing:thing shouldSaveCover:NO];
     [user removeObject:thingObject forKey:@"favorites"];
+    [user save];
 }
 
 @end
