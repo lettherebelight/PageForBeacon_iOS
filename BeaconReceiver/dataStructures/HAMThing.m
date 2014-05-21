@@ -72,7 +72,7 @@
 
 - (UIImage*)cover{
     //lazy loading
-    if (self.cover != nil) {
+    if (cover != nil) {
         return cover;
     }
     

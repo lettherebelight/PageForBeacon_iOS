@@ -62,6 +62,12 @@
 + (void)unbindThingToBeacon:(CLBeacon*)beacon withTarget:(id)target callback:(SEL)callback;
 + (void)bindThing:(HAMThing*)thing range:(CLProximity)range toBeacon:(CLBeacon*)beacon withTarget:(id)target callback:(SEL)callback;
 
+#pragma mark - Thing & User
+
+#pragma mark - Thing & User Save
+
++ (void)saveCurrentUserCard:(HAMThing*)thing;
+
 #pragma mark - File
 
 #pragma mark - File Query

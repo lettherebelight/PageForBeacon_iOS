@@ -291,11 +291,30 @@ static float defaultDistanceDelta = 0.5;
     previousThings = thingsAround;
 }
 
-- (void)locationManager:(CLLocationManager *)manager didRangeBeacons:(NSArray *)beacons inRegion:(CLBeaconRegion *)region {
+- (void)locationManager:(CLLocationManager *)manager didRangeBeacons:(NSArray *)rawBeaconArray inRegion:(CLBeaconRegion *)region {
+    
+    if (rawBeaconArray == nil) {
+        return;
+    }
+    
+    //rotate beacons array, remove "-1" beacons from top and insert into end
+    //remove "-1" beacons from top
+    int i;
+    for (i = 0; i < rawBeaconArray.count; i++) {
+        CLBeacon* beacon = rawBeaconArray[0];
+        if (beacon.accuracy > 0) {
+            //no more "-1"
+            break;
+        }
+    }
+    
+    NSArray* beaconArray = [rawBeaconArray subarrayWithRange:NSMakeRange(i, rawBeaconArray.count - i)];
     
     //update beaconDictionary
     NSString* uuid = region.proximityUUID.UUIDString;
-    [beaconDictionary setObject:beacons forKey:uuid];
+    [beaconDictionary setObject:beaconArray forKey:uuid];
+    
+    
 //    for (CLBeacon* beacon in beacons) {
 ////        [HAMLogTool debug:[NSString stringWithFormat:@"distance:%f", beacon.accuracy]];
 //        HAMHomepageData *pageData = [HAMThingManager homepageWithBeaconID:beacon.proximityUUID.UUIDString major:beacon.major minor:beacon.minor];

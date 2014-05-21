@@ -121,7 +121,7 @@ static HAMThingType kHAMDefaultThingType = HAMThingTypeArt;
     thing.creator = [AVUser currentUser];
     
     [HAMAVOSManager bindThing:thing range:range toBeacon:beaconToBind withTarget:self callback:@selector(didBindThing:error:)];
-    //TODO: add something indicate uploading here
+    [SVProgressHUD show];
 }
 
 - (void)didBindThing:(NSNumber *)result error:(NSError *)error {
@@ -131,6 +131,7 @@ static HAMThingType kHAMDefaultThingType = HAMThingTypeArt;
         return;
     }
     
+    [SVProgressHUD dismiss];
     [SVProgressHUD showSuccessWithStatus:@"已创建Thing，并成功绑定Beacon。"];
     [self.navigationController popViewControllerAnimated:YES];
 }
@@ -182,11 +183,11 @@ static HAMThingType kHAMDefaultThingType = HAMThingTypeArt;
     }
     
     switch (buttonIndex) {
-        case 0:
+        case 1:
             self.imagePicker.sourceType = UIImagePickerControllerSourceTypeCamera;
             break;
             
-        case 1:
+        case 2:
             self.imagePicker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
             break;
             

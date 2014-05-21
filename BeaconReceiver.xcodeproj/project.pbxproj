@@ -31,6 +31,8 @@
 		6636EC9618B502DD00F94E6C /* libsqlite3.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 6636EC9518B502DD00F94E6C /* libsqlite3.0.dylib */; };
 		6636EC9918B526A700F94E6C /* HAMWebTool.m in Sources */ = {isa = PBXBuildFile; fileRef = 6636EC9818B526A700F94E6C /* HAMWebTool.m */; };
 		6636EC9A18B526A700F94E6C /* HAMWebTool.m in Sources */ = {isa = PBXBuildFile; fileRef = 6636EC9818B526A700F94E6C /* HAMWebTool.m */; };
+		664279E6192CC1E500B5D964 /* HAMMyInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 664279E5192CC1E500B5D964 /* HAMMyInfoViewController.m */; };
+		664279E7192CC1E500B5D964 /* HAMMyInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 664279E5192CC1E500B5D964 /* HAMMyInfoViewController.m */; };
 		6657B41D18FCDA3800099EC6 /* AVOSCloud.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6657B41C18FCDA3800099EC6 /* AVOSCloud.framework */; };
 		6657B41F18FCDAD400099EC6 /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6657B41E18FCDAD400099EC6 /* MobileCoreServices.framework */; };
 		6657B42118FCDAE000099EC6 /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6657B42018FCDAE000099EC6 /* CoreTelephony.framework */; };
@@ -189,6 +191,8 @@
 		6636EC9518B502DD00F94E6C /* libsqlite3.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.0.dylib; path = usr/lib/libsqlite3.0.dylib; sourceTree = SDKROOT; };
 		6636EC9718B526A700F94E6C /* HAMWebTool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HAMWebTool.h; path = utils/HAMWebTool.h; sourceTree = "<group>"; };
 		6636EC9818B526A700F94E6C /* HAMWebTool.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HAMWebTool.m; path = utils/HAMWebTool.m; sourceTree = "<group>"; };
+		664279E4192CC1E500B5D964 /* HAMMyInfoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HAMMyInfoViewController.h; path = viewControllers/iphoneViewControllers/me/HAMMyInfoViewController.h; sourceTree = "<group>"; };
+		664279E5192CC1E500B5D964 /* HAMMyInfoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HAMMyInfoViewController.m; path = viewControllers/iphoneViewControllers/me/HAMMyInfoViewController.m; sourceTree = "<group>"; };
 		6657B41C18FCDA3800099EC6 /* AVOSCloud.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = AVOSCloud.framework; sourceTree = "<group>"; };
 		6657B41E18FCDAD400099EC6 /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
 		6657B42018FCDAE000099EC6 /* CoreTelephony.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreTelephony.framework; path = System/Library/Frameworks/CoreTelephony.framework; sourceTree = SDKROOT; };
@@ -595,6 +599,8 @@
 				668090B319249F9700395A88 /* HAMBeaconListViewController.m */,
 				668090FC19278E6D00395A88 /* HAMCreateThingViewController.h */,
 				668090FD19278E6D00395A88 /* HAMCreateThingViewController.m */,
+				664279E4192CC1E500B5D964 /* HAMMyInfoViewController.h */,
+				664279E5192CC1E500B5D964 /* HAMMyInfoViewController.m */,
 			);
 			name = me;
 			sourceTree = "<group>";
@@ -839,6 +845,7 @@
 				6668B6B018F6ACB900A12655 /* HAMCoreData.xcdatamodeld in Sources */,
 				668090FE19278E6D00395A88 /* HAMCreateThingViewController.m in Sources */,
 				66B01AE218D5DCAB00CD5EDF /* Reachability.m in Sources */,
+				664279E6192CC1E500B5D964 /* HAMMyInfoViewController.m in Sources */,
 				66B162C218FE887E00EFE554 /* HAMMarkedHomepage.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -850,6 +857,7 @@
 				668090FB1927723500395A88 /* HAMAVOSManager.m in Sources */,
 				667965D3191E25D800D9C4FF /* HAMBeaconManager.m in Sources */,
 				6636EC9018B4A91400F94E6C /* HAMFileTools.m in Sources */,
+				664279E7192CC1E500B5D964 /* HAMMyInfoViewController.m in Sources */,
 				6636EC9A18B526A700F94E6C /* HAMWebTool.m in Sources */,
 				66B3A91D19245D7C00EBAC48 /* HAMUserCollectionViewController_iPhone.m in Sources */,
 				667965851917A36C00D9C4FF /* HAMHomepageData.m in Sources */,

@@ -178,14 +178,22 @@
 
 #pragma mark - Thing Query
 
-+ (HAMThing*)thingWithObjectID:(NSString*)objectID{
++ (AVObject*)thingAVObjectWithObjectID:(NSString*)objectID{
     if (objectID == nil) {
         [HAMLogTool warn:@"query thing with objectID nil"];
         return nil;
     }
     
     AVQuery* query = [AVQuery queryWithClassName:@"Thing"];
-    AVObject* thingObject = [query getObjectWithId:objectID];
+    return [query getObjectWithId:objectID];
+}
+
++ (HAMThing*)thingWithObjectID:(NSString*)objectID{
+    AVObject* thingObject = [self thingAVObjectWithObjectID:objectID];
+    if (!thingObject) {
+        [HAMLogTool warn:@"thing with ObjectID not found"];
+        return nil;
+    }
     
     return [self thingWithThingAVObject:thingObject];
 }
@@ -280,10 +288,21 @@
     [beaconObject saveInBackgroundWithTarget:target selector:callback];
 }
 
-+ (void)bindThing:(HAMThing*)thing range:(CLProximity)range toBeacon:(CLBeacon*)beacon withTarget:(id)target callback:(SEL)callback{
++ (void)bindThing:(HAMThing *)thing range:(CLProximity)range toBeacon:(CLBeacon *)beacon withTarget:(id)target callback:(SEL)callback{
+    NSArray* params = [NSArray arrayWithObjects:thing, [NSNumber numberWithInt:range], beacon, target, NSStringFromSelector(callback), nil];
+    [NSThread detachNewThreadSelector:@selector(bindThingSyncWithParams:) toTarget:self withObject:params];
+}
+
++ (void)bindThingSyncWithParams:(NSArray*)params{
     //    if (![HAMTools isWebAvailable]) {
     //        return;
     //    }
+    
+    HAMThing* thing = params[0];
+    CLProximity range = [params[1] intValue];
+    CLBeacon* beacon = params[2];
+    id target = params[3];
+    SEL callback = NSSelectorFromString(params[4]);
     
     if (thing == nil) {
         [HAMLogTool warn:@"binding nil thing to Beacon"];
@@ -322,6 +341,36 @@
     [beaconObject setObject:rangeString forKey:@"range"];
     [beaconObject setObject:thingObject forKey:@"thing"];
     [beaconObject saveInBackgroundWithTarget:target selector:callback];
+}
+
+#pragma mark - Thing & User
+
+#pragma mark - Thing & User Update
+
++ (void)updateCurrentUserCardWithName:(NSString*)name intro:(NSString*)intro{
+    AVUser* user = [AVUser currentUser];
+    
+    NSString* cardID = [user objectForKey:@"card"];
+    if (cardID == nil) {
+        [HAMLogTool warn:@"Card not exists for current user"];
+        return;
+    }
+    
+    AVObject* thingObject = [self thingAVObjectWithObjectID:cardID];
+    [thingObject setObject:name forKey:@"title"];
+    [thingObject setObject:intro forKey:@"intro"];
+    [thingObject save];
+}
+
+#pragma mark - Thing & User Save
+
++ (void)saveCurrentUserCard:(HAMThing*)thing{
+    thing.type = HAMThingTypeCard;
+    AVObject* thingObject = [self saveThing:thing];
+    
+    AVUser* user = [AVUser currentUser];
+    [user setObject:thingObject forKey:@"card"];
+    [user save];
 }
 
 #pragma mark - File
@@ -373,7 +422,7 @@
     NSMutableArray* favoritesArray = [NSMutableArray array];
     for (int i = 0; i < favoritesObjectArray.count; i++) {
         AVObject* thingObject = favoritesObjectArray[i];
-        [thingObject fetch];
+        [thingObject fetchIfNeeded];
         
         HAMThing* thing = [self thingWithThingAVObject:thingObject];
         [favoritesArray addObject:thing];

@@ -31,7 +31,7 @@
 @property CLBeacon* beaconSelected;
 @end
 
-static const double kRefreshTimeInterval = 1.0f;
+static const double kRefreshTimeInterval = 3.0f;
 
 @implementation HAMBeaconListViewController
 
@@ -127,12 +127,11 @@ static const double kRefreshTimeInterval = 1.0f;
 
 - (UITableViewCell*)tableView:(UITableView*)tableView
         cellForRowAtIndexPath:(NSIndexPath *)indexPath{
-    NSString* CellIdentifier = [NSString stringWithFormat:@"BeaconCell"];
+    NSString* CellIdentifier = [NSString stringWithFormat:@"BeaconTableViewCell"];
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-    if (cell == nil) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier];
-    }
-    
+//    if (cell == nil) {
+//        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier];
+//    }
     
     CLBeacon* beacon = [self beaconAtIndexPath:indexPath];
     

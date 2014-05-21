@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="5056" systemVersion="13C1021" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="R2C-Bb-sFj">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="5056" systemVersion="13C64" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="R2C-Bb-sFj">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3733"/>
     </dependencies>
@@ -550,10 +550,10 @@
             </objects>
             <point key="canvasLocation" x="1176" y="1597"/>
         </scene>
-        <!--View Controller - 我的信息-->
+        <!--My Info View Controller - 我的信息-->
         <scene sceneID="8zo-pI-heR">
             <objects>
-                <viewController id="nyG-Bg-Sbc" sceneMemberID="viewController">
+                <viewController id="nyG-Bg-Sbc" customClass="HAMMyInfoViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="Yuy-G1-LLz"/>
                         <viewControllerLayoutGuide type="bottom" id="4sn-bo-Csh"/>
@@ -581,11 +581,10 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="A5S-FS-aaI">
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" text="我的简介" translatesAutoresizingMaskIntoConstraints="NO" id="A5S-FS-aaI">
                                 <rect key="frame" x="112" y="179" width="174" height="128"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                <string key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</string>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>
@@ -595,6 +594,9 @@
                                 <state key="normal" title="保存">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
+                                <connections>
+                                    <action selector="saveMyInfoClicked:" destination="nyG-Bg-Sbc" eventType="touchUpInside" id="krg-bq-9LN"/>
+                                </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="NZi-VT-qvb">
                                 <rect key="frame" x="123" y="364" width="74" height="30"/>
@@ -626,12 +628,16 @@
                     <navigationItem key="navigationItem" title="我的信息" id="mgF-7I-jNW">
                         <barButtonItem key="backBarButtonItem" title="返回" id="wPd-ef-zYX"/>
                     </navigationItem>
+                    <connections>
+                        <outlet property="introTextView" destination="A5S-FS-aaI" id="Yxc-cl-kLL"/>
+                        <outlet property="nameTextField" destination="xYZ-YA-mDj" id="idR-lz-yaV"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ivt-Wf-zzg" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1713" y="2050"/>
         </scene>
-        <!--Beacon List View Controller - 附近所有iBeacon-->
+        <!--Beacon List View Controller - 附近的iBeacon-->
         <scene sceneID="16T-nk-DfE">
             <objects>
                 <viewController id="WTY-99-R5u" customClass="HAMBeaconListViewController" sceneMemberID="viewController">
@@ -643,19 +649,30 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="xNk-yE-AkR">
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="70" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="xNk-yE-AkR">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="518"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <prototypes>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="BeaconTableViewCell" rowHeight="60" id="OAc-6w-bPt">
+                                        <rect key="frame" x="0.0" y="86" width="320" height="60"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="OAc-6w-bPt" id="ysq-I4-k4H">
+                                            <rect key="frame" x="0.0" y="0.0" width="320" height="59"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </prototypes>
                                 <connections>
                                     <outlet property="dataSource" destination="WTY-99-R5u" id="8vV-um-qFF"/>
                                     <outlet property="delegate" destination="WTY-99-R5u" id="9rP-s9-aVy"/>
                                 </connections>
                             </tableView>
                         </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
-                    <navigationItem key="navigationItem" title="附近所有iBeacon" id="af5-IM-6Lp">
+                    <navigationItem key="navigationItem" title="附近的iBeacon" id="af5-IM-6Lp">
+                        <barButtonItem key="backBarButtonItem" title="返回" id="vd5-1W-9o7"/>
                         <barButtonItem key="rightBarButtonItem" title="添加UUID" id="KYq-KV-JO8"/>
                     </navigationItem>
                     <connections>
@@ -791,7 +808,6 @@
         <!--View Controller-->
         <scene sceneID="P0e-2k-Vll">
             <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="NH4-TE-hYC" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <viewController id="t2e-8p-ANi" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="nUN-bI-Ej3"/>
@@ -824,6 +840,7 @@
                         </segmentedControl>
                     </navigationItem>
                 </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="NH4-TE-hYC" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1076" y="-772"/>
         </scene>
