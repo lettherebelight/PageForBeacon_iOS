@@ -48,7 +48,7 @@
 
 static HAMBeaconManager* beaconManager = nil;
 
-static float defaultDistanceDelta = 0.5;
+//static float defaultDistanceDelta = 0.5;
 
 + (HAMBeaconManager*)beaconManager{
     @synchronized(self) {
@@ -254,8 +254,8 @@ static float defaultDistanceDelta = 0.5;
     for (id key in keyArray) {
         NSArray *beacons = [beaconDictionary objectForKey:key];
         for (CLBeacon *beacon in beacons) {
-            if ([HAMAVOSManager rangeOfBeacon:beacon]) {
-                ;
+            if (beacon.proximity == 0 || beacon.proximity > [HAMAVOSManager rangeOfBeacon:beacon]) {
+                continue;
             }
             if ([self removeBeacon:beacon] == NO && isInBackground == YES) {
                 HAMThing *thing = [HAMAVOSManager thingWithBeacon:beacon];
@@ -296,90 +296,7 @@ static float defaultDistanceDelta = 0.5;
     //update beaconDictionary
     NSString* uuid = region.proximityUUID.UUIDString;
     [beaconDictionary setObject:beacons forKey:uuid];
-//    for (CLBeacon* beacon in beacons) {
-////        [HAMLogTool debug:[NSString stringWithFormat:@"distance:%f", beacon.accuracy]];
-//        HAMHomepageData *pageData = [HAMThingManager homepageWithBeaconID:beacon.proximityUUID.UUIDString major:beacon.major minor:beacon.minor];
-//        HAMThing *thing = [HAMAVOSManager thingWithBeacon:beacon];
-//        if (pageData == nil || beacon.accuracy < 0) {
-//            continue;
-//        }
-//        
-//        UITextField *debugTF = (UITextField*)[debugTextFields objectForKey:[NSString stringWithFormat:@"%@/%@/%@", pageData.beaconID, pageData.beaconMajor, pageData.beaconMinor]];
-//        if (debugTF != nil) {
-//            //debugTF.text = [NSString stringWithFormat:@"dis:%f", beacon.accuracy];
-//            debugTF.text = [NSString stringWithFormat:@"%@/%@  %f", beacon.major, beacon.minor, beacon.accuracy];
-//        }
-//        
-//        if ([self removeBeacon:beacon] == YES && beacon.accuracy <= (pageData.range.floatValue + defaultDistanceDelta)) {
-//            [self addBeacon:beacon];
-//        }
-//        else if (beacon.accuracy <= pageData.range.floatValue) {
-//            [self addBeacon:beacon];
-//            if (isInBackground == YES) {
-//                [[UIApplication sharedApplication] cancelAllLocalNotifications];
-//                UILocalNotification *localNotification = [[UILocalNotification alloc] init];
-//                NSDate *now = [NSDate date];
-//                localNotification.fireDate = now;
-//                if (pageData.pageTitle  == nil) {
-//                    localNotification.alertBody = @"beacon  found";
-//                }
-//                else {
-//                    localNotification.alertBody = pageData.pageTitle;
-//                }
-//                localNotification.soundName = UILocalNotificationDefaultSoundName;
-//                [[UIApplication sharedApplication] scheduleLocalNotification:localNotification];
-//            }
-//        }
-//    }
-//    [self showHomepages];
 }
-
-//    - (void)showHomepages {
-//    CLBeacon *currentBeacon;
-//    HAMHomepageData *currentPageData;
-//    NSMutableArray *stuffsAround = [NSMutableArray array];
-//    long i, count = [beaconsAround count];
-//    for (i = 0; i < count; i++) {
-//        currentBeacon = [beaconsAround objectAtIndex:i];
-//        HAMHomepageData *pageData = [HAMThingManager homepageWithBeaconID:currentBeacon.proximityUUID.UUIDString major:currentBeacon.major minor:currentBeacon.minor];
-//        if (pageData != nil) {
-//            [stuffsAround addObject:pageData];
-//        }
-//    }
-//
-//    if (count == 0) {
-//        currentPageData = nil;
-//    } else {
-//        currentPageData = [stuffsAround objectAtIndex:0];
-//    }
-//
-//    if ([self pageData:currentPageData theSameAsPageData:nearestPageData]) {
-//        nearestTime ++;
-//    } else {
-//        nearestTime = 0;
-//        lastPageData = nearestPageData;
-//        nearestPageData = currentPageData;
-//    }
-//
-//    if (nearestTime == 3) {
-//        if (lastPageData != nil) {
-//            [[HAMTourManager tourManager] leaveStuff:lastPageData];
-//        }
-//        if (currentPageData != nil) {
-//            [[HAMTourManager tourManager] approachStuff:currentPageData];
-//        }
-//    }
-//
-//    if (count != beaconsAroundCount || nearestTime == 3) {
-//        beaconsAroundCount = (int)count;
-//        if (delegate != nil) {
-//            [delegate displayHomepage:stuffsAround];
-//        }
-//        if (detailDelegate != nil) {
-//            [detailDelegate displayHomepage:stuffsAround];
-//        }
-//    }
-//    }
 
 #pragma mark - BeaconDictionary Methods
 
@@ -390,9 +307,5 @@ static float defaultDistanceDelta = 0.5;
 - (NSString*)descriptionOfUUID:(NSString*)uuid{
     return [self.descriptionDictionary objectForKey:uuid];
 }
-
-//- (HAMThing*)thingOfBeacon:(CLBeacon*)beacon{
-//    return [self.beaconThingDictionary objectForBeacon:beacon];
-//}
 
 @end

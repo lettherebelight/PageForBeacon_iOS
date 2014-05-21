@@ -2627,7 +2627,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "245"
             endingLineNumber = "245"
-            landmarkName = "+unbindThingToBeacon:withTarget:callback:"
+            landmarkName = "+thingWithBeaconID:major:minor:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -2867,7 +2867,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "376"
             endingLineNumber = "376"
-            landmarkName = "+isThingFavoriteOfCurrentUser:"
+            landmarkName = "+allFavoriteThingsOfCurrentUser"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -2883,7 +2883,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "375"
             endingLineNumber = "375"
-            landmarkName = "+isThingFavoriteOfCurrentUser:"
+            landmarkName = "+allFavoriteThingsOfCurrentUser"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -2931,8 +2931,56 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "369"
             endingLineNumber = "369"
-            landmarkName = "+isThingFavoriteOfCurrentUser:"
+            landmarkName = "+allFavoriteThingsOfCurrentUser"
             landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "BeaconReceiver/managers/HAMBeaconManager.m"
+            timestampString = "422353590.002227"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "257"
+            endingLineNumber = "257"
+            landmarkName = "-flushBeaconDictionary"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "BeaconReceiver/managers/HAMAVOSManager.m"
+            timestampString = "422353705.381898"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "415"
+            endingLineNumber = "415"
+            landmarkName = "+saveFavoriteThingForCurrentUser:"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "BeaconReceiver/viewControllers/iphoneViewControllers/HAMDiscoverViewController_iPhone.h"
+            timestampString = "422362509.009035"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "13"
+            endingLineNumber = "13"
+            landmarkName = "@interface HAMDiscoverViewController_iPhone"
+            landmarkType = "2">
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="5056" systemVersion="13C1021" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="R2C-Bb-sFj">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="5056" systemVersion="13D65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="R2C-Bb-sFj">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3733"/>
     </dependencies>
@@ -351,7 +351,7 @@
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="commentHistory" rowHeight="90" id="Gdn-B4-SJU">
-                                        <rect key="frame" x="0.0" y="86" width="320" height="90"/>
+                                        <rect key="frame" x="0.0" y="22" width="320" height="90"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Gdn-B4-SJU" id="Qew-tX-RZ2">
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="89"/>
@@ -788,11 +788,10 @@
             </objects>
             <point key="canvasLocation" x="1713" y="257"/>
         </scene>
-        <!--View Controller-->
+        <!--Discover View Controller i Phone-->
         <scene sceneID="P0e-2k-Vll">
             <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="NH4-TE-hYC" userLabel="First Responder" sceneMemberID="firstResponder"/>
-                <viewController id="t2e-8p-ANi" sceneMemberID="viewController">
+                <viewController id="t2e-8p-ANi" customClass="HAMDiscoverViewController_iPhone" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="nUN-bI-Ej3"/>
                         <viewControllerLayoutGuide type="bottom" id="IAt-bg-1Sz"/>
@@ -806,7 +805,7 @@
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                                 <connections>
-                                    <segue destination="4fG-e3-V8W" kind="embed" id="KYM-JP-6MI"/>
+                                    <segue destination="4fG-e3-V8W" kind="embed" identifier="embedSegue" id="KYM-JP-6MI"/>
                                 </connections>
                             </containerView>
                         </subviews>
@@ -824,13 +823,14 @@
                         </segmentedControl>
                     </navigationItem>
                 </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="NH4-TE-hYC" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1076" y="-772"/>
         </scene>
-        <!--Collection View Controller-->
+        <!--Card List View Controller i Phone-->
         <scene sceneID="U47-j8-17y">
             <objects>
-                <collectionViewController autoresizesArchivedViewToFullSize="NO" id="4fG-e3-V8W" sceneMemberID="viewController">
+                <collectionViewController autoresizesArchivedViewToFullSize="NO" id="4fG-e3-V8W" customClass="HAMCardListViewController_iPhone" sceneMemberID="viewController">
                     <collectionView key="view" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" minimumZoomScale="0.0" maximumZoomScale="0.0" dataMode="prototypes" id="91x-0m-izC">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -849,33 +849,33 @@
                                     <rect key="frame" x="0.0" y="0.0" width="320" height="400"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <view userInteractionEnabled="NO" tag="7" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="8uo-W7-Ixg">
+                                        <view userInteractionEnabled="NO" tag="1" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="8uo-W7-Ixg">
                                             <rect key="frame" x="10" y="10" width="300" height="380"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                                         </view>
-                                        <view tag="1" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="yuC-Rx-c6q">
+                                        <view tag="2" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="yuC-Rx-c6q">
                                             <rect key="frame" x="10" y="10" width="300" height="380"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <subviews>
-                                                <imageView userInteractionEnabled="NO" tag="6" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="6sV-6F-4e1">
+                                                <imageView userInteractionEnabled="NO" tag="3" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="6sV-6F-4e1">
                                                     <rect key="frame" x="0.0" y="0.0" width="300" height="200"/>
                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                 </imageView>
-                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="2" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yvZ-GJ-Vt6">
+                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="4" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yvZ-GJ-Vt6">
                                                     <rect key="frame" x="20" y="210" width="210" height="20"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <button opaque="NO" tag="3" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yrj-Nm-AjV">
+                                                <button opaque="NO" tag="6" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yrj-Nm-AjV">
                                                     <rect key="frame" x="0.0" y="350" width="150" height="30"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <state key="normal" title="  评论">
                                                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                                     </state>
                                                 </button>
-                                                <button opaque="NO" tag="4" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Gll-g0-DsD">
+                                                <button opaque="NO" tag="7" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Gll-g0-DsD">
                                                     <rect key="frame" x="150" y="350" width="150" height="30"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <state key="normal" title="  收藏"/>
@@ -895,7 +895,7 @@
                                 </view>
                                 <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                                 <connections>
-                                    <segue destination="26C-JX-lxH" kind="push" identifier="showArtDetailPage" id="SwL-Lp-RMe"/>
+                                    <segue destination="26C-JX-lxH" kind="push" identifier="showDetailPage" id="SwL-Lp-RMe"/>
                                 </connections>
                             </collectionViewCell>
                         </cells>
@@ -913,12 +913,12 @@
                         </connections>
                     </collectionView>
                     <connections>
-                        <segue destination="26C-JX-lxH" kind="push" identifier="showArtDetailComment" id="vXc-Ve-TV3"/>
+                        <segue destination="26C-JX-lxH" kind="push" identifier="showDetailComment" id="vXc-Ve-TV3"/>
                     </connections>
                 </collectionViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="AoB-Ep-iDc" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1540" y="-730"/>
+            <point key="canvasLocation" x="1537" y="-772"/>
         </scene>
     </scenes>
     <resources>
@@ -934,6 +934,6 @@
         <simulatedScreenMetrics key="destination" type="retina4"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="r9b-6e-eOO"/>
+        <segue reference="SwL-Lp-RMe"/>
     </inferredMetricsTieBreakers>
 </document>
