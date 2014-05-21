@@ -12,4 +12,8 @@
 
 @interface HAMDiscoverViewController_iPhone : UIViewController <HAMBeaconManagerDelegate, HAMThingManagerDelegate>
 
+@property (weak, nonatomic) IBOutlet UISegmentedControl *segmentedControl;
+
+- (void)showDetailWithThing:(HAMThing*)thing sender:(id)sender;
+
 @end

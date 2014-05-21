@@ -18,4 +18,6 @@
 - (void)updateViewScrollToTop:(BOOL)needScroll;
 - (void)updateWithThingArray:(NSArray*)array scrollToTop:(BOOL)needScroll;
 
+- (void)showDetailWithThing:(HAMThing*)thing sender:(id)sender;
+
 @end

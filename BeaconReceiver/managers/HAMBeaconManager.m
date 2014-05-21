@@ -12,8 +12,6 @@
 
 #import "HAMThing.h"
 
-//#import "HAMBeaconDictionary.h"
-#import "HAMHomepageData.h"
 #import "HAMThingManager.h"
 #import "HAMTourManager.h"
 #import "HAMAVOSManager.h"
@@ -161,18 +159,6 @@ static HAMBeaconManager* beaconManager = nil;
     return [info1 isEqualToString:info2];
 }
 
-- (BOOL)pageData:(HAMHomepageData*)data1 theSameAsPageData:(HAMHomepageData*)data2 {
-    if (data1 == nil && data2 == nil) {
-        return YES;
-    }
-    if (data1 == nil || data2 == nil) {
-        return NO;
-    }
-    NSString *info1 = [[NSString alloc] initWithFormat:@"%@/%@/%@", data1.beaconID, data1.beaconMajor, data1.beaconMinor];
-    NSString *info2 = [[NSString alloc] initWithFormat:@"%@/%@/%@", data2.beaconID, data2.beaconMajor, data2.beaconMinor];
-    return [info1 isEqualToString:info2];
-}
-
 - (BOOL)removeBeacon:(CLBeacon*)currentBeacon {
     long i;
     long count = [beaconsAround count];
@@ -254,7 +240,7 @@ static HAMBeaconManager* beaconManager = nil;
     for (id key in keyArray) {
         NSArray *beacons = [beaconDictionary objectForKey:key];
         for (CLBeacon *beacon in beacons) {
-            if (beacon.proximity == 0 || beacon.proximity > [HAMAVOSManager rangeOfBeacon:beacon]) {
+            if (beacon.accuracy < 0 || beacon.proximity == 0 || beacon.proximity > [HAMAVOSManager rangeOfBeacon:beacon]) {
                 continue;
             }
             if ([self removeBeacon:beacon] == NO && isInBackground == YES) {

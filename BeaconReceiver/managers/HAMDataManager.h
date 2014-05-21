@@ -20,16 +20,6 @@
 
 + (void)saveData;
 + (void)deleteRecord:(NSManagedObject*)object;
-+ (void)clearData;
-+ (HAMHomepageData*)newPageData;
-+ (HAMHomepageData*)pageDataWithBID:(NSString*)beaconID major:(NSNumber*)major minor:(NSNumber*)minor;
-+ (HAMHomepageData*)pageDataWithThingID:(NSString*)thingID;
-+ (void)addAMarkedRecord:(HAMHomepageData*)home;
-+ (void)removeMarkedRecord:(HAMHomepageData*)home;
-+ (void)addAHistoryRecord:(HAMHomepageData*)home;
-+ (NSArray*)fetchMarkedRecords;
-+ (NSArray*)fetchHistoryRecords;
-+ (void)updateHistoryRecord:(HAMHistoryHomepage*)history;
 + (HAMGlobalData*)globalData;
 
 @end

@@ -9,6 +9,8 @@
 #import "HAMDiscoverViewController_iPhone.h"
 #import "HAMCardListViewController_iPhone.h"
 #import "HAMThing.h"
+#import "OLImage.h"
+#import "OLImageView.h"
 
 @interface HAMDiscoverViewController_iPhone ()
 
@@ -39,15 +41,28 @@ static int kHAMDefaultViewTag = 22;
 - (IBAction)changStatus:(id)sender {
     if ([self.segmentedControl selectedSegmentIndex] == 0) {
         discoverStatus = AROUND;
+        if ([self.view viewWithTag:kHAMDefaultViewTag] == nil && (thingsAround == nil || [thingsAround count] == 0)) {
+            [self.view addSubview:defaultView];
+        }
         if (listViewController != nil) {
             [listViewController updateWithThingArray:thingsAround scrollToTop:YES];
         }
     } else if ([self.segmentedControl selectedSegmentIndex] == 1) {
         discoverStatus = WORLD;
+        if ([self.view viewWithTag:kHAMDefaultViewTag] != nil) {
+            [defaultView removeFromSuperview];
+        }
         if (listViewController != nil) {
             [listViewController updateWithThingArray:thingsInWorld scrollToTop:YES];
         }
     }
+}
+
+- (void)showDetailWithThing:(HAMThing*)thing sender:(id)sender {
+    if (listViewController == nil) {
+        return;
+    }
+    [listViewController showDetailWithThing:thing sender:sender];
 }
 
 #pragma mark - perform delegate methods
@@ -56,7 +71,7 @@ static int kHAMDefaultViewTag = 22;
     thingsInWorld = things;
     if (discoverStatus == WORLD) {
         if (listViewController != nil) {
-            [listViewController updateWithThingArray:thingsInWorld scrollToTop:YES];
+            [listViewController updateWithThingArray:thingsInWorld scrollToTop:NO];
         }
     }
 }
@@ -64,8 +79,13 @@ static int kHAMDefaultViewTag = 22;
 - (void)displayThings:(NSArray *)things {
     thingsAround = things;
     if (discoverStatus == AROUND) {
+        if ([self.view viewWithTag:kHAMDefaultViewTag] == nil && (thingsAround == nil || [thingsAround count] == 0)) {
+            [self.view addSubview:defaultView];
+        } else if([self.view viewWithTag:kHAMDefaultViewTag] != nil && thingsAround != nil && [thingsAround count] > 0) {
+            [defaultView removeFromSuperview];
+        }
         if (listViewController != nil) {
-            [listViewController updateWithThingArray:thingsAround scrollToTop:YES];
+            [listViewController updateWithThingArray:thingsAround scrollToTop:NO];
         }
     }
 }
@@ -85,6 +105,41 @@ static int kHAMDefaultViewTag = 22;
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    
+    defaultView = nil;
+    discoverStatus = AROUND;
+    thingsInWorld = nil;
+    thingsAround = nil;
+    self.navigationController.navigationBar.barTintColor = nil;
+    UIBarButtonItem *temporaryBarButtonItem = [[UIBarButtonItem alloc] init];
+    temporaryBarButtonItem.title = @"";
+    self.navigationItem.backBarButtonItem = temporaryBarButtonItem;
+    //init
+    [HAMBeaconManager beaconManager].delegate = self;
+    [[HAMBeaconManager beaconManager] startMonitor];
+    [HAMThingManager thingManager].delegate = self;
+    
+    //set default view
+    defaultView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, self.view.frame.size.height)];
+    UIImage *eyeGIF = [OLImage imageNamed:@"gif.gif"];
+    OLImageView *eyeImageView = [[OLImageView alloc] initWithFrame:CGRectMake(110, 200, 100, 100)];
+    eyeImageView.image = eyeGIF;
+    eyeImageView.alpha = 0.1;
+    UIImage *backJPG = [OLImage imageNamed:@"background_nobeacon.jpg"];
+    OLImageView *backImageView = [[OLImageView alloc] initWithFrame:CGRectMake(0, 0, 320, self.view.frame.size.height)];
+    backImageView.image = backJPG;
+    [defaultView addSubview:backImageView];
+    [defaultView addSubview:eyeImageView];
+    [defaultView setTag:kHAMDefaultViewTag];
+    [self.view addSubview:defaultView];
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    self.navigationController.navigationBar.barTintColor = nil;
+    if (listViewController != nil) {
+        [listViewController updateViewScrollToTop:NO];
+    }
 }
 
 - (void)didReceiveMemoryWarning

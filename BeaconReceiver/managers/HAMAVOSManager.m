@@ -373,7 +373,7 @@
     NSMutableArray* favoritesArray = [NSMutableArray array];
     for (int i = 0; i < favoritesObjectArray.count; i++) {
         AVObject* thingObject = favoritesObjectArray[i];
-        [thingObject fetch];
+        [thingObject fetchIfNeeded];
         
         HAMThing* thing = [self thingWithThingAVObject:thingObject];
         [favoritesArray addObject:thing];

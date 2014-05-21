@@ -7,9 +7,7 @@
 //
 
 #import "HAMArtDetailViewController_iPhone.h"
-#import "HAMHomepageData.h"
 #import "HAMTourManager.h"
-#import "HAMDiscoverCollectionViewController_iPhone.h"
 #import "HAMTools.h"
 #import "SVProgressHUD.h"
 #import "HAMArtDetailTabController_iPhone.h"
@@ -42,6 +40,8 @@ int loadingViewTag = 22;
     
     HAMArtDetailTabController_iPhone *detailTabVC = (HAMArtDetailTabController_iPhone*)self.parentViewController;
     self.thing = detailTabVC.thing;
+    
+    self.detailWebView.delegate = self;
     
     if (self.thing != nil) {
         pageURL = self.thing.url;

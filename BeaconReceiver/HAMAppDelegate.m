@@ -21,11 +21,13 @@
 @synthesize managedObjectModel = _managedObjectModel;
 @synthesize persistentStoreCoordinator = _persistentStoreCoordinator;
 
+static NSString *kHAMAVOSAppId = @"s55x7mngao4iv95w2ebsjpo80o2moqwlmolk66fjhpr7xys6";
+static NSString *kHAMAVOSAppKey = @"ljqpcds0mt9cn3noaqs3armqgcyhew4setb788pdqc5fbow1";
+
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     // Override point for customization after application launch.
-    [AVOSCloud setApplicationId:@"s55x7mngao4iv95w2ebsjpo80o2moqwlmolk66fjhpr7xys6"
-                      clientKey:@"ljqpcds0mt9cn3noaqs3armqgcyhew4setb788pdqc5fbow1"];
+    [AVOSCloud setApplicationId:kHAMAVOSAppId clientKey:kHAMAVOSAppKey];
     
     return YES;
 }

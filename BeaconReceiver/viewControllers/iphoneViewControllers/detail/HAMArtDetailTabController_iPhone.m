@@ -7,10 +7,9 @@
 //
 
 #import "HAMArtDetailTabController_iPhone.h"
-#import "HAMHomepageData.h"
 #import "HAMThing.h"
 #import "HAMTourManager.h"
-#import "HAMDiscoverCollectionViewController_iPhone.h"
+#import "HAMDiscoverViewController_iPhone.h"
 #import "HAMTools.h"
 #import "SVProgressHUD.h"
 #import "HAMAVOSManager.h"
@@ -49,10 +48,9 @@ HAMThing *newThing;
     UITabBarController *root = (UITabBarController*)[parent parentViewController];
     [root setSelectedIndex:0];
     UINavigationController *discoverNavigation = (UINavigationController*)[root selectedViewController];
-    HAMDiscoverCollectionViewController_iPhone *discoverViewController = (HAMDiscoverCollectionViewController_iPhone*)[[discoverNavigation viewControllers] objectAtIndex:0];
-    discoverViewController.thingForSegue = newThing;
+    HAMDiscoverViewController_iPhone *discoverViewController = (HAMDiscoverViewController_iPhone*)[[discoverNavigation viewControllers] objectAtIndex:0];
     [self.navigationController popViewControllerAnimated:NO];
-    [discoverViewController performSegueWithIdentifier:@"showArtDetailPage" sender:discoverViewController];
+    [discoverViewController showDetailWithThing:newThing sender:self];
 }
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
