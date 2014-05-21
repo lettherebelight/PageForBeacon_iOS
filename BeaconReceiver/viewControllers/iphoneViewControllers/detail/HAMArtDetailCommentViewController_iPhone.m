@@ -8,7 +8,6 @@
 
 #import "HAMArtDetailCommentViewController_iPhone.h"
 #import "HAMCommentData.h"
-#import "HAMHomepageData.h"
 #import "HAMTourManager.h"
 #import "HAMUserManager.h"
 #import "HAMUserData.h"
