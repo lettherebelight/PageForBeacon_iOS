@@ -42,6 +42,33 @@
 		6668B6AD18F6ABB400A12655 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6668B6AC18F6ABB400A12655 /* CoreData.framework */; };
 		6668B6B018F6ACB900A12655 /* HAMCoreData.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 6668B6AE18F6ACB900A12655 /* HAMCoreData.xcdatamodeld */; };
 		6668B6C518F7D47F00A12655 /* index_image.png in Resources */ = {isa = PBXBuildFile; fileRef = 6668B6C418F7D47F00A12655 /* index_image.png */; };
+		6670E1A8192CE673007DC18D /* HAMCardListViewController_iPhone.m in Sources */ = {isa = PBXBuildFile; fileRef = 6670E1A3192CE673007DC18D /* HAMCardListViewController_iPhone.m */; };
+		6670E1A9192CE673007DC18D /* HAMDiscoverViewController_iPhone.m in Sources */ = {isa = PBXBuildFile; fileRef = 6670E1A5192CE673007DC18D /* HAMDiscoverViewController_iPhone.m */; };
+		6670E1AA192CE673007DC18D /* HAMFavoritesViewController_iPhone.m in Sources */ = {isa = PBXBuildFile; fileRef = 6670E1A7192CE673007DC18D /* HAMFavoritesViewController_iPhone.m */; };
+		6670E1AD192CE6D7007DC18D /* HAMUserViewController_iPhone.m in Sources */ = {isa = PBXBuildFile; fileRef = 6670E1AC192CE6D7007DC18D /* HAMUserViewController_iPhone.m */; };
+		6670E1B5192CE6FB007DC18D /* HAMArtDetailCommentViewController_iPhone.m in Sources */ = {isa = PBXBuildFile; fileRef = 6670E1B0192CE6FB007DC18D /* HAMArtDetailCommentViewController_iPhone.m */; };
+		6670E1B6192CE6FB007DC18D /* HAMArtDetailTabController_iPhone.m in Sources */ = {isa = PBXBuildFile; fileRef = 6670E1B2192CE6FB007DC18D /* HAMArtDetailTabController_iPhone.m */; };
+		6670E1B7192CE6FB007DC18D /* HAMArtDetailViewController_iPhone.m in Sources */ = {isa = PBXBuildFile; fileRef = 6670E1B4192CE6FB007DC18D /* HAMArtDetailViewController_iPhone.m */; };
+		6670E1C4192DA0A5007DC18D /* login_bg.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 6670E1BE192DA0A5007DC18D /* login_bg.jpg */; };
+		6670E1C5192DA0A5007DC18D /* login_bg.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 6670E1BE192DA0A5007DC18D /* login_bg.jpg */; };
+		6670E1C6192DA0A5007DC18D /* login_logo.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 6670E1BF192DA0A5007DC18D /* login_logo.jpg */; };
+		6670E1C7192DA0A5007DC18D /* login_logo.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 6670E1BF192DA0A5007DC18D /* login_logo.jpg */; };
+		6670E1C8192DA0A5007DC18D /* login_qq.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 6670E1C0192DA0A5007DC18D /* login_qq.jpg */; };
+		6670E1C9192DA0A5007DC18D /* login_qq.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 6670E1C0192DA0A5007DC18D /* login_qq.jpg */; };
+		6670E1CA192DA0A5007DC18D /* login_weibo.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 6670E1C1192DA0A5007DC18D /* login_weibo.jpg */; };
+		6670E1CB192DA0A5007DC18D /* login_weibo.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 6670E1C1192DA0A5007DC18D /* login_weibo.jpg */; };
+		6670E1E4192DA62B007DC18D /* common_card_art_frame.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 6670E1DE192DA62B007DC18D /* common_card_art_frame.jpg */; };
+		6670E1E5192DA62B007DC18D /* common_card_art_frame.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 6670E1DE192DA62B007DC18D /* common_card_art_frame.jpg */; };
+		6670E1E6192DA62B007DC18D /* common_card_cardtype_people.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 6670E1DF192DA62B007DC18D /* common_card_cardtype_people.jpg */; };
+		6670E1E7192DA62B007DC18D /* common_card_cardtype_people.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 6670E1DF192DA62B007DC18D /* common_card_cardtype_people.jpg */; };
+		6670E1E8192DA62B007DC18D /* common_card_cardtype_web.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 6670E1E0192DA62B007DC18D /* common_card_cardtype_web.jpg */; };
+		6670E1E9192DA62B007DC18D /* common_card_cardtype_web.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 6670E1E0192DA62B007DC18D /* common_card_cardtype_web.jpg */; };
+		6670E1EA192DA62B007DC18D /* common_card_comment.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 6670E1E1192DA62B007DC18D /* common_card_comment.jpg */; };
+		6670E1EB192DA62B007DC18D /* common_card_comment.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 6670E1E1192DA62B007DC18D /* common_card_comment.jpg */; };
+		6670E1EC192DA62B007DC18D /* common_card_like.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 6670E1E2192DA62B007DC18D /* common_card_like.jpg */; };
+		6670E1ED192DA62B007DC18D /* common_card_like.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 6670E1E2192DA62B007DC18D /* common_card_like.jpg */; };
+		6670E1EE192DA62B007DC18D /* common_card_namecard_frame.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 6670E1E3192DA62B007DC18D /* common_card_namecard_frame.jpg */; };
+		6670E1EF192DA62B007DC18D /* common_card_namecard_frame.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 6670E1E3192DA62B007DC18D /* common_card_namecard_frame.jpg */; };
 		66774E1718FC110F0097701F /* HAMDataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 66774E1618FC110F0097701F /* HAMDataManager.m */; };
 		66774E1818FC110F0097701F /* HAMDataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 66774E1618FC110F0097701F /* HAMDataManager.m */; };
 		6679656219112A0700D9C4FF /* SVProgressHUD.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 6679655F19112A0700D9C4FF /* SVProgressHUD.bundle */; };
@@ -171,8 +198,8 @@
 		6636EC9518B502DD00F94E6C /* libsqlite3.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.0.dylib; path = usr/lib/libsqlite3.0.dylib; sourceTree = SDKROOT; };
 		6636EC9718B526A700F94E6C /* HAMWebTool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HAMWebTool.h; path = utils/HAMWebTool.h; sourceTree = "<group>"; };
 		6636EC9818B526A700F94E6C /* HAMWebTool.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HAMWebTool.m; path = utils/HAMWebTool.m; sourceTree = "<group>"; };
-		664279E4192CC1E500B5D964 /* HAMMyInfoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HAMMyInfoViewController.h; path = viewControllers/iphoneViewControllers/me/HAMMyInfoViewController.h; sourceTree = "<group>"; };
-		664279E5192CC1E500B5D964 /* HAMMyInfoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HAMMyInfoViewController.m; path = viewControllers/iphoneViewControllers/me/HAMMyInfoViewController.m; sourceTree = "<group>"; };
+		664279E4192CC1E500B5D964 /* HAMMyInfoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HAMMyInfoViewController.h; sourceTree = "<group>"; };
+		664279E5192CC1E500B5D964 /* HAMMyInfoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HAMMyInfoViewController.m; sourceTree = "<group>"; };
 		6657B41C18FCDA3800099EC6 /* AVOSCloud.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = AVOSCloud.framework; sourceTree = "<group>"; };
 		6657B41E18FCDAD400099EC6 /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
 		6657B42018FCDAE000099EC6 /* CoreTelephony.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreTelephony.framework; path = System/Library/Frameworks/CoreTelephony.framework; sourceTree = SDKROOT; };
@@ -182,6 +209,30 @@
 		6668B6AC18F6ABB400A12655 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		6668B6AF18F6ACB900A12655 /* HAMCoreData.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = HAMCoreData.xcdatamodel; sourceTree = "<group>"; };
 		6668B6C418F7D47F00A12655 /* index_image.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = index_image.png; sourceTree = "<group>"; };
+		6670E1A2192CE673007DC18D /* HAMCardListViewController_iPhone.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HAMCardListViewController_iPhone.h; sourceTree = "<group>"; };
+		6670E1A3192CE673007DC18D /* HAMCardListViewController_iPhone.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HAMCardListViewController_iPhone.m; sourceTree = "<group>"; };
+		6670E1A4192CE673007DC18D /* HAMDiscoverViewController_iPhone.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HAMDiscoverViewController_iPhone.h; sourceTree = "<group>"; };
+		6670E1A5192CE673007DC18D /* HAMDiscoverViewController_iPhone.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HAMDiscoverViewController_iPhone.m; sourceTree = "<group>"; };
+		6670E1A6192CE673007DC18D /* HAMFavoritesViewController_iPhone.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HAMFavoritesViewController_iPhone.h; sourceTree = "<group>"; };
+		6670E1A7192CE673007DC18D /* HAMFavoritesViewController_iPhone.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HAMFavoritesViewController_iPhone.m; sourceTree = "<group>"; };
+		6670E1AB192CE6D7007DC18D /* HAMUserViewController_iPhone.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HAMUserViewController_iPhone.h; sourceTree = "<group>"; };
+		6670E1AC192CE6D7007DC18D /* HAMUserViewController_iPhone.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HAMUserViewController_iPhone.m; sourceTree = "<group>"; };
+		6670E1AF192CE6FB007DC18D /* HAMArtDetailCommentViewController_iPhone.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HAMArtDetailCommentViewController_iPhone.h; sourceTree = "<group>"; };
+		6670E1B0192CE6FB007DC18D /* HAMArtDetailCommentViewController_iPhone.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HAMArtDetailCommentViewController_iPhone.m; sourceTree = "<group>"; };
+		6670E1B1192CE6FB007DC18D /* HAMArtDetailTabController_iPhone.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HAMArtDetailTabController_iPhone.h; sourceTree = "<group>"; };
+		6670E1B2192CE6FB007DC18D /* HAMArtDetailTabController_iPhone.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HAMArtDetailTabController_iPhone.m; sourceTree = "<group>"; };
+		6670E1B3192CE6FB007DC18D /* HAMArtDetailViewController_iPhone.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HAMArtDetailViewController_iPhone.h; sourceTree = "<group>"; };
+		6670E1B4192CE6FB007DC18D /* HAMArtDetailViewController_iPhone.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HAMArtDetailViewController_iPhone.m; sourceTree = "<group>"; };
+		6670E1BE192DA0A5007DC18D /* login_bg.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = login_bg.jpg; sourceTree = "<group>"; };
+		6670E1BF192DA0A5007DC18D /* login_logo.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = login_logo.jpg; sourceTree = "<group>"; };
+		6670E1C0192DA0A5007DC18D /* login_qq.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = login_qq.jpg; sourceTree = "<group>"; };
+		6670E1C1192DA0A5007DC18D /* login_weibo.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = login_weibo.jpg; sourceTree = "<group>"; };
+		6670E1DE192DA62B007DC18D /* common_card_art_frame.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = common_card_art_frame.jpg; sourceTree = "<group>"; };
+		6670E1DF192DA62B007DC18D /* common_card_cardtype_people.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = common_card_cardtype_people.jpg; sourceTree = "<group>"; };
+		6670E1E0192DA62B007DC18D /* common_card_cardtype_web.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = common_card_cardtype_web.jpg; sourceTree = "<group>"; };
+		6670E1E1192DA62B007DC18D /* common_card_comment.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = common_card_comment.jpg; sourceTree = "<group>"; };
+		6670E1E2192DA62B007DC18D /* common_card_like.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = common_card_like.jpg; sourceTree = "<group>"; };
+		6670E1E3192DA62B007DC18D /* common_card_namecard_frame.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = common_card_namecard_frame.jpg; sourceTree = "<group>"; };
 		66774E1518FC110F0097701F /* HAMDataManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HAMDataManager.h; path = BeaconReceiver/managers/HAMDataManager.h; sourceTree = "<group>"; };
 		66774E1618FC110F0097701F /* HAMDataManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HAMDataManager.m; path = BeaconReceiver/managers/HAMDataManager.m; sourceTree = "<group>"; };
 		6679655E19112A0700D9C4FF /* SVProgressHUD-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "SVProgressHUD-Prefix.pch"; path = "BeaconReceiver/ThirdPartSDKs/SVProgressHUD/SVProgressHUD-Prefix.pch"; sourceTree = "<group>"; };
@@ -212,23 +263,23 @@
 		667965D0191E25D800D9C4FF /* HAMBeaconManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HAMBeaconManager.h; path = BeaconReceiver/managers/HAMBeaconManager.h; sourceTree = "<group>"; };
 		667965D1191E25D800D9C4FF /* HAMBeaconManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HAMBeaconManager.m; path = BeaconReceiver/managers/HAMBeaconManager.m; sourceTree = "<group>"; };
 		667965D4191FA1F500D9C4FF /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
-		668090B219249F9700395A88 /* HAMBeaconListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HAMBeaconListViewController.h; path = viewControllers/iphoneViewControllers/me/HAMBeaconListViewController.h; sourceTree = "<group>"; };
-		668090B319249F9700395A88 /* HAMBeaconListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HAMBeaconListViewController.m; path = viewControllers/iphoneViewControllers/me/HAMBeaconListViewController.m; sourceTree = "<group>"; };
+		668090B219249F9700395A88 /* HAMBeaconListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HAMBeaconListViewController.h; sourceTree = "<group>"; };
+		668090B319249F9700395A88 /* HAMBeaconListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HAMBeaconListViewController.m; sourceTree = "<group>"; };
 		668090F019262DE400395A88 /* HAMBeaconDictionary.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HAMBeaconDictionary.h; sourceTree = "<group>"; };
 		668090F119262DE400395A88 /* HAMBeaconDictionary.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HAMBeaconDictionary.m; sourceTree = "<group>"; };
 		668090F41926358B00395A88 /* HAMThing.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HAMThing.h; sourceTree = "<group>"; };
 		668090F51926358B00395A88 /* HAMThing.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HAMThing.m; sourceTree = "<group>"; };
 		668090F81927723500395A88 /* HAMAVOSManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HAMAVOSManager.h; path = BeaconReceiver/managers/HAMAVOSManager.h; sourceTree = "<group>"; };
 		668090F91927723500395A88 /* HAMAVOSManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HAMAVOSManager.m; path = BeaconReceiver/managers/HAMAVOSManager.m; sourceTree = "<group>"; };
-		668090FC19278E6D00395A88 /* HAMCreateThingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HAMCreateThingViewController.h; path = viewControllers/iphoneViewControllers/me/HAMCreateThingViewController.h; sourceTree = "<group>"; };
-		668090FD19278E6D00395A88 /* HAMCreateThingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HAMCreateThingViewController.m; path = viewControllers/iphoneViewControllers/me/HAMCreateThingViewController.m; sourceTree = "<group>"; };
+		668090FC19278E6D00395A88 /* HAMCreateThingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HAMCreateThingViewController.h; sourceTree = "<group>"; };
+		668090FD19278E6D00395A88 /* HAMCreateThingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HAMCreateThingViewController.m; sourceTree = "<group>"; };
 		669BDB00190953E6006E99D6 /* HAMCommentsManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HAMCommentsManager.h; path = BeaconReceiver/managers/HAMCommentsManager.h; sourceTree = "<group>"; };
 		669BDB01190953E6006E99D6 /* HAMCommentsManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HAMCommentsManager.m; path = BeaconReceiver/managers/HAMCommentsManager.m; sourceTree = "<group>"; };
 		669BDB0419095502006E99D6 /* HAMCommentData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HAMCommentData.h; sourceTree = "<group>"; };
 		669BDB0519095502006E99D6 /* HAMCommentData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HAMCommentData.m; sourceTree = "<group>"; };
 		669BDB08190CE93E006E99D6 /* AVOSCloudSNS.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = AVOSCloudSNS.framework; sourceTree = "<group>"; };
-		66A9A737190D04D40043639A /* HAMIndexViewController_iPhone.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HAMIndexViewController_iPhone.h; path = viewControllers/iphoneViewControllers/HAMIndexViewController_iPhone.h; sourceTree = "<group>"; };
-		66A9A738190D04D40043639A /* HAMIndexViewController_iPhone.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HAMIndexViewController_iPhone.m; path = viewControllers/iphoneViewControllers/HAMIndexViewController_iPhone.m; sourceTree = "<group>"; };
+		66A9A737190D04D40043639A /* HAMIndexViewController_iPhone.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HAMIndexViewController_iPhone.h; sourceTree = "<group>"; };
+		66A9A738190D04D40043639A /* HAMIndexViewController_iPhone.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HAMIndexViewController_iPhone.m; sourceTree = "<group>"; };
 		66B01ADE18D5DB9500CD5EDF /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		66B01AE018D5DCAB00CD5EDF /* Reachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Reachability.h; path = utils/Reachability.h; sourceTree = "<group>"; };
 		66B01AE118D5DCAB00CD5EDF /* Reachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Reachability.m; path = utils/Reachability.m; sourceTree = "<group>"; };
@@ -380,8 +431,14 @@
 		6636EC7C18B3A1DE00F94E6C /* resources */ = {
 			isa = PBXGroup;
 			children = (
+				6670E1B8192DA0A5007DC18D /* around */,
+				6670E1B9192DA0A5007DC18D /* common */,
+				6670E1BC192DA0A5007DC18D /* favorite */,
+				6670E1BD192DA0A5007DC18D /* login */,
+				6670E1C2192DA0A5007DC18D /* me */,
+				6670E1C3192DA0A5007DC18D /* world */,
 			);
-			name = resources;
+			path = resources;
 			sourceTree = "<group>";
 		};
 		6636EC7D18B4954900F94E6C /* managers */ = {
@@ -450,6 +507,87 @@
 			);
 			name = Images;
 			path = images;
+			sourceTree = "<group>";
+		};
+		6670E1AE192CE6E7007DC18D /* detail */ = {
+			isa = PBXGroup;
+			children = (
+				6670E1AF192CE6FB007DC18D /* HAMArtDetailCommentViewController_iPhone.h */,
+				6670E1B0192CE6FB007DC18D /* HAMArtDetailCommentViewController_iPhone.m */,
+				6670E1B1192CE6FB007DC18D /* HAMArtDetailTabController_iPhone.h */,
+				6670E1B2192CE6FB007DC18D /* HAMArtDetailTabController_iPhone.m */,
+				6670E1B3192CE6FB007DC18D /* HAMArtDetailViewController_iPhone.h */,
+				6670E1B4192CE6FB007DC18D /* HAMArtDetailViewController_iPhone.m */,
+			);
+			path = detail;
+			sourceTree = "<group>";
+		};
+		6670E1B8192DA0A5007DC18D /* around */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = around;
+			sourceTree = "<group>";
+		};
+		6670E1B9192DA0A5007DC18D /* common */ = {
+			isa = PBXGroup;
+			children = (
+				6670E1BA192DA0A5007DC18D /* card */,
+				6670E1BB192DA0A5007DC18D /* tab */,
+			);
+			path = common;
+			sourceTree = "<group>";
+		};
+		6670E1BA192DA0A5007DC18D /* card */ = {
+			isa = PBXGroup;
+			children = (
+				6670E1DE192DA62B007DC18D /* common_card_art_frame.jpg */,
+				6670E1DF192DA62B007DC18D /* common_card_cardtype_people.jpg */,
+				6670E1E0192DA62B007DC18D /* common_card_cardtype_web.jpg */,
+				6670E1E1192DA62B007DC18D /* common_card_comment.jpg */,
+				6670E1E2192DA62B007DC18D /* common_card_like.jpg */,
+				6670E1E3192DA62B007DC18D /* common_card_namecard_frame.jpg */,
+			);
+			path = card;
+			sourceTree = "<group>";
+		};
+		6670E1BB192DA0A5007DC18D /* tab */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = tab;
+			sourceTree = "<group>";
+		};
+		6670E1BC192DA0A5007DC18D /* favorite */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = favorite;
+			sourceTree = "<group>";
+		};
+		6670E1BD192DA0A5007DC18D /* login */ = {
+			isa = PBXGroup;
+			children = (
+				6670E1BE192DA0A5007DC18D /* login_bg.jpg */,
+				6670E1BF192DA0A5007DC18D /* login_logo.jpg */,
+				6670E1C0192DA0A5007DC18D /* login_qq.jpg */,
+				6670E1C1192DA0A5007DC18D /* login_weibo.jpg */,
+			);
+			path = login;
+			sourceTree = "<group>";
+		};
+		6670E1C2192DA0A5007DC18D /* me */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = me;
+			sourceTree = "<group>";
+		};
+		6670E1C3192DA0A5007DC18D /* world */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = world;
 			sourceTree = "<group>";
 		};
 		667965581910DE0F00D9C4FF /* Nimbus */ = {
@@ -546,6 +684,8 @@
 		668090B119249F3D00395A88 /* me */ = {
 			isa = PBXGroup;
 			children = (
+				6670E1AB192CE6D7007DC18D /* HAMUserViewController_iPhone.h */,
+				6670E1AC192CE6D7007DC18D /* HAMUserViewController_iPhone.m */,
 				668090B219249F9700395A88 /* HAMBeaconListViewController.h */,
 				668090B319249F9700395A88 /* HAMBeaconListViewController.m */,
 				668090FC19278E6D00395A88 /* HAMCreateThingViewController.h */,
@@ -553,17 +693,25 @@
 				664279E4192CC1E500B5D964 /* HAMMyInfoViewController.h */,
 				664279E5192CC1E500B5D964 /* HAMMyInfoViewController.m */,
 			);
-			name = me;
+			path = me;
 			sourceTree = "<group>";
 		};
 		669BDB0C190CEABA006E99D6 /* iphoneViewControllers */ = {
 			isa = PBXGroup;
 			children = (
+				6670E1AE192CE6E7007DC18D /* detail */,
 				668090B119249F3D00395A88 /* me */,
 				66A9A737190D04D40043639A /* HAMIndexViewController_iPhone.h */,
 				66A9A738190D04D40043639A /* HAMIndexViewController_iPhone.m */,
+				6670E1A2192CE673007DC18D /* HAMCardListViewController_iPhone.h */,
+				6670E1A3192CE673007DC18D /* HAMCardListViewController_iPhone.m */,
+				6670E1A4192CE673007DC18D /* HAMDiscoverViewController_iPhone.h */,
+				6670E1A5192CE673007DC18D /* HAMDiscoverViewController_iPhone.m */,
+				6670E1A6192CE673007DC18D /* HAMFavoritesViewController_iPhone.h */,
+				6670E1A7192CE673007DC18D /* HAMFavoritesViewController_iPhone.m */,
 			);
 			name = iphoneViewControllers;
+			path = viewControllers/iphoneViewControllers;
 			sourceTree = "<group>";
 		};
 		66B162C418FFF62E00EFE554 /* icons */ = {
@@ -675,6 +823,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				66B162EC1900081800EFE554 /* fav-selected-pressed.png in Resources */,
+				6670E1C8192DA0A5007DC18D /* login_qq.jpg in Resources */,
 				667965C01917BB5600D9C4FF /* ios7-chatbubble-outline@2x.png in Resources */,
 				66B162EE1900081800EFE554 /* home-normal.png in Resources */,
 				667965B11917BB5100D9C4FF /* ios7-chatbubble-outline.png in Resources */,
@@ -682,23 +831,32 @@
 				6636EC5B18B39EF000F94E6C /* Main_iPad.storyboard in Resources */,
 				667965C21917BB5600D9C4FF /* ios7-eye-outline@2x.png in Resources */,
 				667965C81917BB5600D9C4FF /* ios7-heart@2x.png in Resources */,
+				6670E1E8192DA62B007DC18D /* common_card_cardtype_web.jpg in Resources */,
+				6670E1EA192DA62B007DC18D /* common_card_comment.jpg in Resources */,
 				667965B71917BB5100D9C4FF /* ios7-heart-outline.png in Resources */,
 				66B162FA1900171700EFE554 /* fav-normal.png in Resources */,
+				6670E1C6192DA0A5007DC18D /* login_logo.jpg in Resources */,
 				66B162F7190009DC00EFE554 /* reset-normal.png in Resources */,
 				66B162F41900081800EFE554 /* share-pressed.png in Resources */,
 				6679656219112A0700D9C4FF /* SVProgressHUD.bundle in Resources */,
 				6636EC6018B39EF000F94E6C /* Images.xcassets in Resources */,
 				6679659A1917AE2A00D9C4FF /* gif.gif in Resources */,
+				6670E1E6192DA62B007DC18D /* common_card_cardtype_people.jpg in Resources */,
 				667965C41917BB5600D9C4FF /* ios7-glasses-outline@2x.png in Resources */,
+				6670E1C4192DA0A5007DC18D /* login_bg.jpg in Resources */,
 				6636EC5818B39EF000F94E6C /* Main_iPhone.storyboard in Resources */,
 				667965A71917B0D400D9C4FF /* background_nobeacon.jpg in Resources */,
 				66B162F21900081800EFE554 /* share-normal.png in Resources */,
 				667965C61917BB5600D9C4FF /* ios7-heart-outline@2x.png in Resources */,
+				6670E1EE192DA62B007DC18D /* common_card_namecard_frame.jpg in Resources */,
 				667965B31917BB5100D9C4FF /* ios7-eye-outline.png in Resources */,
 				6636EC4F18B39EF000F94E6C /* InfoPlist.strings in Resources */,
+				6670E1CA192DA0A5007DC18D /* login_weibo.jpg in Resources */,
+				6670E1E4192DA62B007DC18D /* common_card_art_frame.jpg in Resources */,
 				667965B51917BB5100D9C4FF /* ios7-glasses-outline.png in Resources */,
 				66B162F01900081800EFE554 /* home-pressed.png in Resources */,
 				66B162EA1900081800EFE554 /* fav-selected-normal.png in Resources */,
+				6670E1EC192DA62B007DC18D /* common_card_like.jpg in Resources */,
 				667965D5191FA1F500D9C4FF /* Settings.bundle in Resources */,
 				667965B91917BB5100D9C4FF /* ios7-heart.png in Resources */,
 			);
@@ -718,19 +876,29 @@
 				66B162EF1900081800EFE554 /* home-normal.png in Resources */,
 				667965B21917BB5100D9C4FF /* ios7-chatbubble-outline.png in Resources */,
 				66C77DBB1921CEB300AD87A4 /* Images.xcassets in Resources */,
+				6670E1C7192DA0A5007DC18D /* login_logo.jpg in Resources */,
+				6670E1E7192DA62B007DC18D /* common_card_cardtype_people.jpg in Resources */,
+				6670E1E5192DA62B007DC18D /* common_card_art_frame.jpg in Resources */,
 				66B162EB1900081800EFE554 /* fav-selected-normal.png in Resources */,
+				6670E1C5192DA0A5007DC18D /* login_bg.jpg in Resources */,
 				667965C91917BB5600D9C4FF /* ios7-heart@2x.png in Resources */,
 				66B162F8190009DC00EFE554 /* reset-normal.png in Resources */,
 				667965A81917B0D400D9C4FF /* background_nobeacon.jpg in Resources */,
+				6670E1ED192DA62B007DC18D /* common_card_like.jpg in Resources */,
 				6679656319112A0700D9C4FF /* SVProgressHUD.bundle in Resources */,
 				667965B81917BB5100D9C4FF /* ios7-heart-outline.png in Resources */,
 				66B162F11900081800EFE554 /* home-pressed.png in Resources */,
 				667965C71917BB5600D9C4FF /* ios7-heart-outline@2x.png in Resources */,
+				6670E1CB192DA0A5007DC18D /* login_weibo.jpg in Resources */,
 				667965B41917BB5100D9C4FF /* ios7-eye-outline.png in Resources */,
 				66B162FB1900171700EFE554 /* fav-normal.png in Resources */,
+				6670E1E9192DA62B007DC18D /* common_card_cardtype_web.jpg in Resources */,
+				6670E1EB192DA62B007DC18D /* common_card_comment.jpg in Resources */,
 				66B162F51900081800EFE554 /* share-pressed.png in Resources */,
 				66B162ED1900081800EFE554 /* fav-selected-pressed.png in Resources */,
 				667965C51917BB5600D9C4FF /* ios7-glasses-outline@2x.png in Resources */,
+				6670E1EF192DA62B007DC18D /* common_card_namecard_frame.jpg in Resources */,
+				6670E1C9192DA0A5007DC18D /* login_qq.jpg in Resources */,
 				667965B61917BB5100D9C4FF /* ios7-glasses-outline.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -742,6 +910,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6670E1AA192CE673007DC18D /* HAMFavoritesViewController_iPhone.m in Sources */,
 				662FE78B192367D500CF0C41 /* HAMGlobalData.m in Sources */,
 				6636EC5118B39EF000F94E6C /* main.m in Sources */,
 				6636EC8918B4A63C00F94E6C /* HAMLogTool.m in Sources */,
@@ -750,19 +919,25 @@
 				6636EC8F18B4A91400F94E6C /* HAMFileTools.m in Sources */,
 				669BDB02190953E6006E99D6 /* HAMCommentsManager.m in Sources */,
 				668090B419249F9700395A88 /* HAMBeaconListViewController.m in Sources */,
+				6670E1B5192CE6FB007DC18D /* HAMArtDetailCommentViewController_iPhone.m in Sources */,
 				66B162B618FE85D200EFE554 /* HAMTourManager.m in Sources */,
 				669BDB0619095502006E99D6 /* HAMCommentData.m in Sources */,
+				6670E1A9192CE673007DC18D /* HAMDiscoverViewController_iPhone.m in Sources */,
 				668090FA1927723500395A88 /* HAMAVOSManager.m in Sources */,
 				6636EC5518B39EF000F94E6C /* HAMAppDelegate.m in Sources */,
 				667965D2191E25D800D9C4FF /* HAMBeaconManager.m in Sources */,
 				667965911917ACC800D9C4FF /* OLImageView.m in Sources */,
+				6670E1B7192CE6FB007DC18D /* HAMArtDetailViewController_iPhone.m in Sources */,
+				6670E1A8192CE673007DC18D /* HAMCardListViewController_iPhone.m in Sources */,
 				668090F61926358B00395A88 /* HAMThing.m in Sources */,
 				6679656419112A0700D9C4FF /* SVProgressHUD.m in Sources */,
 				66774E1718FC110F0097701F /* HAMDataManager.m in Sources */,
 				6679658F1917ACC800D9C4FF /* OLImage.m in Sources */,
+				6670E1B6192CE6FB007DC18D /* HAMArtDetailTabController_iPhone.m in Sources */,
 				66674A3A18E1DAA500239D24 /* HAMThingManager.m in Sources */,
 				6636EC9918B526A700F94E6C /* HAMWebTool.m in Sources */,
 				668090F219262DE400395A88 /* HAMBeaconDictionary.m in Sources */,
+				6670E1AD192CE6D7007DC18D /* HAMUserViewController_iPhone.m in Sources */,
 				6679656C19112D8500D9C4FF /* HAMUserData.m in Sources */,
 				6679656819112BFB00D9C4FF /* HAMUserManager.m in Sources */,
 				6668B6B018F6ACB900A12655 /* HAMCoreData.xcdatamodeld in Sources */,

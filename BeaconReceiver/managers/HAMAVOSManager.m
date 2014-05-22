@@ -365,8 +365,14 @@
 #pragma mark - Thing & User Save
 
 + (void)saveCurrentUserCard:(HAMThing*)thing{
+    if (thing == nil) {
+        [HAMLogTool warn:@"save nil card to Current user"];
+        return;
+    }
+    
     thing.type = HAMThingTypeCard;
-    AVObject* thingObject = [self saveThing:thing];
+    AVObject* thingObject = [self thingAVObjectWithThing:thing shouldSaveCover:NO];
+    [thingObject save];
     
     AVUser* user = [AVUser currentUser];
     [user setObject:thingObject forKey:@"card"];

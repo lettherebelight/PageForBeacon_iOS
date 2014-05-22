@@ -129,9 +129,9 @@ static const double kRefreshTimeInterval = 3.0f;
         cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     NSString* CellIdentifier = [NSString stringWithFormat:@"BeaconTableViewCell"];
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-//    if (cell == nil) {
-//        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier];
-//    }
+    if (cell == nil) {
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier];
+    }
     
     CLBeacon* beacon = [self beaconAtIndexPath:indexPath];
     

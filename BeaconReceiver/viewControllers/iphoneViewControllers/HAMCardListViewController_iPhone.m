@@ -138,11 +138,7 @@ static int kHAMArtCellFavButtonTag = 7;
     //image
     UIImageView *imageView = (UIImageView*)[view viewWithTag:kHAMArtCellImageViewTag];
     UIImage *thumbnail;
-    if (thing.cover == nil) {
-        thumbnail = [HAMTools imageFromURL:thing.coverURL];
-    } else {
-        thumbnail = thing.cover;
-    }
+    thumbnail = [HAMTools imageFromURL:thing.coverURL];
     UIImage *image = [HAMTools image:thumbnail changeToMaxSize:imageView.frame.size];
     imageView.image = image;
     
@@ -159,23 +155,22 @@ static int kHAMArtCellFavButtonTag = 7;
     UIImage *commentImage = [[UIImage imageNamed:@"ios7-chatbubble-outline.png"] imageWithRenderingMode:UIImageRenderingModeAutomatic];
     [commentButton setImage:commentImage forState:UIControlStateNormal];
     [commentButton addTarget:self action:@selector(commentClicked:) forControlEvents:UIControlEventTouchUpInside];
-    commentImage = nil;
     
     //favorite
     UIButton *favButton = (UIButton*)[view viewWithTag:kHAMArtCellFavButtonTag];
+    UIImage *favImage = [[UIImage imageNamed:@"ios7-heart-outline.png"] imageWithRenderingMode:UIImageRenderingModeAutomatic];
+    [favButton setImage:favImage forState:UIControlStateNormal];
     if ([HAMAVOSManager isThingFavoriteOfCurrentUser:thing]) {
-        UIImage *favImage = [[UIImage imageNamed:@"ios7-heart.png"] imageWithRenderingMode:UIImageRenderingModeAutomatic];
-        [favButton setImage:favImage forState:UIControlStateNormal];
+        //UIImage *favImage = [[UIImage imageNamed:@"ios7-heart.png"] imageWithRenderingMode:UIImageRenderingModeAutomatic];
+        //[favButton setImage:favImage forState:UIControlStateNormal];
+        [favButton setSelected:YES];
         [favButton removeTarget:self action:@selector(performFavorite:) forControlEvents:UIControlEventTouchUpInside];
         [favButton addTarget:self action:@selector(performUnFavorite:) forControlEvents:UIControlEventTouchUpInside];
-        favImage = nil;
     }
     else {
-        UIImage *favImage = [[UIImage imageNamed:@"ios7-heart-outline.png"] imageWithRenderingMode:UIImageRenderingModeAutomatic];
-        [favButton setImage:favImage forState:UIControlStateNormal];
+        [favButton setSelected:NO];
         [favButton removeTarget:self action:@selector(performUnFavorite:) forControlEvents:UIControlEventTouchUpInside];
         [favButton addTarget:self action:@selector(performFavorite:) forControlEvents:UIControlEventTouchUpInside];
-        favImage = nil;
     }
     return cell;
 }
@@ -194,11 +189,9 @@ static int kHAMArtCellFavButtonTag = 7;
     long i = [self.collectionView indexPathForCell:cell].row;
     [[HAMTourManager tourManager] addFavoriteThing:[self.thingArray objectAtIndex:i]];
     UIButton *favButton = (UIButton*)[cell viewWithTag:kHAMArtCellFavButtonTag];
-    UIImage *favImage = [[UIImage imageNamed:@"ios7-heart.png"] imageWithRenderingMode:UIImageRenderingModeAutomatic];
-    [favButton setImage:favImage forState:UIControlStateNormal];
+    [favButton setSelected:YES];
     [favButton removeTarget:self action:@selector(performFavorite:) forControlEvents:UIControlEventTouchUpInside];
     [favButton addTarget:self action:@selector(performUnFavorite:) forControlEvents:UIControlEventTouchUpInside];
-    favImage = nil;
     
     [SVProgressHUD showSuccessWithStatus:@"收藏成功！"];
 }
@@ -209,11 +202,9 @@ static int kHAMArtCellFavButtonTag = 7;
     [[HAMTourManager tourManager] removeFavoriteThing:[self.thingArray objectAtIndex:i]];
     
     UIButton *favButton = (UIButton*)[cell viewWithTag:kHAMArtCellFavButtonTag];
-    UIImage *favImage = [[UIImage imageNamed:@"ios7-heart-outline.png.png"] imageWithRenderingMode:UIImageRenderingModeAutomatic];
-    [favButton setImage:favImage forState:UIControlStateNormal];
+    [favButton setSelected:NO];
     [favButton removeTarget:self action:@selector(performUnFavorite:) forControlEvents:UIControlEventTouchUpInside];
     [favButton addTarget:self action:@selector(performFavorite:) forControlEvents:UIControlEventTouchUpInside];
-    favImage = nil;
     
     [SVProgressHUD showSuccessWithStatus:@"取消收藏。"];
 }

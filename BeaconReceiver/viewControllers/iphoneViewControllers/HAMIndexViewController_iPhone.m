@@ -15,6 +15,8 @@
 #import "HAMUserManager.h"
 #import "HAMDataManager.h"
 #import "HAMGlobalData.h"
+#import "HAMThing.h"
+#import "HAMAVOSManager.h"
 #import "SVProgressHUD.h"
 
 @interface HAMIndexViewController_iPhone ()
@@ -110,6 +112,15 @@ LoginType loginSetting;
                     [[HAMUserManager userManager] newUserWithUserID:user.objectId name:name avatar:avatar description:description];
                     currentUser = user;
                     user.username = name;
+                    AVObject *card = [user objectForKey:@"card"];
+                    if (card == nil) {
+                        HAMThing *selfCard = [[HAMThing alloc] init];
+                        selfCard.type = HAMThingTypeCard;
+                        selfCard.title = name;
+                        selfCard.content = description;
+                        selfCard.coverURL = avatar;
+                        [HAMAVOSManager saveCurrentUserCard:selfCard];
+                    }
                     [user save];
                     [self logInWithUser:user];
                 }
@@ -139,6 +150,14 @@ LoginType loginSetting;
                     NSString *avatar = [userDict objectForKey:@"avatar"];
                     [[HAMUserManager userManager] newUserWithUserID:user.objectId name:name avatar:avatar description:nil];
                     currentUser = user;
+                    AVObject *card = [user objectForKey:@"card"];
+                    if (card == nil) {
+                        HAMThing *selfCard = [[HAMThing alloc] init];
+                        selfCard.type = HAMThingTypeCard;
+                        selfCard.title = name;
+                        selfCard.coverURL = avatar;
+                        [HAMAVOSManager saveCurrentUserCard:selfCard];
+                    }
                     user.username = name;
                     [user save];
                     [self logInWithUser:user];

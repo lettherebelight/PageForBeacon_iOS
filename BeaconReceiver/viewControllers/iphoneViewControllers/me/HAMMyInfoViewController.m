@@ -8,6 +8,10 @@
 
 #import "HAMMyInfoViewController.h"
 
+#import "HAMAVOSManager.h"
+
+#import "SVProgressHUD.h"
+
 @interface HAMMyInfoViewController ()
 
 @property (weak, nonatomic) IBOutlet UITextField *nameTextField;
@@ -41,6 +45,7 @@
 }
 
 - (IBAction)saveMyInfoClicked:(id)sender {
-    
+    [HAMAVOSManager updateCurrentUserCardWithName:self.nameTextField.text intro:self.introTextView.text];
+    [SVProgressHUD showSuccessWithStatus:@"我的信息成功更新。"];
 }
 @end
