@@ -16,9 +16,10 @@
 
 + (HAMTourManager*)tourManager;
 
-- (NSString*)currentVisitor;
-- (void)newVisitorWithID:(NSString*)userID;
-- (void)newVisitor;
+- (HAMThing*)currentUserThing;
+- (void)updateCurrentUserThing:(HAMThing*)thing;
+- (void)logout;
+- (void)newUserWithThing:(HAMThing*)thing;
 - (void)approachThing:(HAMThing*)thing;
 - (void)leaveThing:(HAMThing*)thing;
 - (void)addFavoriteThing:(HAMThing*)thing;

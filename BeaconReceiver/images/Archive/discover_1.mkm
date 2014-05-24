@@ -1,5 +1,14 @@
 <MKM version="2.0" imageFileUrl="file:///Users/daiyue/Documents/Code/PageForBeacon_iOS/BeaconReceiver/images/Archive/discover_1.jpg">
   <Marks>
     <RectMark x="117" y="71" color="16711680" offsetX="416" offsetY="59"/>
+    <LengthMark x="152" y="192" color="16711680" length="321" direction="3"/>
+    <RectMark x="68" y="529" color="16711680" offsetX="50" offsetY="50"/>
+    <RectMark x="38" y="512" color="16711680" offsetX="31" offsetY="18"/>
+    <RectMark x="522" y="640" color="16711680" offsetX="41" offsetY="38"/>
+    <RectMark x="370" y="639" color="16711680" offsetX="56" offsetY="40"/>
+    <RectMark x="36" y="732" color="16711680" offsetX="571" offsetY="277"/>
+    <LengthMark x="37" y="884" color="16711680" length="276" direction="12"/>
+    <RectMark x="345" y="757" color="16711680" offsetX="50" offsetY="50"/>
+    <RectMark x="562" y="511" color="16711680" offsetX="0" offsetY="0"/>
   </Marks>
 </MKM>

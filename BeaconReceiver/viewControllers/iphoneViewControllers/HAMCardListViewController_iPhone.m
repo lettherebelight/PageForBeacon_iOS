@@ -23,18 +23,29 @@
 @synthesize thingArray;
 @synthesize thingForSegue;
 
+@synthesize shouldShowPurchaseItem;
+
+static NSString *kHAMPurchaseURL = @"http://item.taobao.com/item.htm?id=38865233450";
+
 static NSString *kHAMArtCellId = @"artCell";
 static NSString *kHAMCardCellId = @"cardCell";
+static NSString *kHAMPurchaseCellId = @"purchaseCell";
 static NSString *kHAMShowDetailSegueId = @"showDetailPage";
 static NSString *kHAMShowCommentSegueId = @"showDetailComment";
 
-static int kHAMArtCellShadowViewTag = 1;
-static int kHAMArtCellCoverViewTag = 2;
-static int kHAMArtCellImageViewTag = 3;
-static int kHAMArtCellTitleViewTag = 4;
-static int kHAMArtCellContentViewTag = 5;
-static int kHAMArtCellCommentButtonTag = 6;
-static int kHAMArtCellFavButtonTag = 7;
+static int kHAMArtCellCoverViewTag = 1;
+static int kHAMArtCellImageViewTag = 2;
+static int kHAMArtCellTitleViewTag = 3;
+static int kHAMArtCellContentViewTag = 4;
+static int kHAMArtCellCommentButtonTag = 5;
+
+static int kHAMCardCellCoverViewTag = 1;
+static int kHAMCardCellImageViewTag = 2;
+static int kHAMCardCellTitleViewTag = 3;
+static int kHAMCardCellContentViewTag = 4;
+static int kHAMCardCellCommentButtonTag = 5;
+
+static int kHAMCellFavButtonTag = 6;
 
 #pragma mark - UIView methods
 
@@ -51,8 +62,14 @@ static int kHAMArtCellFavButtonTag = 7;
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    //back ground
+    UIImageView *backImageView = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"common_bg.jpg"]];
+    backImageView.frame = self.collectionView.bounds;
+    backImageView.autoresizingMask = UIViewAutoresizingFlexibleWidth;
+    [self.collectionView setBackgroundView:backImageView];
     thingArray = nil;
     thingForSegue = nil;
+    shouldShowPurchaseItem = NO;
 }
 
 - (void)didReceiveMemoryWarning
@@ -93,6 +110,22 @@ static int kHAMArtCellFavButtonTag = 7;
     [self performSegueWithIdentifier:kHAMShowDetailSegueId sender:sender];
 }
 
+#pragma mark - CollectionView delegate methods
+- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
+    
+    if ([self isPurchaseCellForItemAtIndexPath:indexPath]) {
+        [[UIApplication sharedApplication ] openURL: [NSURL URLWithString:kHAMPurchaseURL]];
+        return;
+    }
+    
+    HAMThing *thing = [thingArray objectAtIndex:indexPath.row];
+    if (thing == nil || thing.url == nil) {
+        return;
+    }
+    thingForSegue = thing;
+    [self performSegueWithIdentifier:kHAMShowDetailSegueId sender:self];
+}
+
 #pragma mark - CollectionView data source methods
 
 -(NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView {
@@ -100,6 +133,12 @@ static int kHAMArtCellFavButtonTag = 7;
 }
 
 -(NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
+    if (shouldShowPurchaseItem) {
+        if (thingArray == nil) {
+            return 1;
+        }
+        return [thingArray count] + 1;
+    }
     if (thingArray == nil) {
         return 0;
     }
@@ -108,6 +147,12 @@ static int kHAMArtCellFavButtonTag = 7;
 
 -(UICollectionViewCell*)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     
+    //purchase cell
+    
+    if ([self isPurchaseCellForItemAtIndexPath:indexPath]) {
+        return [collectionView dequeueReusableCellWithReuseIdentifier:kHAMPurchaseCellId forIndexPath:indexPath];
+    }
+    
     //set data
     HAMThing *thing = [thingArray objectAtIndex:indexPath.row];
     if (thing == nil) {
@@ -115,31 +160,101 @@ static int kHAMArtCellFavButtonTag = 7;
     }
     
     //art cell
-    UICollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"artCell" forIndexPath:indexPath];
+    if (thing.type == HAMThingTypeArt) {
+        return [self collectionView:collectionView artCellForItemAtIndexPath:indexPath withThing:thing];
+    } else if (thing.type == HAMThingTypeCard) {
+        return [self collectionView:collectionView cardCellForItemAtIndexPath:indexPath withThing:thing];
+    }
     
-    return [self makeArtCell:cell withThing:thing];
+    return nil;
+    
 }
 
-#pragma mark - make cell methods
+- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath
+{
+    CGSize nilCellSize = CGSizeMake(0.0f, 0.0f);
+    CGSize artCellSize = CGSizeMake(320.0f, 255.0f);
+    CGSize cardCellSize = CGSizeMake(320.0f, 141.0f);
+    CGSize purchaseCellSize = CGSizeMake(320.0f, 150.0f);
+    if ([self isPurchaseCellForItemAtIndexPath:indexPath]) {
+        return purchaseCellSize;
+    }
+    HAMThing *thing = [thingArray objectAtIndex:indexPath.row];
+    if (thing == nil) {
+        return nilCellSize;
+    } else if (thing.type == HAMThingTypeArt) {
+        return artCellSize;
+    } else if (thing.type == HAMThingTypeCard) {
+        return cardCellSize;
+    }
+    return nilCellSize;
+}
 
-- (UICollectionViewCell*)makeArtCell:(UICollectionViewCell*)cell withThing:(HAMThing*)thing {
-    UIView *view = [cell viewWithTag:kHAMArtCellCoverViewTag];
+- (BOOL)isPurchaseCellForItemAtIndexPath:(NSIndexPath*)indexPath {
+    return shouldShowPurchaseItem && (thingArray == nil || indexPath.row >= [thingArray count]);
+}
+
+#pragma mark - fill cell methods
+-(UICollectionViewCell*)collectionView:(UICollectionView*)collectionView cardCellForItemAtIndexPath:(NSIndexPath*)indexPath withThing:(HAMThing*)thing {
+    UICollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:kHAMCardCellId forIndexPath:indexPath];
+    
+    UIView *view = [cell viewWithTag:kHAMCardCellCoverViewTag];
     view.layer.cornerRadius = 6.0f;
     [view.layer setMasksToBounds:YES];
     
-    //shadow
-    UIView *shadowView = [cell viewWithTag:kHAMArtCellShadowViewTag];
-    [shadowView.layer setShadowColor:[UIColor lightGrayColor].CGColor];
-    [shadowView.layer setShadowOpacity:0.4f];
-    [shadowView.layer setShadowRadius:1.0f];
-    [shadowView.layer setShadowOffset:CGSizeMake(1.0, 1.0)];
-    shadowView.layer.cornerRadius = 6.0f;
+    //image
+    UIImageView *imageView = (UIImageView*)[view viewWithTag:kHAMCardCellImageViewTag];
+    UIImage *thumbnail;
+    thumbnail = [HAMTools imageFromURL:thing.coverURL];
+    UIImage *image = [HAMTools image:thumbnail staysShapeChangeToSize:imageView.frame.size];
+    imageView.image = image;
+    
+    //title
+    UILabel *titleLabel = (UILabel*)[view viewWithTag:kHAMCardCellTitleViewTag];
+    titleLabel.text = thing.title;
+    
+    //content
+    UITextView *contentTV = (UITextView*)[view viewWithTag:kHAMCardCellContentViewTag];
+    contentTV.text = thing.content;
+    
+    //comment
+    UIButton *commentButton = (UIButton*)[view viewWithTag:kHAMCardCellCommentButtonTag];
+    //UIImage *commentImage = [[UIImage imageNamed:@"ios7-chatbubble-outline.png"] imageWithRenderingMode:UIImageRenderingModeAutomatic];
+    //[commentButton setImage:commentImage forState:UIControlStateNormal];
+    [commentButton addTarget:self action:@selector(commentClicked:) forControlEvents:UIControlEventTouchUpInside];
+    
+    //favorite
+    UIButton *favButton = (UIButton*)[view viewWithTag:kHAMCellFavButtonTag];
+    //UIImage *favImage = [[UIImage imageNamed:@"ios7-heart-outline.png"] imageWithRenderingMode:UIImageRenderingModeAutomatic];
+    //[favButton setImage:favImage forState:UIControlStateNormal];
+    if ([HAMAVOSManager isThingFavoriteOfCurrentUser:thing]) {
+        //UIImage *favImage = [[UIImage imageNamed:@"ios7-heart.png"] imageWithRenderingMode:UIImageRenderingModeAutomatic];
+        //[favButton setImage:favImage forState:UIControlStateNormal];
+        [favButton setSelected:YES];
+        [favButton removeTarget:self action:@selector(performFavorite:) forControlEvents:UIControlEventTouchUpInside];
+        [favButton addTarget:self action:@selector(performUnFavorite:) forControlEvents:UIControlEventTouchUpInside];
+    }
+    else {
+        [favButton setSelected:NO];
+        [favButton removeTarget:self action:@selector(performUnFavorite:) forControlEvents:UIControlEventTouchUpInside];
+        [favButton addTarget:self action:@selector(performFavorite:) forControlEvents:UIControlEventTouchUpInside];
+    }
+    return cell;
+
+}
+
+-(UICollectionViewCell*)collectionView:(UICollectionView*)collectionView artCellForItemAtIndexPath:(NSIndexPath*)indexPath withThing:(HAMThing*)thing {
+    UICollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:kHAMArtCellId forIndexPath:indexPath];
+    
+    UIView *view = [cell viewWithTag:kHAMArtCellCoverViewTag];
+    view.layer.cornerRadius = 6.0f;
+    [view.layer setMasksToBounds:YES];
     
     //image
     UIImageView *imageView = (UIImageView*)[view viewWithTag:kHAMArtCellImageViewTag];
     UIImage *thumbnail;
     thumbnail = [HAMTools imageFromURL:thing.coverURL];
-    UIImage *image = [HAMTools image:thumbnail changeToMaxSize:imageView.frame.size];
+    UIImage *image = [HAMTools image:thumbnail staysShapeChangeToSize:imageView.frame.size];
     imageView.image = image;
     
     //title
@@ -152,14 +267,14 @@ static int kHAMArtCellFavButtonTag = 7;
     
     //comment
     UIButton *commentButton = (UIButton*)[view viewWithTag:kHAMArtCellCommentButtonTag];
-    UIImage *commentImage = [[UIImage imageNamed:@"ios7-chatbubble-outline.png"] imageWithRenderingMode:UIImageRenderingModeAutomatic];
-    [commentButton setImage:commentImage forState:UIControlStateNormal];
+    //UIImage *commentImage = [[UIImage imageNamed:@"ios7-chatbubble-outline.png"] imageWithRenderingMode:UIImageRenderingModeAutomatic];
+    //[commentButton setImage:commentImage forState:UIControlStateNormal];
     [commentButton addTarget:self action:@selector(commentClicked:) forControlEvents:UIControlEventTouchUpInside];
     
     //favorite
-    UIButton *favButton = (UIButton*)[view viewWithTag:kHAMArtCellFavButtonTag];
-    UIImage *favImage = [[UIImage imageNamed:@"ios7-heart-outline.png"] imageWithRenderingMode:UIImageRenderingModeAutomatic];
-    [favButton setImage:favImage forState:UIControlStateNormal];
+    UIButton *favButton = (UIButton*)[view viewWithTag:kHAMCellFavButtonTag];
+    //UIImage *favImage = [[UIImage imageNamed:@"ios7-heart-outline.png"] imageWithRenderingMode:UIImageRenderingModeAutomatic];
+    //[favButton setImage:favImage forState:UIControlStateNormal];
     if ([HAMAVOSManager isThingFavoriteOfCurrentUser:thing]) {
         //UIImage *favImage = [[UIImage imageNamed:@"ios7-heart.png"] imageWithRenderingMode:UIImageRenderingModeAutomatic];
         //[favButton setImage:favImage forState:UIControlStateNormal];
@@ -188,7 +303,7 @@ static int kHAMArtCellFavButtonTag = 7;
     UICollectionViewCell *cell = (UICollectionViewCell*)button.superview.superview.superview;
     long i = [self.collectionView indexPathForCell:cell].row;
     [[HAMTourManager tourManager] addFavoriteThing:[self.thingArray objectAtIndex:i]];
-    UIButton *favButton = (UIButton*)[cell viewWithTag:kHAMArtCellFavButtonTag];
+    UIButton *favButton = (UIButton*)[cell viewWithTag:kHAMCellFavButtonTag];
     [favButton setSelected:YES];
     [favButton removeTarget:self action:@selector(performFavorite:) forControlEvents:UIControlEventTouchUpInside];
     [favButton addTarget:self action:@selector(performUnFavorite:) forControlEvents:UIControlEventTouchUpInside];
@@ -201,7 +316,7 @@ static int kHAMArtCellFavButtonTag = 7;
     long i = [self.collectionView indexPathForCell:cell].row;
     [[HAMTourManager tourManager] removeFavoriteThing:[self.thingArray objectAtIndex:i]];
     
-    UIButton *favButton = (UIButton*)[cell viewWithTag:kHAMArtCellFavButtonTag];
+    UIButton *favButton = (UIButton*)[cell viewWithTag:kHAMCellFavButtonTag];
     [favButton setSelected:NO];
     [favButton removeTarget:self action:@selector(performUnFavorite:) forControlEvents:UIControlEventTouchUpInside];
     [favButton addTarget:self action:@selector(performFavorite:) forControlEvents:UIControlEventTouchUpInside];

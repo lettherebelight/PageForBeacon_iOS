@@ -9,8 +9,6 @@
 #import "HAMArtDetailCommentViewController_iPhone.h"
 #import "HAMCommentData.h"
 #import "HAMTourManager.h"
-#import "HAMUserManager.h"
-#import "HAMUserData.h"
 #import "HAMArtDetailTabController_iPhone.h"
 #import "HAMThing.h"
 
@@ -130,13 +128,12 @@
     [[self commentsTable] reloadData];
     HAMCommentData *data = [[HAMCommentData alloc] init];
     if(self.thing != nil) {
-        data.userName = [HAMUserManager userManager].currentUser.name;
+        data.userName = [[HAMTourManager tourManager] currentUserThing].title;
         data.pageDataID = self.thing.objectID;
-        data.userID = [[HAMTourManager tourManager] currentVisitor];
+        data.userID = [AVUser currentUser].objectId;
         data.content = [self commentText].text;
         [[HAMCommentsManager commentsManager] addComment:data];
     }
-    [[HAMCommentsManager commentsManager] updateComments];
     [self.commentText resignFirstResponder];
     self.commentText.text = nil;
 }

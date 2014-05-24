@@ -223,8 +223,6 @@ static HAMBeaconManager* beaconManager = nil;
 - (void)notificateWithThing:(HAMThing*)thing {
     [[UIApplication sharedApplication] cancelAllLocalNotifications];
     UILocalNotification *localNotification = [[UILocalNotification alloc] init];
-    NSDate *now = [NSDate date];
-    localNotification.fireDate = now;
     if (thing.title  == nil) {
         localNotification.alertBody = @"Something found!";
     }
@@ -232,7 +230,7 @@ static HAMBeaconManager* beaconManager = nil;
         localNotification.alertBody = thing.title;
     }
     localNotification.soundName = UILocalNotificationDefaultSoundName;
-    [[UIApplication sharedApplication] scheduleLocalNotification:localNotification];
+    [[UIApplication sharedApplication] presentLocalNotificationNow:localNotification];
 }
 
 - (void)flushBeaconDictionary {
@@ -241,6 +239,7 @@ static HAMBeaconManager* beaconManager = nil;
         NSArray *beacons = [beaconDictionary objectForKey:key];
         for (CLBeacon *beacon in beacons) {
             if (beacon.accuracy < 0 || beacon.proximity == 0 || beacon.proximity > [HAMAVOSManager rangeOfBeacon:beacon]) {
+                [self removeBeacon:beacon];
                 continue;
             }
             if ([self removeBeacon:beacon] == NO && isInBackground == YES) {
@@ -257,8 +256,8 @@ static HAMBeaconManager* beaconManager = nil;
 
 - (void)showThings {
     NSMutableArray *thingsAround = [NSMutableArray array];
-    long i, count = [beaconsAround count];
-    for (i = 0; i < count; i++) {
+    long i;
+    for (i = 0; i < beaconsAround.count; i++) {
         CLBeacon *beacon = [beaconsAround objectAtIndex:i];
         HAMThing *thing = [HAMAVOSManager thingWithBeacon:beacon];
         if (thing != nil && thing.objectID != nil) {

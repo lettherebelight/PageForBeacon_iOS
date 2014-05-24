@@ -10,10 +10,14 @@
 #import "HAMDataManager.h"
 #import "HAMThing.h"
 #import "HAMDataManager.h"
+#import "HAMGlobalData.h"
 #import "HAMAVOSManager.h"
 #import <AVOSCloud/AVOSCloud.h>
 
-@implementation HAMTourManager
+@implementation HAMTourManager {
+    HAMThing *userThing;
+    NSString *currentUserId;
+}
 
 @synthesize tour;
 
@@ -28,27 +32,40 @@ static HAMTourManager *tourManager;
     return tourManager;
 }
 
-- (NSString*)currentVisitor {
-    NSString *visitorID;
-    visitorID = [tour objectForKey:@"userID"];
-    return visitorID;
+- (id)init {
+    if (self = [super init]) {
+        userThing = nil;
+        currentUserId = nil;
+    }
+    return self;
 }
 
-- (void) newVisitor {
-    tour = [AVObject objectWithClassName:@"Tour"];
-    [tour setObject:@"534d27dce4b0275ea1a07ff7" forKey:@"userID"];
-    [tour save];
+- (HAMThing*)currentUserThing {
+    return userThing;
 }
 
-- (void)newVisitorWithID:(NSString *)userID {
+- (void)updateCurrentUserThing:(HAMThing *)thing {
+    userThing = thing;
+}
+
+- (void)logout {
+    [AVUser logOut];
+    HAMGlobalData *globalData = [HAMDataManager globalData];
+    globalData.lastLogin = nil;
+    [HAMDataManager saveData];
+}
+
+- (void)newUserWithThing:(HAMThing *)thing {
+    userThing = thing;
+    currentUserId = [AVUser currentUser].objectId;
     tour = [AVObject objectWithClassName:@"Tour"];
-    [tour setObject:userID forKey:@"userID"];
-    [tour save];
+    [tour setObject:currentUserId forKey:@"userID"];
+    [tour saveInBackground];
 }
 
 - (void)approachThing:(HAMThing*)thing {
     AVObject *tourEvent = [AVObject objectWithClassName:@"TourEvent"];
-    [tourEvent setObject:[self currentVisitor] forKey:@"userID"];
+    [tourEvent setObject:currentUserId forKey:@"userID"];
     [tourEvent setObject:thing.objectID forKey:@"thingID"];
     [tourEvent setObject:@"approach" forKey:@"event"];
     [tourEvent saveInBackground];
@@ -58,7 +75,7 @@ static HAMTourManager *tourManager;
 
 - (void)leaveThing:(HAMThing*)thing {
     AVObject *tourEvent = [AVObject objectWithClassName:@"TourEvent"];
-    [tourEvent setObject:[self currentVisitor] forKey:@"userID"];
+    [tourEvent setObject:currentUserId forKey:@"userID"];
     [tourEvent setObject:thing.objectID forKey:@"thingID"];
     [tourEvent setObject:@"leave" forKey:@"event"];
     [tourEvent saveInBackground];
@@ -67,7 +84,7 @@ static HAMTourManager *tourManager;
 - (void)addFavoriteThing:(HAMThing*)thing {
     [HAMAVOSManager saveFavoriteThingForCurrentUser:thing];
     AVObject *tourEvent = [AVObject objectWithClassName:@"TourEvent"];
-    [tourEvent setObject:[self currentVisitor] forKey:@"userID"];
+    [tourEvent setObject:currentUserId forKey:@"userID"];
     [tourEvent setObject:thing.objectID forKey:@"thingID"];
     [tourEvent setObject:@"favorite" forKey:@"event"];
     [tourEvent saveInBackground];
@@ -78,7 +95,7 @@ static HAMTourManager *tourManager;
 - (void)removeFavoriteThing:(HAMThing*)thing {
     [HAMAVOSManager removeFavoriteThingFromCurrentUser:thing];
     AVObject *tourEvent = [AVObject objectWithClassName:@"TourEvent"];
-    [tourEvent setObject:[self currentVisitor] forKey:@"userID"];
+    [tourEvent setObject:currentUserId forKey:@"userID"];
     [tourEvent setObject:thing.objectID forKey:@"thingID"];
     [tourEvent setObject:@"unfavorite" forKey:@"event"];
     [tourEvent saveInBackground];

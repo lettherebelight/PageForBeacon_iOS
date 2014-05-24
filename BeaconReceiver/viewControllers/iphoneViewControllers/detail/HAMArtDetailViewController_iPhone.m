@@ -19,8 +19,6 @@
 
 @implementation HAMArtDetailViewController_iPhone
 
-int loadingViewTag = 22;
-
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -65,6 +63,7 @@ int loadingViewTag = 22;
 
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
+    [SVProgressHUD dismiss];
     //[self.navigationController setToolbarHidden:YES animated:animated];
     //[self.navigationController popViewControllerAnimated:NO];
     //[self.detailWebView stopLoading];
@@ -79,30 +78,15 @@ int loadingViewTag = 22;
 #pragma mark - perform UIWebViewDelegate
 
 - (void)webViewDidStartLoad:(UIWebView *)webView {
-    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, 874.0f, 768.0f)];
-    [view setTag:loadingViewTag];
-    [view setBackgroundColor:[UIColor blackColor]];
-    [view setAlpha:0.5];
-    [self.view addSubview:view];
-    
-    UIActivityIndicatorView *activityIndicator = [[UIActivityIndicatorView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, 32.0f, 32.0f)];
-    [activityIndicator setCenter:view.center];
-    [activityIndicator setActivityIndicatorViewStyle:UIActivityIndicatorViewStyleWhite];
-    [view addSubview:activityIndicator];
-    
-    [activityIndicator startAnimating];
+    [SVProgressHUD showWithMaskType:SVProgressHUDMaskTypeNone];
 }
 
 - (void)webViewDidFinishLoad:(UIWebView *)webView {
-    UIView *view = (UIView*)[self.view viewWithTag:loadingViewTag];
-    [view removeFromSuperview];
+    [SVProgressHUD dismiss];
 }
 
 - (void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error {
-    UIView *view = (UIView*)[self.view viewWithTag:loadingViewTag];
-    [view removeFromSuperview];
-    //UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"加载失败" message:nil delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
-    //[alert show];
+    [SVProgressHUD dismiss];
 }
 
 

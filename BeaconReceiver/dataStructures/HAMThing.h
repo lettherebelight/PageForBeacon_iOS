@@ -31,6 +31,11 @@ typedef enum HAMThingType HAMThingType;
 
 @property (nonatomic) AVUser* creator;
 
+@property (nonatomic) NSString* weibo;
+@property (nonatomic) NSString* wechat;
+@property (nonatomic) NSString* qq;
+
+
 - (BOOL)isEqualToThing:(HAMThing*)thing;
 
 - (HAMThingType)setTypeWithTypeString:(NSString*)typeString;

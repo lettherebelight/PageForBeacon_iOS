@@ -79,10 +79,18 @@ static int kHAMDefaultViewTag = 22;
 - (void)displayThings:(NSArray *)things {
     thingsAround = things;
     if (discoverStatus == AROUND) {
+        
+        //eye
         if ([self.view viewWithTag:kHAMDefaultViewTag] == nil && (thingsAround == nil || [thingsAround count] == 0)) {
             [self.view addSubview:defaultView];
         } else if([self.view viewWithTag:kHAMDefaultViewTag] != nil && thingsAround != nil && [thingsAround count] > 0) {
             [defaultView removeFromSuperview];
+        }
+        
+        if (thingsAround == nil || [thingsAround count] == 0) {
+            [self.segmentedControl setTitle:@"附近" forSegmentAtIndex:0];
+        } else {
+            [self.segmentedControl setTitle:[NSString stringWithFormat:@"附近(%u)", [thingsAround count]] forSegmentAtIndex:0];
         }
         if (listViewController != nil) {
             [listViewController updateWithThingArray:thingsAround scrollToTop:NO];
@@ -114,6 +122,7 @@ static int kHAMDefaultViewTag = 22;
     UIBarButtonItem *temporaryBarButtonItem = [[UIBarButtonItem alloc] init];
     temporaryBarButtonItem.title = @"";
     self.navigationItem.backBarButtonItem = temporaryBarButtonItem;
+    
     //init
     [HAMBeaconManager beaconManager].delegate = self;
     [[HAMBeaconManager beaconManager] startMonitor];
@@ -121,14 +130,10 @@ static int kHAMDefaultViewTag = 22;
     
     //set default view
     defaultView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, self.view.frame.size.height)];
-    UIImage *eyeGIF = [OLImage imageNamed:@"gif.gif"];
+    UIImage *eyeGIF = [OLImage imageNamed:@"around_eye.gif"];
     OLImageView *eyeImageView = [[OLImageView alloc] initWithFrame:CGRectMake(110, 200, 100, 100)];
     eyeImageView.image = eyeGIF;
     eyeImageView.alpha = 0.1;
-    UIImage *backJPG = [OLImage imageNamed:@"background_nobeacon.jpg"];
-    OLImageView *backImageView = [[OLImageView alloc] initWithFrame:CGRectMake(0, 0, 320, self.view.frame.size.height)];
-    backImageView.image = backJPG;
-    [defaultView addSubview:backImageView];
     [defaultView addSubview:eyeImageView];
     [defaultView setTag:kHAMDefaultViewTag];
     [self.view addSubview:defaultView];
@@ -136,6 +141,11 @@ static int kHAMDefaultViewTag = 22;
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
+    if (thingsAround == nil || [thingsAround count] == 0) {
+        [self.segmentedControl setTitle:@"附近" forSegmentAtIndex:0];
+    } else {
+        [self.segmentedControl setTitle:[NSString stringWithFormat:@"附近(%u)", [thingsAround count]] forSegmentAtIndex:0];
+    }
     self.navigationController.navigationBar.barTintColor = nil;
     if (listViewController != nil) {
         [listViewController updateViewScrollToTop:NO];

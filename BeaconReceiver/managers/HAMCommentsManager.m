@@ -49,6 +49,7 @@ static HAMCommentsManager *commentsManager;
     @synchronized (self) {
         if ([HAMTools isWebAvailable]) {
             AVQuery *query = [AVQuery queryWithClassName:@"Comment"];
+            [query orderByAscending:@"createdAt"];
             self.comments = nil;
             [query findObjectsInBackgroundWithBlock:^(NSArray *objectArray, NSError *error) {
                 @synchronized (self) {
@@ -88,6 +89,7 @@ static HAMCommentsManager *commentsManager;
     [commentObject setObject:comment.content forKey:@"content"];
     [commentObject setObject:comment.userName forKey:@"userName"];
     [commentObject save];
+    [self.timer setFireDate:[NSDate date]];
 }
 
 @end

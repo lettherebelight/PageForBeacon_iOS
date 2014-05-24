@@ -12,7 +12,6 @@
 #import "HAMLogTool.h"
 #import "HAMBeaconManager.h"
 #import "HAMTourManager.h"
-#import "HAMUserManager.h"
 #import "HAMDataManager.h"
 #import "HAMGlobalData.h"
 #import "HAMThing.h"
@@ -46,8 +45,6 @@ LoginType loginSetting;
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    currentUser = nil;
-    [self getSettings];
 }
 
 - (void)didReceiveMemoryWarning
@@ -57,12 +54,17 @@ LoginType loginSetting;
 }
 
 - (void)viewDidAppear:(BOOL)animated {
-    if (currentUser != nil) {
-        [self logInWithUser:currentUser];
+    //FIXME: login twice here!
+    if ([AVUser currentUser] != nil) {
+        [self login];
+        return;
     }
+    [self getSettings];
     if (loginSetting == WEIBO) {
+        [SVProgressHUD showWithStatus:@"微博登录中" maskType:SVProgressHUDMaskTypeClear];
         [self loginFromWeibo];
     } else if (loginSetting == QQ) {
+        [SVProgressHUD showWithStatus:@"QQ登录中" maskType:SVProgressHUDMaskTypeClear];
         [self loginFromQQ];
     }
 }
@@ -95,86 +97,101 @@ LoginType loginSetting;
 
 - (void)loginFromWeibo {
     [SVProgressHUD dismiss];
-    [HAMDataManager globalData].lastLogin = @"WEIBO";
     
     [AVOSCloudSNS setupPlatform:AVOSCloudSNSSinaWeibo withAppKey:@"464699941" andAppSecret:@"768924e9a4ef519a95809253ebc886ea" andRedirectURI:@"http://www.weibo.com"];
     
     [AVOSCloudSNS loginWithCallback:^(id object, NSError *error) {
         //you code here
-        if (!error) {
-            [AVUser loginWithAuthData:object block:^(AVUser *user, NSError *error) {
-                if (!error) {
-                    NSDictionary *userDict = object;
-                    NSString *name = [userDict objectForKey:@"username"];
-                    NSString *avatar = [userDict objectForKey:@"avatar"];
-                    NSDictionary *userRawData = [userDict objectForKey:@"raw-user"];
-                    NSString *description = [userRawData objectForKey:@"description"];
-                    [[HAMUserManager userManager] newUserWithUserID:user.objectId name:name avatar:avatar description:description];
-                    currentUser = user;
-                    user.username = name;
-                    AVObject *card = [user objectForKey:@"card"];
-                    if (card == nil) {
-                        HAMThing *selfCard = [[HAMThing alloc] init];
-                        selfCard.type = HAMThingTypeCard;
-                        selfCard.title = name;
-                        selfCard.content = description;
-                        selfCard.coverURL = avatar;
-                        [HAMAVOSManager saveCurrentUserCard:selfCard];
-                    }
-                    [user save];
-                    [self logInWithUser:user];
-                }
-                else {
-                    NSLog(@"%@",error);
-                }
-            }];
-        }
-        else {
+        if (error) {
             NSLog(@"%@",error);
+            return;
         }
+        
+        [AVUser loginWithAuthData:object block:^(AVUser *user, NSError *error) {
+            if (error) {
+                NSLog(@"%@",error);
+                return ;
+            }
+            
+            [HAMDataManager globalData].lastLogin = @"WEIBO";
+            [HAMDataManager saveData];
+            
+            AVObject *card = [user objectForKey:@"card"];
+            HAMThing *selfCard;
+            if (card == nil) {
+                NSDictionary *userDict = object;
+                NSString *name = [userDict objectForKey:@"username"];
+                NSString *avatar = [userDict objectForKey:@"avatar"];
+                NSDictionary *userRawData = [userDict objectForKey:@"raw-user"];
+                NSString *description = [userRawData objectForKey:@"description"];
+                
+                user.username = name;
+                [user save];
+                
+                selfCard = [[HAMThing alloc] init];
+                selfCard.type = HAMThingTypeCard;
+                selfCard.title = name;
+                selfCard.content = description;
+                selfCard.coverURL = avatar;
+                [HAMAVOSManager saveCurrentUserCard:selfCard];
+            } else {
+                [card fetchIfNeeded];
+                selfCard = [HAMAVOSManager thingWithThingAVObject:card];
+            }
+            [[HAMTourManager tourManager] newUserWithThing:selfCard];
+        
+            [self login];
+        }];
     } toPlatform:AVOSCloudSNSSinaWeibo];
 }
 
 - (void)loginFromQQ {
-    [HAMDataManager globalData].lastLogin = @"QQ";
     
     [AVOSCloudSNS setupPlatform:AVOSCloudSNSQQ withAppKey:@"1101349087" andAppSecret:@"BAj9jn2xOw9eM7c2" andRedirectURI:@"http://www.weibo.com"];
     
     [AVOSCloudSNS loginWithCallback:^(id object, NSError *error) {
         //you code here
-        if (!error) {
-            [AVUser loginWithAuthData:object block:^(AVUser *user, NSError *error) {
-                if (!error) {
-                    NSDictionary *userDict = object;
-                    NSString *name = [userDict objectForKey:@"username"];
-                    NSString *avatar = [userDict objectForKey:@"avatar"];
-                    [[HAMUserManager userManager] newUserWithUserID:user.objectId name:name avatar:avatar description:nil];
-                    currentUser = user;
-                    AVObject *card = [user objectForKey:@"card"];
-                    if (card == nil) {
-                        HAMThing *selfCard = [[HAMThing alloc] init];
-                        selfCard.type = HAMThingTypeCard;
-                        selfCard.title = name;
-                        selfCard.coverURL = avatar;
-                        [HAMAVOSManager saveCurrentUserCard:selfCard];
-                    }
-                    user.username = name;
-                    [user save];
-                    [self logInWithUser:user];
-                }
-                else {
-                    NSLog(@"%@",error);
-                }
-            }];
-        }
-        else {
+        if (error) {
             NSLog(@"%@",error);
+            return;
         }
+        [AVUser loginWithAuthData:object block:^(AVUser *user, NSError *error) {
+            if (error) {
+                NSLog(@"%@",error);
+                return;
+            }
+            
+            [HAMDataManager globalData].lastLogin = @"QQ";
+            [HAMDataManager saveData];
+            
+            AVObject *card = [user objectForKey:@"card"];
+            HAMThing *selfCard;
+            if (card == nil) {
+                NSDictionary *userDict = object;
+                NSString *name = [userDict objectForKey:@"username"];
+                NSString *avatar = [userDict objectForKey:@"avatar"];
+                
+                user.username = name;
+                [user save];
+                
+                selfCard = [[HAMThing alloc] init];
+                selfCard.type = HAMThingTypeCard;
+                selfCard.title = name;
+                selfCard.coverURL = avatar;
+                [HAMAVOSManager saveCurrentUserCard:selfCard];
+            } else {
+                [card fetchIfNeeded];
+                selfCard = [HAMAVOSManager thingWithThingAVObject:card];
+            }
+            [[HAMTourManager tourManager] newUserWithThing:selfCard];
+           
+            [self login];
+        }];
     } toPlatform:AVOSCloudSNSQQ];
 }
 
-- (void)logInWithUser:(AVUser*)user {
-    [[HAMTourManager tourManager]newVisitorWithID:user.objectId];
+- (void)login {
+    [SVProgressHUD dismiss];
     [self performSegueWithIdentifier:@"finishLogIn" sender:self];
 }
 

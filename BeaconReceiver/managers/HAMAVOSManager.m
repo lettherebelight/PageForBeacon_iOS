@@ -10,6 +10,8 @@
 
 #import "HAMThing.h"
 
+#import "HAMTourManager.h"
+
 #import "HAMLogTool.h"
 
 @implementation HAMAVOSManager
@@ -139,6 +141,9 @@
     thing.cover = nil;
     thing.coverURL = [thingObject objectForKey:@"coverURL"];
     thing.creator = [thingObject objectForKey:@"creator"];
+    thing.weibo = [thingObject objectForKey:@"weibo"];
+    thing.wechat = [thingObject objectForKey:@"wechat"];
+    thing.qq = [thingObject objectForKey:@"qq"];
     
     return thing;
 }
@@ -172,6 +177,10 @@
     }
     
     [thingObject setObject:thing.creator forKey:@"creator"];
+    
+    [thingObject setObject:thing.weibo forKey:@"weibo"];
+    [thingObject setObject:thing.wechat forKey:@"wechat"];
+    [thingObject setObject:thing.qq forKey:@"qq"];
 
     return thingObject;
 }
@@ -228,6 +237,8 @@
         [HAMLogTool warn:@"trying to save thing nil"];
         return nil;
     }
+    
+    thing.creator = [AVUser currentUser];
     
     AVObject* thingObject = [self thingAVObjectWithThing:thing shouldSaveCover:YES];
     [thingObject save];
@@ -347,19 +358,21 @@
 
 #pragma mark - Thing & User Update
 
-+ (void)updateCurrentUserCardWithName:(NSString*)name intro:(NSString*)intro{
++ (void)updateCurrentUserCardWithThing:(HAMThing*)thing{
     AVUser* user = [AVUser currentUser];
     
-    NSString* cardID = [user objectForKey:@"card"];
-    if (cardID == nil) {
+    AVObject* oldThingObject = [user objectForKey:@"card"];
+    if (oldThingObject == nil) {
         [HAMLogTool warn:@"Card not exists for current user"];
         return;
     }
     
-    AVObject* thingObject = [self thingAVObjectWithObjectID:cardID];
-    [thingObject setObject:name forKey:@"title"];
-    [thingObject setObject:intro forKey:@"intro"];
+    AVObject* thingObject = [self thingAVObjectWithThing:thing shouldSaveCover:NO];
+    thingObject.objectId = oldThingObject.objectId;
     [thingObject save];
+    
+    HAMTourManager* tourManager = [HAMTourManager tourManager];
+    [tourManager updateCurrentUserThing:thing];
 }
 
 #pragma mark - Thing & User Save
@@ -371,6 +384,8 @@
     }
     
     thing.type = HAMThingTypeCard;
+    thing.creator = [AVUser currentUser];
+    
     AVObject* thingObject = [self thingAVObjectWithThing:thing shouldSaveCover:NO];
     [thingObject save];
     

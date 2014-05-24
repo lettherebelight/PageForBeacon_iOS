@@ -22,6 +22,9 @@
 @synthesize coverFile;
 @synthesize coverURL;
 @synthesize creator;
+@synthesize weibo;
+@synthesize wechat;
+@synthesize qq;
 
 #pragma mark - Equal
 

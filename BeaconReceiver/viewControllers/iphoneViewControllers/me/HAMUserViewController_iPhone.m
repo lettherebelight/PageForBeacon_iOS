@@ -24,7 +24,8 @@ static NSString *kHAMEmbedSegueId = @"embedSegue";
     self.navigationController.navigationBar.barTintColor = nil;
     NSArray *thingArray = [HAMAVOSManager thingsOfCurrentUser];
     if (listViewController != nil) {
-        [listViewController updateWithThingArray:thingArray scrollToTop:YES];
+        listViewController.shouldShowPurchaseItem = YES;
+        [listViewController updateWithThingArray:thingArray scrollToTop:NO];
     }
 }
 

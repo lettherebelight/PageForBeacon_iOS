@@ -10,8 +10,7 @@
 
 @class AVUser;
 
-@interface HAMIndexViewController_iPhone : UIViewController {
-    AVUser *currentUser;
+@interface HAMIndexViewController_iPhone : UIViewController{
 }
 
 @end

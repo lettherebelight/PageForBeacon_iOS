@@ -48,6 +48,10 @@ static const double kRefreshTimeInterval = 3.0f;
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    UIImageView *backImageView = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"common_bg.jpg"]];
+    backImageView.frame = self.beaconTableView.bounds;
+    backImageView.autoresizingMask = UIViewAutoresizingFlexibleWidth;
+    [self.beaconTableView setBackgroundView:backImageView];
 }
 
 - (void)viewWillAppear:(BOOL)animated{
@@ -127,26 +131,46 @@ static const double kRefreshTimeInterval = 3.0f;
 
 - (UITableViewCell*)tableView:(UITableView*)tableView
         cellForRowAtIndexPath:(NSIndexPath *)indexPath{
-    NSString* CellIdentifier = [NSString stringWithFormat:@"BeaconTableViewCell"];
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-    if (cell == nil) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier];
-    }
-    
+    NSString* CellIdentifier;
     CLBeacon* beacon = [self beaconAtIndexPath:indexPath];
-    
     if (beacon == nil) {
+        CellIdentifier = [NSString stringWithFormat:@"BeaconTableViewCell"];
+        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+        if (cell == nil) {
+            cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier];
+        }
+        
         cell.textLabel.text = @"?(?)";
         cell.detailTextLabel.text = @"Major: ?, Minor: ?";
         return cell;
     }
     
+    HAMBeaconState ownState = [HAMAVOSManager ownStateOfBeacon:beacon];
+    switch (ownState) {
+        case HAMBeaconStateFree:
+            CellIdentifier = [NSString stringWithFormat:@"BeaconTableViewUnbindedCell"];
+            break;
+        case HAMBeaconStateOwnedByOthers:
+            CellIdentifier = [NSString stringWithFormat:@"BeaconTableViewbindedCell"];
+            break;
+        case HAMBeaconStateOwnedByMe:
+            CellIdentifier = [NSString stringWithFormat:@"BeaconTableViewMineCell"];
+            break;
+        default:
+            return nil;
+    }
+    
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    
     NSString* uuid = [beacon.proximityUUID UUIDString];
     HAMBeaconManager* beaconManager = [HAMBeaconManager beaconManager];
     NSString* description = [beaconManager descriptionOfUUID:uuid];
     
-    cell.textLabel.text = [NSString stringWithFormat:@"%@(%.2lf)",description,beacon.accuracy];
-    cell.detailTextLabel.text = [NSString stringWithFormat:@"Major: %@, Minor: %@",beacon.major,beacon.minor];
+    UILabel *textLabel = (UILabel*)[cell viewWithTag:1];
+    UILabel *detailTextLabel = (UILabel*)[cell viewWithTag:2];
+    
+    textLabel.text = [NSString stringWithFormat:@"%@(%.2lf)",description,beacon.accuracy];
+    detailTextLabel.text = [NSString stringWithFormat:@"Major: %@, Minor: %@",beacon.major,beacon.minor];
     
     return cell;
 }

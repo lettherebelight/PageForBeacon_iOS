@@ -15,6 +15,8 @@
 @property NSArray *thingArray;
 @property HAMThing *thingForSegue;
 
+@property Boolean shouldShowPurchaseItem;
+
 - (void)updateViewScrollToTop:(BOOL)needScroll;
 - (void)updateWithThingArray:(NSArray*)array scrollToTop:(BOOL)needScroll;
 

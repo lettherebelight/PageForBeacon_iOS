@@ -66,7 +66,7 @@
 
 #pragma mark - Thing & User Update
 
-+ (void)updateCurrentUserCardWithName:(NSString*)name intro:(NSString*)intro;
++ (void)updateCurrentUserCardWithThing:(HAMThing*)thing;
 
 #pragma mark - Thing & User Save
 

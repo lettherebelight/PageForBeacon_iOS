@@ -76,22 +76,24 @@ HAMThing *newThing;
     if (self.thing != nil) {
         pageTitle = self.thing.title;
     }
-    [HAMBeaconManager beaconManager].detailDelegate = self;
+    
+    //for new thing
+    //[HAMBeaconManager beaconManager].detailDelegate = self;
+//    switchArea = [[UIView alloc] initWithFrame:CGRectMake(50, 0, 220, self.navigationController.navigationBar.frame.size.height)];
+//    [switchArea addGestureRecognizer:switchDetailViewRecognizer];
+    
     
     // Set Navigation Bar
     self.navigationItem.title = pageTitle;
     UIBarButtonItem *favItem;
     if ([HAMAVOSManager isThingFavoriteOfCurrentUser:self.thing]) {
-        UIImage *favImage = [[UIImage imageNamed:@"ios7-heart.png"] imageWithRenderingMode:UIImageRenderingModeAutomatic];
+        UIImage *favImage = [[UIImage imageNamed:@"common_icon_liked_selected.png"] imageWithRenderingMode:UIImageRenderingModeAutomatic];
         favItem = [[UIBarButtonItem alloc] initWithImage:favImage style:UIBarButtonItemStyleBordered target:self action:@selector(performUnFavorite)];
     } else {
         UIImage *favImage = [[UIImage imageNamed:@"ios7-heart-outline.png"] imageWithRenderingMode:UIImageRenderingModeAutomatic];
         favItem = [[UIBarButtonItem alloc] initWithImage:favImage style:UIBarButtonItemStylePlain target:self action:@selector(performFavorite)];
     }
     barItems = [NSMutableArray arrayWithObjects:favItem, nil];
-    
-    switchArea = [[UIView alloc] initWithFrame:CGRectMake(50, 0, 220, self.navigationController.navigationBar.frame.size.height)];
-    [switchArea addGestureRecognizer:switchDetailViewRecognizer];
     
     //UIBarButtonItem *refreshItem;
     //refreshItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh target:self action:@selector(performRefresh)];

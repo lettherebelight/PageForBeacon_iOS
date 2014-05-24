@@ -29,6 +29,11 @@ static NSString *kHAMAVOSAppKey = @"ljqpcds0mt9cn3noaqs3armqgcyhew4setb788pdqc5f
     // Override point for customization after application launch.
     [AVOSCloud setApplicationId:kHAMAVOSAppId clientKey:kHAMAVOSAppKey];
     
+    //    [[UINavigationBar appearance] setBackgroundImage:[[UIImage alloc] init] forBarMetrics:UIBarMetricsDefault];
+    //    //[[UINavigationBar appearance] setBackgroundImage:nil forBarMetrics:UIBarMetricsDefault];
+    //    [[UINavigationBar appearance] setShadowImage:[[UIImage alloc] init]];
+    [[UITabBar appearance] setSelectedImageTintColor:[UIColor colorWithRed:229.0f / 255.0f green:126.0f / 225.0f blue:62.0f / 225.0f alpha:1]];
+    
     return YES;
 }
 							
@@ -78,7 +83,6 @@ static NSString *kHAMAVOSAppKey = @"ljqpcds0mt9cn3noaqs3armqgcyhew4setb788pdqc5f
 - (BOOL)application:(UIApplication *)application willFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     //[[UIApplication sharedApplication] setMinimumBackgroundFetchInterval:UIApplicationBackgroundFetchIntervalMinimum];
-
     return YES;
 }
 
