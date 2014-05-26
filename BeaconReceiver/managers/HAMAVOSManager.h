@@ -17,6 +17,10 @@
 
 @interface HAMAVOSManager : NSObject{}
 
+#pragma mark - Cache
+
+#pragma mark - Clear Cache
+
 #pragma mark - Beacon
 
 #pragma mark - Beacon Conversion
@@ -93,5 +97,11 @@
 
 + (void)saveFavoriteThingForCurrentUser:(HAMThing*)thing;
 + (void)removeFavoriteThingFromCurrentUser:(HAMThing*)thing;
+
+#pragma mark - Comment
+
+#pragma mark - Comment Query
+
++ (int)numberOfCommentsOfThing:(HAMThing*)thing;
 
 @end

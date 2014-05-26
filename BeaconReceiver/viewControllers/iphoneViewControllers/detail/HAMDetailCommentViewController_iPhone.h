@@ -11,7 +11,7 @@
 
 @class HAMThing;
 
-@interface HAMArtDetailCommentViewController_iPhone : UIViewController <UITableViewDataSource, UITextViewDelegate, HAMCommentsManagerDelegate> {
+@interface HAMDetailCommentViewController_iPhone : UIViewController <UITableViewDataSource, UITextViewDelegate, HAMCommentsManagerDelegate> {
     NSArray *comments;
 }
 

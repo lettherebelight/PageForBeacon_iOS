@@ -67,7 +67,7 @@ static int kHAMDefaultViewTag = 22;
 
 #pragma mark - perform delegate methods
 
-- (void)updateThings:(NSArray *)things {
+- (void)updateThingsInWorld:(NSArray *)things {
     thingsInWorld = things;
     if (discoverStatus == WORLD) {
         if (listViewController != nil) {
@@ -125,8 +125,10 @@ static int kHAMDefaultViewTag = 22;
     
     //init
     [HAMBeaconManager beaconManager].delegate = self;
+    [[HAMBeaconManager beaconManager] stopMonitor];
     [[HAMBeaconManager beaconManager] startMonitor];
     [HAMThingManager thingManager].delegate = self;
+    [[HAMThingManager thingManager] startUpdate];
     
     //set default view
     defaultView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, self.view.frame.size.height)];

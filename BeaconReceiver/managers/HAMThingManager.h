@@ -13,7 +13,7 @@
 
 @protocol HAMThingManagerDelegate <NSObject>
 
-- (void)updateThings:(NSArray*)thingsAround;
+- (void)updateThingsInWorld:(NSArray*)thingsInWorld;
 
 @end
 
@@ -25,5 +25,7 @@
 @property (nonatomic, retain) id<HAMThingManagerDelegate> delegate;
 
 + (HAMThingManager*)thingManager;
+
+- (void)startUpdate;
 
 @end

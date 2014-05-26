@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface HAMBeaconListViewController : UIViewController<UITableViewDataSource, UITableViewDelegate, UIActionSheetDelegate>
+@interface HAMBeaconListViewController : UIViewController<UITableViewDataSource, UITableViewDelegate, UIActionSheetDelegate, UIAlertViewDelegate>
 
 @end

@@ -23,7 +23,6 @@
     NSMutableDictionary* beaconDictionary;
     CLLocationManager *locationManager;
     NSMutableArray *beaconRegions;
-    NSMutableArray *beaconsAround;
     
     bool isInBackground;
     
@@ -62,7 +61,6 @@ static HAMBeaconManager* beaconManager = nil;
         beaconDictionary = [NSMutableDictionary dictionary];
         
         nearestBeacon = nil;
-        beaconsAround = [NSMutableArray array];
         beaconRegions = [NSMutableArray array];
         debugTextFields = [NSMutableDictionary dictionary];
         
@@ -136,7 +134,7 @@ static HAMBeaconManager* beaconManager = nil;
             [locationManager startRangingBeaconsInRegion:beaconRegion];
         }
         
-#define FLUSH_FREQUENCY 3.0f
+#define FLUSH_FREQUENCY 1.0f
         
         flushTimer = [NSTimer scheduledTimerWithTimeInterval:FLUSH_FREQUENCY target:self selector:@selector(flushBeaconDictionary) userInfo:nil repeats:YES];
     }];
@@ -159,6 +157,7 @@ static HAMBeaconManager* beaconManager = nil;
     return [info1 isEqualToString:info2];
 }
 
+/*
 - (BOOL)removeBeacon:(CLBeacon*)currentBeacon {
     long i;
     long count = [beaconsAround count];
@@ -185,7 +184,7 @@ static HAMBeaconManager* beaconManager = nil;
         }
     }
     [beaconsAround addObject:currentBeacon];
-}
+}*/
 
 #pragma mark - LocationManager Delegate
 
@@ -234,11 +233,11 @@ static HAMBeaconManager* beaconManager = nil;
 }
 
 - (void)flushBeaconDictionary {
-    NSArray *keyArray = [beaconDictionary allKeys];
+    /*NSArray *keyArray = [beaconDictionary allKeys];
     for (id key in keyArray) {
         NSArray *beacons = [beaconDictionary objectForKey:key];
         for (CLBeacon *beacon in beacons) {
-            if (beacon.accuracy < 0 || beacon.proximity == 0 || beacon.proximity > [HAMAVOSManager rangeOfBeacon:beacon]) {
+            if (beacon.accuracy < 0 || beacon.proximity == CLProximityUnknown || beacon.proximity > [HAMAVOSManager rangeOfBeacon:beacon]) {
                 [self removeBeacon:beacon];
                 continue;
             }
@@ -251,28 +250,65 @@ static HAMBeaconManager* beaconManager = nil;
             [self addBeacon:beacon];
         }
     }
-    [self showThings];
+    [self showThings];*/
+    //TODO: add notification
+    NSMutableArray* beaconArray = [NSMutableArray array];
+    
+    //add all valid beacons to array
+    NSArray* keyArray = [beaconDictionary allKeys];
+    for (int i = 0; i < keyArray.count; i++) {
+        NSString* key = keyArray[i];
+        NSArray* beacons = [beaconDictionary objectForKey:key];
+        for (int j = 0; j < beacons.count; j++) {
+            CLBeacon* beacon = beacons[j];
+            if (beacon == nil || beacon.accuracy < 0 || beacon.proximity == CLProximityUnknown) {
+                continue;
+            }
+            if (beacon.proximity <= [HAMAVOSManager rangeOfBeacon:beacon]) {
+                [beaconArray addObject:beacon];
+            }
+        }
+    }
+    
+    //sort beacons by accuracy
+    NSArray *sortedBeaconArray = [beaconArray sortedArrayUsingComparator:^NSComparisonResult(CLBeacon* beacon1, CLBeacon* beacon2) {
+        
+        if (beacon1.accuracy < beacon2.accuracy) {
+            return NSOrderedAscending;
+        }
+        
+        return NSOrderedDescending;
+    }];
+//    for (int i = 0; i < 1 && i < sortedBeaconArray.count; i ++) {
+//        CLBeacon* beacon = sortedBeaconArray[i];
+//        NSLog(@"beacon %@ #%d:%lf", beacon.major, i, [sortedBeaconArray[i] accuracy]);
+//    }
+    [self showThingsWithBeaconArray:[NSArray arrayWithArray:sortedBeaconArray]];
 }
 
-- (void)showThings {
+- (void)showThingsWithBeaconArray:(NSArray*)beaconArray {
     NSMutableArray *thingsAround = [NSMutableArray array];
     long i;
-    for (i = 0; i < beaconsAround.count; i++) {
-        CLBeacon *beacon = [beaconsAround objectAtIndex:i];
+    for (i = 0; i < beaconArray.count; i++) {
+        CLBeacon *beacon = beaconArray[i];
         HAMThing *thing = [HAMAVOSManager thingWithBeacon:beacon];
         if (thing != nil && thing.objectID != nil) {
             [thingsAround addObject:thing];
         }
     }
+
     if ([previousThings isEqual:thingsAround]) {
         return;
     }
+    
     if (delegate != nil) {
         [delegate displayThings:thingsAround];
     }
+    
     if (detailDelegate != nil) {
         [detailDelegate displayThings:thingsAround];
     }
+    
     previousThings = thingsAround;
 }
 
@@ -286,7 +322,7 @@ static HAMBeaconManager* beaconManager = nil;
     //remove "-1" beacons from top
     int i;
     for (i = 0; i < rawBeaconArray.count; i++) {
-        CLBeacon* beacon = rawBeaconArray[0];
+        CLBeacon* beacon = rawBeaconArray[i];
         if (beacon.accuracy > 0) {
             //no more "-1"
             break;
@@ -308,6 +344,34 @@ static HAMBeaconManager* beaconManager = nil;
 
 - (NSString*)descriptionOfUUID:(NSString*)uuid{
     return [self.descriptionDictionary objectForKey:uuid];
+}
+
+#pragma mark - Utils
+
++ (Boolean)isBeacon:(CLBeacon*)beacon1 sameToBeacon:(CLBeacon*)beacon2{
+    if (beacon1 == nil && beacon2 == nil) {
+        return YES;
+    }
+    
+    if (beacon1 == nil || beacon2 == nil) {
+        return NO;
+    }
+    
+    NSString* uuid1 = [beacon1.proximityUUID UUIDString];
+    NSString* uuid2 = [beacon2.proximityUUID UUIDString];
+    if (![uuid1 isEqualToString:uuid2]) {
+        return NO;
+    }
+    
+    if (![beacon1.major isEqualToNumber:beacon2.major]) {
+        return NO;
+    }
+    
+    if (![beacon1.minor isEqualToNumber:beacon2.minor]) {
+        return NO;
+    }
+    
+    return YES;
 }
 
 @end

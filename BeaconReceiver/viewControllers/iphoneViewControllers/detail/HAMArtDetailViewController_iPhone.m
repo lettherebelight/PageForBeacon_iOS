@@ -10,7 +10,7 @@
 #import "HAMTourManager.h"
 #import "HAMTools.h"
 #import "SVProgressHUD.h"
-#import "HAMArtDetailTabController_iPhone.h"
+#import "HAMDetailTabBarController_iPhone.h"
 #import "HAMThing.h"
 
 @interface HAMArtDetailViewController_iPhone ()
@@ -36,7 +36,7 @@
     //initialize
     pageURL = @"http://www.baidu.com";
     
-    HAMArtDetailTabController_iPhone *detailTabVC = (HAMArtDetailTabController_iPhone*)self.parentViewController;
+    HAMDetailTabBarController_iPhone *detailTabVC = (HAMDetailTabBarController_iPhone*)self.parentViewController;
     self.thing = detailTabVC.thing;
     
     self.detailWebView.delegate = self;

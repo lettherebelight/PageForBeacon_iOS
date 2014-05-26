@@ -1,0 +1,8 @@
+<MKM version="2.0" imageFileUrl="file:///Users/daiyue/Documents/Code/PageForBeacon_iOS/BeaconReceiver/images/thing_namecard.jpg">
+  <Marks>
+    <RectMark x="36" y="190" color="16711680" offsetX="572" offsetY="565"/>
+    <RectMark x="343" y="215" color="16711680" offsetX="241" offsetY="146"/>
+    <RectMark x="117" y="237" color="16711680" offsetX="278" offsetY="277"/>
+    <RectMark x="69" y="497" color="16711680" offsetX="389" offsetY="234"/>
+  </Marks>
+</MKM>

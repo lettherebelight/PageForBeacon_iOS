@@ -46,8 +46,7 @@
 		6670E1A9192CE673007DC18D /* HAMDiscoverViewController_iPhone.m in Sources */ = {isa = PBXBuildFile; fileRef = 6670E1A5192CE673007DC18D /* HAMDiscoverViewController_iPhone.m */; };
 		6670E1AA192CE673007DC18D /* HAMFavoritesViewController_iPhone.m in Sources */ = {isa = PBXBuildFile; fileRef = 6670E1A7192CE673007DC18D /* HAMFavoritesViewController_iPhone.m */; };
 		6670E1AD192CE6D7007DC18D /* HAMUserViewController_iPhone.m in Sources */ = {isa = PBXBuildFile; fileRef = 6670E1AC192CE6D7007DC18D /* HAMUserViewController_iPhone.m */; };
-		6670E1B5192CE6FB007DC18D /* HAMArtDetailCommentViewController_iPhone.m in Sources */ = {isa = PBXBuildFile; fileRef = 6670E1B0192CE6FB007DC18D /* HAMArtDetailCommentViewController_iPhone.m */; };
-		6670E1B6192CE6FB007DC18D /* HAMArtDetailTabController_iPhone.m in Sources */ = {isa = PBXBuildFile; fileRef = 6670E1B2192CE6FB007DC18D /* HAMArtDetailTabController_iPhone.m */; };
+		6670E1B5192CE6FB007DC18D /* HAMDetailCommentViewController_iPhone.m in Sources */ = {isa = PBXBuildFile; fileRef = 6670E1B0192CE6FB007DC18D /* HAMDetailCommentViewController_iPhone.m */; };
 		6670E1B7192CE6FB007DC18D /* HAMArtDetailViewController_iPhone.m in Sources */ = {isa = PBXBuildFile; fileRef = 6670E1B4192CE6FB007DC18D /* HAMArtDetailViewController_iPhone.m */; };
 		6670E1C4192DA0A5007DC18D /* login_bg.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 6670E1BE192DA0A5007DC18D /* login_bg.jpg */; };
 		6670E1C5192DA0A5007DC18D /* login_bg.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 6670E1BE192DA0A5007DC18D /* login_bg.jpg */; };
@@ -83,15 +82,6 @@
 		6670E20C192EEAD9007DC18D /* me_logout_btn.png in Resources */ = {isa = PBXBuildFile; fileRef = 6670E207192EEAD9007DC18D /* me_logout_btn.png */; };
 		6670E20D192EEAD9007DC18D /* me_save_btn.png in Resources */ = {isa = PBXBuildFile; fileRef = 6670E208192EEAD9007DC18D /* me_save_btn.png */; };
 		6670E20E192EEAD9007DC18D /* me_save_btn.png in Resources */ = {isa = PBXBuildFile; fileRef = 6670E208192EEAD9007DC18D /* me_save_btn.png */; };
-		6670E219193090DA007DC18D /* common_icon_discover_normal_44.png in Resources */ = {isa = PBXBuildFile; fileRef = 6670E210193090DA007DC18D /* common_icon_discover_normal_44.png */; };
-		6670E21A193090DA007DC18D /* common_icon_discover_selected_44.png in Resources */ = {isa = PBXBuildFile; fileRef = 6670E211193090DA007DC18D /* common_icon_discover_selected_44.png */; };
-		6670E21B193090DA007DC18D /* common_icon_fav_normal_44.png in Resources */ = {isa = PBXBuildFile; fileRef = 6670E212193090DA007DC18D /* common_icon_fav_normal_44.png */; };
-		6670E21C193090DA007DC18D /* common_icon_fav_selected_44.png in Resources */ = {isa = PBXBuildFile; fileRef = 6670E213193090DA007DC18D /* common_icon_fav_selected_44.png */; };
-		6670E21D193090DA007DC18D /* common_icon_like_normal_44.png in Resources */ = {isa = PBXBuildFile; fileRef = 6670E214193090DA007DC18D /* common_icon_like_normal_44.png */; };
-		6670E21E193090DA007DC18D /* common_icon_like_selected_44.png in Resources */ = {isa = PBXBuildFile; fileRef = 6670E215193090DA007DC18D /* common_icon_like_selected_44.png */; };
-		6670E21F193090DA007DC18D /* common_icon_liked_selected_44.png in Resources */ = {isa = PBXBuildFile; fileRef = 6670E216193090DA007DC18D /* common_icon_liked_selected_44.png */; };
-		6670E220193090DA007DC18D /* common_icon_me_normal_44.png in Resources */ = {isa = PBXBuildFile; fileRef = 6670E217193090DA007DC18D /* common_icon_me_normal_44.png */; };
-		6670E221193090DA007DC18D /* common_icon_me_selected_44.png in Resources */ = {isa = PBXBuildFile; fileRef = 6670E218193090DA007DC18D /* common_icon_me_selected_44.png */; };
 		6670E23B19309114007DC18D /* common_cover_default_1.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 6670E23519309114007DC18D /* common_cover_default_1.jpg */; };
 		6670E23C19309114007DC18D /* common_cover_default_2.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 6670E23619309114007DC18D /* common_cover_default_2.jpg */; };
 		6670E23D19309114007DC18D /* common_cover_default_3.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 6670E23719309114007DC18D /* common_cover_default_3.jpg */; };
@@ -108,6 +98,33 @@
 		6670E25219309F44007DC18D /* login_logo.png in Resources */ = {isa = PBXBuildFile; fileRef = 6670E24F19309F44007DC18D /* login_logo.png */; };
 		6670E25319309F44007DC18D /* login_qq.png in Resources */ = {isa = PBXBuildFile; fileRef = 6670E25019309F44007DC18D /* login_qq.png */; };
 		6670E25419309F44007DC18D /* login_weibo.png in Resources */ = {isa = PBXBuildFile; fileRef = 6670E25119309F44007DC18D /* login_weibo.png */; };
+		6670E2571930A7C0007DC18D /* HAMDetailTabBarController_iPhone.m in Sources */ = {isa = PBXBuildFile; fileRef = 6670E2561930A7C0007DC18D /* HAMDetailTabBarController_iPhone.m */; };
+		6670E2671931BE33007DC18D /* common_icon_adduuid.png in Resources */ = {isa = PBXBuildFile; fileRef = 6670E2581931BE33007DC18D /* common_icon_adduuid.png */; };
+		6670E2681931BE33007DC18D /* common_icon_comment_normal.png in Resources */ = {isa = PBXBuildFile; fileRef = 6670E2591931BE33007DC18D /* common_icon_comment_normal.png */; };
+		6670E2691931BE33007DC18D /* common_icon_comment_selected.png in Resources */ = {isa = PBXBuildFile; fileRef = 6670E25A1931BE33007DC18D /* common_icon_comment_selected.png */; };
+		6670E26A1931BE33007DC18D /* common_icon_discover_normal.png in Resources */ = {isa = PBXBuildFile; fileRef = 6670E25B1931BE33007DC18D /* common_icon_discover_normal.png */; };
+		6670E26B1931BE33007DC18D /* common_icon_discover_normal@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6670E25C1931BE33007DC18D /* common_icon_discover_normal@2x.png */; };
+		6670E26C1931BE33007DC18D /* common_icon_discover_selected@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6670E25D1931BE33007DC18D /* common_icon_discover_selected@2x.png */; };
+		6670E26D1931BE33007DC18D /* common_icon_fav_normal@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6670E25E1931BE33007DC18D /* common_icon_fav_normal@2x.png */; };
+		6670E26E1931BE33007DC18D /* common_icon_fav_selected@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6670E25F1931BE33007DC18D /* common_icon_fav_selected@2x.png */; };
+		6670E26F1931BE33007DC18D /* common_icon_like_normal.png in Resources */ = {isa = PBXBuildFile; fileRef = 6670E2601931BE33007DC18D /* common_icon_like_normal.png */; };
+		6670E2701931BE33007DC18D /* common_icon_like_normal@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6670E2611931BE33007DC18D /* common_icon_like_normal@2x.png */; };
+		6670E2711931BE33007DC18D /* common_icon_like_selected@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6670E2621931BE33007DC18D /* common_icon_like_selected@2x.png */; };
+		6670E2721931BE33007DC18D /* common_icon_liked_selected@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6670E2631931BE33007DC18D /* common_icon_liked_selected@2x.png */; };
+		6670E2731931BE33007DC18D /* common_icon_me_normal@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6670E2641931BE33007DC18D /* common_icon_me_normal@2x.png */; };
+		6670E2741931BE33007DC18D /* common_icon_me_selected@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6670E2651931BE33007DC18D /* common_icon_me_selected@2x.png */; };
+		6670E2751931BE33007DC18D /* common_icon_personinfo.png in Resources */ = {isa = PBXBuildFile; fileRef = 6670E2661931BE33007DC18D /* common_icon_personinfo.png */; };
+		6670E2771931CDDF007DC18D /* common_card_bottom_frame.png in Resources */ = {isa = PBXBuildFile; fileRef = 6670E2761931CDDF007DC18D /* common_card_bottom_frame.png */; };
+		6670E27C1931CEB4007DC18D /* common_icon_qq_infio.png in Resources */ = {isa = PBXBuildFile; fileRef = 6670E2781931CEB4007DC18D /* common_icon_qq_infio.png */; };
+		6670E27D1931CEB4007DC18D /* common_icon_web_info.png in Resources */ = {isa = PBXBuildFile; fileRef = 6670E2791931CEB4007DC18D /* common_icon_web_info.png */; };
+		6670E27E1931CEB4007DC18D /* common_icon_wechat_info.png in Resources */ = {isa = PBXBuildFile; fileRef = 6670E27A1931CEB4007DC18D /* common_icon_wechat_info.png */; };
+		6670E27F1931CEB4007DC18D /* common_icon_weibo_info.png in Resources */ = {isa = PBXBuildFile; fileRef = 6670E27B1931CEB4007DC18D /* common_icon_weibo_info.png */; };
+		6670E2821931D0FC007DC18D /* HAMCardDetailViewController_iPhone.m in Sources */ = {isa = PBXBuildFile; fileRef = 6670E2811931D0FC007DC18D /* HAMCardDetailViewController_iPhone.m */; };
+		6670E2831931D0FC007DC18D /* HAMCardDetailViewController_iPhone.m in Sources */ = {isa = PBXBuildFile; fileRef = 6670E2811931D0FC007DC18D /* HAMCardDetailViewController_iPhone.m */; };
+		6670E28519320646007DC18D /* CreateThing_iPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6670E28419320646007DC18D /* CreateThing_iPhone.xib */; };
+		6670E28619320646007DC18D /* CreateThing_iPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6670E28419320646007DC18D /* CreateThing_iPhone.xib */; };
+		6670E289193209F3007DC18D /* HAMCreateThingContentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6670E288193209F3007DC18D /* HAMCreateThingContentViewController.m */; };
+		6670E28A193209F3007DC18D /* HAMCreateThingContentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6670E288193209F3007DC18D /* HAMCreateThingContentViewController.m */; };
 		66774E1718FC110F0097701F /* HAMDataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 66774E1618FC110F0097701F /* HAMDataManager.m */; };
 		66774E1818FC110F0097701F /* HAMDataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 66774E1618FC110F0097701F /* HAMDataManager.m */; };
 		6679656219112A0700D9C4FF /* SVProgressHUD.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 6679655F19112A0700D9C4FF /* SVProgressHUD.bundle */; };
@@ -252,10 +269,8 @@
 		6670E1A7192CE673007DC18D /* HAMFavoritesViewController_iPhone.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HAMFavoritesViewController_iPhone.m; sourceTree = "<group>"; };
 		6670E1AB192CE6D7007DC18D /* HAMUserViewController_iPhone.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HAMUserViewController_iPhone.h; sourceTree = "<group>"; };
 		6670E1AC192CE6D7007DC18D /* HAMUserViewController_iPhone.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HAMUserViewController_iPhone.m; sourceTree = "<group>"; };
-		6670E1AF192CE6FB007DC18D /* HAMArtDetailCommentViewController_iPhone.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HAMArtDetailCommentViewController_iPhone.h; sourceTree = "<group>"; };
-		6670E1B0192CE6FB007DC18D /* HAMArtDetailCommentViewController_iPhone.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HAMArtDetailCommentViewController_iPhone.m; sourceTree = "<group>"; };
-		6670E1B1192CE6FB007DC18D /* HAMArtDetailTabController_iPhone.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HAMArtDetailTabController_iPhone.h; sourceTree = "<group>"; };
-		6670E1B2192CE6FB007DC18D /* HAMArtDetailTabController_iPhone.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HAMArtDetailTabController_iPhone.m; sourceTree = "<group>"; };
+		6670E1AF192CE6FB007DC18D /* HAMDetailCommentViewController_iPhone.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HAMDetailCommentViewController_iPhone.h; sourceTree = "<group>"; };
+		6670E1B0192CE6FB007DC18D /* HAMDetailCommentViewController_iPhone.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HAMDetailCommentViewController_iPhone.m; sourceTree = "<group>"; };
 		6670E1B3192CE6FB007DC18D /* HAMArtDetailViewController_iPhone.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HAMArtDetailViewController_iPhone.h; sourceTree = "<group>"; };
 		6670E1B4192CE6FB007DC18D /* HAMArtDetailViewController_iPhone.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HAMArtDetailViewController_iPhone.m; sourceTree = "<group>"; };
 		6670E1BE192DA0A5007DC18D /* login_bg.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = login_bg.jpg; sourceTree = "<group>"; };
@@ -275,15 +290,6 @@
 		6670E206192EEAD9007DC18D /* me_info_frame.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = me_info_frame.png; sourceTree = "<group>"; };
 		6670E207192EEAD9007DC18D /* me_logout_btn.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = me_logout_btn.png; sourceTree = "<group>"; };
 		6670E208192EEAD9007DC18D /* me_save_btn.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = me_save_btn.png; sourceTree = "<group>"; };
-		6670E210193090DA007DC18D /* common_icon_discover_normal_44.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = common_icon_discover_normal_44.png; sourceTree = "<group>"; };
-		6670E211193090DA007DC18D /* common_icon_discover_selected_44.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = common_icon_discover_selected_44.png; sourceTree = "<group>"; };
-		6670E212193090DA007DC18D /* common_icon_fav_normal_44.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = common_icon_fav_normal_44.png; sourceTree = "<group>"; };
-		6670E213193090DA007DC18D /* common_icon_fav_selected_44.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = common_icon_fav_selected_44.png; sourceTree = "<group>"; };
-		6670E214193090DA007DC18D /* common_icon_like_normal_44.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = common_icon_like_normal_44.png; sourceTree = "<group>"; };
-		6670E215193090DA007DC18D /* common_icon_like_selected_44.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = common_icon_like_selected_44.png; sourceTree = "<group>"; };
-		6670E216193090DA007DC18D /* common_icon_liked_selected_44.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = common_icon_liked_selected_44.png; sourceTree = "<group>"; };
-		6670E217193090DA007DC18D /* common_icon_me_normal_44.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = common_icon_me_normal_44.png; sourceTree = "<group>"; };
-		6670E218193090DA007DC18D /* common_icon_me_selected_44.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = common_icon_me_selected_44.png; sourceTree = "<group>"; };
 		6670E23519309114007DC18D /* common_cover_default_1.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = common_cover_default_1.jpg; sourceTree = "<group>"; };
 		6670E23619309114007DC18D /* common_cover_default_2.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = common_cover_default_2.jpg; sourceTree = "<group>"; };
 		6670E23719309114007DC18D /* common_cover_default_3.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = common_cover_default_3.jpg; sourceTree = "<group>"; };
@@ -300,6 +306,33 @@
 		6670E24F19309F44007DC18D /* login_logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = login_logo.png; sourceTree = "<group>"; };
 		6670E25019309F44007DC18D /* login_qq.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = login_qq.png; sourceTree = "<group>"; };
 		6670E25119309F44007DC18D /* login_weibo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = login_weibo.png; sourceTree = "<group>"; };
+		6670E2551930A7C0007DC18D /* HAMDetailTabBarController_iPhone.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HAMDetailTabBarController_iPhone.h; sourceTree = "<group>"; };
+		6670E2561930A7C0007DC18D /* HAMDetailTabBarController_iPhone.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HAMDetailTabBarController_iPhone.m; sourceTree = "<group>"; };
+		6670E2581931BE33007DC18D /* common_icon_adduuid.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = common_icon_adduuid.png; sourceTree = "<group>"; };
+		6670E2591931BE33007DC18D /* common_icon_comment_normal.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = common_icon_comment_normal.png; sourceTree = "<group>"; };
+		6670E25A1931BE33007DC18D /* common_icon_comment_selected.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = common_icon_comment_selected.png; sourceTree = "<group>"; };
+		6670E25B1931BE33007DC18D /* common_icon_discover_normal.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = common_icon_discover_normal.png; sourceTree = "<group>"; };
+		6670E25C1931BE33007DC18D /* common_icon_discover_normal@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "common_icon_discover_normal@2x.png"; sourceTree = "<group>"; };
+		6670E25D1931BE33007DC18D /* common_icon_discover_selected@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "common_icon_discover_selected@2x.png"; sourceTree = "<group>"; };
+		6670E25E1931BE33007DC18D /* common_icon_fav_normal@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "common_icon_fav_normal@2x.png"; sourceTree = "<group>"; };
+		6670E25F1931BE33007DC18D /* common_icon_fav_selected@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "common_icon_fav_selected@2x.png"; sourceTree = "<group>"; };
+		6670E2601931BE33007DC18D /* common_icon_like_normal.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = common_icon_like_normal.png; sourceTree = "<group>"; };
+		6670E2611931BE33007DC18D /* common_icon_like_normal@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "common_icon_like_normal@2x.png"; sourceTree = "<group>"; };
+		6670E2621931BE33007DC18D /* common_icon_like_selected@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "common_icon_like_selected@2x.png"; sourceTree = "<group>"; };
+		6670E2631931BE33007DC18D /* common_icon_liked_selected@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "common_icon_liked_selected@2x.png"; sourceTree = "<group>"; };
+		6670E2641931BE33007DC18D /* common_icon_me_normal@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "common_icon_me_normal@2x.png"; sourceTree = "<group>"; };
+		6670E2651931BE33007DC18D /* common_icon_me_selected@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "common_icon_me_selected@2x.png"; sourceTree = "<group>"; };
+		6670E2661931BE33007DC18D /* common_icon_personinfo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = common_icon_personinfo.png; sourceTree = "<group>"; };
+		6670E2761931CDDF007DC18D /* common_card_bottom_frame.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = common_card_bottom_frame.png; sourceTree = "<group>"; };
+		6670E2781931CEB4007DC18D /* common_icon_qq_infio.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = common_icon_qq_infio.png; sourceTree = "<group>"; };
+		6670E2791931CEB4007DC18D /* common_icon_web_info.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = common_icon_web_info.png; sourceTree = "<group>"; };
+		6670E27A1931CEB4007DC18D /* common_icon_wechat_info.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = common_icon_wechat_info.png; sourceTree = "<group>"; };
+		6670E27B1931CEB4007DC18D /* common_icon_weibo_info.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = common_icon_weibo_info.png; sourceTree = "<group>"; };
+		6670E2801931D0FB007DC18D /* HAMCardDetailViewController_iPhone.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HAMCardDetailViewController_iPhone.h; sourceTree = "<group>"; };
+		6670E2811931D0FC007DC18D /* HAMCardDetailViewController_iPhone.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HAMCardDetailViewController_iPhone.m; sourceTree = "<group>"; };
+		6670E28419320646007DC18D /* CreateThing_iPhone.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CreateThing_iPhone.xib; sourceTree = "<group>"; };
+		6670E287193209F3007DC18D /* HAMCreateThingContentViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HAMCreateThingContentViewController.h; sourceTree = "<group>"; };
+		6670E288193209F3007DC18D /* HAMCreateThingContentViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HAMCreateThingContentViewController.m; sourceTree = "<group>"; };
 		66774E1518FC110F0097701F /* HAMDataManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HAMDataManager.h; path = BeaconReceiver/managers/HAMDataManager.h; sourceTree = "<group>"; };
 		66774E1618FC110F0097701F /* HAMDataManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HAMDataManager.m; path = BeaconReceiver/managers/HAMDataManager.m; sourceTree = "<group>"; };
 		6679655E19112A0700D9C4FF /* SVProgressHUD-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "SVProgressHUD-Prefix.pch"; path = "BeaconReceiver/ThirdPartSDKs/SVProgressHUD/SVProgressHUD-Prefix.pch"; sourceTree = "<group>"; };
@@ -495,7 +528,7 @@
 			isa = PBXGroup;
 			children = (
 				6670E1B8192DA0A5007DC18D /* around */,
-				6670E1B9192DA0A5007DC18D /* common */,
+				6670E1B9192DA0A5007DC18D /* common_card_b */,
 				6670E1BC192DA0A5007DC18D /* favorite */,
 				6670E1BD192DA0A5007DC18D /* login */,
 				6670E1C2192DA0A5007DC18D /* me */,
@@ -571,12 +604,14 @@
 		6670E1AE192CE6E7007DC18D /* detail */ = {
 			isa = PBXGroup;
 			children = (
-				6670E1B1192CE6FB007DC18D /* HAMArtDetailTabController_iPhone.h */,
-				6670E1B2192CE6FB007DC18D /* HAMArtDetailTabController_iPhone.m */,
+				6670E2551930A7C0007DC18D /* HAMDetailTabBarController_iPhone.h */,
+				6670E2561930A7C0007DC18D /* HAMDetailTabBarController_iPhone.m */,
+				6670E1AF192CE6FB007DC18D /* HAMDetailCommentViewController_iPhone.h */,
+				6670E1B0192CE6FB007DC18D /* HAMDetailCommentViewController_iPhone.m */,
+				6670E2801931D0FB007DC18D /* HAMCardDetailViewController_iPhone.h */,
+				6670E2811931D0FC007DC18D /* HAMCardDetailViewController_iPhone.m */,
 				6670E1B3192CE6FB007DC18D /* HAMArtDetailViewController_iPhone.h */,
 				6670E1B4192CE6FB007DC18D /* HAMArtDetailViewController_iPhone.m */,
-				6670E1AF192CE6FB007DC18D /* HAMArtDetailCommentViewController_iPhone.h */,
-				6670E1B0192CE6FB007DC18D /* HAMArtDetailCommentViewController_iPhone.m */,
 			);
 			path = detail;
 			sourceTree = "<group>";
@@ -589,7 +624,7 @@
 			path = around;
 			sourceTree = "<group>";
 		};
-		6670E1B9192DA0A5007DC18D /* common */ = {
+		6670E1B9192DA0A5007DC18D /* common_card_b */ = {
 			isa = PBXGroup;
 			children = (
 				6670E20F193090DA007DC18D /* icon */,
@@ -597,12 +632,14 @@
 				6670E1BA192DA0A5007DC18D /* card */,
 				6670E1BB192DA0A5007DC18D /* tab */,
 			);
+			name = common_card_b;
 			path = common;
 			sourceTree = "<group>";
 		};
 		6670E1BA192DA0A5007DC18D /* card */ = {
 			isa = PBXGroup;
 			children = (
+				6670E2761931CDDF007DC18D /* common_card_bottom_frame.png */,
 				6670E23519309114007DC18D /* common_cover_default_1.jpg */,
 				6670E23619309114007DC18D /* common_cover_default_2.jpg */,
 				6670E23719309114007DC18D /* common_cover_default_3.jpg */,
@@ -677,6 +714,25 @@
 		6670E20F193090DA007DC18D /* icon */ = {
 			isa = PBXGroup;
 			children = (
+				6670E2781931CEB4007DC18D /* common_icon_qq_infio.png */,
+				6670E2791931CEB4007DC18D /* common_icon_web_info.png */,
+				6670E27A1931CEB4007DC18D /* common_icon_wechat_info.png */,
+				6670E27B1931CEB4007DC18D /* common_icon_weibo_info.png */,
+				6670E2581931BE33007DC18D /* common_icon_adduuid.png */,
+				6670E2591931BE33007DC18D /* common_icon_comment_normal.png */,
+				6670E25A1931BE33007DC18D /* common_icon_comment_selected.png */,
+				6670E25B1931BE33007DC18D /* common_icon_discover_normal.png */,
+				6670E25C1931BE33007DC18D /* common_icon_discover_normal@2x.png */,
+				6670E25D1931BE33007DC18D /* common_icon_discover_selected@2x.png */,
+				6670E25E1931BE33007DC18D /* common_icon_fav_normal@2x.png */,
+				6670E25F1931BE33007DC18D /* common_icon_fav_selected@2x.png */,
+				6670E2601931BE33007DC18D /* common_icon_like_normal.png */,
+				6670E2611931BE33007DC18D /* common_icon_like_normal@2x.png */,
+				6670E2621931BE33007DC18D /* common_icon_like_selected@2x.png */,
+				6670E2631931BE33007DC18D /* common_icon_liked_selected@2x.png */,
+				6670E2641931BE33007DC18D /* common_icon_me_normal@2x.png */,
+				6670E2651931BE33007DC18D /* common_icon_me_selected@2x.png */,
+				6670E2661931BE33007DC18D /* common_icon_personinfo.png */,
 				6670E241193098DB007DC18D /* common_icon_discover_selected.png */,
 				6670E242193098DB007DC18D /* common_icon_fav_normal.png */,
 				6670E243193098DB007DC18D /* common_icon_fav_selected.png */,
@@ -684,15 +740,6 @@
 				6670E245193098DB007DC18D /* common_icon_liked_selected.png */,
 				6670E246193098DB007DC18D /* common_icon_me_normal.png */,
 				6670E247193098DB007DC18D /* common_icon_me_selected.png */,
-				6670E210193090DA007DC18D /* common_icon_discover_normal_44.png */,
-				6670E211193090DA007DC18D /* common_icon_discover_selected_44.png */,
-				6670E212193090DA007DC18D /* common_icon_fav_normal_44.png */,
-				6670E213193090DA007DC18D /* common_icon_fav_selected_44.png */,
-				6670E214193090DA007DC18D /* common_icon_like_normal_44.png */,
-				6670E215193090DA007DC18D /* common_icon_like_selected_44.png */,
-				6670E216193090DA007DC18D /* common_icon_liked_selected_44.png */,
-				6670E217193090DA007DC18D /* common_icon_me_normal_44.png */,
-				6670E218193090DA007DC18D /* common_icon_me_selected_44.png */,
 			);
 			path = icon;
 			sourceTree = "<group>";
@@ -799,6 +846,9 @@
 				668090FD19278E6D00395A88 /* HAMCreateThingViewController.m */,
 				664279E4192CC1E500B5D964 /* HAMMyInfoViewController.h */,
 				664279E5192CC1E500B5D964 /* HAMMyInfoViewController.m */,
+				6670E28419320646007DC18D /* CreateThing_iPhone.xib */,
+				6670E287193209F3007DC18D /* HAMCreateThingContentViewController.h */,
+				6670E288193209F3007DC18D /* HAMCreateThingContentViewController.m */,
 			);
 			path = me;
 			sourceTree = "<group>";
@@ -929,30 +979,31 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6670E21B193090DA007DC18D /* common_icon_fav_normal_44.png in Resources */,
+				6670E27C1931CEB4007DC18D /* common_icon_qq_infio.png in Resources */,
 				66B162EC1900081800EFE554 /* fav-selected-pressed.png in Resources */,
+				6670E27D1931CEB4007DC18D /* common_icon_web_info.png in Resources */,
 				6670E24D193098DB007DC18D /* common_icon_me_normal.png in Resources */,
-				6670E221193090DA007DC18D /* common_icon_me_selected_44.png in Resources */,
 				6670E25419309F44007DC18D /* login_weibo.png in Resources */,
 				667965C01917BB5600D9C4FF /* ios7-chatbubble-outline@2x.png in Resources */,
 				66B162EE1900081800EFE554 /* home-normal.png in Resources */,
 				667965B11917BB5100D9C4FF /* ios7-chatbubble-outline.png in Resources */,
+				6670E2751931BE33007DC18D /* common_icon_personinfo.png in Resources */,
 				6670E1FB192E1D01007DC18D /* me_beacons_add.jpg in Resources */,
 				6670E20D192EEAD9007DC18D /* me_save_btn.png in Resources */,
+				6670E2691931BE33007DC18D /* common_icon_comment_selected.png in Resources */,
+				6670E26A1931BE33007DC18D /* common_icon_discover_normal.png in Resources */,
 				6668B6C518F7D47F00A12655 /* index_image.png in Resources */,
 				6636EC5B18B39EF000F94E6C /* Main_iPad.storyboard in Resources */,
 				667965C21917BB5600D9C4FF /* ios7-eye-outline@2x.png in Resources */,
+				6670E28519320646007DC18D /* CreateThing_iPhone.xib in Resources */,
 				667965C81917BB5600D9C4FF /* ios7-heart@2x.png in Resources */,
 				6670E1E8192DA62B007DC18D /* common_card_cardtype_web.jpg in Resources */,
-				6670E21E193090DA007DC18D /* common_icon_like_selected_44.png in Resources */,
-				6670E21D193090DA007DC18D /* common_icon_like_normal_44.png in Resources */,
 				6670E1EA192DA62B007DC18D /* common_card_comment.jpg in Resources */,
 				667965B71917BB5100D9C4FF /* ios7-heart-outline.png in Resources */,
 				6670E209192EEAD9007DC18D /* me_info_frame.png in Resources */,
-				6670E219193090DA007DC18D /* common_icon_discover_normal_44.png in Resources */,
 				66B162FA1900171700EFE554 /* fav-normal.png in Resources */,
 				66B162F7190009DC00EFE554 /* reset-normal.png in Resources */,
-				6670E21F193090DA007DC18D /* common_icon_liked_selected_44.png in Resources */,
+				6670E2701931BE33007DC18D /* common_icon_like_normal@2x.png in Resources */,
 				6670E23F19309114007DC18D /* common_cover_default_5.jpg in Resources */,
 				6670E201192E1D01007DC18D /* me_beacons_unbinded.jpg in Resources */,
 				66B162F41900081800EFE554 /* share-pressed.png in Resources */,
@@ -960,15 +1011,18 @@
 				6679656219112A0700D9C4FF /* SVProgressHUD.bundle in Resources */,
 				6636EC6018B39EF000F94E6C /* Images.xcassets in Resources */,
 				6670E248193098DB007DC18D /* common_icon_discover_selected.png in Resources */,
-				6670E21C193090DA007DC18D /* common_icon_fav_selected_44.png in Resources */,
-				6670E220193090DA007DC18D /* common_icon_me_normal_44.png in Resources */,
+				6670E2711931BE33007DC18D /* common_icon_like_selected@2x.png in Resources */,
 				6670E23E19309114007DC18D /* common_cover_default_4.jpg in Resources */,
+				6670E26D1931BE33007DC18D /* common_icon_fav_normal@2x.png in Resources */,
+				6670E26E1931BE33007DC18D /* common_icon_fav_selected@2x.png in Resources */,
 				6670E249193098DB007DC18D /* common_icon_fav_normal.png in Resources */,
-				6670E21A193090DA007DC18D /* common_icon_discover_selected_44.png in Resources */,
 				6679659A1917AE2A00D9C4FF /* gif.gif in Resources */,
 				6670E1E6192DA62B007DC18D /* common_card_cardtype_people.jpg in Resources */,
 				6670E23B19309114007DC18D /* common_cover_default_1.jpg in Resources */,
+				6670E26F1931BE33007DC18D /* common_icon_like_normal.png in Resources */,
+				6670E2721931BE33007DC18D /* common_icon_liked_selected@2x.png in Resources */,
 				6670E204192EEACE007DC18D /* common_card_purchase.png in Resources */,
+				6670E2741931BE33007DC18D /* common_icon_me_selected@2x.png in Resources */,
 				667965C41917BB5600D9C4FF /* ios7-glasses-outline@2x.png in Resources */,
 				6670E1F4192DF9D7007DC18D /* around_eye.gif in Resources */,
 				6670E1C4192DA0A5007DC18D /* login_bg.jpg in Resources */,
@@ -976,27 +1030,35 @@
 				6670E24A193098DB007DC18D /* common_icon_fav_selected.png in Resources */,
 				6670E23C19309114007DC18D /* common_cover_default_2.jpg in Resources */,
 				6636EC5818B39EF000F94E6C /* Main_iPhone.storyboard in Resources */,
+				6670E2681931BE33007DC18D /* common_icon_comment_normal.png in Resources */,
 				6670E1FF192E1D01007DC18D /* me_beacons_mine.jpg in Resources */,
 				667965A71917B0D400D9C4FF /* background_nobeacon.jpg in Resources */,
+				6670E27E1931CEB4007DC18D /* common_icon_wechat_info.png in Resources */,
 				66B162F21900081800EFE554 /* share-normal.png in Resources */,
 				667965C61917BB5600D9C4FF /* ios7-heart-outline@2x.png in Resources */,
 				6670E1EE192DA62B007DC18D /* common_card_namecard_frame.jpg in Resources */,
 				6670E25219309F44007DC18D /* login_logo.png in Resources */,
+				6670E2771931CDDF007DC18D /* common_card_bottom_frame.png in Resources */,
 				667965B31917BB5100D9C4FF /* ios7-eye-outline.png in Resources */,
 				6670E25319309F44007DC18D /* login_qq.png in Resources */,
 				6636EC4F18B39EF000F94E6C /* InfoPlist.strings in Resources */,
 				6670E1E4192DA62B007DC18D /* common_card_art_frame.jpg in Resources */,
 				667965B51917BB5100D9C4FF /* ios7-glasses-outline.png in Resources */,
+				6670E26C1931BE33007DC18D /* common_icon_discover_selected@2x.png in Resources */,
 				6670E24C193098DB007DC18D /* common_icon_liked_selected.png in Resources */,
 				6670E23D19309114007DC18D /* common_cover_default_3.jpg in Resources */,
 				66B162F01900081800EFE554 /* home-pressed.png in Resources */,
+				6670E26B1931BE33007DC18D /* common_icon_discover_normal@2x.png in Resources */,
 				6670E24019309114007DC18D /* common_cover_default_6.jpg in Resources */,
 				6670E20B192EEAD9007DC18D /* me_logout_btn.png in Resources */,
 				66B162EA1900081800EFE554 /* fav-selected-normal.png in Resources */,
+				6670E2671931BE33007DC18D /* common_icon_adduuid.png in Resources */,
 				6670E1EC192DA62B007DC18D /* common_card_like.jpg in Resources */,
 				667965D5191FA1F500D9C4FF /* Settings.bundle in Resources */,
+				6670E2731931BE33007DC18D /* common_icon_me_normal@2x.png in Resources */,
 				667965B91917BB5100D9C4FF /* ios7-heart.png in Resources */,
 				6670E24E193098DB007DC18D /* common_icon_me_selected.png in Resources */,
+				6670E27F1931CEB4007DC18D /* common_icon_weibo_info.png in Resources */,
 				6670E1F1192DEDE1007DC18D /* common_bg.jpg in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1006,6 +1068,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				6679659B1917AE2A00D9C4FF /* gif.gif in Resources */,
+				6670E28619320646007DC18D /* CreateThing_iPhone.xib in Resources */,
 				66B162F31900081800EFE554 /* share-normal.png in Resources */,
 				6670E200192E1D01007DC18D /* me_beacons_mine.jpg in Resources */,
 				667965BA1917BB5100D9C4FF /* ios7-heart.png in Resources */,
@@ -1061,14 +1124,17 @@
 				6636EC5118B39EF000F94E6C /* main.m in Sources */,
 				6636EC8918B4A63C00F94E6C /* HAMLogTool.m in Sources */,
 				66A9A739190D04D40043639A /* HAMIndexViewController_iPhone.m in Sources */,
+				6670E289193209F3007DC18D /* HAMCreateThingContentViewController.m in Sources */,
 				6636EC9118B4A91400F94E6C /* HAMTools.m in Sources */,
 				6636EC8F18B4A91400F94E6C /* HAMFileTools.m in Sources */,
 				669BDB02190953E6006E99D6 /* HAMCommentsManager.m in Sources */,
 				668090B419249F9700395A88 /* HAMBeaconListViewController.m in Sources */,
-				6670E1B5192CE6FB007DC18D /* HAMArtDetailCommentViewController_iPhone.m in Sources */,
+				6670E1B5192CE6FB007DC18D /* HAMDetailCommentViewController_iPhone.m in Sources */,
+				6670E2821931D0FC007DC18D /* HAMCardDetailViewController_iPhone.m in Sources */,
 				66B162B618FE85D200EFE554 /* HAMTourManager.m in Sources */,
 				669BDB0619095502006E99D6 /* HAMCommentData.m in Sources */,
 				6670E1A9192CE673007DC18D /* HAMDiscoverViewController_iPhone.m in Sources */,
+				6670E2571930A7C0007DC18D /* HAMDetailTabBarController_iPhone.m in Sources */,
 				668090FA1927723500395A88 /* HAMAVOSManager.m in Sources */,
 				6636EC5518B39EF000F94E6C /* HAMAppDelegate.m in Sources */,
 				667965D2191E25D800D9C4FF /* HAMBeaconManager.m in Sources */,
@@ -1079,7 +1145,6 @@
 				6679656419112A0700D9C4FF /* SVProgressHUD.m in Sources */,
 				66774E1718FC110F0097701F /* HAMDataManager.m in Sources */,
 				6679658F1917ACC800D9C4FF /* OLImage.m in Sources */,
-				6670E1B6192CE6FB007DC18D /* HAMArtDetailTabController_iPhone.m in Sources */,
 				66674A3A18E1DAA500239D24 /* HAMThingManager.m in Sources */,
 				6636EC9918B526A700F94E6C /* HAMWebTool.m in Sources */,
 				668090F219262DE400395A88 /* HAMBeaconDictionary.m in Sources */,
@@ -1103,6 +1168,7 @@
 				669BDB03190953E6006E99D6 /* HAMCommentsManager.m in Sources */,
 				6636EC9218B4A91400F94E6C /* HAMTools.m in Sources */,
 				66674A3B18E1DAA500239D24 /* HAMThingManager.m in Sources */,
+				6670E2831931D0FC007DC18D /* HAMCardDetailViewController_iPhone.m in Sources */,
 				6679656519112A0700D9C4FF /* SVProgressHUD.m in Sources */,
 				6636EC8A18B4A63C00F94E6C /* HAMLogTool.m in Sources */,
 				667965921917ACC800D9C4FF /* OLImageView.m in Sources */,
@@ -1113,6 +1179,7 @@
 				668090B519249F9700395A88 /* HAMBeaconListViewController.m in Sources */,
 				669BDB0719095502006E99D6 /* HAMCommentData.m in Sources */,
 				668090FF19278E6D00395A88 /* HAMCreateThingViewController.m in Sources */,
+				6670E28A193209F3007DC18D /* HAMCreateThingContentViewController.m in Sources */,
 				6636EC7318B39EF000F94E6C /* BeaconReceiverTests.m in Sources */,
 				667965901917ACC800D9C4FF /* OLImage.m in Sources */,
 				66B162B718FE85D200EFE554 /* HAMTourManager.m in Sources */,

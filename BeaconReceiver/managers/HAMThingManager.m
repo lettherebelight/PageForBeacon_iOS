@@ -43,6 +43,14 @@ static HAMThingManager* homepageManager = nil;
     return self;
 }
 
+- (void)startUpdate {
+    [updateTimer setFireDate:[NSDate date]];
+}
+
+- (void)stopUpdate {
+    [updateTimer setFireDate:[NSDate distantFuture]];
+}
+
 - (void)handleTimer {
     [self updateThingsInWorld];
 }
@@ -63,7 +71,7 @@ static HAMThingManager* homepageManager = nil;
                 [thingsInWorld addObject:thing];
             }
             if (delegate != nil) {
-                [delegate updateThings:thingsInWorld];
+                [delegate updateThingsInWorld:thingsInWorld];
             }
         }];
     }

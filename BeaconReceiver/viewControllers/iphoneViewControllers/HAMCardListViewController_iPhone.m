@@ -7,12 +7,17 @@
 //
 
 #import "HAMCardListViewController_iPhone.h"
+
 #import "HAMThing.h"
-#import "HAMTools.h"
+
 #import "HAMTourManager.h"
 #import "HAMAVOSManager.h"
-#import "HAMArtDetailTabController_iPhone.h"
+
+#import "HAMDetailTabBarController_iPhone.h"
 #import "SVProgressHUD.h"
+
+#import "HAMTools.h"
+#import "HAMLogTool.h"
 
 @interface HAMCardListViewController_iPhone ()
 
@@ -25,13 +30,15 @@
 
 @synthesize shouldShowPurchaseItem;
 
-static NSString *kHAMPurchaseURL = @"http://item.taobao.com/item.htm?id=38865233450";
-
 static NSString *kHAMArtCellId = @"artCell";
 static NSString *kHAMCardCellId = @"cardCell";
 static NSString *kHAMPurchaseCellId = @"purchaseCell";
-static NSString *kHAMShowDetailSegueId = @"showDetailPage";
-static NSString *kHAMShowCommentSegueId = @"showDetailComment";
+static NSString *kHAMNilCellId = @"nilCell";
+
+static NSString *kHAMShowArtDetailSegueId = @"showArtDetailPage";
+static NSString *kHAMShowArtCommentSegueId = @"showArtDetailComment";
+static NSString *kHAMShowCardDetailSegueId = @"showCardDetailPage";
+static NSString *kHAMShowCardCommentSegueId = @"showCardDetailComment";
 
 static int kHAMArtCellCoverViewTag = 1;
 static int kHAMArtCellImageViewTag = 2;
@@ -107,23 +114,59 @@ static int kHAMCellFavButtonTag = 6;
 
 - (void)showDetailWithThing:(HAMThing*)thing sender:(id)sender {
     thingForSegue = thing;
-    [self performSegueWithIdentifier:kHAMShowDetailSegueId sender:sender];
+    if (thing == nil) {
+        return;
+    }
+    if (thing.type == HAMThingTypeCard) {
+        [self performSegueWithIdentifier:kHAMShowCardDetailSegueId sender:sender];
+    } else if (thing.type == HAMThingTypeArt) {
+        if (thing.url == nil) {
+            return;
+        }
+        [self performSegueWithIdentifier:kHAMShowArtDetailSegueId sender:sender];
+    } else {
+        return;
+    }
+}
+
+- (void)showCommentWithThing:(HAMThing*)thing sender:(id)sender {
+    thingForSegue = thing;
+    if (thing == nil) {
+        return;
+    }
+    if (thing.type == HAMThingTypeCard) {
+        [self performSegueWithIdentifier:kHAMShowCardCommentSegueId sender:sender];
+    } else if (thing.type == HAMThingTypeArt) {
+        [self performSegueWithIdentifier:kHAMShowArtCommentSegueId sender:sender];
+    } else {
+        return;
+    }
+}
+
+#pragma mark - Show Taobao Item
+
+- (void)showItemInTaobaoWithItemId:(NSString*)itemId {
+    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"taobao://item.taobao.com/item.htm?id=%@", itemId]];
+    if ([[UIApplication sharedApplication] canOpenURL:url] == NO) {
+        url = [NSURL URLWithString:[NSString stringWithFormat:@"http://item.taobao.com/item.htm?id=%@", itemId]];
+    }
+    [[UIApplication sharedApplication] openURL:url];
 }
 
 #pragma mark - CollectionView delegate methods
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
     
     if ([self isPurchaseCellForItemAtIndexPath:indexPath]) {
-        [[UIApplication sharedApplication ] openURL: [NSURL URLWithString:kHAMPurchaseURL]];
+        //[[UIApplication sharedApplication ] openURL: [NSURL URLWithString:kHAMPurchaseURL]];
+        [self showItemInTaobaoWithItemId:@"38865233450"];
         return;
     }
     
-    HAMThing *thing = [thingArray objectAtIndex:indexPath.row];
-    if (thing == nil || thing.url == nil) {
+    if (indexPath.row >= [thingArray count]) {
         return;
     }
-    thingForSegue = thing;
-    [self performSegueWithIdentifier:kHAMShowDetailSegueId sender:self];
+
+    [self showDetailWithThing:[thingArray objectAtIndex:indexPath.row] sender:self];
 }
 
 #pragma mark - CollectionView data source methods
@@ -153,10 +196,16 @@ static int kHAMCellFavButtonTag = 6;
         return [collectionView dequeueReusableCellWithReuseIdentifier:kHAMPurchaseCellId forIndexPath:indexPath];
     }
     
+    if (indexPath.row >= [thingArray count]) {
+        [HAMLogTool debug:@"index row out of bound"];
+        return [self collectionView:collectionView nilCellForItemAtIndexPath:indexPath];
+    }
+    
     //set data
     HAMThing *thing = [thingArray objectAtIndex:indexPath.row];
     if (thing == nil) {
-        return nil;
+        [HAMLogTool debug:@"thing is nil"];
+        return [self collectionView:collectionView nilCellForItemAtIndexPath:indexPath];
     }
     
     //art cell
@@ -164,21 +213,25 @@ static int kHAMCellFavButtonTag = 6;
         return [self collectionView:collectionView artCellForItemAtIndexPath:indexPath withThing:thing];
     } else if (thing.type == HAMThingTypeCard) {
         return [self collectionView:collectionView cardCellForItemAtIndexPath:indexPath withThing:thing];
+    } else{
+        [HAMLogTool warn:@"unknown card type"];
+        return [self collectionView:collectionView nilCellForItemAtIndexPath:indexPath];
     }
-    
-    return nil;
-    
 }
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    CGSize nilCellSize = CGSizeMake(0.0f, 0.0f);
+    CGSize nilCellSize = CGSizeMake(320.0f, 10.0f);
     CGSize artCellSize = CGSizeMake(320.0f, 255.0f);
     CGSize cardCellSize = CGSizeMake(320.0f, 141.0f);
     CGSize purchaseCellSize = CGSizeMake(320.0f, 150.0f);
     if ([self isPurchaseCellForItemAtIndexPath:indexPath]) {
         return purchaseCellSize;
     }
+    if (indexPath.row >= [thingArray count]) {
+        return nilCellSize;
+    }
+    
     HAMThing *thing = [thingArray objectAtIndex:indexPath.row];
     if (thing == nil) {
         return nilCellSize;
@@ -195,6 +248,10 @@ static int kHAMCellFavButtonTag = 6;
 }
 
 #pragma mark - fill cell methods
+-(UICollectionViewCell*)collectionView:(UICollectionView*)collectionView nilCellForItemAtIndexPath:(NSIndexPath*)indexPath {
+    return [collectionView dequeueReusableCellWithReuseIdentifier:kHAMNilCellId forIndexPath:indexPath];
+}
+
 -(UICollectionViewCell*)collectionView:(UICollectionView*)collectionView cardCellForItemAtIndexPath:(NSIndexPath*)indexPath withThing:(HAMThing*)thing {
     UICollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:kHAMCardCellId forIndexPath:indexPath];
     
@@ -219,6 +276,8 @@ static int kHAMCellFavButtonTag = 6;
     
     //comment
     UIButton *commentButton = (UIButton*)[view viewWithTag:kHAMCardCellCommentButtonTag];
+    //int commentsCount = [HAMAVOSManager numberOfCommentsOfThing:thing];
+    //[commentButton setTitle:[NSString stringWithFormat:@"%d", commentsCount] forState:UIControlStateNormal];
     //UIImage *commentImage = [[UIImage imageNamed:@"ios7-chatbubble-outline.png"] imageWithRenderingMode:UIImageRenderingModeAutomatic];
     //[commentButton setImage:commentImage forState:UIControlStateNormal];
     [commentButton addTarget:self action:@selector(commentClicked:) forControlEvents:UIControlEventTouchUpInside];
@@ -267,17 +326,13 @@ static int kHAMCellFavButtonTag = 6;
     
     //comment
     UIButton *commentButton = (UIButton*)[view viewWithTag:kHAMArtCellCommentButtonTag];
-    //UIImage *commentImage = [[UIImage imageNamed:@"ios7-chatbubble-outline.png"] imageWithRenderingMode:UIImageRenderingModeAutomatic];
-    //[commentButton setImage:commentImage forState:UIControlStateNormal];
+    //int commentsCount = [HAMAVOSManager numberOfCommentsOfThing:thing];
+    //[commentButton setTitle:[NSString stringWithFormat:@"%d", commentsCount] forState:UIControlStateNormal];
     [commentButton addTarget:self action:@selector(commentClicked:) forControlEvents:UIControlEventTouchUpInside];
     
     //favorite
     UIButton *favButton = (UIButton*)[view viewWithTag:kHAMCellFavButtonTag];
-    //UIImage *favImage = [[UIImage imageNamed:@"ios7-heart-outline.png"] imageWithRenderingMode:UIImageRenderingModeAutomatic];
-    //[favButton setImage:favImage forState:UIControlStateNormal];
     if ([HAMAVOSManager isThingFavoriteOfCurrentUser:thing]) {
-        //UIImage *favImage = [[UIImage imageNamed:@"ios7-heart.png"] imageWithRenderingMode:UIImageRenderingModeAutomatic];
-        //[favButton setImage:favImage forState:UIControlStateNormal];
         [favButton setSelected:YES];
         [favButton removeTarget:self action:@selector(performFavorite:) forControlEvents:UIControlEventTouchUpInside];
         [favButton addTarget:self action:@selector(performUnFavorite:) forControlEvents:UIControlEventTouchUpInside];
@@ -295,13 +350,20 @@ static int kHAMCellFavButtonTag = 6;
 - (void)commentClicked:(UIButton*)button {
     UICollectionViewCell *cell = (UICollectionViewCell*)button.superview.superview.superview;
     long i = [self.collectionView indexPathForCell:cell].row;
-    thingForSegue = [self.thingArray objectAtIndex:i];
-    [self performSegueWithIdentifier:kHAMShowCommentSegueId sender:self];
+    if (i >= [thingArray count]) {
+        return;
+    }
+    [self showCommentWithThing:[self.thingArray objectAtIndex:i] sender:self];
 }
 
 - (void)performFavorite:(UIButton*)button {
     UICollectionViewCell *cell = (UICollectionViewCell*)button.superview.superview.superview;
     long i = [self.collectionView indexPathForCell:cell].row;
+    
+    if (i >= [thingArray count]) {
+        return;
+    }
+    
     [[HAMTourManager tourManager] addFavoriteThing:[self.thingArray objectAtIndex:i]];
     UIButton *favButton = (UIButton*)[cell viewWithTag:kHAMCellFavButtonTag];
     [favButton setSelected:YES];
@@ -314,6 +376,11 @@ static int kHAMCellFavButtonTag = 6;
 - (void)performUnFavorite:(UIButton*)button {
     UICollectionViewCell *cell = (UICollectionViewCell*)button.superview.superview.superview;
     long i = [self.collectionView indexPathForCell:cell].row;
+    
+    if (i >= [thingArray count]) {
+        return;
+    }
+    
     [[HAMTourManager tourManager] removeFavoriteThing:[self.thingArray objectAtIndex:i]];
     
     UIButton *favButton = (UIButton*)[cell viewWithTag:kHAMCellFavButtonTag];
@@ -332,19 +399,19 @@ static int kHAMCellFavButtonTag = 6;
 {
     // Get the new view controller using [segue destinationViewController].
     // Pass the selected object to the new view controller.
-    if ([segue.identifier isEqualToString:kHAMShowDetailSegueId]) {
-        HAMArtDetailTabController_iPhone *detailVC = segue.destinationViewController;
+    
+    //show detail
+    if ([segue.identifier isEqualToString:kHAMShowArtDetailSegueId] || [segue.identifier isEqualToString:kHAMShowCardDetailSegueId]) {
+        HAMDetailTabBarController_iPhone *detailVC = segue.destinationViewController;
         [detailVC setHidesBottomBarWhenPushed:YES];
         if (self.thingForSegue != nil) {
             detailVC.thing = self.thingForSegue;
             self.thingForSegue = nil;
         }
-        else {
-            NSIndexPath *index = [[self.collectionView indexPathsForSelectedItems] objectAtIndex:0];
-            detailVC.thing = [thingArray objectAtIndex:index.row];
-        }
-    } else if ([segue.identifier isEqualToString:kHAMShowCommentSegueId]) {
-        HAMArtDetailTabController_iPhone *detailVC = segue.destinationViewController;
+    }
+    //show comment
+    else if ([segue.identifier isEqualToString:kHAMShowArtCommentSegueId] || [segue.identifier isEqualToString:kHAMShowCardCommentSegueId]) {
+        HAMDetailTabBarController_iPhone *detailVC = segue.destinationViewController;
         [detailVC setHidesBottomBarWhenPushed:YES];
         if (self.thingForSegue != nil) {
             detailVC.thing = self.thingForSegue;

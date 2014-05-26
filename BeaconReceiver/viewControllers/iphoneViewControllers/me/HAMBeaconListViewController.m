@@ -29,9 +29,13 @@
 @property (weak, nonatomic) IBOutlet UITableView *beaconTableView;
 
 @property CLBeacon* beaconSelected;
+
+- (IBAction)addUUIDClicked:(id)sender;
+
 @end
 
 static const double kRefreshTimeInterval = 3.0f;
+Boolean foo = false;
 
 @implementation HAMBeaconListViewController
 
@@ -56,7 +60,11 @@ static const double kRefreshTimeInterval = 3.0f;
 
 - (void)viewWillAppear:(BOOL)animated{
     [self refreshTableView];
-    self.refreshTimer = [NSTimer scheduledTimerWithTimeInterval:kRefreshTimeInterval target:self selector:@selector(refreshTableView) userInfo:nil repeats:YES];
+    [self deselectSelectedRow];
+
+    if (self.refreshTimer == nil) {
+        self.refreshTimer = [NSTimer scheduledTimerWithTimeInterval:kRefreshTimeInterval target:self selector:@selector(refreshTableView) userInfo:nil repeats:YES];
+    }
     [self.refreshTimer setFireDate:[NSDate date]];
 
 }
@@ -107,7 +115,7 @@ static const double kRefreshTimeInterval = 3.0f;
 }
 
 
-#pragma mark - UITableViewDelegate
+#pragma mark - UITableView Delegate
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     return self.beaconDictionary.count;
@@ -168,9 +176,14 @@ static const double kRefreshTimeInterval = 3.0f;
     
     UILabel *textLabel = (UILabel*)[cell viewWithTag:1];
     UILabel *detailTextLabel = (UILabel*)[cell viewWithTag:2];
-    
     textLabel.text = [NSString stringWithFormat:@"%@(%.2lf)",description,beacon.accuracy];
     detailTextLabel.text = [NSString stringWithFormat:@"Major: %@, Minor: %@",beacon.major,beacon.minor];
+    
+    if (self.beaconSelected) {
+        if ([HAMBeaconManager isBeacon:beacon sameToBeacon:self.beaconSelected]) {
+            [self.beaconTableView selectRowAtIndexPath:indexPath animated:YES scrollPosition:UITableViewScrollPositionMiddle];
+        }
+    }
     
     return cell;
 }
@@ -209,20 +222,34 @@ static const double kRefreshTimeInterval = 3.0f;
     }
 }
 
+#pragma mark - UITableView Operation
+
+- (void)deselectSelectedRow{
+    NSIndexPath* indexPath = [self.beaconTableView indexPathForSelectedRow];
+    [self.beaconTableView deselectRowAtIndexPath:indexPath animated:NO];
+}
+
 #pragma mark - ActionSheet Delegate
 
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex{
+    
     switch (buttonIndex) {
         case 0:
+            //unbind beacon
             [self unbindBeacon:self.beaconSelected];
+            self.beaconSelected = nil;
+            [self.beaconTableView reloadData];
             break;
             
         case 1:
+            //create thing
             [self performSegueWithIdentifier:@"FromBeaconListToCreateThing" sender:nil];
             break;
             
         default:
             //cancel
+            [self deselectSelectedRow];
+            self.beaconSelected = nil;
             break;
     }
 }
@@ -232,7 +259,7 @@ static const double kRefreshTimeInterval = 3.0f;
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
     if ([segue.identifier isEqualToString:@"FromBeaconListToCreateThing"]) {
         HAMCreateThingViewController* createThingViewController = segue.destinationViewController;
-        createThingViewController.beaconToBind = self.beaconSelected;
+        [createThingViewController setBeaconToBind:self.beaconSelected];
     }
 }
 
@@ -249,6 +276,31 @@ static const double kRefreshTimeInterval = 3.0f;
 
 - (void)didUnbindBeacon{
     [SVProgressHUD showSuccessWithStatus:@"解除绑定成功"];
+}
+
+#pragma mark - Add UUID
+
+- (IBAction)addUUIDClicked:(id)sender {
+    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"添加UUID"
+                                                        message:@"如果您的UUID不在列表中，请在此添加："
+                                                       delegate:self
+                                              cancelButtonTitle:@"取消"
+                                              otherButtonTitles:@"添加", nil];
+    alertView.alertViewStyle = UIAlertViewStylePlainTextInput;
+    [alertView show];
+}
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
+    NSLog(@"%d",buttonIndex);
+    switch (buttonIndex) {
+        case 1:
+            //add
+            
+            
+        default:
+            //cancel
+            break;
+    }
 }
 
 @end

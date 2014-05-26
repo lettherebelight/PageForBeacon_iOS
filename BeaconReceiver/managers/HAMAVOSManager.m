@@ -16,6 +16,50 @@
 
 @implementation HAMAVOSManager
 
+#pragma mark - Cache
+
+#pragma mark - Query Methods
+
++ (void)setCachePolicyOfQuery:(AVQuery*)query{
+    query.cachePolicy = kPFCachePolicyCacheElseNetwork;
+    query.maxCacheAge = 600;
+}
+
+#pragma mark - Clear Cache
+
++ (void)clearCache{
+    [AVQuery clearAllCachedResults];
+}
+
+#pragma mark - BeaconUUID
+
+#pragma mark - BeaconUUID Query
+
++ (NSDictionary*)beaconDescriptionDictionary{
+    AVQuery *query = [AVQuery queryWithClassName:@"BeaconUUID"];
+    [self setCachePolicyOfQuery:query];
+    
+    NSArray* uuidObjectsArray = [query findObjects];
+    if (uuidObjectsArray == nil) {
+        return nil;
+    }
+    
+    NSMutableDictionary* beaconDescriptionDictionary = [NSMutableDictionary dictionary];
+    for (int i = 0; i < uuidObjectsArray.count; i++) {
+        AVObject* uuidObject = uuidObjectsArray[i];
+        NSString* description = [uuidObject objectForKey:@"description"];
+        NSString* uuid = [uuidObject objectForKey:@"proximityUUID"];
+        if (uuid == nil) {
+            continue;
+        }
+        if (description == nil) {
+            description = @"未知iBeacon";
+        }
+        [beaconDescriptionDictionary setObject:description forKey:uuid];
+    }
+    return [NSDictionary dictionaryWithDictionary:beaconDescriptionDictionary];
+}
+
 #pragma mark - Beacon
 
 #pragma mark - Beacon Conversion
@@ -40,6 +84,8 @@
     }
     
     AVQuery *query = [AVQuery queryWithClassName:@"Beacon"];
+    [self setCachePolicyOfQuery:query];
+    
     [query whereKey:@"proximityUUID" equalTo:beacon.proximityUUID.UUIDString];
     [query whereKey:@"major" equalTo:beacon.major];
     [query whereKey:@"minor" equalTo:beacon.minor];
@@ -107,6 +153,7 @@
     
     AVObject* beaconObject = [self beaconAVObjectWithCLBeacon:beacon];
     [beaconObject save];
+    [self clearCache];
 }
 
 + (void)saveCLBeacon:(CLBeacon*)beacon withTarget:(id)target callback:(SEL)callback{
@@ -117,6 +164,7 @@
     
     AVObject* beaconObject = [self beaconAVObjectWithCLBeacon:beacon];
     [beaconObject saveInBackgroundWithTarget:target selector:callback];
+    [self clearCache];
 }
 
 #pragma mark - Thing
@@ -194,6 +242,8 @@
     }
     
     AVQuery* query = [AVQuery queryWithClassName:@"Thing"];
+    [self setCachePolicyOfQuery:query];
+
     return [query getObjectWithId:objectID];
 }
 
@@ -214,6 +264,8 @@
     }
     
     AVQuery* query = [AVQuery queryWithClassName:@"Thing"];
+    [self setCachePolicyOfQuery:query];
+    
     [query whereKey:@"creator" equalTo:user];
     NSArray* thingObjectArray = [query findObjects];
     
@@ -242,6 +294,7 @@
     
     AVObject* thingObject = [self thingAVObjectWithThing:thing shouldSaveCover:YES];
     [thingObject save];
+    [self clearCache];
     return thingObject;
 }
 
@@ -263,7 +316,7 @@
 
 + (HAMThing*)thingWithBeaconID:(NSString *)beaconID major:(NSNumber *)major minor:(NSNumber *)minor{
     AVQuery *query = [AVQuery queryWithClassName:@"Beacon"];
-    query.cachePolicy = kPFCachePolicyNetworkElseCache;
+    [self setCachePolicyOfQuery:query];
     [query includeKey:@"thing"];
     
     [query whereKey:@"proximityUUID" equalTo:beaconID];
@@ -296,6 +349,7 @@
     }
     
     [beaconObject setObject:nil forKey:@"thing"];
+    [self clearCache];
     [beaconObject saveInBackgroundWithTarget:target selector:callback];
 }
 
@@ -305,9 +359,6 @@
 }
 
 + (void)bindThingSyncWithParams:(NSArray*)params{
-    //    if (![HAMTools isWebAvailable]) {
-    //        return;
-    //    }
     
     HAMThing* thing = params[0];
     CLProximity range = [params[1] intValue];
@@ -351,6 +402,7 @@
     }
     [beaconObject setObject:rangeString forKey:@"range"];
     [beaconObject setObject:thingObject forKey:@"thing"];
+    [self clearCache];
     [beaconObject saveInBackgroundWithTarget:target selector:callback];
 }
 
@@ -370,6 +422,7 @@
     AVObject* thingObject = [self thingAVObjectWithThing:thing shouldSaveCover:NO];
     thingObject.objectId = oldThingObject.objectId;
     [thingObject save];
+    [self clearCache];
     
     HAMTourManager* tourManager = [HAMTourManager tourManager];
     [tourManager updateCurrentUserThing:thing];
@@ -388,6 +441,7 @@
     
     AVObject* thingObject = [self thingAVObjectWithThing:thing shouldSaveCover:NO];
     [thingObject save];
+    [self clearCache];
     
     AVUser* user = [AVUser currentUser];
     [user setObject:thingObject forKey:@"card"];
@@ -486,6 +540,7 @@
     //The favorite array's is ordered by adding consequence. So didn't use addUniqueObject here. Please don't add favorite things that are already favorite, so that there would be no duplicate things in the favorite array.
     [user addObject:thingObject forKey:@"favorites"];
     [user save];
+    [self clearCache];
 }
 
 + (void)removeFavoriteThingFromCurrentUser:(HAMThing*)thing{
@@ -498,6 +553,24 @@
     AVObject* thingObject = [self thingAVObjectWithThing:thing shouldSaveCover:NO];
     [user removeObject:thingObject forKey:@"favorites"];
     [user save];
+    [self clearCache];
+}
+
+#pragma mark - Comment
+
+#pragma mark - Comment Query
+
++ (int)numberOfCommentsOfThing:(HAMThing*)thing {
+    if (thing == nil) {
+        [HAMLogTool warn:@"query comments of nil thing"];
+        return -1;
+    }
+    
+    AVQuery *query = [AVQuery queryWithClassName:@"Comment"];
+    [self setCachePolicyOfQuery:query];
+
+    [query whereKey:@"thingID" equalTo:thing.objectID];
+    return [query countObjects];
 }
 
 @end

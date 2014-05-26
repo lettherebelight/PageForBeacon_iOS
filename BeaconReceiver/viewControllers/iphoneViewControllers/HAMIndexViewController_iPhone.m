@@ -56,6 +56,12 @@ LoginType loginSetting;
 - (void)viewDidAppear:(BOOL)animated {
     //FIXME: login twice here!
     if ([AVUser currentUser] != nil) {
+        AVObject *card = [[AVUser currentUser] objectForKey:@"card"];
+        if (card != nil) {
+            [card fetchIfNeeded];
+            HAMThing *selfCard = [HAMAVOSManager thingWithThingAVObject:card];
+            [[HAMTourManager tourManager] newUserWithThing:selfCard];
+        }
         [self login];
         return;
     }

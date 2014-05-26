@@ -6,17 +6,17 @@
 //  Copyright (c) 2014 Beacon Test Group. All rights reserved.
 //
 
-#import "HAMArtDetailCommentViewController_iPhone.h"
+#import "HAMDetailCommentViewController_iPhone.h"
 #import "HAMCommentData.h"
 #import "HAMTourManager.h"
-#import "HAMArtDetailTabController_iPhone.h"
+#import "HAMDetailTabBarController_iPhone.h"
 #import "HAMThing.h"
 
-@interface HAMArtDetailCommentViewController_iPhone ()
+@interface HAMDetailCommentViewController_iPhone ()
 
 @end
 
-@implementation HAMArtDetailCommentViewController_iPhone
+@implementation HAMDetailCommentViewController_iPhone
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -34,7 +34,7 @@
     
     //[self.commentsTable setSeparatorStyle:UITableViewCellSeparatorStyleNone];
     
-    HAMArtDetailTabController_iPhone *detailTabVC = (HAMArtDetailTabController_iPhone*)self.parentViewController;
+    HAMDetailTabBarController_iPhone *detailTabVC = (HAMDetailTabBarController_iPhone*)self.parentViewController;
     self.thing = detailTabVC.thing;
     
     [self.commentText.layer setCornerRadius:10.0f];

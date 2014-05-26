@@ -36,10 +36,18 @@ typedef enum HAMBeaconState HAMBeaconState;
 + (HAMBeaconManager*)beaconManager;
 - (void)setBackGroundStatus:(Boolean)status;
 
+#pragma mark - LocationManager Methods
+
 - (void)startMonitor;
 - (void)stopMonitor;
 
+#pragma mark - BeaconDictionary Methods
+
 - (NSDictionary*)beaconDictionary;
 - (NSString*)descriptionOfUUID:(NSString*)uuid;
+
+#pragma mark - Utils
+
++ (Boolean)isBeacon:(CLBeacon*)beacon1 sameToBeacon:(CLBeacon*)beacon2;
 
 @end
