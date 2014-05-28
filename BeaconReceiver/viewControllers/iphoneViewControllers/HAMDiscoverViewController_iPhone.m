@@ -7,12 +7,19 @@
 //
 
 #import "HAMDiscoverViewController_iPhone.h"
+
 #import "HAMCardListViewController_iPhone.h"
+
 #import "HAMThing.h"
+
 #import "OLImage.h"
 #import "OLImageView.h"
 
+#import "HAMAVOSManager.h"
+
 @interface HAMDiscoverViewController_iPhone ()
+
+@property HAMThing* oldTopThing;
 
 @end
 
@@ -45,6 +52,7 @@ static int kHAMDefaultViewTag = 22;
             [self.view addSubview:defaultView];
         }
         if (listViewController != nil) {
+            listViewController.source = @"Around";
             [listViewController updateWithThingArray:thingsAround scrollToTop:YES];
         }
     } else if ([self.segmentedControl selectedSegmentIndex] == 1) {
@@ -53,6 +61,7 @@ static int kHAMDefaultViewTag = 22;
             [defaultView removeFromSuperview];
         }
         if (listViewController != nil) {
+            listViewController.source = @"World";
             [listViewController updateWithThingArray:thingsInWorld scrollToTop:YES];
         }
     }
@@ -79,6 +88,18 @@ static int kHAMDefaultViewTag = 22;
 - (void)displayThings:(NSArray *)things {
     thingsAround = things;
     if (discoverStatus == AROUND) {
+        //ApproachEvent
+        HAMThing* topThing;
+        if (things.count > 0) {
+            topThing = things[0];
+        } else {
+            topThing = nil;
+        }
+        
+        if ((self.oldTopThing == nil && topThing != nil) || (self.oldTopThing != nil && topThing == nil) || ([topThing isEqualToThing:self.oldTopThing] == NO)) {
+            [HAMAVOSManager saveApproachEventWithOldTopThing:self.oldTopThing newTopThing:topThing];
+            self.oldTopThing = topThing;
+        }
         
         //eye
         if ([self.view viewWithTag:kHAMDefaultViewTag] == nil && (thingsAround == nil || [thingsAround count] == 0)) {
@@ -90,7 +111,7 @@ static int kHAMDefaultViewTag = 22;
         if (thingsAround == nil || [thingsAround count] == 0) {
             [self.segmentedControl setTitle:@"附近" forSegmentAtIndex:0];
         } else {
-            [self.segmentedControl setTitle:[NSString stringWithFormat:@"附近(%u)", [thingsAround count]] forSegmentAtIndex:0];
+            [self.segmentedControl setTitle:[NSString stringWithFormat:@"附近(%lu)", [thingsAround count]] forSegmentAtIndex:0];
         }
         if (listViewController != nil) {
             [listViewController updateWithThingArray:thingsAround scrollToTop:NO];
@@ -146,12 +167,20 @@ static int kHAMDefaultViewTag = 22;
     if (thingsAround == nil || [thingsAround count] == 0) {
         [self.segmentedControl setTitle:@"附近" forSegmentAtIndex:0];
     } else {
-        [self.segmentedControl setTitle:[NSString stringWithFormat:@"附近(%u)", [thingsAround count]] forSegmentAtIndex:0];
+        [self.segmentedControl setTitle:[NSString stringWithFormat:@"附近(%lu)", [thingsAround count]] forSegmentAtIndex:0];
     }
     self.navigationController.navigationBar.barTintColor = nil;
     if (listViewController != nil) {
+        if (discoverStatus == AROUND) {
+            listViewController.source = @"Around";
+        }
+        else
+            listViewController.source = @"World";
+        
         [listViewController updateViewScrollToTop:NO];
     }
+    
+    self.oldTopThing = nil;
 }
 
 - (void)didReceiveMemoryWarning

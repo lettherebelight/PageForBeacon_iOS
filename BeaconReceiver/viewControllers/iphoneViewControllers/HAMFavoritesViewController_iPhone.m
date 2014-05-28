@@ -25,6 +25,7 @@ static NSString *kHAMEmbedSegueId = @"embedSegue";
     self.navigationController.navigationBar.barTintColor = nil;
     NSArray *thingArray = [HAMAVOSManager allFavoriteThingsOfCurrentUser];
     if (listViewController != nil) {
+        listViewController.source = @"Favorites";
         [listViewController updateWithThingArray:thingArray scrollToTop:NO];
     }
 }

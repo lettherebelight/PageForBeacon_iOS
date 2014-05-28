@@ -17,6 +17,9 @@
 
 @property Boolean shouldShowPurchaseItem;
 
+//for analystic events
+@property NSString* source;
+
 - (void)updateViewScrollToTop:(BOOL)needScroll;
 - (void)updateWithThingArray:(NSArray*)array scrollToTop:(BOOL)needScroll;
 

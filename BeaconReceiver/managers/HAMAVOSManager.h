@@ -21,6 +21,13 @@
 
 #pragma mark - Clear Cache
 
+#pragma mark - BeaconUUID
+
+#pragma mark - BeaconUUID Query
+
++ (NSDictionary*)beaconDescriptionDictionary;
++ (void)saveBeaconUUID:(NSString*)uuid description:(NSString*)description withTarget:(id)target callback:(SEL)callback;
+
 #pragma mark - Beacon
 
 #pragma mark - Beacon Conversion
@@ -103,5 +110,13 @@
 #pragma mark - Comment Query
 
 + (int)numberOfCommentsOfThing:(HAMThing*)thing;
+
+#pragma mark - Analytics
+
+#pragma mark - Analytics Save
+
++ (void)saveApproachEventWithOldTopThing:(HAMThing*)oldTopThing newTopThing:(HAMThing*)currentTopThing;
+
++ (void)saveDetailViewEventWithThing:(HAMThing*)thing source:(NSString*)source;
 
 @end

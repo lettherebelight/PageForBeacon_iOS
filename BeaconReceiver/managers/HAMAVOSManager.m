@@ -60,6 +60,21 @@
     return [NSDictionary dictionaryWithDictionary:beaconDescriptionDictionary];
 }
 
++ (void)saveBeaconUUID:(NSString*)uuid description:(NSString*)description withTarget:(id)target callback:(SEL)callback{
+    NSUUID* uuidCheck = [[NSUUID alloc] initWithUUIDString:uuid];
+    if (uuidCheck == nil) {
+        [HAMLogTool warn:@"illegal uuid"];
+        return;
+    }
+
+    AVObject* uuidObject = [AVObject objectWithClassName:@"BeaconUUID"];
+    [uuidObject setObject:uuidCheck forKey:@"proximityUUID"];
+    [uuidObject setObject:description forKey:@"description"];
+    
+    [self clearCache];
+    [uuidObject saveInBackgroundWithTarget:target selector:callback];
+}
+
 #pragma mark - Beacon
 
 #pragma mark - Beacon Conversion
@@ -570,7 +585,31 @@
     [self setCachePolicyOfQuery:query];
 
     [query whereKey:@"thingID" equalTo:thing.objectID];
-    return [query countObjects];
+    return (int)[query countObjects];
+}
+
+#pragma mark - Analytics
+
+#pragma mark - Analytics Save
+
++ (void)saveApproachEventWithOldTopThing:(HAMThing*)oldTopThing newTopThing:(HAMThing*)currentTopThing{
+    AVObject* eventObject = [AVObject objectWithClassName:@"ApproachEvent"];
+    
+    [eventObject setObject:oldTopThing.objectID forKey:@"oldTopThing"];
+    [eventObject setObject:currentTopThing.objectID forKey:@"newTopThing"];
+    [eventObject setObject:[NSDate date] forKey:@"timeStamp"];
+    
+    [eventObject saveEventually];
+}
+
++ (void)saveDetailViewEventWithThing:(HAMThing *)thing source:(NSString *)source{
+    AVObject* eventObject = [AVObject objectWithClassName:@"DetailViewEvent"];
+    
+    [eventObject setObject:thing.objectID forKey:@"thing"];
+    [eventObject setObject:source forKey:@"source"];
+    [eventObject setObject:[NSDate date] forKey:@"timeStamp"];
+    
+    [eventObject saveEventually];
 }
 
 @end

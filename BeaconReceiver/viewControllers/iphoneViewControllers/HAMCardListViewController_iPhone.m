@@ -30,6 +30,8 @@
 
 @synthesize shouldShowPurchaseItem;
 
+@synthesize source;
+
 static NSString *kHAMArtCellId = @"artCell";
 static NSString *kHAMCardCellId = @"cardCell";
 static NSString *kHAMPurchaseCellId = @"purchaseCell";
@@ -402,6 +404,9 @@ static int kHAMCellFavButtonTag = 6;
     
     //show detail
     if ([segue.identifier isEqualToString:kHAMShowArtDetailSegueId] || [segue.identifier isEqualToString:kHAMShowCardDetailSegueId]) {
+        //save analystic event
+        [HAMAVOSManager saveDetailViewEventWithThing:self.thingForSegue source:source];
+        
         HAMDetailTabBarController_iPhone *detailVC = segue.destinationViewController;
         [detailVC setHidesBottomBarWhenPushed:YES];
         if (self.thingForSegue != nil) {
@@ -409,6 +414,7 @@ static int kHAMCellFavButtonTag = 6;
             self.thingForSegue = nil;
         }
     }
+    
     //show comment
     else if ([segue.identifier isEqualToString:kHAMShowArtCommentSegueId] || [segue.identifier isEqualToString:kHAMShowCardCommentSegueId]) {
         HAMDetailTabBarController_iPhone *detailVC = segue.destinationViewController;
