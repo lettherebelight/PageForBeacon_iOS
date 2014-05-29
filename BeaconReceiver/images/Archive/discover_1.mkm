@@ -10,5 +10,6 @@
     <LengthMark x="37" y="884" color="16711680" length="276" direction="12"/>
     <RectMark x="345" y="757" color="16711680" offsetX="50" offsetY="50"/>
     <RectMark x="562" y="511" color="16711680" offsetX="0" offsetY="0"/>
+    <RectMark x="37" y="191" color="16711680" offsetX="567" offsetY="321"/>
   </Marks>
 </MKM>

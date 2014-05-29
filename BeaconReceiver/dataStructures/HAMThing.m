@@ -29,6 +29,9 @@
 #pragma mark - Equal
 
 - (BOOL)isEqual:(id)object {
+    if (object == nil) {
+        return NO;
+    }
     if ([object isKindOfClass:[HAMThing class]] == NO) {
         return NO;
     }
@@ -37,6 +40,9 @@
 }
 
 - (BOOL)isEqualToThing:(HAMThing *)thing {
+    if (thing == nil) {
+        return NO;
+    }
     return [objectID isEqualToString:thing.objectID];
 }
 

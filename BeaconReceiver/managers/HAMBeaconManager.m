@@ -29,6 +29,9 @@
     NSMutableArray *previousThings;
     
     NSTimer *flushTimer;
+    
+    HAMThing* lastNotificatedThing;
+    NSDate* lastNotificationDate;
 }
 
 @property NSMutableDictionary* descriptionDictionary;
@@ -189,11 +192,13 @@ static HAMBeaconManager* beaconManager = nil;
 #pragma mark - LocationManager Delegate
 
 - (void)locationManager:(CLLocationManager *)manager didEnterRegion:(CLRegion *)region {
+    [self notificateTest:@"Did Enter!"];
     [locationManager startRangingBeaconsInRegion:(CLBeaconRegion *)region];
     
 }
 
 - (void)locationManager:(CLLocationManager *)manager didExitRegion:(CLRegion *)region {
+    [self notificateTest:@"Did Exit!"];
     //update beaconDictionary
     CLBeaconRegion* beaconRegion = (CLBeaconRegion*)region;
     NSString* uuid = beaconRegion.proximityUUID.UUIDString;
@@ -220,6 +225,23 @@ static HAMBeaconManager* beaconManager = nil;
 }
 
 - (void)notificateWithThing:(HAMThing*)thing {
+    if (thing == nil) {
+        return;
+    }
+    
+    if ([lastNotificatedThing.objectID isEqualToString: thing.objectID])
+    {
+        NSDate* date = [NSDate date];
+        long long lastTime = [HAMTools longLongFromDate:lastNotificationDate];
+        long long currentTime = [HAMTools longLongFromDate:date];
+        if (currentTime - lastTime <= 10000) {
+            return;
+        }
+    }
+    
+    lastNotificatedThing = thing;
+    lastNotificationDate = [NSDate date];
+    
     [[UIApplication sharedApplication] cancelAllLocalNotifications];
     UILocalNotification *localNotification = [[UILocalNotification alloc] init];
     if (thing.title  == nil) {
@@ -228,6 +250,15 @@ static HAMBeaconManager* beaconManager = nil;
     else {
         localNotification.alertBody = thing.title;
     }
+    localNotification.soundName = UILocalNotificationDefaultSoundName;
+    [[UIApplication sharedApplication] presentLocalNotificationNow:localNotification];
+}
+
+- (void)notificateTest:(NSString*)message {
+    [[UIApplication sharedApplication] cancelAllLocalNotifications];
+    UILocalNotification *localNotification = [[UILocalNotification alloc] init];
+    
+        localNotification.alertBody = message;
     localNotification.soundName = UILocalNotificationDefaultSoundName;
     [[UIApplication sharedApplication] presentLocalNotificationNow:localNotification];
 }
@@ -296,7 +327,7 @@ static HAMBeaconManager* beaconManager = nil;
             [thingsAround addObject:thing];
         }
     }
-
+    
     if ([previousThings isEqual:thingsAround]) {
         return;
     }
@@ -310,6 +341,22 @@ static HAMBeaconManager* beaconManager = nil;
     }
     
     previousThings = thingsAround;
+    
+    //notification
+//    HAMThing *previousNearestThing = nil;
+    HAMThing *nearestThing = nil;
+//    if (previousThings != nil && [previousThings count] > 0) {
+//        previousNearestThing = [previousThings objectAtIndex:0];
+//    }
+    if (thingsAround != nil && [thingsAround count] > 0) {
+        nearestThing = thingsAround[0];
+    }
+    if (/*isInBackground == NO || */nearestThing == nil) {
+        return;
+    }
+//    if ([nearestThing isEqualToThing:previousNearestThing] == NO) {
+        [self notificateWithThing:nearestThing];
+//    }
 }
 
 - (void)locationManager:(CLLocationManager *)manager didRangeBeacons:(NSArray *)rawBeaconArray inRegion:(CLBeaconRegion *)region {
@@ -329,7 +376,20 @@ static HAMBeaconManager* beaconManager = nil;
         }
     }
     
-    NSArray* beaconArray = [rawBeaconArray subarrayWithRange:NSMakeRange(i, rawBeaconArray.count - i)];
+    //notification
+    if (i < rawBeaconArray.count) {
+        CLBeacon* firstBeacon = rawBeaconArray[i];
+        HAMThing* thing = [HAMAVOSManager thingWithBeacon:firstBeacon];
+        [self notificateWithThing:thing];
+    }
+    
+    
+    NSArray* beaconArray;
+    if(i < rawBeaconArray.count){
+        beaconArray = [rawBeaconArray subarrayWithRange:NSMakeRange(i, rawBeaconArray.count - i)];
+    } else {
+        beaconArray = [NSArray array];
+    }
     
     //update beaconDictionary
     NSString* uuid = region.proximityUUID.UUIDString;

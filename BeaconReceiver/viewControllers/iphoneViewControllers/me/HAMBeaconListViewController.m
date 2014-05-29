@@ -97,7 +97,10 @@ Boolean foo = false;
 
 - (NSArray*)beaconArrayAtIndex:(NSInteger)index{
     NSString* uuid = [self uuidAtIndex:index];
-    return [self.beaconDictionary objectForKey:uuid];
+    if (uuid != nil) {
+        return [self.beaconDictionary objectForKey:uuid];
+    }
+    return nil;
 }
 
 - (CLBeacon*)beaconAtIndexPath:(NSIndexPath*)indexPath{

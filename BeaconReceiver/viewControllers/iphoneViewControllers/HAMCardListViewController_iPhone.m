@@ -217,7 +217,9 @@ static int kHAMCellFavButtonTag = 6;
         return [self collectionView:collectionView cardCellForItemAtIndexPath:indexPath withThing:thing];
     } else{
         [HAMLogTool warn:@"unknown card type"];
-        return [self collectionView:collectionView nilCellForItemAtIndexPath:indexPath];
+        //TODO: changed the following line!
+//        return [self collectionView:collectionView nilCellForItemAtIndexPath:indexPath];
+        return [self collectionView:collectionView nilCellForItemAtIndexPath:0];
     }
 }
 
@@ -233,7 +235,6 @@ static int kHAMCellFavButtonTag = 6;
     if (indexPath.row >= [thingArray count]) {
         return nilCellSize;
     }
-    
     HAMThing *thing = [thingArray objectAtIndex:indexPath.row];
     if (thing == nil) {
         return nilCellSize;
