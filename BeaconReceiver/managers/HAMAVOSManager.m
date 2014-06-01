@@ -60,6 +60,8 @@
     return [NSDictionary dictionaryWithDictionary:beaconDescriptionDictionary];
 }
 
+#pragma mark - BeaconUUID Save
+
 + (void)saveBeaconUUID:(NSString*)uuid description:(NSString*)description withTarget:(id)target callback:(SEL)callback{
     NSUUID* uuidCheck = [[NSUUID alloc] initWithUUIDString:uuid];
     if (uuidCheck == nil) {
@@ -105,11 +107,8 @@
     [query whereKey:@"major" equalTo:beacon.major];
     [query whereKey:@"minor" equalTo:beacon.minor];
     
-    NSArray* beaconArray = [query findObjects];
-    if (beaconArray == nil || beaconArray.count == 0) {
-        return nil;
-    }
-    return beaconArray[0];
+    AVObject* beaconObject = [query getFirstObject];
+    return beaconObject;
 }
 
 + (HAMBeaconState)ownStateOfBeacon:(CLBeacon*)beacon{
@@ -248,6 +247,21 @@
     return thingObject;
 }
 
++ (NSArray*)thingsArrayWithThingObjectArray:(NSArray*)thingObjectArray{
+    NSMutableArray* thingArray = [NSMutableArray array];
+    for (int i = 0; i < thingObjectArray.count; i++) {
+        AVObject* thingObject = thingObjectArray[i];
+        HAMThing* thing = [self thingWithThingAVObject:thingObject];
+        if (thing == nil) {
+            [HAMLogTool error:@"failed to convert from thingObject to thing"];
+            continue;
+        }
+        
+        [thingArray addObject:thing];
+    }
+    return thingArray;
+}
+
 #pragma mark - Thing Query
 
 + (AVObject*)thingAVObjectWithObjectID:(NSString*)objectID{
@@ -272,7 +286,7 @@
     return [self thingWithThingAVObject:thingObject];
 }
 
-+ (NSArray*)thingsOfCurrentUser{
++ (NSArray*)thingsOfCurrentUserWithSkip:(int)skip limit:(int)limit{
     AVUser* user = [AVUser currentUser];
     if (user == nil) {
         return nil;
@@ -280,6 +294,8 @@
     
     AVQuery* query = [AVQuery queryWithClassName:@"Thing"];
     [self setCachePolicyOfQuery:query];
+    query.skip = skip;
+    query.limit = limit;
     
     [query whereKey:@"creator" equalTo:user];
     NSArray* thingObjectArray = [query findObjects];
@@ -288,13 +304,22 @@
         return @[];
     }
     
-    NSMutableArray* thingArray = [NSMutableArray array];
-    for (int i = 0; i < thingObjectArray.count; i++) {
-        AVObject* thingObject = thingObjectArray[i];
-        HAMThing* thing = [self thingWithThingAVObject:thingObject];
-        [thingArray addObject:thing];
+    return [self thingsArrayWithThingObjectArray:thingObjectArray];
+}
+
++ (NSArray*)thingsInWorldWithSkip:(int)skip limit:(int)limit{
+    AVQuery* query = [AVQuery queryWithClassName:@"Thing"];
+    [self setCachePolicyOfQuery:query];
+    query.skip = skip;
+    query.limit = limit;
+    
+    NSArray* thingObjectArray = [query findObjects];
+    
+    if (thingObjectArray == nil || thingObjectArray.count == 0) {
+        return @[];
     }
-    return thingArray;
+    
+    return [self thingsArrayWithThingObjectArray:thingObjectArray];
 }
 
 #pragma mark - Thing Save
@@ -500,17 +525,24 @@
 
 #pragma mark - Favorites Query
 
-//TODO: may need unsync version!
-+ (NSArray*)allFavoriteThingsOfCurrentUser{
++ (NSArray*)favoriteThingsOfCurrentUserWithSkip:(int)skip limit:(int)limit{
+    if (limit <= 0) {
+        return @[];
+    }
+    
     AVUser* user = [AVUser currentUser];
+    //TODO: change to Relation someday!
     NSArray* favoritesObjectArray = [user objectForKey:@"favorites"];
     if (favoritesObjectArray == nil || favoritesObjectArray.count == 0) {
         //no favorites
         return [NSArray array];
     }
     
+    if (skip >= favoritesObjectArray.count)
+        return @[];
+    
     NSMutableArray* favoritesArray = [NSMutableArray array];
-    for (int i = 0; i < favoritesObjectArray.count; i++) {
+    for (int i = skip; i < favoritesObjectArray.count && i < skip + limit; i++) {
         AVObject* thingObject = favoritesObjectArray[i];
         [thingObject fetchIfNeeded];
         

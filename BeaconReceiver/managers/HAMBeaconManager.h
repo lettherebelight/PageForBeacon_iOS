@@ -36,10 +36,13 @@ typedef enum HAMBeaconState HAMBeaconState;
 + (HAMBeaconManager*)beaconManager;
 - (void)setBackGroundStatus:(Boolean)status;
 
-#pragma mark - LocationManager Methods
+#pragma mark - Start/Stop Monitor
 
 - (void)startMonitor;
 - (void)stopMonitor;
+- (void)restartMonitor;
+
+#pragma mark - LocationManager Methods
 
 #pragma mark - BeaconDictionary Methods
 

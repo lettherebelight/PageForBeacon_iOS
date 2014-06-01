@@ -294,16 +294,38 @@ Boolean foo = false;
 }
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
-    NSLog(@"%d",buttonIndex);
+    NSString* uuidString;
+    NSUUID* uuid;
+    
     switch (buttonIndex) {
         case 1:
             //add
+            uuidString = [[alertView textFieldAtIndex:0] text];
+            uuid = [[NSUUID alloc] initWithUUIDString:uuidString];
+            if (uuid == nil) {
+                [SVProgressHUD showErrorWithStatus:@"输入的UUID不合法。"];
+                return;
+            }
             
-            
+            [SVProgressHUD show];
+            [HAMAVOSManager saveBeaconUUID:uuidString description:@"未知iBeacon" withTarget:self callback:@selector(didAddUUIDWithResult:error:)];
         default:
             //cancel
             break;
     }
+}
+             
+- (void)didAddUUIDWithResult:(NSNumber*)result error:(NSError*)error{
+    [SVProgressHUD dismiss];
+    
+    if (error != nil || result.boolValue == NO){
+        [SVProgressHUD showErrorWithStatus:@"添加UUID失败。"];
+        return;
+    }
+    
+    HAMBeaconManager* beaconManager = [HAMBeaconManager beaconManager];
+    [beaconManager restartMonitor];
+    [SVProgressHUD showSuccessWithStatus:@"添加UUID成功。"];
 }
 
 @end

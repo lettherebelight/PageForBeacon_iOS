@@ -10,11 +10,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "BeaconReceiver/managers/HAMBeaconManager.m"
-            timestampString = "423055802.883742"
+            timestampString = "423324359.285848"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "385"
-            endingLineNumber = "385"
+            startingLineNumber = "407"
+            endingLineNumber = "407"
             landmarkName = "-locationManager:didRangeBeacons:inRegion:"
             landmarkType = "5">
          </BreakpointContent>
@@ -26,11 +26,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "BeaconReceiver/managers/HAMBeaconManager.m"
-            timestampString = "423055819.758303"
+            timestampString = "423324373.30168"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "388"
-            endingLineNumber = "388"
+            startingLineNumber = "408"
+            endingLineNumber = "408"
             landmarkName = "-locationManager:didRangeBeacons:inRegion:"
             landmarkType = "5">
          </BreakpointContent>
@@ -41,13 +41,13 @@
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "BeaconReceiver/managers/HAMBeaconManager.m"
-            timestampString = "423055820.505811"
+            filePath = "BeaconReceiver/managers/HAMAVOSManager.m"
+            timestampString = "423338835.497932"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "387"
-            endingLineNumber = "387"
-            landmarkName = "-locationManager:didRangeBeacons:inRegion:"
+            startingLineNumber = "322"
+            endingLineNumber = "322"
+            landmarkName = "+thingsInWorldWithSkip:limit:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>

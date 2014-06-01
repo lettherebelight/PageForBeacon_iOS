@@ -208,6 +208,10 @@
 		66B163041906A0F000EFE554 /* libEstimoteSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 66B163021906A0F000EFE554 /* libEstimoteSDK.a */; };
 		66C5EB1818CE9B6800B8A666 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 66C5EB1718CE9B6700B8A666 /* MapKit.framework */; };
 		66C77DBB1921CEB300AD87A4 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6636EC5F18B39EF000F94E6C /* Images.xcassets */; };
+		66D9B882193B6BAE0060F9A2 /* MyInfo_iPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = 66D9B881193B6BAE0060F9A2 /* MyInfo_iPhone.xib */; };
+		66D9B883193B6BAE0060F9A2 /* MyInfo_iPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = 66D9B881193B6BAE0060F9A2 /* MyInfo_iPhone.xib */; };
+		66D9B886193B6FD20060F9A2 /* HAMMyInfoContentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 66D9B885193B6FD20060F9A2 /* HAMMyInfoContentViewController.m */; };
+		66D9B887193B6FD20060F9A2 /* HAMMyInfoContentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 66D9B885193B6FD20060F9A2 /* HAMMyInfoContentViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -392,6 +396,9 @@
 		66B162FC1905517100EFE554 /* CoreBluetooth.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreBluetooth.framework; path = System/Library/Frameworks/CoreBluetooth.framework; sourceTree = SDKROOT; };
 		66B163021906A0F000EFE554 /* libEstimoteSDK.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libEstimoteSDK.a; path = BeaconReceiver/EstimoteSDK/libEstimoteSDK.a; sourceTree = "<group>"; };
 		66C5EB1718CE9B6700B8A666 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
+		66D9B881193B6BAE0060F9A2 /* MyInfo_iPhone.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MyInfo_iPhone.xib; sourceTree = "<group>"; };
+		66D9B884193B6FD20060F9A2 /* HAMMyInfoContentViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HAMMyInfoContentViewController.h; sourceTree = "<group>"; };
+		66D9B885193B6FD20060F9A2 /* HAMMyInfoContentViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HAMMyInfoContentViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -849,6 +856,9 @@
 				6670E28419320646007DC18D /* CreateThing_iPhone.xib */,
 				6670E287193209F3007DC18D /* HAMCreateThingContentViewController.h */,
 				6670E288193209F3007DC18D /* HAMCreateThingContentViewController.m */,
+				66D9B881193B6BAE0060F9A2 /* MyInfo_iPhone.xib */,
+				66D9B884193B6FD20060F9A2 /* HAMMyInfoContentViewController.h */,
+				66D9B885193B6FD20060F9A2 /* HAMMyInfoContentViewController.m */,
 			);
 			path = me;
 			sourceTree = "<group>";
@@ -1051,6 +1061,7 @@
 				6670E26B1931BE33007DC18D /* common_icon_discover_normal@2x.png in Resources */,
 				6670E24019309114007DC18D /* common_cover_default_6.jpg in Resources */,
 				6670E20B192EEAD9007DC18D /* me_logout_btn.png in Resources */,
+				66D9B882193B6BAE0060F9A2 /* MyInfo_iPhone.xib in Resources */,
 				66B162EA1900081800EFE554 /* fav-selected-normal.png in Resources */,
 				6670E2671931BE33007DC18D /* common_icon_adduuid.png in Resources */,
 				6670E1EC192DA62B007DC18D /* common_card_like.jpg in Resources */,
@@ -1099,6 +1110,7 @@
 				667965B81917BB5100D9C4FF /* ios7-heart-outline.png in Resources */,
 				66B162F11900081800EFE554 /* home-pressed.png in Resources */,
 				667965C71917BB5600D9C4FF /* ios7-heart-outline@2x.png in Resources */,
+				66D9B883193B6BAE0060F9A2 /* MyInfo_iPhone.xib in Resources */,
 				667965B41917BB5100D9C4FF /* ios7-eye-outline.png in Resources */,
 				66B162FB1900171700EFE554 /* fav-normal.png in Resources */,
 				6670E1E9192DA62B007DC18D /* common_card_cardtype_web.jpg in Resources */,
@@ -1128,6 +1140,7 @@
 				6636EC9118B4A91400F94E6C /* HAMTools.m in Sources */,
 				6636EC8F18B4A91400F94E6C /* HAMFileTools.m in Sources */,
 				669BDB02190953E6006E99D6 /* HAMCommentsManager.m in Sources */,
+				66D9B886193B6FD20060F9A2 /* HAMMyInfoContentViewController.m in Sources */,
 				668090B419249F9700395A88 /* HAMBeaconListViewController.m in Sources */,
 				6670E1B5192CE6FB007DC18D /* HAMDetailCommentViewController_iPhone.m in Sources */,
 				6670E2821931D0FC007DC18D /* HAMCardDetailViewController_iPhone.m in Sources */,
@@ -1174,6 +1187,7 @@
 				667965921917ACC800D9C4FF /* OLImageView.m in Sources */,
 				668090F71926358B00395A88 /* HAMThing.m in Sources */,
 				66B01AE318D5DCAB00CD5EDF /* Reachability.m in Sources */,
+				66D9B887193B6FD20060F9A2 /* HAMMyInfoContentViewController.m in Sources */,
 				66A9A73A190D04D40043639A /* HAMIndexViewController_iPhone.m in Sources */,
 				668090F319262DE400395A88 /* HAMBeaconDictionary.m in Sources */,
 				668090B519249F9700395A88 /* HAMBeaconListViewController.m in Sources */,

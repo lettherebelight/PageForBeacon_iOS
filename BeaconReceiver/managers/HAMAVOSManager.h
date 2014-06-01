@@ -26,6 +26,9 @@
 #pragma mark - BeaconUUID Query
 
 + (NSDictionary*)beaconDescriptionDictionary;
+
+#pragma mark - BeaconUUID Save
+
 + (void)saveBeaconUUID:(NSString*)uuid description:(NSString*)description withTarget:(id)target callback:(SEL)callback;
 
 #pragma mark - Beacon

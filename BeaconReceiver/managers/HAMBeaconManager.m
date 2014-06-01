@@ -22,7 +22,6 @@
 @interface HAMBeaconManager(){
     NSMutableDictionary* beaconDictionary;
     CLLocationManager *locationManager;
-    NSMutableArray *beaconRegions;
     
     bool isInBackground;
     
@@ -34,8 +33,8 @@
     NSDate* lastNotificationDate;
 }
 
-@property NSMutableDictionary* descriptionDictionary;
-//@property HAMBeaconDictionary* beaconThingDictionary;
+@property (nonatomic) NSDictionary* descriptionDictionary;
+@property (nonatomic) NSMutableArray* beaconRegions;
 
 @end
 
@@ -48,6 +47,7 @@
 
 static HAMBeaconManager* beaconManager = nil;
 
+static double kHAMRefreshBeaconDictionaryTimeInteval = 1.0f;
 //static float defaultDistanceDelta = 0.5;
 
 + (HAMBeaconManager*)beaconManager{
@@ -64,7 +64,6 @@ static HAMBeaconManager* beaconManager = nil;
         beaconDictionary = [NSMutableDictionary dictionary];
         
         nearestBeacon = nil;
-        beaconRegions = [NSMutableArray array];
         debugTextFields = [NSMutableDictionary dictionary];
         
         isInBackground = NO;
@@ -85,11 +84,24 @@ static HAMBeaconManager* beaconManager = nil;
     isInBackground = status;
 }
 
+- (BOOL)beacon:(CLBeacon*)beacon1 theSameAsBeacon:(CLBeacon*)beacon2 {
+    if (beacon1 == nil || beacon2 == nil) {
+        return NO;
+    }
+    NSString *info1 = [[NSString alloc] initWithFormat:@"%@/%@/%@", beacon1.proximityUUID.UUIDString, beacon1.major, beacon1.minor];
+    NSString *info2 = [[NSString alloc] initWithFormat:@"%@/%@/%@", beacon2.proximityUUID.UUIDString, beacon2.major, beacon2.minor];
+    return [info1 isEqualToString:info2];
+}
+
+#pragma mark - Start/Stop Monitor
+
 - (void)startMonitor {
     if (![HAMTools isWebAvailable]) {
+        [HAMLogTool error:@"currently offline."];
         return;
     }
-    AVQuery *query = [AVQuery queryWithClassName:@"BeaconUUID"];
+
+    /*AVQuery *query = [AVQuery queryWithClassName:@"BeaconUUID"];
     
     [query findObjectsInBackgroundWithBlock:^(NSArray *uuidInfoArray, NSError *error) {
         if (error) {
@@ -117,47 +129,55 @@ static HAMBeaconManager* beaconManager = nil;
             }
             [self.descriptionDictionary setObject:description forKey:beaconUUID];
         }
-        
-        //start ranging
-        for (int i = 0; i < beaconUUIDArray.count; i++)
-        {
-            NSString* uuidString = beaconUUIDArray[i];
-            NSUUID *uuid = [[NSUUID alloc] initWithUUIDString:uuidString];
-            CLBeaconRegion *region = [[CLBeaconRegion alloc]initWithProximityUUID:uuid identifier:uuidString];
-            region.notifyEntryStateOnDisplay = YES;
-            if (region != nil) {
-                [beaconRegions addObject:region];
-            }
+        */
+    self.descriptionDictionary = [HAMAVOSManager beaconDescriptionDictionary];
+    if (self.descriptionDictionary == nil) {
+        [HAMLogTool error:@"failed to fetch BeaconUUID dictionary"];
+        return;
+    }
+    
+    NSArray* beaconUUIDArray = [self.descriptionDictionary allKeys];
+    self.beaconRegions = [NSMutableArray array];
+    for (int i = 0; i < beaconUUIDArray.count; i++)
+    {
+        NSString* uuidString = beaconUUIDArray[i];
+        NSUUID *uuid = [[NSUUID alloc] initWithUUIDString:uuidString];
+        if (uuid == nil) {
+            [HAMLogTool warn:[NSString stringWithFormat:@"invalid UUID: %@",uuidString]];
+            continue;
         }
         
-        for (CLBeaconRegion* beaconRegion in beaconRegions)
-        {
-                    //[estBeaconManager stopRangingBeaconsInRegion:beaconRegion];
-            [locationManager startMonitoringForRegion:beaconRegion];
-            [locationManager startRangingBeaconsInRegion:beaconRegion];
+        CLBeaconRegion *region = [[CLBeaconRegion alloc]initWithProximityUUID:uuid identifier:uuidString];
+        region.notifyEntryStateOnDisplay = YES;
+        if (region != nil) {
+            [self.beaconRegions addObject:region];
         }
-        
-#define FLUSH_FREQUENCY 1.0f
-        
-        flushTimer = [NSTimer scheduledTimerWithTimeInterval:FLUSH_FREQUENCY target:self selector:@selector(flushBeaconDictionary) userInfo:nil repeats:YES];
-    }];
+    }
+    
+    for (CLBeaconRegion* beaconRegion in self.beaconRegions)
+    {
+        [locationManager startMonitoringForRegion:beaconRegion];
+        [locationManager startRangingBeaconsInRegion:beaconRegion];
+    }
+    
+    flushTimer = [NSTimer scheduledTimerWithTimeInterval:kHAMRefreshBeaconDictionaryTimeInteval target:self selector:@selector(flushBeaconDictionary) userInfo:nil repeats:YES];
 }
 
 - (void)stopMonitor {
-    for (CLBeaconRegion* beaconRegion in beaconRegions)
-    {
+    if (self.beaconRegions == nil) {
+        return;
+    }
+    
+    for (CLBeaconRegion* beaconRegion in self.beaconRegions){
         [locationManager stopRangingBeaconsInRegion:beaconRegion];
         [locationManager stopMonitoringForRegion:beaconRegion];
     }
+    self.beaconRegions = nil;
 }
 
-- (BOOL)beacon:(CLBeacon*)beacon1 theSameAsBeacon:(CLBeacon*)beacon2 {
-    if (beacon1 == nil || beacon2 == nil) {
-        return NO;
-    }
-    NSString *info1 = [[NSString alloc] initWithFormat:@"%@/%@/%@", beacon1.proximityUUID.UUIDString, beacon1.major, beacon1.minor];
-    NSString *info2 = [[NSString alloc] initWithFormat:@"%@/%@/%@", beacon2.proximityUUID.UUIDString, beacon2.major, beacon2.minor];
-    return [info1 isEqualToString:info2];
+- (void)restartMonitor {
+    [self stopMonitor];
+    [self startMonitor];
 }
 
 /*
@@ -192,13 +212,11 @@ static HAMBeaconManager* beaconManager = nil;
 #pragma mark - LocationManager Delegate
 
 - (void)locationManager:(CLLocationManager *)manager didEnterRegion:(CLRegion *)region {
-    [self notificateTest:@"Did Enter!"];
     [locationManager startRangingBeaconsInRegion:(CLBeaconRegion *)region];
     
 }
 
 - (void)locationManager:(CLLocationManager *)manager didExitRegion:(CLRegion *)region {
-    [self notificateTest:@"Did Exit!"];
     //update beaconDictionary
     CLBeaconRegion* beaconRegion = (CLBeaconRegion*)region;
     NSString* uuid = beaconRegion.proximityUUID.UUIDString;
@@ -210,14 +228,11 @@ static HAMBeaconManager* beaconManager = nil;
 - (void)locationManager:(CLLocationManager *)manager didDetermineState:(CLRegionState)state forRegion:(CLRegion *)region{
     
     if (state == CLRegionStateInside) {
-        
-        
         //Start Ranging
         [manager startRangingBeaconsInRegion:(CLBeaconRegion*)region];
     }
     
     else{
-        
         //Stop Ranging
         [manager stopRangingBeaconsInRegion:(CLBeaconRegion*)region];
     }
@@ -254,15 +269,6 @@ static HAMBeaconManager* beaconManager = nil;
     [[UIApplication sharedApplication] presentLocalNotificationNow:localNotification];
 }
 
-- (void)notificateTest:(NSString*)message {
-    [[UIApplication sharedApplication] cancelAllLocalNotifications];
-    UILocalNotification *localNotification = [[UILocalNotification alloc] init];
-    
-        localNotification.alertBody = message;
-    localNotification.soundName = UILocalNotificationDefaultSoundName;
-    [[UIApplication sharedApplication] presentLocalNotificationNow:localNotification];
-}
-
 - (void)flushBeaconDictionary {
     /*NSArray *keyArray = [beaconDictionary allKeys];
     for (id key in keyArray) {
@@ -282,7 +288,6 @@ static HAMBeaconManager* beaconManager = nil;
         }
     }
     [self showThings];*/
-    //TODO: add notification
     NSMutableArray* beaconArray = [NSMutableArray array];
     
     //add all valid beacons to array
@@ -376,19 +381,18 @@ static HAMBeaconManager* beaconManager = nil;
         }
     }
     
-    //notification
-    if (i < rawBeaconArray.count) {
-        CLBeacon* firstBeacon = rawBeaconArray[i];
-        HAMThing* thing = [HAMAVOSManager thingWithBeacon:firstBeacon];
-        [self notificateWithThing:thing];
-    }
-    
-    
     NSArray* beaconArray;
     if(i < rawBeaconArray.count){
         beaconArray = [rawBeaconArray subarrayWithRange:NSMakeRange(i, rawBeaconArray.count - i)];
     } else {
         beaconArray = [NSArray array];
+    }
+    
+    //notification
+    if (isInBackground && beaconArray.count > 0) {
+        CLBeacon* firstBeacon = beaconArray[0];
+        HAMThing* thing = [HAMAVOSManager thingWithBeacon:firstBeacon];
+        [self notificateWithThing:thing];
     }
     
     //update beaconDictionary
