@@ -271,9 +271,14 @@ Boolean foo = false;
 - (void)unbindBeacon:(CLBeacon*)beaconSelected{
     if (![HAMTools isWebAvailable]) {
         [SVProgressHUD showErrorWithStatus:@"网络不通"];
-        
         return;
     }
+    
+    if ([HAMAVOSManager ownStateOfBeaconUpdated:beaconSelected] != HAMBeaconStateOwnedByMe) {
+        [SVProgressHUD showErrorWithStatus:@"Beacon状态错误。"];
+        return;
+    }
+    
     [HAMAVOSManager unbindThingToBeacon:self.beaconSelected withTarget:self callback:@selector(didUnbindBeacon)];
 }
 
@@ -316,9 +321,7 @@ Boolean foo = false;
 }
              
 - (void)didAddUUIDWithResult:(NSNumber*)result error:(NSError*)error{
-    [SVProgressHUD dismiss];
-    
-    if (error != nil || result.boolValue == NO){
+    if (error != nil){
         [SVProgressHUD showErrorWithStatus:@"添加UUID失败。"];
         return;
     }

@@ -8,6 +8,10 @@
 
 #import <UIKit/UIKit.h>
 
-@interface HAMMyInfoContentViewController : UIViewController
+@class HAMMyInfoViewController;
+
+@interface HAMMyInfoContentViewController : UIViewController<UITextFieldDelegate, UITextViewDelegate>
+
+@property (nonatomic) HAMMyInfoViewController* containerViewController;
 
 @end

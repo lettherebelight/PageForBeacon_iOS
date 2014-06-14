@@ -12,6 +12,7 @@
 
 #import <MobileCoreServices/UTCoreTypes.h>
 #import "HAMThing.h"
+#import "HAMConstants.h"
 
 #import "HAMAVOSManager.h"
 
@@ -85,8 +86,19 @@ static HAMThingType kHAMDefaultThingType = HAMThingTypeArt;
 #pragma mark - Bind
 
 - (IBAction)confirmButtonClicked:(id)sender {
+    [SVProgressHUD show];
     if (self.beaconToBind == nil) {
         [SVProgressHUD showErrorWithStatus:@"需要绑定的Beacon出错了。"];
+        return;
+    }
+    
+    if ([HAMAVOSManager ownStateOfBeaconUpdated:beaconToBind] == HAMBeaconStateOwnedByOthers) {
+        [SVProgressHUD showErrorWithStatus:@"Beacon已被他人占用。"];
+        return;
+    }
+    
+    if ([HAMAVOSManager ownBeaconCountOfCurrentUser] >= kHAMMaxOwnBeaconCount) {
+        [SVProgressHUD showErrorWithStatus:[NSString stringWithFormat:@"最多只能绑定%d个Beacon。",kHAMMaxOwnBeaconCount]];
         return;
     }
     
@@ -97,6 +109,7 @@ static HAMThingType kHAMDefaultThingType = HAMThingTypeArt;
     }
     NSString* content = self.contentTextView.text;
     if (content.length == 0) {
+        
         content = nil;
     }
     NSString* url = self.urlTextField.text;
@@ -136,7 +149,6 @@ static HAMThingType kHAMDefaultThingType = HAMThingTypeArt;
     thing.creator = [AVUser currentUser];
     
     [HAMAVOSManager bindThing:thing range:range toBeacon:beaconToBind withTarget:self callback:@selector(didBindThing:error:)];
-    [SVProgressHUD show];
 }
 
 - (void)didBindThing:(NSNumber *)result error:(NSError *)error {
@@ -146,7 +158,6 @@ static HAMThingType kHAMDefaultThingType = HAMThingTypeArt;
         return;
     }
     
-    [SVProgressHUD dismiss];
     [SVProgressHUD showSuccessWithStatus:@"已创建Thing，并成功绑定Beacon。"];
     [self.containerViewController.navigationController popViewControllerAnimated:YES];
 }
@@ -241,6 +252,52 @@ static HAMThingType kHAMDefaultThingType = HAMThingTypeArt;
 - (BOOL)textViewShouldEndEditing:(UITextView *)textView{
     [textView resignFirstResponder];
     return YES;
+}
+
+#pragma mark - textfield delegate
+//开始编辑输入框的时候，软键盘出现，执行此事件
+-(void)textFieldDidBeginEditing:(UITextField *)textField
+{
+    CGRect frame = textField.frame;
+    int offset = self.view.frame.origin.y + frame.origin.y + frame.size.height + 38.0f - (self.view.frame.size.height - 216.0);//键盘高度216
+    
+    NSTimeInterval animationDuration = 0.30f;
+    [UIView beginAnimations:@"ResizeForKeyboard" context:nil];
+    [UIView setAnimationDuration:animationDuration];
+    
+    //将视图的Y坐标向上移动offset个单位，以使下面腾出地方用于软键盘的显示
+    if(offset > 0)
+        self.view.frame = CGRectMake(0.0f, self.view.frame.origin.y - offset, self.view.frame.size.width, self.view.frame.size.height);
+    
+    [UIView commitAnimations];
+}
+
+//输入框编辑完成以后，将视图恢复到原始状态
+-(void)textFieldDidEndEditing:(UITextField *)textField
+{
+    self.view.frame =CGRectMake(0, 93.0f, self.view.frame.size.width, self.view.frame.size.height);
+}
+
+-(void)textViewDidBeginEditing:(UITextView *)textView
+{
+    CGRect frame = textView.frame;
+    int offset = self.view.frame.origin.y + frame.origin.y + frame.size.height + 38.0f - (self.view.frame.size.height - 216.0);//键盘高度216
+    
+    NSTimeInterval animationDuration = 0.30f;
+    [UIView beginAnimations:@"ResizeForKeyboard" context:nil];
+    [UIView setAnimationDuration:animationDuration];
+    
+    //将视图的Y坐标向上移动offset个单位，以使下面腾出地方用于软键盘的显示
+    if(offset > 0)
+        self.view.frame = CGRectMake(0.0f, self.view.frame.origin.y - offset, self.view.frame.size.width, self.view.frame.size.height);
+    
+    [UIView commitAnimations];
+}
+
+//输入框编辑完成以后，将视图恢复到原始状态
+-(void)textViewDidEndEditing:(UITextView *)textView
+{
+    self.view.frame =CGRectMake(0, 93.0f, self.view.frame.size.width, self.view.frame.size.height);
 }
 
 

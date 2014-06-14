@@ -37,7 +37,7 @@
 
 + (NSDictionary*)beaconDescriptionDictionary{
     AVQuery *query = [AVQuery queryWithClassName:@"BeaconUUID"];
-    [self setCachePolicyOfQuery:query];
+//    [self setCachePolicyOfQuery:query];
     
     NSArray* uuidObjectsArray = [query findObjects];
     if (uuidObjectsArray == nil) {
@@ -70,7 +70,7 @@
     }
 
     AVObject* uuidObject = [AVObject objectWithClassName:@"BeaconUUID"];
-    [uuidObject setObject:uuidCheck forKey:@"proximityUUID"];
+    [uuidObject setObject:[uuidCheck UUIDString] forKey:@"proximityUUID"];
     [uuidObject setObject:description forKey:@"description"];
     
     [self clearCache];
@@ -109,26 +109,6 @@
     
     AVObject* beaconObject = [query getFirstObject];
     return beaconObject;
-}
-
-+ (HAMBeaconState)ownStateOfBeacon:(CLBeacon*)beacon{
-    if (beacon == nil) {
-        [HAMLogTool warn:@"query own state of beacon nil"];
-        return HAMBeaconStateOwnedByOthers;
-    }
-    
-    HAMThing* thing = [self thingWithBeacon:beacon];
-    
-    if (thing.creator == nil) {
-        return HAMBeaconStateFree;
-    }
-    
-    AVUser* owner = thing.creator;
-    AVUser* currentUser = [AVUser currentUser];
-    if ([owner.objectId isEqualToString:currentUser.objectId]) {
-        return HAMBeaconStateOwnedByMe;
-    }
-    return HAMBeaconStateOwnedByOthers;
 }
 
 + (CLProximity)rangeOfBeacon:(CLBeacon*)beacon{
@@ -286,27 +266,6 @@
     return [self thingWithThingAVObject:thingObject];
 }
 
-+ (NSArray*)thingsOfCurrentUserWithSkip:(int)skip limit:(int)limit{
-    AVUser* user = [AVUser currentUser];
-    if (user == nil) {
-        return nil;
-    }
-    
-    AVQuery* query = [AVQuery queryWithClassName:@"Thing"];
-    [self setCachePolicyOfQuery:query];
-    query.skip = skip;
-    query.limit = limit;
-    
-    [query whereKey:@"creator" equalTo:user];
-    NSArray* thingObjectArray = [query findObjects];
-    
-    if (thingObjectArray == nil || thingObjectArray.count == 0) {
-        return @[];
-    }
-    
-    return [self thingsArrayWithThingObjectArray:thingObjectArray];
-}
-
 + (NSArray*)thingsInWorldWithSkip:(int)skip limit:(int)limit{
     AVQuery* query = [AVQuery queryWithClassName:@"Thing"];
     [self setCachePolicyOfQuery:query];
@@ -336,6 +295,42 @@
     [thingObject save];
     [self clearCache];
     return thingObject;
+}
+
+#pragma mark - Beacon & User
+
+#pragma mark - Beacon & User Query
+
++ (HAMBeaconState)ownStateOfBeacon:(CLBeacon*)beacon{
+    if (beacon == nil) {
+        [HAMLogTool warn:@"query own state of beacon nil"];
+        return HAMBeaconStateOwnedByOthers;
+    }
+    
+    HAMThing* thing = [self thingWithBeacon:beacon];
+    
+    if (thing.creator == nil) {
+        return HAMBeaconStateFree;
+    }
+    
+    AVUser* owner = thing.creator;
+    AVUser* currentUser = [AVUser currentUser];
+    if ([owner.objectId isEqualToString:currentUser.objectId]) {
+        return HAMBeaconStateOwnedByMe;
+    }
+    return HAMBeaconStateOwnedByOthers;
+}
+
++ (HAMBeaconState)ownStateOfBeaconUpdated:(CLBeacon*)beacon{
+    [self clearCache];
+    return [self ownStateOfBeacon:beacon];
+}
+
++ (int)ownBeaconCountOfCurrentUser{
+    AVQuery* query = [AVQuery queryWithClassName:@"Beacon"];
+    AVUser* currentUser = [AVUser currentUser];
+    [query whereKey:@"occupier" equalTo:currentUser];
+    return (int)[query countObjects];
 }
 
 #pragma mark - Thing & Beacon
@@ -389,6 +384,7 @@
     }
     
     [beaconObject setObject:nil forKey:@"thing"];
+    [beaconObject setObject:nil forKey:@"occupier"];
     [self clearCache];
     [beaconObject saveInBackgroundWithTarget:target selector:callback];
 }
@@ -440,13 +436,40 @@
             rangeString = @"immediate";
             break;
     }
+    
     [beaconObject setObject:rangeString forKey:@"range"];
     [beaconObject setObject:thingObject forKey:@"thing"];
+    AVUser* user = [AVUser currentUser];
+    [beaconObject setObject:user forKey:@"occupier"];
+    
     [self clearCache];
     [beaconObject saveInBackgroundWithTarget:target selector:callback];
 }
 
 #pragma mark - Thing & User
+
+#pragma mark - Thing & User Query
+
++ (NSArray*)thingsOfCurrentUserWithSkip:(int)skip limit:(int)limit{
+    AVUser* user = [AVUser currentUser];
+    if (user == nil) {
+        return @[];
+    }
+    
+    AVQuery* query = [AVQuery queryWithClassName:@"Thing"];
+    [self setCachePolicyOfQuery:query];
+    query.skip = skip;
+    query.limit = limit;
+    
+    [query whereKey:@"creator" equalTo:user];
+    NSArray* thingObjectArray = [query findObjects];
+    
+    if (thingObjectArray == nil || thingObjectArray.count == 0) {
+        return @[];
+    }
+    
+    return [self thingsArrayWithThingObjectArray:thingObjectArray];
+}
 
 #pragma mark - Thing & User Update
 
@@ -614,10 +637,11 @@
     }
     
     AVQuery *query = [AVQuery queryWithClassName:@"Comment"];
-    [self setCachePolicyOfQuery:query];
+    //[self setCachePolicyOfQuery:query];
 
     [query whereKey:@"thingID" equalTo:thing.objectID];
-    return (int)[query countObjects];
+    int count = [query countObjects];
+    return count;
 }
 
 #pragma mark - Analytics

@@ -43,6 +43,7 @@
 
     [self.scrollView addSubview:self.contentViewController.view];
     
+    //make scrollview all through top bar
     CGRect frame = self.contentViewController.view.frame;
     frame.origin.y = 93.0f;
     self.contentViewController.view.frame = frame;

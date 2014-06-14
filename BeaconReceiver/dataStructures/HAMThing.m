@@ -11,6 +11,10 @@
 #import "HAMBeaconManager.h"
 #import "HAMAVOSManager.h"
 
+#import "HAMConstants.h"
+
+#import "HAMLogTool.h"
+
 @implementation HAMThing
 
 @synthesize objectID;
@@ -92,7 +96,40 @@
 }
 
 - (void)fetchCover{
-    cover = [HAMAVOSManager imageFromFile:self.coverFile];
+//    cover = [HAMAVOSManager imageFromFile:self.coverFile];
+    AVFile* file = [AVFile fileWithURL:self.coverURL];
+    if (file == nil) {
+        [HAMLogTool warn:[NSString stringWithFormat:@"invalid coverURL:%@",self.coverURL]];
+        return;
+    }
+    
+    //TODO: change width and height depend on differt card type
+    double thumbnailWidth, thumbnailHeight;
+    switch (self.type) {
+        case HAMThingTypeArt:
+            thumbnailWidth = kHAMThingTypeArtThumbnailWidth;
+            thumbnailHeight = kHAMThingTypeArtThumbnailHeight;
+            break;
+            
+        case HAMThingTypeCard:
+            thumbnailWidth = kHAMThingTypeCardThumbnailWidth;
+            thumbnailHeight = kHAMThingTypeCardThumbnailHeight;
+            break;
+            
+        default:
+            thumbnailWidth = 0.0f;
+            thumbnailHeight = 0.0f;
+            break;
+    }
+    
+    [file getThumbnail:YES width:thumbnailWidth height:thumbnailHeight withBlock:^(UIImage * image, NSError *error) {
+        if (error != nil) {
+            [HAMLogTool warn:@"fetch cover thubmnail failed:"];
+            [HAMLogTool warn:error.debugDescription];
+            return;
+        }
+        self.cover = image;
+    }];
 }
 
 @end

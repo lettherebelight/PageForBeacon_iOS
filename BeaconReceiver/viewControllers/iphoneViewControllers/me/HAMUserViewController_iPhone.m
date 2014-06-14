@@ -10,19 +10,35 @@
 #import "HAMCardListViewController_iPhone.h"
 #import "HAMAVOSManager.h"
 
-@interface HAMUserViewController_iPhone ()
+#import "HAMConstants.h"
+
+@interface HAMUserViewController_iPhone () <HAMCardListDelegate>
 
 @end
 
 @implementation HAMUserViewController_iPhone {
     HAMCardListViewController_iPhone *listViewController;
+    NSMutableArray* thingArray;
 }
 
 static NSString *kHAMEmbedSegueId = @"embedSegue";
 
+- (NSArray*)updateThings {
+    thingArray = [NSMutableArray array];
+    [thingArray addObjectsFromArray:[HAMAVOSManager thingsOfCurrentUserWithSkip:0 limit:kHAMNumberOfThingsInFirstPage]];
+    return thingArray;
+}
+
+- (NSArray*)loadMoreThings {
+    int count = (int)[thingArray count];
+    [thingArray addObjectsFromArray:[HAMAVOSManager thingsOfCurrentUserWithSkip:count limit:kHAMNumberOfTHingsInNextPage]];
+    return thingArray;
+}
+
 - (void)refreshView {
     self.navigationController.navigationBar.barTintColor = nil;
-    NSArray *thingArray = [HAMAVOSManager thingsOfCurrentUser];
+    thingArray = [NSMutableArray array];
+    [thingArray addObjectsFromArray:[HAMAVOSManager thingsOfCurrentUserWithSkip:0 limit:kHAMNumberOfThingsInFirstPage]];
     if (listViewController != nil) {
         listViewController.shouldShowPurchaseItem = YES;
         [listViewController updateWithThingArray:thingArray scrollToTop:NO];
@@ -69,6 +85,7 @@ static NSString *kHAMEmbedSegueId = @"embedSegue";
     if ([segue.identifier isEqualToString:kHAMEmbedSegueId]) {
         if ([segue.destinationViewController isKindOfClass:[HAMCardListViewController_iPhone class]]) {
             listViewController = segue.destinationViewController;
+            listViewController.delegate = self;
         }
     }
 }

@@ -11,6 +11,7 @@
 #import "HAMCardListViewController_iPhone.h"
 
 #import "HAMThing.h"
+#import "HAMConstants.h"
 
 #import "OLImage.h"
 #import "OLImageView.h"
@@ -36,12 +37,31 @@ typedef enum discoverType {
     DiscoverType discoverStatus;
     
     NSArray *thingsAround;
-    NSArray *thingsInWorld;
+    NSMutableArray *thingsInWorld;
 }
 
 static NSString *kHAMEmbedSegueId = @"embedSegue";
 
 static int kHAMDefaultViewTag = 22;
+
+#pragma mark - card list delegate
+- (NSArray*)updateThings {
+    if (discoverStatus == WORLD) {
+        thingsInWorld = [NSMutableArray array];
+        [thingsInWorld addObjectsFromArray:[HAMAVOSManager thingsInWorldWithSkip:0 limit:kHAMNumberOfThingsInFirstPage]];
+        return thingsInWorld;
+    }
+    return thingsAround;
+}
+
+- (NSArray*)loadMoreThings {
+    if (discoverStatus == WORLD) {
+        int count = [thingsInWorld count];
+        [thingsInWorld addObjectsFromArray:[HAMAVOSManager thingsInWorldWithSkip:count limit:kHAMNumberOfTHingsInNextPage]];
+        return thingsInWorld;
+    }
+    return thingsAround;
+}
 
 #pragma mark - actions
 
@@ -76,15 +96,6 @@ static int kHAMDefaultViewTag = 22;
 
 #pragma mark - perform delegate methods
 
-- (void)updateThingsInWorld:(NSArray *)things {
-    thingsInWorld = things;
-    if (discoverStatus == WORLD) {
-        if (listViewController != nil) {
-            [listViewController updateWithThingArray:thingsInWorld scrollToTop:NO];
-        }
-    }
-}
-
 - (void)displayThings:(NSArray *)things {
     thingsAround = things;
     if (discoverStatus == AROUND) {
@@ -111,7 +122,7 @@ static int kHAMDefaultViewTag = 22;
         if (thingsAround == nil || [thingsAround count] == 0) {
             [self.segmentedControl setTitle:@"附近" forSegmentAtIndex:0];
         } else {
-            [self.segmentedControl setTitle:[NSString stringWithFormat:@"附近(%lu)", [thingsAround count]] forSegmentAtIndex:0];
+            [self.segmentedControl setTitle:[NSString stringWithFormat:@"附近(%lu)", (unsigned long)[thingsAround count]] forSegmentAtIndex:0];
         }
         if (listViewController != nil) {
             [listViewController updateWithThingArray:thingsAround scrollToTop:NO];
@@ -148,8 +159,9 @@ static int kHAMDefaultViewTag = 22;
     [HAMBeaconManager beaconManager].delegate = self;
     [[HAMBeaconManager beaconManager] stopMonitor];
     [[HAMBeaconManager beaconManager] startMonitor];
-    [HAMThingManager thingManager].delegate = self;
-    [[HAMThingManager thingManager] startUpdate];
+    
+    thingsInWorld = [NSMutableArray array];
+    [thingsInWorld addObjectsFromArray:[HAMAVOSManager thingsInWorldWithSkip:0 limit:kHAMNumberOfThingsInFirstPage]];
     
     //set default view
     defaultView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, self.view.frame.size.height)];
@@ -167,7 +179,7 @@ static int kHAMDefaultViewTag = 22;
     if (thingsAround == nil || [thingsAround count] == 0) {
         [self.segmentedControl setTitle:@"附近" forSegmentAtIndex:0];
     } else {
-        [self.segmentedControl setTitle:[NSString stringWithFormat:@"附近(%lu)", [thingsAround count]] forSegmentAtIndex:0];
+        [self.segmentedControl setTitle:[NSString stringWithFormat:@"附近(%lu)", (unsigned long)[thingsAround count]] forSegmentAtIndex:0];
     }
     self.navigationController.navigationBar.barTintColor = nil;
     if (listViewController != nil) {
@@ -199,6 +211,7 @@ static int kHAMDefaultViewTag = 22;
     if ([segue.identifier isEqualToString:kHAMEmbedSegueId]) {
         if ([segue.destinationViewController isKindOfClass:[HAMCardListViewController_iPhone class]]) {
             listViewController = segue.destinationViewController;
+            listViewController.delegate = self;
         }
     }
 }

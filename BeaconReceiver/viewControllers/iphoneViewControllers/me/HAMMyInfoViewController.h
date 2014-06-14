@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface HAMMyInfoViewController : UIViewController<UITextFieldDelegate,UITextViewDelegate>{
+@interface HAMMyInfoViewController : UIViewController{
 }
 
 @end

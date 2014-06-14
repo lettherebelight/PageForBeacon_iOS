@@ -503,106 +503,30 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="common_bg.jpg" translatesAutoresizingMaskIntoConstraints="NO" id="4eM-ZS-a2n">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" image="common_bg.jpg" translatesAutoresizingMaskIntoConstraints="NO" id="4eM-ZS-a2n">
                                 <rect key="frame" x="0.0" y="0.0" width="327" height="582"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </imageView>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="me_info_frame.png" translatesAutoresizingMaskIntoConstraints="NO" id="Vo2-a1-N2m">
-                                <rect key="frame" x="18" y="81" width="285" height="419"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            </imageView>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" text="我是张三" translatesAutoresizingMaskIntoConstraints="NO" id="A5S-FS-aaI">
-                                <rect key="frame" x="195" y="116" width="90" height="128"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                <color key="textColor" red="0.68627450980392157" green="0.70196078431372544" blue="0.71372549019607845" alpha="1" colorSpace="deviceRGB"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="13"/>
-                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences" returnKeyType="done"/>
-                                <connections>
-                                    <outlet property="delegate" destination="nyG-Bg-Sbc" id="iOr-zG-Z8c"/>
-                                </connections>
-                            </textView>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="MTK-CC-iSg">
-                                <rect key="frame" x="40" y="381" width="243" height="29"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" image="me_save_btn.png">
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <connections>
-                                    <action selector="saveMyInfoClicked:" destination="nyG-Bg-Sbc" eventType="touchUpInside" id="QA6-Mz-UmO"/>
-                                </connections>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="tt7-Ck-ki8">
-                                <rect key="frame" x="40" y="450" width="243" height="29"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="登出账户" image="me_logout_btn.png">
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <connections>
-                                    <action selector="logoutClicked:" destination="nyG-Bg-Sbc" eventType="touchUpInside" id="8b2-kG-ZSq"/>
-                                    <segue destination="R2C-Bb-sFj" kind="modal" id="HHE-qz-NGA"/>
-                                </connections>
-                            </button>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Tbp-ys-F5x">
-                                <rect key="frame" x="18" y="81" width="138" height="138"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            </imageView>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" text="张绵羊" translatesAutoresizingMaskIntoConstraints="NO" id="mQn-17-Qbz">
-                                <rect key="frame" x="195" y="91" width="90" height="31"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences" returnKeyType="done"/>
-                                <connections>
-                                    <outlet property="delegate" destination="nyG-Bg-Sbc" id="X2n-sl-6cv"/>
-                                </connections>
-                            </textView>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="common_card_cardtype_people.jpg" translatesAutoresizingMaskIntoConstraints="NO" id="jYs-KQ-z2F">
-                                <rect key="frame" x="172" y="97" width="24" height="24"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            </imageView>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="个人主页" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hfG-iC-U1J">
-                                <rect key="frame" x="41" y="227" width="66" height="21"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="13"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="在此填写您的个人主页" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="jlt-YH-Mjn">
-                                <rect key="frame" x="41" y="250" width="243" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits" keyboardType="URL" returnKeyType="done"/>
-                                <connections>
-                                    <outlet property="delegate" destination="nyG-Bg-Sbc" id="1GQ-0b-T0X"/>
-                                </connections>
-                            </textField>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="微信" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="q3z-ec-Rzy">
-                                <rect key="frame" x="41" y="294" width="66" height="21"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="13"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="在此填写您的微信号" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="cQs-kM-UOj">
-                                <rect key="frame" x="41" y="322" width="243" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits" keyboardType="alphabet" returnKeyType="done"/>
-                                <connections>
-                                    <outlet property="delegate" destination="nyG-Bg-Sbc" id="Bh3-xT-h49"/>
-                                </connections>
-                            </textField>
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="UyS-NW-s7I">
+                                <rect key="frame" x="18" y="0.0" width="286" height="513"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                            </scrollView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="trailing" secondItem="UyS-NW-s7I" secondAttribute="trailing" constant="16" id="5ur-Wd-EBq"/>
+                            <constraint firstItem="UyS-NW-s7I" firstAttribute="top" secondItem="4eM-ZS-a2n" secondAttribute="top" id="O0E-HL-buC"/>
+                            <constraint firstItem="UyS-NW-s7I" firstAttribute="leading" secondItem="7W0-Nt-E9q" secondAttribute="leading" constant="18" id="aaF-zs-VI2"/>
+                            <constraint firstItem="4sn-bo-Csh" firstAttribute="top" secondItem="UyS-NW-s7I" secondAttribute="bottom" constant="6" id="kGp-hK-JEq"/>
+                            <constraint firstItem="UyS-NW-s7I" firstAttribute="top" secondItem="7W0-Nt-E9q" secondAttribute="top" id="u4a-Cu-byr"/>
+                        </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="我的信息" id="mgF-7I-jNW">
                         <barButtonItem key="backBarButtonItem" title="返回" id="wPd-ef-zYX"/>
                     </navigationItem>
                     <connections>
-                        <outlet property="avatarImageView" destination="Tbp-ys-F5x" id="oDC-YK-ear"/>
-                        <outlet property="introTextView" destination="A5S-FS-aaI" id="eWC-QA-ITx"/>
-                        <outlet property="nameTextView" destination="mQn-17-Qbz" id="GNM-Ee-QZz"/>
-                        <outlet property="urlTextField" destination="jlt-YH-Mjn" id="4Jv-0d-S4s"/>
-                        <outlet property="wechatTextField" destination="cQs-kM-UOj" id="PBt-ZP-Kqt"/>
+                        <outlet property="scrollView" destination="UyS-NW-s7I" id="5GW-ym-85K"/>
+                        <segue destination="R2C-Bb-sFj" kind="modal" identifier="backToIndex" id="CFY-7j-q1r"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ivt-Wf-zzg" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -848,16 +772,23 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="common_bg.jpg" translatesAutoresizingMaskIntoConstraints="NO" id="EO3-tn-ufY">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" image="common_bg.jpg" translatesAutoresizingMaskIntoConstraints="NO" id="EO3-tn-ufY">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             </imageView>
-                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="vqt-17-vgF">
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="vqt-17-vgF">
                                 <rect key="frame" x="18" y="0.0" width="286" height="513"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                             </scrollView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="vqt-17-vgF" firstAttribute="leading" secondItem="f2q-eK-fY9" secondAttribute="leading" constant="18" id="008-tG-2aU"/>
+                            <constraint firstItem="vqt-17-vgF" firstAttribute="top" secondItem="EO3-tn-ufY" secondAttribute="top" id="PDN-AK-A6Q"/>
+                            <constraint firstAttribute="trailing" secondItem="vqt-17-vgF" secondAttribute="trailing" constant="16" id="Qom-uZ-fie"/>
+                            <constraint firstItem="4l8-ZT-GTv" firstAttribute="top" secondItem="vqt-17-vgF" secondAttribute="bottom" constant="6" id="c5c-GB-oHu"/>
+                            <constraint firstItem="vqt-17-vgF" firstAttribute="top" secondItem="f2q-eK-fY9" secondAttribute="top" id="fom-wY-DSr"/>
+                        </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="新的Thing" id="kas-Iw-EUa">
                         <barButtonItem key="backBarButtonItem" title="返回" id="3T2-5l-cdK"/>
@@ -996,7 +927,7 @@
                                                     <rect key="frame" x="155" y="108" width="65" height="29"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <state key="normal" image="common_icon_comment_normal.png">
-                                                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                                        <color key="titleColor" cocoaTouchSystemColor="darkTextColor"/>
                                                     </state>
                                                     <state key="highlighted" image="common_icon_comment_selected.png"/>
                                                 </button>
@@ -1057,8 +988,8 @@
                                                 <button opaque="NO" tag="5" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="CEH-nG-fMu">
                                                     <rect key="frame" x="153" y="225" width="65" height="24"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                    <state key="normal" image="common_icon_comment_normal.png">
-                                                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                                    <state key="normal" title="" image="common_icon_comment_normal.png">
+                                                        <color key="titleColor" cocoaTouchSystemColor="darkTextColor"/>
                                                     </state>
                                                     <state key="highlighted" image="common_icon_comment_selected.png"/>
                                                 </button>
@@ -1246,9 +1177,6 @@
         <image name="me_beacons_binded.jpg" width="102" height="102"/>
         <image name="me_beacons_mine.jpg" width="102" height="102"/>
         <image name="me_beacons_unbinded.jpg" width="102" height="102"/>
-        <image name="me_info_frame.png" width="570" height="836"/>
-        <image name="me_logout_btn.png" width="485" height="57"/>
-        <image name="me_save_btn.png" width="485" height="57"/>
     </resources>
     <color key="tintColor" red="0.9490196704864502" green="0.45098042488098145" blue="0.16078431904315948" alpha="1" colorSpace="deviceRGB"/>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">

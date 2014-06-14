@@ -40,7 +40,6 @@
 #pragma mark - Beacon Query
 
 + (AVObject*)queryBeaconAVObjectWithCLBeacon:(CLBeacon*)beacon;
-+ (HAMBeaconState)ownStateOfBeacon:(CLBeacon*)beacon;
 + (CLProximity)rangeOfBeacon:(CLBeacon*)beacon;
 
 #pragma mark - Beacon Save
@@ -58,18 +57,26 @@
 #pragma mark - Thing Query
 
 + (HAMThing*)thingWithObjectID:(NSString*)objectID;
-+ (NSArray*)thingsOfCurrentUser;
++ (NSArray*)thingsOfCurrentUserWithSkip:(int)skip limit:(int)limit;
++ (NSArray*)thingsInWorldWithSkip:(int)skip limit:(int)limit;
 
 #pragma mark - Thing Save
 
 + (AVObject*)saveThing:(HAMThing*)thing;
+
+#pragma mark - Beacon & User
+
+#pragma mark - Beacon & User Query
+
++ (HAMBeaconState)ownStateOfBeacon:(CLBeacon*)beacon;
++ (HAMBeaconState)ownStateOfBeaconUpdated:(CLBeacon*)beacon;
++ (int)ownBeaconCountOfCurrentUser;
 
 #pragma mark - Thing & Beacon
 
 #pragma mark - Thing & Beacon Query
 
 + (HAMThing*)thingWithBeacon:(CLBeacon*)beacon;
-+ (HAMThing*)thingWithBeaconID:(NSString *)beaconID major:(NSNumber *)major minor:(NSNumber *)minor;
 
 #pragma mark - Thing & Beacon Save
 
@@ -100,7 +107,8 @@
 
 #pragma mark - Favorites Query
 
-+ (NSArray*)allFavoriteThingsOfCurrentUser;
+//+ (NSArray*)allFavoriteThingsOfCurrentUser;
++ (NSArray*)favoriteThingsOfCurrentUserWithSkip:(int)skip limit:(int)limit;
 + (Boolean)isThingFavoriteOfCurrentUser:(HAMThing*)targetThing;
 
 #pragma mark - Favorites Save

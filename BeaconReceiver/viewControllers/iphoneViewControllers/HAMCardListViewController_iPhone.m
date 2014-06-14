@@ -15,15 +15,21 @@
 
 #import "HAMDetailTabBarController_iPhone.h"
 #import "SVProgressHUD.h"
+#import "MJRefresh.h"
 
 #import "HAMTools.h"
 #import "HAMLogTool.h"
 
-@interface HAMCardListViewController_iPhone ()
+@interface HAMCardListViewController_iPhone () <MJRefreshBaseViewDelegate> {
+    MJRefreshHeaderView *_header;
+    MJRefreshFooterView *_footer;
+}
 
 @end
 
 @implementation HAMCardListViewController_iPhone
+
+@synthesize delegate;
 
 @synthesize thingArray;
 @synthesize thingForSegue;
@@ -67,6 +73,12 @@ static int kHAMCellFavButtonTag = 6;
     return self;
 }
 
+- (void)dealloc
+{
+    [_header free];
+    [_footer free];
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -79,12 +91,85 @@ static int kHAMCellFavButtonTag = 6;
     thingArray = nil;
     thingForSegue = nil;
     shouldShowPurchaseItem = NO;
+    
+    //下拉刷新
+    MJRefreshHeaderView *header = [MJRefreshHeaderView header];
+    header.scrollView = self.collectionView;
+    header.delegate = self;
+    // 自动刷新
+    //[header beginRefreshing];
+    _header = header;
+    
+    //上拉加载更多
+    MJRefreshFooterView *footer = [MJRefreshFooterView footer];
+    footer.scrollView = self.collectionView;
+    footer.delegate = self;
+    _footer = footer;
 }
 
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+- (void)doneWithView:(MJRefreshBaseView *)refreshView
+{
+    
+    // 刷新表格
+    
+    // 1.更新数据
+    
+    if ([refreshView isKindOfClass:[MJRefreshHeaderView class]]) {
+        if (delegate) {
+            thingArray = [delegate updateThings];
+        }
+    } else {
+        if (delegate) {
+            thingArray = [delegate loadMoreThings];
+        }
+    }
+    
+    [self.collectionView reloadData];
+    
+    // (最好在刷新表格后调用)调用endRefreshing可以结束刷新状态
+    [refreshView endRefreshing];
+}
+
+#pragma mark - 刷新控件的代理方法
+#pragma mark 开始进入刷新状态
+- (void)refreshViewBeginRefreshing:(MJRefreshBaseView *)refreshView
+{
+    NSLog(@"%@----开始进入刷新状态", refreshView.class);
+    
+    // 2.2秒后刷新表格UI
+    [self performSelector:@selector(doneWithView:) withObject:refreshView afterDelay:2.0f];
+}
+
+#pragma mark 刷新完毕
+- (void)refreshViewEndRefreshing:(MJRefreshBaseView *)refreshView
+{
+    //NSLog(@"%@----刷新完毕", refreshView.class);
+}
+
+#pragma mark 监听刷新状态的改变
+- (void)refreshView:(MJRefreshBaseView *)refreshView stateChange:(MJRefreshState)state
+{
+    switch (state) {
+        case MJRefreshStateNormal:
+            NSLog(@"%@----切换到：普通状态", refreshView.class);
+            break;
+            
+        case MJRefreshStatePulling:
+            NSLog(@"%@----切换到：松开即可刷新的状态", refreshView.class);
+            break;
+            
+        case MJRefreshStateRefreshing:
+            NSLog(@"%@----切换到：正在刷新状态", refreshView.class);
+            break;
+        default:
+            break;
+    }
 }
 
 #pragma mark - change collection view
@@ -280,9 +365,7 @@ static int kHAMCellFavButtonTag = 6;
     //comment
     UIButton *commentButton = (UIButton*)[view viewWithTag:kHAMCardCellCommentButtonTag];
     //int commentsCount = [HAMAVOSManager numberOfCommentsOfThing:thing];
-    //[commentButton setTitle:[NSString stringWithFormat:@"%d", commentsCount] forState:UIControlStateNormal];
-    //UIImage *commentImage = [[UIImage imageNamed:@"ios7-chatbubble-outline.png"] imageWithRenderingMode:UIImageRenderingModeAutomatic];
-    //[commentButton setImage:commentImage forState:UIControlStateNormal];
+    //[commentButton setTitle:[NSString stringWithFormat:@"  %d", commentsCount] forState:UIControlStateNormal];
     [commentButton addTarget:self action:@selector(commentClicked:) forControlEvents:UIControlEventTouchUpInside];
     
     //favorite
@@ -330,7 +413,7 @@ static int kHAMCellFavButtonTag = 6;
     //comment
     UIButton *commentButton = (UIButton*)[view viewWithTag:kHAMArtCellCommentButtonTag];
     //int commentsCount = [HAMAVOSManager numberOfCommentsOfThing:thing];
-    //[commentButton setTitle:[NSString stringWithFormat:@"%d", commentsCount] forState:UIControlStateNormal];
+    //[commentButton setTitle:[NSString stringWithFormat:@"  %d", commentsCount] forState:UIControlStateNormal];
     [commentButton addTarget:self action:@selector(commentClicked:) forControlEvents:UIControlEventTouchUpInside];
     
     //favorite

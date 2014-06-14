@@ -11,22 +11,39 @@
 #import "HAMTourManager.h"
 #import "HAMAVOSManager.h"
 
-@interface HAMFavoritesViewController_iPhone ()
+#import "HAMConstants.h"
+
+@interface HAMFavoritesViewController_iPhone () <HAMCardListDelegate>
 
 @end
 
 @implementation HAMFavoritesViewController_iPhone {
     HAMCardListViewController_iPhone *listViewController;
+    NSMutableArray *favoriteThingArray;
 }
 
 static NSString *kHAMEmbedSegueId = @"embedSegue";
 
-- (void)refreshView {
+- (NSArray*)updateThings {
+    favoriteThingArray = [NSMutableArray array];
+    [favoriteThingArray addObjectsFromArray:[HAMAVOSManager favoriteThingsOfCurrentUserWithSkip:0 limit:kHAMNumberOfThingsInFirstPage]];
+    return favoriteThingArray;
+}
+
+- (NSArray*)loadMoreThings {
+    int count = (int)[favoriteThingArray count];
+    NSArray *appendArray = [HAMAVOSManager favoriteThingsOfCurrentUserWithSkip:count limit:kHAMNumberOfTHingsInNextPage];
+    [favoriteThingArray addObjectsFromArray:appendArray];
+    return favoriteThingArray;
+}
+
+- (void)initView {
     self.navigationController.navigationBar.barTintColor = nil;
-    NSArray *thingArray = [HAMAVOSManager allFavoriteThingsOfCurrentUser];
+    favoriteThingArray = [NSMutableArray array];
+    [favoriteThingArray addObjectsFromArray:[HAMAVOSManager favoriteThingsOfCurrentUserWithSkip:0 limit:kHAMNumberOfThingsInFirstPage]];
     if (listViewController != nil) {
         listViewController.source = @"Favorites";
-        [listViewController updateWithThingArray:thingArray scrollToTop:NO];
+        [listViewController updateWithThingArray:favoriteThingArray scrollToTop:NO];
     }
 }
 
@@ -43,15 +60,17 @@ static NSString *kHAMEmbedSegueId = @"embedSegue";
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    
     UIBarButtonItem *temporaryBarButtonItem = [[UIBarButtonItem alloc] init];
     temporaryBarButtonItem.title = @"";
     self.navigationItem.backBarButtonItem = temporaryBarButtonItem;
-    [self refreshView];
+
+    [self initView];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    [self refreshView];
+    //[self refreshView];
 }
 
 - (void)didReceiveMemoryWarning
@@ -81,6 +100,7 @@ static NSString *kHAMEmbedSegueId = @"embedSegue";
     if ([segue.identifier isEqualToString:kHAMEmbedSegueId]) {
         if ([segue.destinationViewController isKindOfClass:[HAMCardListViewController_iPhone class]]) {
             listViewController = segue.destinationViewController;
+            listViewController.delegate = self;
         }
     }
 }

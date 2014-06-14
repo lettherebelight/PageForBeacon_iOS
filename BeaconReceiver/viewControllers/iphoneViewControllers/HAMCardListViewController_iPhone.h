@@ -10,7 +10,16 @@
 
 @class HAMThing;
 
+@protocol HAMCardListDelegate <NSObject>
+
+- (NSArray*)updateThings;
+- (NSArray*)loadMoreThings;
+
+@end
+
 @interface HAMCardListViewController_iPhone : UICollectionViewController
+
+@property id<HAMCardListDelegate> delegate;
 
 @property NSArray *thingArray;
 @property HAMThing *thingForSegue;

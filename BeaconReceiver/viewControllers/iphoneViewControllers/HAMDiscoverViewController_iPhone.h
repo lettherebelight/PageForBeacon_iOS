@@ -9,8 +9,9 @@
 #import <UIKit/UIKit.h>
 #import "HAMBeaconManager.h"
 #import "HAMThingManager.h"
+#import "HAMCardListViewController_iPhone.h"
 
-@interface HAMDiscoverViewController_iPhone : UIViewController <HAMBeaconManagerDelegate, HAMThingManagerDelegate>
+@interface HAMDiscoverViewController_iPhone : UIViewController <HAMBeaconManagerDelegate, HAMCardListDelegate>
 
 @property (weak, nonatomic) IBOutlet UISegmentedControl *segmentedControl;
 
