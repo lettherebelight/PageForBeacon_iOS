@@ -83,17 +83,17 @@
 
 #pragma mark - Cover
 
-- (UIImage*)cover{
-    //lazy loading
-    if (cover != nil) {
-        return cover;
-    }
-    
-    if (self.coverFile != nil) {
-        [self fetchCover];
-    }
-    return cover;
-}
+//- (UIImage*)cover{
+//    //lazy loading
+//    if (cover != nil) {
+//        return cover;
+//    }
+//    
+//    if (self.coverFile != nil) {
+//        [self fetchCover];
+//    }
+//    return cover;
+//}
 
 - (void)fetchCover{
 //    cover = [HAMAVOSManager imageFromFile:self.coverFile];
@@ -124,7 +124,7 @@
     
     [file getThumbnail:YES width:thumbnailWidth height:thumbnailHeight withBlock:^(UIImage * image, NSError *error) {
         if (error != nil) {
-            [HAMLogTool warn:@"fetch cover thubmnail failed:"];
+            [HAMLogTool warn:@"fetch cover thumbnail failed:"];
             [HAMLogTool warn:error.debugDescription];
             return;
         }

@@ -10,12 +10,16 @@
 #import <CoreLocation/CoreLocation.h>
 
 @class HAMCreateThingViewController;
+@class HAMThing;
 
 @interface HAMCreateThingContentViewController : UIViewController<UIImagePickerControllerDelegate, UINavigationControllerDelegate, UIActionSheetDelegate, UITextFieldDelegate,UITextViewDelegate>
 {
 }
 
+@property Boolean isNewThing;
+
 @property CLBeacon* beaconToBind;
+@property HAMThing* thingToEdit;
 
 @property UITabBar* tabBar;
 @property HAMCreateThingViewController* containerViewController;

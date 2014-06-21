@@ -160,7 +160,7 @@ static int kHAMCellFavButtonTag = 6;
         }
         if (delegate != nil) {
             if ([delegate respondsToSelector:@selector(cellLongPressed:)]) {
-                 [delegate cellLongPressed:thing.objectID];
+                 [delegate cellLongPressed:thing];
             }
         }
     }

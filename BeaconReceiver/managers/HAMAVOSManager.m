@@ -12,6 +12,7 @@
 
 #import "HAMTourManager.h"
 
+#import "HAMTools.h"
 #import "HAMLogTool.h"
 
 @implementation HAMAVOSManager
@@ -76,9 +77,14 @@
     
     [self clearCache];
     [uuidObject save];
-    [target performSelector:callback withObject:nil];
-//    [uuidObject saveInBackgroundWithTarget:target selector:callback];
     
+    //perform callback
+    if (target == nil) {
+        return;
+    }
+    
+    [HAMTools performSelector:callback byTarget:target];
+//    [uuidObject saveInBackgroundWithTarget:target selector:callback];
 }
 
 #pragma mark - Beacon
@@ -123,22 +129,22 @@
     
     AVObject* beaconObject = [self queryBeaconAVObjectWithCLBeacon:beacon];
     NSString* rangeString = [beaconObject objectForKey:@"range"];
-    
-    if (rangeString == nil) {
-        return CLProximityImmediate;
-    }
-    if ([rangeString isEqualToString:@"immediate"]) {
-        return CLProximityImmediate;
-    }
-    if ([rangeString isEqualToString:@"near"]) {
-        return CLProximityNear;
-    }
-    if ([rangeString isEqualToString:@"far"]) {
-        return CLProximityFar;
+    return [self proximityFromRangeString:rangeString];
+}
+
++ (AVObject*)queryBeaconAVObjectWithThingID:(NSString*)thingID{
+    if (thingID == nil) {
+        return nil;
     }
     
-    [HAMLogTool warn:@"range of beacon unknown"];
-    return CLProximityUnknown;
+    AVQuery* query = [AVQuery queryWithClassName:@"Beacon"];
+    [self setCachePolicyOfQuery:query];
+    
+    [query whereKey:@"thing" equalTo:[AVObject objectWithoutDataWithClassName:@"Thing" objectId:thingID]];
+    //not a must, but for safety reason
+    [query whereKey:@"occupier" equalTo:[AVUser currentUser]];
+    
+    return [query getFirstObject];
 }
 
 #pragma mark - Beacon Save
@@ -288,6 +294,7 @@
 
 #pragma mark - Thing Save
 
+//return nil on fail
 + (AVObject*)saveThing:(HAMThing*)thing{
     if (thing == nil) {
         [HAMLogTool warn:@"trying to save thing nil"];
@@ -296,10 +303,45 @@
     
     thing.creator = [AVUser currentUser];
     
-    AVObject* thingObject = [self thingAVObjectWithThing:thing shouldSaveCover:YES];
-    [thingObject save];
+    Boolean shouldSaveCover = YES;
+    if (thing.cover == nil) {
+        //update thing without changing cover
+        shouldSaveCover = NO;
+    }
+    AVObject* thingObject = [self thingAVObjectWithThing:thing shouldSaveCover:shouldSaveCover];
+    
     [self clearCache];
+    if (![thingObject save]) {
+        return nil;
+    }
+    
     return thingObject;
+}
+
++ (void)saveThing:(HAMThing *)thing withTarget:(id)target callback:(SEL)callback{
+    if (thing == nil || target == nil || callback == nil) {
+        //FIXME: callback with error
+        return;
+    }
+    
+    NSArray* params = [NSArray arrayWithObjects:thing, target, NSStringFromSelector(callback), nil];
+    [NSThread detachNewThreadSelector:@selector(saveThingSyncWithParams:) toTarget:self withObject:params];
+}
+
++ (void)saveThingSyncWithParams:(NSArray*)params{
+    HAMThing* thing = params[0];
+    id target = params[1];
+    SEL callback = NSSelectorFromString(params[2]);
+    
+    AVObject* result = [self saveThing:thing];
+    if ([target respondsToSelector:callback]){
+        if(result == nil) {
+            //FIXME: return with error
+            [target performSelector:callback withObject:@0 withObject:nil];
+        } else {
+            [target performSelector:callback withObject:@1 withObject:nil];
+        }
+    }
 }
 
 #pragma mark - Beacon & User
@@ -338,7 +380,7 @@
     return (int)[query countObjects];
 }
 
-#pragma mark - Thing & Beacon
+#pragma mark - Thing & Beacon (Bind)
 
 #pragma mark - Thing & Beacon Query
 
@@ -374,7 +416,32 @@
     return [self thingWithThingAVObject:thingObject];
 }
 
++ (CLProximity)rangeOfThing:(HAMThing*)thing{
+    if (thing.objectID == nil) {
+        return CLProximityUnknown;
+    }
+    AVObject* beaconObject = [self queryBeaconAVObjectWithThingID:thing.objectID];
+    NSString* rangeString = [beaconObject objectForKey:@"range"];
+    return [self proximityFromRangeString:rangeString];
+}
+
++ (Boolean)isThingBoundToBeacon:(NSString*)thingID{
+    if (thingID == nil) {
+        return false;
+    }
+    
+    AVObject* beaconObject = [self queryBeaconAVObjectWithThingID:thingID];
+    return beaconObject == nil ? NO : YES;
+}
+
 #pragma mark - Thing & Beacon Save
+
++ (void)unbindThingToBeaconAVObject:(AVObject*)beaconObject withTarget:(id)target callback:(SEL)callback{
+    [beaconObject setObject:nil forKey:@"thing"];
+    [beaconObject setObject:nil forKey:@"occupier"];
+    [self clearCache];
+    [beaconObject saveInBackgroundWithTarget:target selector:callback];
+}
 
 + (void)unbindThingToBeacon:(CLBeacon*)beacon withTarget:(id)target callback:(SEL)callback{
     if (beacon == nil) {
@@ -388,10 +455,24 @@
         return;
     }
     
-    [beaconObject setObject:nil forKey:@"thing"];
-    [beaconObject setObject:nil forKey:@"occupier"];
-    [self clearCache];
-    [beaconObject saveInBackgroundWithTarget:target selector:callback];
+    [self unbindThingToBeaconAVObject:beaconObject withTarget:target callback:callback];
+}
+
++ (void)unbindThingWithThingID:(NSString*)thingID withTarget:(id)target callback:(SEL)callback{
+    if (thingID == nil) {
+        //FIXME: callback with error
+        return;
+    }
+    
+    AVObject* beaconObject = [self queryBeaconAVObjectWithThingID:thingID];
+    if (beaconObject == nil) {
+        //not bound to beacon. no need to unbind
+        //FIXME: callback with error
+        [HAMTools performSelector:callback byTarget:target];
+        return;
+    }
+    
+    [self unbindThingToBeaconAVObject:beaconObject withTarget:target callback:callback];
 }
 
 + (void)bindThing:(HAMThing *)thing range:(CLProximity)range toBeacon:(CLBeacon *)beacon withTarget:(id)target callback:(SEL)callback{
@@ -423,25 +504,7 @@
     //save thing
     AVObject* thingObject = [self saveThing:thing];
     
-    NSString* rangeString;
-    switch (range) {
-        case CLProximityImmediate:
-            rangeString = @"immediate";
-            break;
-            
-        case CLProximityNear:
-            rangeString = @"near";
-            break;
-            
-        case CLProximityFar:
-            rangeString = @"far";
-            break;
-            
-        default:
-            rangeString = @"immediate";
-            break;
-    }
-    
+    NSString* rangeString = [self rangeStringFromRange:range];
     [beaconObject setObject:rangeString forKey:@"range"];
     [beaconObject setObject:thingObject forKey:@"thing"];
     AVUser* user = [AVUser currentUser];
@@ -449,6 +512,19 @@
     
     [self clearCache];
     [beaconObject saveInBackgroundWithTarget:target selector:callback];
+}
+
++(void)updateRange:(CLProximity)range ofThing:(HAMThing*)thing{
+    NSString* rangeString = [self rangeStringFromRange:range];
+    
+    AVObject* beaconObject = [self queryBeaconAVObjectWithThingID:thing.objectID];
+    if (beaconObject == nil) {
+        [HAMLogTool warn:@"update range of thing which is currently not bound to beacon."];
+        return;
+    }
+    [beaconObject setObject:rangeString forKey:@"range"];
+    [self clearCache];
+    [beaconObject save];
 }
 
 #pragma mark - Thing & User
@@ -572,7 +648,7 @@
     
     NSMutableArray* favoritesArray = [NSMutableArray array];
 //    for (int i = skip; i < favoritesObjectArray.count && i < skip + limit; i++) {
-    for (int i = MIN(skip + limit - 1, favoritesObjectArray.count - 1); i >= 0 && i >= skip; i--) {
+    for (long i = MIN(skip + limit - 1, favoritesObjectArray.count - 1); i >= 0 && i >= skip; i--) {
         AVObject* thingObject = favoritesObjectArray[i];
         [thingObject fetchIfNeeded];
         
@@ -647,7 +723,7 @@
     //[self setCachePolicyOfQuery:query];
 
     [query whereKey:@"thingID" equalTo:thing.objectID];
-    int count = [query countObjects];
+    int count = (int)[query countObjects];
     return count;
 }
 
@@ -673,6 +749,49 @@
     [eventObject setObject:[NSDate date] forKey:@"timeStamp"];
     
     [eventObject saveEventually];
+}
+
+#pragma mark - Utils
+
++ (CLProximity)proximityFromRangeString:(NSString*)rangeString{
+    if (rangeString == nil) {
+        return CLProximityImmediate;
+    }
+    if ([rangeString isEqualToString:@"immediate"]) {
+        return CLProximityImmediate;
+    }
+    if ([rangeString isEqualToString:@"near"]) {
+        return CLProximityNear;
+    }
+    if ([rangeString isEqualToString:@"far"]) {
+        return CLProximityFar;
+    }
+    
+    [HAMLogTool warn:@"range of beacon unknown"];
+    return CLProximityUnknown;
+}
+
+//FIXME: move this method, paired with the reverse process, into another class somday
++ (NSString*)rangeStringFromRange:(CLProximity)range{
+    NSString* rangeString;
+    switch (range) {
+        case CLProximityImmediate:
+            rangeString = @"immediate";
+            break;
+            
+        case CLProximityNear:
+            rangeString = @"near";
+            break;
+            
+        case CLProximityFar:
+            rangeString = @"far";
+            break;
+            
+        default:
+            rangeString = @"immediate";
+            break;
+    }
+    return rangeString;
 }
 
 @end

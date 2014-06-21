@@ -96,7 +96,7 @@
     return [today isEqualToDate:otherDate];
 }
 
-#pragma mark - other Methods
+#pragma mark - Web Methods
 
 +(Boolean) isWebAvailable {
     return ([[Reachability reachabilityForInternetConnection]currentReachabilityStatus] != NotReachable);
@@ -113,6 +113,8 @@
     UIImage *image = [UIImage imageWithData:imageData];
     return image;
 }
+
+#pragma mark - Image Chop Methods
 
 +(UIImage*)image:(UIImage*)originalImage changeToSize:(CGSize)size {
     UIGraphicsBeginImageContext(size);
@@ -176,6 +178,17 @@
     resizedImage = nil;
     
     return smallImage;
+}
+
+#pragma mark - Other Methods
+
++ (void)performSelector:(SEL)callback byTarget:(id)target{
+    if ([target respondsToSelector:callback]){
+        //        [target performSelector:callback withObject:nil];
+        IMP imp = [target methodForSelector:callback];
+        void (*func)(id, SEL) = (void *)imp;
+        func(target, callback);
+    }
 }
 
 @end

@@ -56,7 +56,7 @@ static int kHAMDefaultViewTag = 22;
 
 - (NSArray*)loadMoreThings {
     if (discoverStatus == WORLD) {
-        int count = [thingsInWorld count];
+        int count = (int)[thingsInWorld count];
         [thingsInWorld addObjectsFromArray:[HAMAVOSManager thingsInWorldWithSkip:count limit:kHAMNumberOfTHingsInNextPage]];
         return thingsInWorld;
     }

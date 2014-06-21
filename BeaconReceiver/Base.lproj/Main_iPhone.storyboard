@@ -486,6 +486,9 @@
                             </connections>
                         </barButtonItem>
                     </navigationItem>
+                    <connections>
+                        <segue destination="PAh-sO-b2G" kind="push" identifier="FromThingListToEditThing" id="F09-B2-zo0"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="6Db-qy-7Lz" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -799,7 +802,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="PaX-Z6-94K" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2337" y="1397"/>
+            <point key="canvasLocation" x="2346" y="1464"/>
         </scene>
         <!--Detail Tab Bar Controller i Phone-->
         <scene sceneID="6FB-QA-L2t">
@@ -1188,7 +1191,8 @@
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
         <segue reference="7vF-Ld-yUj"/>
-        <segue reference="4CU-h9-ihb"/>
+        <segue reference="F09-B2-zo0"/>
         <segue reference="gB2-ZF-fwa"/>
+        <segue reference="4CU-h9-ihb"/>
     </inferredMetricsTieBreakers>
 </document>

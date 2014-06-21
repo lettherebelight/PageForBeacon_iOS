@@ -16,7 +16,7 @@
 - (NSArray*)loadMoreThings;
 
 @optional
-- (void)cellLongPressed:(NSString*)thingID;
+- (void)cellLongPressed:(HAMThing*)thing;
 
 @end
 

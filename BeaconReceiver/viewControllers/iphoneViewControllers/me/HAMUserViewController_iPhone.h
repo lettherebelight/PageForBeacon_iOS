@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface HAMUserViewController_iPhone : UIViewController
+@interface HAMUserViewController_iPhone : UIViewController <UIActionSheetDelegate>
 
 @end

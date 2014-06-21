@@ -26,9 +26,12 @@
 
 +(Boolean)isWebAvailable;
 +(UIImage*)imageFromURL:(NSString*)urlString;
+
 +(UIImage*)image:(UIImage*)originalImage changeToSize:(CGSize)size;
 +(UIImage*)image:(UIImage*)originalImage changeToMaxSize:(CGSize)size;
 +(UIImage*)image:(UIImage*)originalImage changeToMinSize:(CGSize)size;
 +(UIImage*)image:(UIImage*)originalImage staysShapeChangeToSize:(CGSize)size;
+
++ (void)performSelector:(SEL)callback byTarget:(id)target;
 
 @end

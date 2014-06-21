@@ -11,6 +11,8 @@
 #import "HAMCreateThingViewController.h"
 
 #import <MobileCoreServices/UTCoreTypes.h>
+#import <SDWebImage/UIImageView+WebCache.h>
+
 #import "HAMThing.h"
 #import "HAMConstants.h"
 
@@ -40,7 +42,9 @@ static HAMThingType kHAMDefaultThingType = HAMThingTypeArt;
 
 @implementation HAMCreateThingContentViewController
 
+@synthesize isNewThing;
 @synthesize beaconToBind;
+@synthesize thingToEdit;
 @synthesize tabBar;
 @synthesize containerViewController;
 
@@ -64,12 +68,6 @@ static HAMThingType kHAMDefaultThingType = HAMThingTypeArt;
     //round corner on textView
     [HAMViewTools setTextViewBorder:self.contentTextView];
     
-    //random default cover
-    srand((unsigned)time(0));
-    int randNum = rand() % 6 + 1;
-    self.coverImage = [UIImage imageNamed:[NSString stringWithFormat:@"common_cover_default_%d.jpg",randNum]];
-    self.coverImageView.image = self.coverImage;
-    
     //tap view gesture - resign text fields
     UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(tapedView:)];
     [self.view addGestureRecognizer:tapGesture];
@@ -77,6 +75,49 @@ static HAMThingType kHAMDefaultThingType = HAMThingTypeArt;
     //tap view gesture - change cover
     UITapGestureRecognizer* imageViewTapGesture = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(tapedImageView:)];
     [self.coverImageView addGestureRecognizer:imageViewTapGesture];
+    
+    if (isNewThing) {
+        //create new thing
+        
+        //random default cover
+        srand((unsigned)time(0));
+        int randNum = rand() % 6 + 1;
+        self.coverImage = [UIImage imageNamed:[NSString stringWithFormat:@"common_cover_default_%d.jpg",randNum]];
+        self.coverImageView.image = self.coverImage;
+    } else {
+        //edit existing thing
+        
+        if (self.thingToEdit == nil) {
+            return;
+        }
+        
+        self.coverImage = nil;
+        [self.coverImageView setImageWithURL:[NSURL URLWithString:thingToEdit.coverURL]];
+        
+        self.titleTextField.text = thingToEdit.title;
+        self.contentTextView.text = thingToEdit.content;
+        self.urlTextField.text = thingToEdit.url;
+        NSUInteger rangeIndex;
+        switch ([HAMAVOSManager rangeOfThing:thingToEdit]) {
+            case CLProximityImmediate:
+                rangeIndex = 0;
+                break;
+                
+            case CLProximityNear:
+                rangeIndex = 1;
+                break;
+                
+            case CLProximityFar:
+                rangeIndex = 2;
+                break;
+                
+            default:
+                [HAMLogTool error:@"Error range type"];
+                rangeIndex = 0;
+                break;
+        }
+        [self.rangeSegmentedControl setSelectedSegmentIndex:rangeIndex];
+    }
 }
 
 - (void)viewWillAppear:(BOOL)animated{
@@ -93,21 +134,26 @@ static HAMThingType kHAMDefaultThingType = HAMThingTypeArt;
 
 - (IBAction)confirmButtonClicked:(id)sender {
     [SVProgressHUD showWithMaskType:SVProgressHUDMaskTypeBlack];
-    if (self.beaconToBind == nil) {
-        [SVProgressHUD showErrorWithStatus:@"需要绑定的Beacon出错了。"];
-        return;
+    
+    //beacon state check - only need when create new thing;
+    if (self.isNewThing) {
+        if (self.beaconToBind == nil) {
+            [SVProgressHUD showErrorWithStatus:@"需要绑定的Beacon出错了。"];
+            return;
+        }
+        
+        if ([HAMAVOSManager ownStateOfBeaconUpdated:beaconToBind] == HAMBeaconStateOwnedByOthers) {
+            [SVProgressHUD showErrorWithStatus:@"Beacon已被他人占用。"];
+            return;
+        }
+        
+        if ([HAMAVOSManager ownBeaconCountOfCurrentUser] >= kHAMMaxOwnBeaconCount) {
+            [SVProgressHUD showErrorWithStatus:[NSString stringWithFormat:@"最多只能绑定%d个Beacon。",kHAMMaxOwnBeaconCount]];
+            return;
+        }
     }
     
-    if ([HAMAVOSManager ownStateOfBeaconUpdated:beaconToBind] == HAMBeaconStateOwnedByOthers) {
-        [SVProgressHUD showErrorWithStatus:@"Beacon已被他人占用。"];
-        return;
-    }
-    
-    if ([HAMAVOSManager ownBeaconCountOfCurrentUser] >= kHAMMaxOwnBeaconCount) {
-        [SVProgressHUD showErrorWithStatus:[NSString stringWithFormat:@"最多只能绑定%d个Beacon。",kHAMMaxOwnBeaconCount]];
-        return;
-    }
-    
+    //field check
     NSString* title = self.titleTextField.text;
     if (title.length == 0) {
         [SVProgressHUD showErrorWithStatus:@"标题不能为空。"];
@@ -122,6 +168,8 @@ static HAMThingType kHAMDefaultThingType = HAMThingTypeArt;
     if (url.length == 0) {
         url = nil;
     }
+    
+    //range
     NSInteger rangeIndex = [self.rangeSegmentedControl selectedSegmentIndex];
     NSInteger range;
     switch (rangeIndex) {
@@ -142,29 +190,51 @@ static HAMThingType kHAMDefaultThingType = HAMThingTypeArt;
             range = CLProximityUnknown;
             break;
     }
+    if (!self.isNewThing && range != [HAMAVOSManager rangeOfThing:self.thingToEdit]) {
+        //FIXME: change to unsync version
+        [HAMAVOSManager updateRange:range ofThing:self.thingToEdit];
+    }
     
-    HAMThing* thing = [[HAMThing alloc] init];
-    
-    thing.type = kHAMDefaultThingType;
+    HAMThing* thing;
+    if (self.isNewThing) {
+        thing = [[HAMThing alloc] init];
+        thing.type = kHAMDefaultThingType;
+        thing.creator = [AVUser currentUser];
+    } else {
+        thing = self.thingToEdit;
+    }
     
     thing.url = url;
     thing.title = title;
     thing.content = content;
     thing.cover = self.coverImage;
     
-    thing.creator = [AVUser currentUser];
-    
-    [HAMAVOSManager bindThing:thing range:range toBeacon:beaconToBind withTarget:self callback:@selector(didBindThing:error:)];
+    if (self.isNewThing) {
+        [HAMAVOSManager bindThing:thing range:range toBeacon:beaconToBind withTarget:self callback:@selector(didBindThing:error:)];
+    } else {
+        [HAMAVOSManager saveThing:thing withTarget:self callback:@selector(didEditedThing:error:)];
+    }
 }
 
 - (void)didBindThing:(NSNumber *)result error:(NSError *)error {
     if (error != nil) {
-        [HAMLogTool error:[NSString stringWithFormat:@"Error when bind thing to beacon: %@",error.userInfo]];
+        [HAMLogTool error:[NSString stringWithFormat:@"Error when bind thing to beacon: %@",error.localizedDescription]];
         [SVProgressHUD showErrorWithStatus:@"绑定thing至Beacon出错。"];
         return;
     }
     
     [SVProgressHUD showSuccessWithStatus:@"已创建Thing，并成功绑定Beacon。"];
+    [self.containerViewController.navigationController popViewControllerAnimated:YES];
+}
+
+- (void)didEditedThing:(NSNumber*)result error:(NSError*)error{
+    if ([result intValue] == 0 || error != nil) {
+        [HAMLogTool error:[NSString stringWithFormat:@"Error when update thing :%@", error.localizedDescription]];
+        [SVProgressHUD showErrorWithStatus:@"编辑thing出错。"];
+        return;
+    }
+    
+    [SVProgressHUD showSuccessWithStatus:@"已保存对thing的编辑。"];
     [self.containerViewController.navigationController popViewControllerAnimated:YES];
 }
 

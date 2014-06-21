@@ -261,8 +261,11 @@ Boolean foo = false;
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
     if ([segue.identifier isEqualToString:@"FromBeaconListToCreateThing"]) {
-        HAMCreateThingViewController* createThingViewController = segue.destinationViewController;
-        [createThingViewController setBeaconToBind:self.beaconSelected];
+        if ([segue.destinationViewController isKindOfClass:[HAMCreateThingViewController class]]) {
+            HAMCreateThingViewController* createThingViewController = segue.destinationViewController;
+            createThingViewController.isNewThing = YES;
+            [createThingViewController setBeaconToBind:self.beaconSelected];
+        }
     }
 }
 

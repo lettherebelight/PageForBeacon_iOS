@@ -57,12 +57,12 @@
 #pragma mark - Thing Query
 
 + (HAMThing*)thingWithObjectID:(NSString*)objectID;
-+ (NSArray*)thingsOfCurrentUserWithSkip:(int)skip limit:(int)limit;
 + (NSArray*)thingsInWorldWithSkip:(int)skip limit:(int)limit;
 
 #pragma mark - Thing Save
 
 + (AVObject*)saveThing:(HAMThing*)thing;
++ (void)saveThing:(HAMThing *)thing withTarget:(id)target callback:(SEL)callback;
 
 #pragma mark - Beacon & User
 
@@ -72,18 +72,26 @@
 + (HAMBeaconState)ownStateOfBeaconUpdated:(CLBeacon*)beacon;
 + (int)ownBeaconCountOfCurrentUser;
 
-#pragma mark - Thing & Beacon
+#pragma mark - Thing & Beacon(Bind)
 
 #pragma mark - Thing & Beacon Query
 
 + (HAMThing*)thingWithBeacon:(CLBeacon*)beacon;
++ (CLProximity)rangeOfThing:(HAMThing*)thing;
++ (Boolean)isThingBoundToBeacon:(NSString*)thingID;
 
 #pragma mark - Thing & Beacon Save
 
 + (void)unbindThingToBeacon:(CLBeacon*)beacon withTarget:(id)target callback:(SEL)callback;
++ (void)unbindThingWithThingID:(NSString*)thingID withTarget:(id)target callback:(SEL)callback;
 + (void)bindThing:(HAMThing*)thing range:(CLProximity)range toBeacon:(CLBeacon*)beacon withTarget:(id)target callback:(SEL)callback;
++(void)updateRange:(CLProximity)range ofThing:(HAMThing*)thing;
 
 #pragma mark - Thing & User
+
+#pragma mark - Thing & User Query
+
++ (NSArray*)thingsOfCurrentUserWithSkip:(int)skip limit:(int)limit;
 
 #pragma mark - Thing & User Update
 

@@ -8,20 +8,31 @@
 
 #import "HAMUserViewController_iPhone.h"
 #import "HAMCardListViewController_iPhone.h"
+#import "HAMCreateThingViewController.h"
+
+#import "SVProgressHUD.h"
+
+#import "HAMThing.h"
+
 #import "HAMAVOSManager.h"
 
 #import "HAMConstants.h"
+#import "HAMTools.h"
 
 @interface HAMUserViewController_iPhone () <HAMCardListDelegate>
+{
+}
+
+@property (nonatomic) HAMThing* selectedThing;
 
 @end
+
+static NSString *kHAMEmbedSegueId = @"embedSegue";
 
 @implementation HAMUserViewController_iPhone {
     HAMCardListViewController_iPhone *listViewController;
     NSMutableArray* thingArray;
 }
-
-static NSString *kHAMEmbedSegueId = @"embedSegue";
 
 - (NSArray*)updateThings {
     thingArray = [NSMutableArray array];
@@ -75,17 +86,77 @@ static NSString *kHAMEmbedSegueId = @"embedSegue";
     // Dispose of any resources that can be recreated.
 }
 
+#pragma mark - Unbind/Edit menu
+
+- (void)cellLongPressed:(HAMThing*)thing{
+    self.selectedThing = thing;
+    NSString* destructiveButtonTitle = nil;
+    if ([HAMAVOSManager isThingBoundToBeacon:thing.objectID]) {
+        destructiveButtonTitle = @"解除绑定";
+    }
+    UIActionSheet* actionSheet = [[UIActionSheet alloc]
+                                  initWithTitle:@"我的thing"
+                                  delegate:self
+                                  cancelButtonTitle:@"取消"
+                                  destructiveButtonTitle:destructiveButtonTitle
+                                  otherButtonTitles:@"编辑",nil];
+    [actionSheet showInView:self.view];
+}
+
+- (void)actionSheet:(UIActionSheet*)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex{
+    
+    if (buttonIndex == actionSheet.cancelButtonIndex) {
+        //cancel
+        self.selectedThing = nil;
+        return;
+    }
+    
+    if (buttonIndex == actionSheet.destructiveButtonIndex) {
+        //unbind beacon
+        [self unbindThing:self.selectedThing];
+        return;
+    }
+    
+    if (buttonIndex == actionSheet.firstOtherButtonIndex) {
+        //edit thing
+        [self performSegueWithIdentifier:@"FromThingListToEditThing" sender:nil];
+        return;
+    }
+}
+
+- (void)unbindThing:(HAMThing*)thing{
+    if (thing.objectID == nil) {
+        return;
+    }
+    
+    if (![HAMTools isWebAvailable]) {
+        [SVProgressHUD showErrorWithStatus:@"网络不通"];
+        return;
+    }
+    
+    [HAMAVOSManager unbindThingWithThingID:thing.objectID withTarget:self callback:@selector(didUnbindThing)];
+}
+
+//FIXME: add error param
+- (void)didUnbindThing{
+    [SVProgressHUD showSuccessWithStatus:@"解除绑定成功"];
+}
+
 #pragma mark - Navigation
 
-// In a storyboard-based application, you will often want to do a little preparation before navigation
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
     if ([segue.identifier isEqualToString:kHAMEmbedSegueId]) {
         if ([segue.destinationViewController isKindOfClass:[HAMCardListViewController_iPhone class]]) {
             listViewController = segue.destinationViewController;
             listViewController.delegate = self;
+        }
+    }else if ([segue.identifier isEqualToString:@"FromThingListToEditThing"]){
+        //edit thing
+        if ([segue.destinationViewController isKindOfClass:[HAMCreateThingViewController class]]) {
+            HAMCreateThingViewController* createThingViewController = segue.destinationViewController;
+            createThingViewController.isNewThing = NO;
+            createThingViewController.thingToEdit = self.selectedThing;
         }
     }
 }

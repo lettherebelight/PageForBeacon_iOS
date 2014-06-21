@@ -10,6 +10,8 @@
 
 #import "HAMCreateThingContentViewController.h"
 
+#import "HAMThing.h"
+
 @interface HAMCreateThingViewController ()
 
 @property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
@@ -39,8 +41,14 @@
     self.contentViewController = [[HAMCreateThingContentViewController alloc] initWithNibName:@"CreateThing_iPhone" bundle:nil];
     self.contentViewController.tabBar = self.tabBarController.tabBar;
     self.contentViewController.containerViewController = self;
-    self.contentViewController.beaconToBind = self.beaconToBind;
-
+    self.contentViewController.isNewThing = self.isNewThing;
+    if (self.isNewThing) {
+        self.contentViewController.beaconToBind = self.beaconToBind;
+    }
+    else{
+        self.contentViewController.thingToEdit = self.thingToEdit;
+    }
+    
     [self.scrollView addSubview:self.contentViewController.view];
     
     //make scrollview all through top bar
@@ -52,6 +60,13 @@
     
     //hide scrollview's scroll indicator
     self.scrollView.showsVerticalScrollIndicator = NO;
+    
+    //bar title
+    if (self.isNewThing) {
+        self.tabBarController.title = @"新的thing";
+    } else {
+        self.tabBarController.title = @"编辑thing";
+    }
 }
 
 - (void)didReceiveMemoryWarning
