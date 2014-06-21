@@ -40,6 +40,7 @@
 //    [self setCachePolicyOfQuery:query];
     
     NSArray* uuidObjectsArray = [query findObjects];
+//    NSLog(@"%@",uuidObjectsArray);
     if (uuidObjectsArray == nil) {
         return nil;
     }
@@ -74,7 +75,10 @@
     [uuidObject setObject:description forKey:@"description"];
     
     [self clearCache];
-    [uuidObject saveInBackgroundWithTarget:target selector:callback];
+    [uuidObject save];
+    [target performSelector:callback withObject:nil];
+//    [uuidObject saveInBackgroundWithTarget:target selector:callback];
+    
 }
 
 #pragma mark - Beacon
@@ -268,6 +272,7 @@
 
 + (NSArray*)thingsInWorldWithSkip:(int)skip limit:(int)limit{
     AVQuery* query = [AVQuery queryWithClassName:@"Thing"];
+    [query orderByDescending:@"updatedAt"];
     [self setCachePolicyOfQuery:query];
     query.skip = skip;
     query.limit = limit;
@@ -457,6 +462,7 @@
     }
     
     AVQuery* query = [AVQuery queryWithClassName:@"Thing"];
+    [query orderByDescending:@"updatedAt"];
     [self setCachePolicyOfQuery:query];
     query.skip = skip;
     query.limit = limit;
@@ -565,7 +571,8 @@
         return @[];
     
     NSMutableArray* favoritesArray = [NSMutableArray array];
-    for (int i = skip; i < favoritesObjectArray.count && i < skip + limit; i++) {
+//    for (int i = skip; i < favoritesObjectArray.count && i < skip + limit; i++) {
+    for (int i = MIN(skip + limit - 1, favoritesObjectArray.count - 1); i >= 0 && i >= skip; i--) {
         AVObject* thingObject = favoritesObjectArray[i];
         [thingObject fetchIfNeeded];
         

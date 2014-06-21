@@ -13,6 +13,11 @@
 		660886C619415DDC00DAB867 /* HAMFavoritesViewController_iPhone.m in Sources */ = {isa = PBXBuildFile; fileRef = 6670E1A7192CE673007DC18D /* HAMFavoritesViewController_iPhone.m */; };
 		660CEB8F194CB73E0047FAC9 /* HAMConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = 660CEB8E194CB73E0047FAC9 /* HAMConstants.m */; };
 		660CEB90194CB73E0047FAC9 /* HAMConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = 660CEB8E194CB73E0047FAC9 /* HAMConstants.m */; };
+		660CEB93194CC1300047FAC9 /* HAMViewTools.m in Sources */ = {isa = PBXBuildFile; fileRef = 660CEB92194CC1300047FAC9 /* HAMViewTools.m */; };
+		660CEB94194CC1300047FAC9 /* HAMViewTools.m in Sources */ = {isa = PBXBuildFile; fileRef = 660CEB92194CC1300047FAC9 /* HAMViewTools.m */; };
+		660CEB961952D6BD0047FAC9 /* SDWebImage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 660CEB951952D6BD0047FAC9 /* SDWebImage.framework */; };
+		660CEB971952D6BD0047FAC9 /* SDWebImage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 660CEB951952D6BD0047FAC9 /* SDWebImage.framework */; };
+		660CEB991952D7C20047FAC9 /* ImageIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 660CEB981952D7C20047FAC9 /* ImageIO.framework */; };
 		662FE78B192367D500CF0C41 /* HAMGlobalData.m in Sources */ = {isa = PBXBuildFile; fileRef = 662FE78A192367D500CF0C41 /* HAMGlobalData.m */; };
 		6636EC4518B39EF000F94E6C /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6636EC4418B39EF000F94E6C /* Foundation.framework */; };
 		6636EC4718B39EF000F94E6C /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6636EC4618B39EF000F94E6C /* CoreGraphics.framework */; };
@@ -243,6 +248,10 @@
 		660886BF193F7E3000DAB867 /* me_logout_bg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = me_logout_bg.png; sourceTree = "<group>"; };
 		660CEB8D194CB73E0047FAC9 /* HAMConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HAMConstants.h; sourceTree = "<group>"; };
 		660CEB8E194CB73E0047FAC9 /* HAMConstants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HAMConstants.m; sourceTree = "<group>"; };
+		660CEB91194CC1300047FAC9 /* HAMViewTools.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HAMViewTools.h; path = utils/HAMViewTools.h; sourceTree = "<group>"; };
+		660CEB92194CC1300047FAC9 /* HAMViewTools.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HAMViewTools.m; path = utils/HAMViewTools.m; sourceTree = "<group>"; };
+		660CEB951952D6BD0047FAC9 /* SDWebImage.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = SDWebImage.framework; sourceTree = "<group>"; };
+		660CEB981952D7C20047FAC9 /* ImageIO.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ImageIO.framework; path = System/Library/Frameworks/ImageIO.framework; sourceTree = SDKROOT; };
 		662FE789192367D500CF0C41 /* HAMGlobalData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HAMGlobalData.h; sourceTree = "<group>"; };
 		662FE78A192367D500CF0C41 /* HAMGlobalData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HAMGlobalData.m; sourceTree = "<group>"; };
 		6636EC4118B39EF000F94E6C /* BeaconReceiver.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BeaconReceiver.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -434,6 +443,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				660CEB991952D7C20047FAC9 /* ImageIO.framework in Frameworks */,
 				667965CB1917CBF600D9C4FF /* QuartzCore.framework in Frameworks */,
 				66B01ADF18D5DB9500CD5EDF /* SystemConfiguration.framework in Frameworks */,
 				66B162FD1905517100EFE554 /* CoreBluetooth.framework in Frameworks */,
@@ -442,6 +452,7 @@
 				669BDB09190CE93E006E99D6 /* AVOSCloudSNS.framework in Frameworks */,
 				6657B41F18FCDAD400099EC6 /* MobileCoreServices.framework in Frameworks */,
 				6668B6AD18F6ABB400A12655 /* CoreData.framework in Frameworks */,
+				660CEB961952D6BD0047FAC9 /* SDWebImage.framework in Frameworks */,
 				66C5EB1818CE9B6800B8A666 /* MapKit.framework in Frameworks */,
 				6636EC9618B502DD00F94E6C /* libsqlite3.0.dylib in Frameworks */,
 				6636EC4718B39EF000F94E6C /* CoreGraphics.framework in Frameworks */,
@@ -460,6 +471,7 @@
 				6636EC6918B39EF000F94E6C /* UIKit.framework in Frameworks */,
 				66B163041906A0F000EFE554 /* libEstimoteSDK.a in Frameworks */,
 				6636EC6818B39EF000F94E6C /* Foundation.framework in Frameworks */,
+				660CEB971952D6BD0047FAC9 /* SDWebImage.framework in Frameworks */,
 				669BDB0A190CE93E006E99D6 /* AVOSCloudSNS.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -490,6 +502,8 @@
 		6636EC4318B39EF000F94E6C /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				660CEB981952D7C20047FAC9 /* ImageIO.framework */,
+				660CEB951952D6BD0047FAC9 /* SDWebImage.framework */,
 				667965CA1917CBF600D9C4FF /* QuartzCore.framework */,
 				669BDB08190CE93E006E99D6 /* AVOSCloudSNS.framework */,
 				66B163021906A0F000EFE554 /* libEstimoteSDK.a */,
@@ -623,6 +637,8 @@
 				6636EC8E18B4A91400F94E6C /* HAMTools.m */,
 				6636EC8718B4A63C00F94E6C /* HAMLogTool.h */,
 				6636EC8818B4A63C00F94E6C /* HAMLogTool.m */,
+				660CEB91194CC1300047FAC9 /* HAMViewTools.h */,
+				660CEB92194CC1300047FAC9 /* HAMViewTools.m */,
 			);
 			name = utils;
 			sourceTree = "<group>";
@@ -1206,6 +1222,7 @@
 				6670E2571930A7C0007DC18D /* HAMDetailTabBarController_iPhone.m in Sources */,
 				668090FA1927723500395A88 /* HAMAVOSManager.m in Sources */,
 				6636EC5518B39EF000F94E6C /* HAMAppDelegate.m in Sources */,
+				660CEB93194CC1300047FAC9 /* HAMViewTools.m in Sources */,
 				667965D2191E25D800D9C4FF /* HAMBeaconManager.m in Sources */,
 				667965911917ACC800D9C4FF /* OLImageView.m in Sources */,
 				6670E1B7192CE6FB007DC18D /* HAMArtDetailViewController_iPhone.m in Sources */,
@@ -1243,6 +1260,7 @@
 				669BDB03190953E6006E99D6 /* HAMCommentsManager.m in Sources */,
 				66D9B898193CFB7A0060F9A2 /* MJRefreshBaseView.m in Sources */,
 				6636EC9218B4A91400F94E6C /* HAMTools.m in Sources */,
+				660CEB94194CC1300047FAC9 /* HAMViewTools.m in Sources */,
 				66674A3B18E1DAA500239D24 /* HAMThingManager.m in Sources */,
 				6670E2831931D0FC007DC18D /* HAMCardDetailViewController_iPhone.m in Sources */,
 				66D9B89E193CFB7A0060F9A2 /* MJRefreshHeaderView.m in Sources */,
@@ -1346,6 +1364,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				ONLY_ACTIVE_ARCH = YES;
+				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = Things;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -1379,6 +1398,7 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = Things;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";

@@ -16,6 +16,7 @@
 #import "HAMDetailTabBarController_iPhone.h"
 #import "SVProgressHUD.h"
 #import "MJRefresh.h"
+#import <SDWebImage/UIImageView+WebCache.h>
 
 #import "HAMTools.h"
 #import "HAMLogTool.h"
@@ -92,6 +93,10 @@ static int kHAMCellFavButtonTag = 6;
     thingForSegue = nil;
     shouldShowPurchaseItem = NO;
     
+    //长按手势
+    UILongPressGestureRecognizer *longPress = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(longPressGestureRecognized:)];
+    [self.collectionView addGestureRecognizer:longPress];
+    
     //下拉刷新
     MJRefreshHeaderView *header = [MJRefreshHeaderView header];
     header.scrollView = self.collectionView;
@@ -134,6 +139,31 @@ static int kHAMCellFavButtonTag = 6;
     
     // (最好在刷新表格后调用)调用endRefreshing可以结束刷新状态
     [refreshView endRefreshing];
+}
+
+#pragma mark - long press recognizer
+- (IBAction)longPressGestureRecognized:(id)sender {
+    UILongPressGestureRecognizer *longPress = (UILongPressGestureRecognizer *)sender;
+    UIGestureRecognizerState state = longPress.state;
+    
+    CGPoint location = [longPress locationInView:self.collectionView];
+    NSIndexPath *indexPath = [self.collectionView indexPathForItemAtPoint:location];
+    
+    if (state == UIGestureRecognizerStateBegan) {
+        if (indexPath.row >= [thingArray count]) {
+            return;
+        }
+        HAMThing *thing = [thingArray objectAtIndex:indexPath.row];
+        if (thing == nil) {
+            [HAMLogTool debug:@"long pressed cell is nil!"];
+            return;
+        }
+        if (delegate != nil) {
+            if ([delegate respondsToSelector:@selector(cellLongPressed:)]) {
+                 [delegate cellLongPressed:thing.objectID];
+            }
+        }
+    }
 }
 
 #pragma mark - 刷新控件的代理方法
@@ -349,10 +379,11 @@ static int kHAMCellFavButtonTag = 6;
     
     //image
     UIImageView *imageView = (UIImageView*)[view viewWithTag:kHAMCardCellImageViewTag];
-    UIImage *thumbnail;
-    thumbnail = [HAMTools imageFromURL:thing.coverURL];
-    UIImage *image = [HAMTools image:thumbnail staysShapeChangeToSize:imageView.frame.size];
-    imageView.image = image;
+    //UIImage *thumbnail;
+    //thumbnail = [HAMTools imageFromURL:thing.coverURL];
+    //UIImage *image = [HAMTools image:thumbnail staysShapeChangeToSize:imageView.frame.size];
+    //imageView.image = image;
+    [imageView setImageWithURL:[NSURL URLWithString:thing.coverURL]];
     
     //title
     UILabel *titleLabel = (UILabel*)[view viewWithTag:kHAMCardCellTitleViewTag];
@@ -397,10 +428,11 @@ static int kHAMCellFavButtonTag = 6;
     
     //image
     UIImageView *imageView = (UIImageView*)[view viewWithTag:kHAMArtCellImageViewTag];
-    UIImage *thumbnail;
-    thumbnail = [HAMTools imageFromURL:thing.coverURL];
-    UIImage *image = [HAMTools image:thumbnail staysShapeChangeToSize:imageView.frame.size];
-    imageView.image = image;
+    //UIImage *thumbnail;
+    //thumbnail = [HAMTools imageFromURL:thing.coverURL];
+    //UIImage *image = [HAMTools image:thumbnail staysShapeChangeToSize:imageView.frame.size];
+    //imageView.image = image;
+    [imageView setImageWithURL:[NSURL URLWithString:thing.coverURL]];
     
     //title
     UILabel *titleLabel = (UILabel*)[view viewWithTag:kHAMArtCellTitleViewTag];

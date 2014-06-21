@@ -17,6 +17,7 @@
 #import "HAMAVOSManager.h"
 
 #import "SVProgressHUD.h"
+#import "HAMViewTools.h"
 #import "HAMLogTool.h"
 
 @interface HAMCreateThingContentViewController ()
@@ -55,8 +56,19 @@ static HAMThingType kHAMDefaultThingType = HAMThingTypeArt;
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    //round corner on view
     self.view.layer.cornerRadius = 6;
     [self.view.layer setMasksToBounds:YES];
+    
+    //round corner on textView
+    [HAMViewTools setTextViewBorder:self.contentTextView];
+    
+    //random default cover
+    srand((unsigned)time(0));
+    int randNum = rand() % 6 + 1;
+    self.coverImage = [UIImage imageNamed:[NSString stringWithFormat:@"common_cover_default_%d.jpg",randNum]];
+    self.coverImageView.image = self.coverImage;
     
     //tap view gesture - resign text fields
     UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(tapedView:)];
@@ -65,12 +77,6 @@ static HAMThingType kHAMDefaultThingType = HAMThingTypeArt;
     //tap view gesture - change cover
     UITapGestureRecognizer* imageViewTapGesture = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(tapedImageView:)];
     [self.coverImageView addGestureRecognizer:imageViewTapGesture];
-    
-    //random default cover
-    srand((unsigned)time(0));
-    int randNum = rand() % 6 + 1;
-    self.coverImage = [UIImage imageNamed:[NSString stringWithFormat:@"common_cover_default_%d.jpg",randNum]];
-    self.coverImageView.image = self.coverImage;
 }
 
 - (void)viewWillAppear:(BOOL)animated{
@@ -86,7 +92,7 @@ static HAMThingType kHAMDefaultThingType = HAMThingTypeArt;
 #pragma mark - Bind
 
 - (IBAction)confirmButtonClicked:(id)sender {
-    [SVProgressHUD show];
+    [SVProgressHUD showWithMaskType:SVProgressHUDMaskTypeBlack];
     if (self.beaconToBind == nil) {
         [SVProgressHUD showErrorWithStatus:@"需要绑定的Beacon出错了。"];
         return;

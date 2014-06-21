@@ -947,6 +947,7 @@
                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 </view>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <gestureRecognizers/>
                                 <size key="customSize" width="320" height="141"/>
                             </collectionViewCell>
                             <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="artCell" id="cu9-n4-8zp">
@@ -1009,6 +1010,7 @@
                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 </view>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <gestureRecognizers/>
                                 <size key="customSize" width="320" height="255"/>
                             </collectionViewCell>
                             <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="purchaseCell" id="5zp-qZ-pmA">
@@ -1146,7 +1148,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="yKn-Ia-vUd" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2744" y="546"/>
+            <point key="canvasLocation" x="2762" y="570"/>
         </scene>
     </scenes>
     <resources>
@@ -1185,8 +1187,8 @@
         <simulatedScreenMetrics key="destination" type="retina4"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="gB2-ZF-fwa"/>
-        <segue reference="KYM-JP-6MI"/>
+        <segue reference="7vF-Ld-yUj"/>
         <segue reference="4CU-h9-ihb"/>
+        <segue reference="gB2-ZF-fwa"/>
     </inferredMetricsTieBreakers>
 </document>

@@ -16,6 +16,7 @@
 #import "HAMTourManager.h"
 #import "HAMAVOSManager.h"
 
+#import "HAMViewTools.h"
 #import "HAMTools.h"
 
 @interface HAMMyInfoContentViewController ()
@@ -52,6 +53,9 @@
     self.view.layer.cornerRadius = 6;
     [self.view.layer setMasksToBounds:YES];
     
+    //round corner on textView
+    [HAMViewTools setTextViewBorder:self.introTextView];
+    
     //tap view gesture - resign text fields
     UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(tapedView:)];
     [self.view addGestureRecognizer:tapGesture];
@@ -85,6 +89,8 @@
 #pragma mark - Actions
 
 - (IBAction)saveMyInfoClicked:(id)sender {
+    [SVProgressHUD showWithMaskType:SVProgressHUDMaskTypeBlack];
+    
     HAMThing* thing = [[HAMTourManager tourManager]currentUserThing];
     thing.title = self.nameTextField.text;
     thing.content = self.introTextView.text;
@@ -93,8 +99,7 @@
     thing.wechat = self.wechatTextField.text;
     thing.weibo = self.weiboTextField.text;
     thing.qq = self.qqTextField.text;
-
-    [SVProgressHUD show];
+    
     [HAMAVOSManager updateCurrentUserCardWithThing:thing];
     
     [SVProgressHUD showSuccessWithStatus:@"我的信息成功更新。"];

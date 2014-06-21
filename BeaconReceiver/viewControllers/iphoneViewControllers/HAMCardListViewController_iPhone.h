@@ -15,6 +15,9 @@
 - (NSArray*)updateThings;
 - (NSArray*)loadMoreThings;
 
+@optional
+- (void)cellLongPressed:(NSString*)thingID;
+
 @end
 
 @interface HAMCardListViewController_iPhone : UICollectionViewController
