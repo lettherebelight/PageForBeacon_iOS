@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <CoreLocation/CoreLocation.h>
 #import <AVOSCloud/AVOSCloud.h>
 
 enum HAMThingType : NSInteger {
@@ -35,10 +36,17 @@ typedef enum HAMThingType HAMThingType;
 @property (nonatomic) NSString* wechat;
 @property (nonatomic) NSString* qq;
 
+@property (nonatomic) CLProximity range;
+
 
 - (BOOL)isEqualToThing:(HAMThing*)thing;
 
 - (HAMThingType)setTypeWithTypeString:(NSString*)typeString;
 - (NSString*)typeString;
+
+- (CLProximity)setRangeWithRangeString:(NSString*)rangeString;
+- (NSString*)rangeString;
++ (CLProximity)rangeFromRangeString:(NSString*)rangeString;
++ (NSString*)rangeStringFromRange:(CLProximity)range;
 
 @end

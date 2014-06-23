@@ -7,6 +7,12 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <CoreLocation/CoreLocation.h>
+
+#pragma mark - Defaults
+
+//use when creating thing of user card
+static CLProximity kHAMDefaultRange = CLProximityImmediate;
 
 #pragma mark - User Constraints
 

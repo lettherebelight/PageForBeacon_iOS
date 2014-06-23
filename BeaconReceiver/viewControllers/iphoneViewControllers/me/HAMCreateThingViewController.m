@@ -42,10 +42,7 @@
     self.contentViewController.tabBar = self.tabBarController.tabBar;
     self.contentViewController.containerViewController = self;
     self.contentViewController.isNewThing = self.isNewThing;
-    if (self.isNewThing) {
-        self.contentViewController.beaconToBind = self.beaconToBind;
-    }
-    else{
+    if (!self.isNewThing) {
         self.contentViewController.thingToEdit = self.thingToEdit;
     }
     

@@ -76,6 +76,7 @@ static int kHAMCellFavButtonTag = 6;
 
 - (void)dealloc
 {
+    //TODO: what's this? perhaps should use "something = nil" in ARC!
     [_header free];
     [_footer free];
 }
@@ -94,8 +95,8 @@ static int kHAMCellFavButtonTag = 6;
     shouldShowPurchaseItem = NO;
     
     //长按手势
-    UILongPressGestureRecognizer *longPress = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(longPressGestureRecognized:)];
-    [self.collectionView addGestureRecognizer:longPress];
+//    UILongPressGestureRecognizer *longPress = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(longPressGestureRecognized:)];
+//    [self.collectionView addGestureRecognizer:longPress];
     
     //下拉刷新
     MJRefreshHeaderView *header = [MJRefreshHeaderView header];
@@ -141,7 +142,7 @@ static int kHAMCellFavButtonTag = 6;
     [refreshView endRefreshing];
 }
 
-#pragma mark - long press recognizer
+/*#pragma mark - long press recognizer
 - (IBAction)longPressGestureRecognized:(id)sender {
     UILongPressGestureRecognizer *longPress = (UILongPressGestureRecognizer *)sender;
     UIGestureRecognizerState state = longPress.state;
@@ -164,7 +165,7 @@ static int kHAMCellFavButtonTag = 6;
             }
         }
     }
-}
+}*/
 
 #pragma mark - 刷新控件的代理方法
 #pragma mark 开始进入刷新状态
@@ -282,8 +283,18 @@ static int kHAMCellFavButtonTag = 6;
     if (indexPath.row >= [thingArray count]) {
         return;
     }
+    
+    HAMThing* thingSelected = thingArray[indexPath.row];
+    //in userView, onclick show actionsheet instead of show detail
+    if (delegate != nil) {
+        if ([delegate respondsToSelector:@selector(cellClicked:)]) {
+            [delegate cellClicked:thingSelected];
+            return;
+        }
+    }
 
-    [self showDetailWithThing:[thingArray objectAtIndex:indexPath.row] sender:self];
+    //in other view, show detail
+    [self showDetailWithThing:thingSelected sender:self];
 }
 
 #pragma mark - CollectionView data source methods

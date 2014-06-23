@@ -89,6 +89,9 @@
 #pragma mark - Actions
 
 - (IBAction)saveMyInfoClicked:(id)sender {
+    //collapse keyboard, just like when taped view
+    [self tapedView:nil];
+    
     [SVProgressHUD showWithMaskType:SVProgressHUDMaskTypeBlack];
     
     HAMThing* thing = [[HAMTourManager tourManager]currentUserThing];

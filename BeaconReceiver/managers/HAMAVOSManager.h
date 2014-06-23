@@ -61,7 +61,6 @@
 
 #pragma mark - Thing Save
 
-+ (AVObject*)saveThing:(HAMThing*)thing;
 + (void)saveThing:(HAMThing *)thing withTarget:(id)target callback:(SEL)callback;
 
 #pragma mark - Beacon & User
@@ -77,15 +76,15 @@
 #pragma mark - Thing & Beacon Query
 
 + (HAMThing*)thingWithBeacon:(CLBeacon*)beacon;
-+ (CLProximity)rangeOfThing:(HAMThing*)thing;
+//+ (CLProximity)rangeOfThing:(HAMThing*)thing;
 + (Boolean)isThingBoundToBeacon:(NSString*)thingID;
 
 #pragma mark - Thing & Beacon Save
 
-+ (void)unbindThingToBeacon:(CLBeacon*)beacon withTarget:(id)target callback:(SEL)callback;
+//+ (void)unbindThingToBeacon:(CLBeacon*)beacon withTarget:(id)target callback:(SEL)callback;
 + (void)unbindThingWithThingID:(NSString*)thingID withTarget:(id)target callback:(SEL)callback;
-+ (void)bindThing:(HAMThing*)thing range:(CLProximity)range toBeacon:(CLBeacon*)beacon withTarget:(id)target callback:(SEL)callback;
-+(void)updateRange:(CLProximity)range ofThing:(HAMThing*)thing;
++ (void)bindThing:(HAMThing*)thing toBeacon:(CLBeacon*)beacon withTarget:(id)target callback:(SEL)callback;
++(void)updateRangeOfBeaconBoundWithThing:(HAMThing*)thing;
 
 #pragma mark - Thing & User
 

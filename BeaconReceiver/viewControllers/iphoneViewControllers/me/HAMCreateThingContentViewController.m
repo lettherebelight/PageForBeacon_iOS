@@ -43,7 +43,6 @@ static HAMThingType kHAMDefaultThingType = HAMThingTypeArt;
 @implementation HAMCreateThingContentViewController
 
 @synthesize isNewThing;
-@synthesize beaconToBind;
 @synthesize thingToEdit;
 @synthesize tabBar;
 @synthesize containerViewController;
@@ -98,7 +97,7 @@ static HAMThingType kHAMDefaultThingType = HAMThingTypeArt;
         self.contentTextView.text = thingToEdit.content;
         self.urlTextField.text = thingToEdit.url;
         NSUInteger rangeIndex;
-        switch ([HAMAVOSManager rangeOfThing:thingToEdit]) {
+        switch (thingToEdit.range) {
             case CLProximityImmediate:
                 rangeIndex = 0;
                 break;
@@ -133,25 +132,10 @@ static HAMThingType kHAMDefaultThingType = HAMThingTypeArt;
 #pragma mark - Bind
 
 - (IBAction)confirmButtonClicked:(id)sender {
+    //collapse keyboard, just like when taped view
+    [self tapedView:nil];
+
     [SVProgressHUD showWithMaskType:SVProgressHUDMaskTypeBlack];
-    
-    //beacon state check - only need when create new thing;
-    if (self.isNewThing) {
-        if (self.beaconToBind == nil) {
-            [SVProgressHUD showErrorWithStatus:@"需要绑定的Beacon出错了。"];
-            return;
-        }
-        
-        if ([HAMAVOSManager ownStateOfBeaconUpdated:beaconToBind] == HAMBeaconStateOwnedByOthers) {
-            [SVProgressHUD showErrorWithStatus:@"Beacon已被他人占用。"];
-            return;
-        }
-        
-        if ([HAMAVOSManager ownBeaconCountOfCurrentUser] >= kHAMMaxOwnBeaconCount) {
-            [SVProgressHUD showErrorWithStatus:[NSString stringWithFormat:@"最多只能绑定%d个Beacon。",kHAMMaxOwnBeaconCount]];
-            return;
-        }
-    }
     
     //field check
     NSString* title = self.titleTextField.text;
@@ -190,10 +174,6 @@ static HAMThingType kHAMDefaultThingType = HAMThingTypeArt;
             range = CLProximityUnknown;
             break;
     }
-    if (!self.isNewThing && range != [HAMAVOSManager rangeOfThing:self.thingToEdit]) {
-        //FIXME: change to unsync version
-        [HAMAVOSManager updateRange:range ofThing:self.thingToEdit];
-    }
     
     HAMThing* thing;
     if (self.isNewThing) {
@@ -209,21 +189,35 @@ static HAMThingType kHAMDefaultThingType = HAMThingTypeArt;
     thing.content = content;
     thing.cover = self.coverImage;
     
+    thing.range = range;
+    
     if (self.isNewThing) {
-        [HAMAVOSManager bindThing:thing range:range toBeacon:beaconToBind withTarget:self callback:@selector(didBindThing:error:)];
+//        [HAMAVOSManager bindThing:thing range:range toBeacon:beaconToBind withTarget:self callback:@selector(didBindThing:error:)];
+        [HAMAVOSManager saveThing:thing withTarget:self callback:@selector(didSaveThing:error:)];
     } else {
         [HAMAVOSManager saveThing:thing withTarget:self callback:@selector(didEditedThing:error:)];
     }
 }
 
-- (void)didBindThing:(NSNumber *)result error:(NSError *)error {
-    if (error != nil) {
-        [HAMLogTool error:[NSString stringWithFormat:@"Error when bind thing to beacon: %@",error.localizedDescription]];
-        [SVProgressHUD showErrorWithStatus:@"绑定thing至Beacon出错。"];
+//- (void)didBindThing:(NSNumber *)result error:(NSError *)error {
+//    if (error != nil) {
+//        [HAMLogTool error:[NSString stringWithFormat:@"Error when bind thing to beacon: %@",error.localizedDescription]];
+//        [SVProgressHUD showErrorWithStatus:@"绑定thing至Beacon出错。"];
+//        return;
+//    }
+//    
+//    [SVProgressHUD showSuccessWithStatus:@"已创建Thing，并成功绑定Beacon。"];
+//    [self.containerViewController.navigationController popViewControllerAnimated:YES];
+//}
+
+- (void)didSaveThing:(NSNumber *)result error:(NSError *)error {
+    if ([result intValue] == 0 || error != nil) {
+        [HAMLogTool error:[NSString stringWithFormat:@"Error when creating thing: %@",error.localizedDescription]];
+        [SVProgressHUD showErrorWithStatus:@"创建thing出错。"];
         return;
     }
-    
-    [SVProgressHUD showSuccessWithStatus:@"已创建Thing，并成功绑定Beacon。"];
+
+    [SVProgressHUD showSuccessWithStatus:@"创建Thing成功。"];
     [self.containerViewController.navigationController popViewControllerAnimated:YES];
 }
 

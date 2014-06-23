@@ -8,6 +8,11 @@
 
 #import <UIKit/UIKit.h>
 
+@class HAMThing;
+
 @interface HAMBeaconListViewController : UIViewController<UITableViewDataSource, UITableViewDelegate, UIActionSheetDelegate, UIAlertViewDelegate>
+{}
+
+@property HAMThing* thingToBind;
 
 @end

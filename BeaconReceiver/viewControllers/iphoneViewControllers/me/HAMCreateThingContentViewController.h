@@ -18,7 +18,6 @@
 
 @property Boolean isNewThing;
 
-@property CLBeacon* beaconToBind;
 @property HAMThing* thingToEdit;
 
 @property UITabBar* tabBar;

@@ -20,6 +20,7 @@
 #import "HAMThingManager.h"
 
 #import "HAMTools.h"
+#import "HAMLogTool.h"
 
 @interface HAMBeaconListViewController ()
 
@@ -27,8 +28,6 @@
 @property NSTimer* refreshTimer;
 
 @property (weak, nonatomic) IBOutlet UITableView *beaconTableView;
-
-@property CLBeacon* beaconSelected;
 
 - (IBAction)addUUIDClicked:(id)sender;
 
@@ -38,6 +37,8 @@ static const double kRefreshTimeInterval = 3.0f;
 Boolean foo = false;
 
 @implementation HAMBeaconListViewController
+
+@synthesize thingToBind;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -51,7 +52,7 @@ Boolean foo = false;
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
+    
     UIImageView *backImageView = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"common_bg.jpg"]];
     backImageView.frame = self.beaconTableView.bounds;
     backImageView.autoresizingMask = UIViewAutoresizingFlexibleWidth;
@@ -60,7 +61,6 @@ Boolean foo = false;
 
 - (void)viewWillAppear:(BOOL)animated{
     [self refreshTableView];
-    [self deselectSelectedRow];
 
     if (self.refreshTimer == nil) {
         self.refreshTimer = [NSTimer scheduledTimerWithTimeInterval:kRefreshTimeInterval target:self selector:@selector(refreshTableView) userInfo:nil repeats:YES];
@@ -182,11 +182,11 @@ Boolean foo = false;
     textLabel.text = [NSString stringWithFormat:@"%@(%.2lf)",description,beacon.accuracy];
     detailTextLabel.text = [NSString stringWithFormat:@"Major: %@, Minor: %@",beacon.major,beacon.minor];
     
-    if (self.beaconSelected) {
+    /*if (self.beaconSelected) {
         if ([HAMBeaconManager isBeacon:beacon sameToBeacon:self.beaconSelected]) {
             [self.beaconTableView selectRowAtIndexPath:indexPath animated:YES scrollPosition:UITableViewScrollPositionMiddle];
         }
-    }
+    }*/
     
     return cell;
 }
@@ -198,20 +198,18 @@ Boolean foo = false;
     }
     
     CLBeacon* beacon = [self beaconAtIndexPath:indexPath];
-    self.beaconSelected = beacon;
     if (beacon == nil) {
-//        [HAMTools showAlert:@"选择的Beacon已离开范围。" title:@"抱歉……"];
         [SVProgressHUD showErrorWithStatus:@"选择的Beacon已离开范围"];
         return;
     }
     
-    HAMBeaconState ownState = [HAMAVOSManager ownStateOfBeacon:beacon];
+    HAMBeaconState ownState = [HAMAVOSManager ownStateOfBeaconUpdated:beacon];
     
     if (ownState == HAMBeaconStateFree) {
-        [self performSegueWithIdentifier:@"FromBeaconListToCreateThing" sender:nil];
+//        [self performSegueWithIdentifier:@"FromBeaconListToCreateThing" sender:nil];
+        [self bindThing:self.thingToBind toBeacon:beacon];
         
-    } else if (ownState == HAMBeaconStateOwnedByMe){
-        //show actionsheet
+    } else /*if (ownState == HAMBeaconStateOwnedByMe){
         UIActionSheet* actionSheet = [[UIActionSheet alloc]
             initWithTitle:@"已绑定我的Thing"
             delegate:self
@@ -219,13 +217,38 @@ Boolean foo = false;
             destructiveButtonTitle:@"解除绑定"
             otherButtonTitles:@"绑定新的thing",nil];
         [actionSheet showInView:self.view];
-    } else {
+        
+    } else */{
         //own by others
         return;
     }
 }
 
-#pragma mark - UITableView Operation
+#pragma mark - Bind Thing
+
+- (void)bindThing:(HAMThing*)thing toBeacon:(CLBeacon*)beacon{
+    [SVProgressHUD showWithMaskType:SVProgressHUDMaskTypeBlack];
+    
+    if (thing == nil || beacon == nil) {
+        [SVProgressHUD showErrorWithStatus:@"需要绑定的Thing或Beacon出错了。"];
+        return;
+    }
+    
+    [HAMAVOSManager bindThing:thing toBeacon:beacon withTarget:self callback:@selector(didBindThingToBeacon:error:)];
+}
+
+- (void)didBindThingToBeacon:(NSNumber *)result error:(NSError *)error {
+    if (error != nil) {
+        [HAMLogTool error:[NSString stringWithFormat:@"Error when bind thing to beacon: %@",error.localizedDescription]];
+        [SVProgressHUD showErrorWithStatus:@"绑定thing出错。"];
+        return;
+    }
+    
+    [SVProgressHUD showSuccessWithStatus:@"绑定Thing成功。"];
+    [self.navigationController popViewControllerAnimated:YES];
+}
+
+/*#pragma mark - UITableView Operation
 
 - (void)deselectSelectedRow{
     NSIndexPath* indexPath = [self.beaconTableView indexPathForSelectedRow];
@@ -287,7 +310,7 @@ Boolean foo = false;
 
 - (void)didUnbindBeacon{
     [SVProgressHUD showSuccessWithStatus:@"解除绑定成功"];
-}
+}*/
 
 #pragma mark - Add UUID
 

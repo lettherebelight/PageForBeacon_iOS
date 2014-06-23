@@ -7,8 +7,10 @@
 //
 
 #import "HAMUserViewController_iPhone.h"
+
 #import "HAMCardListViewController_iPhone.h"
 #import "HAMCreateThingViewController.h"
+#import "HAMBeaconListViewController.h"
 
 #import "SVProgressHUD.h"
 
@@ -88,40 +90,70 @@ static NSString *kHAMEmbedSegueId = @"embedSegue";
 
 #pragma mark - Unbind/Edit menu
 
-- (void)cellLongPressed:(HAMThing*)thing{
+- (void)cellClicked:(HAMThing*)thing{
     self.selectedThing = thing;
     NSString* destructiveButtonTitle = nil;
     if ([HAMAVOSManager isThingBoundToBeacon:thing.objectID]) {
         destructiveButtonTitle = @"解除绑定";
+    } else {
+        destructiveButtonTitle = @"绑定";
     }
+
     UIActionSheet* actionSheet = [[UIActionSheet alloc]
                                   initWithTitle:@"我的thing"
                                   delegate:self
                                   cancelButtonTitle:@"取消"
                                   destructiveButtonTitle:destructiveButtonTitle
-                                  otherButtonTitles:@"编辑",nil];
+                                  otherButtonTitles:@"详情",@"编辑",nil];
     [actionSheet showInView:self.view];
 }
 
 - (void)actionSheet:(UIActionSheet*)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex{
     
-    if (buttonIndex == actionSheet.cancelButtonIndex) {
-        //cancel
-        self.selectedThing = nil;
+    switch (buttonIndex) {
+        case 0:
+            //bind/unbind beacon
+            if ([[actionSheet buttonTitleAtIndex:buttonIndex] isEqualToString:@"解除绑定"]) {
+                [self unbindThing:self.selectedThing];
+            }
+            else {
+                [self bindThing:self.selectedThing];
+            }
+            return;
+            
+        case 1:
+            //show detail
+            [listViewController showDetailWithThing:self.selectedThing sender:listViewController];
+            return;
+            
+        case 2:
+            //edit thing
+            [self performSegueWithIdentifier:@"FromMyThingListToEditThing" sender:self.selectedThing];
+            return;
+            
+        default:
+            //cancel
+            self.selectedThing = nil;
+            break;
+    }
+}
+
+- (void)bindThing:(HAMThing*)thing{
+    if (thing.objectID == nil) {
         return;
     }
     
-    if (buttonIndex == actionSheet.destructiveButtonIndex) {
-        //unbind beacon
-        [self unbindThing:self.selectedThing];
+    if (![HAMTools isWebAvailable]) {
+        [SVProgressHUD showErrorWithStatus:@"网络不通"];
         return;
     }
     
-    if (buttonIndex == actionSheet.firstOtherButtonIndex) {
-        //edit thing
-        [self performSegueWithIdentifier:@"FromThingListToEditThing" sender:nil];
+    if ([HAMAVOSManager ownBeaconCountOfCurrentUser] >= kHAMMaxOwnBeaconCount) {
+        [SVProgressHUD showErrorWithStatus:[NSString stringWithFormat:@"最多只能绑定%d个Beacon。",kHAMMaxOwnBeaconCount]];
         return;
     }
+    
+    [self performSegueWithIdentifier:@"FromMyThingListToBeaconList" sender:thing];
 }
 
 - (void)unbindThing:(HAMThing*)thing{
@@ -151,12 +183,23 @@ static NSString *kHAMEmbedSegueId = @"embedSegue";
             listViewController = segue.destinationViewController;
             listViewController.delegate = self;
         }
-    }else if ([segue.identifier isEqualToString:@"FromThingListToEditThing"]){
+    } else if ([segue.identifier isEqualToString:@"FromMyThingListToEditThing"]){
         //edit thing
         if ([segue.destinationViewController isKindOfClass:[HAMCreateThingViewController class]]) {
             HAMCreateThingViewController* createThingViewController = segue.destinationViewController;
             createThingViewController.isNewThing = NO;
-            createThingViewController.thingToEdit = self.selectedThing;
+            createThingViewController.thingToEdit = sender;
+        }
+    } else if ([segue.identifier isEqualToString:@"FromMyThingListToCreateThing"]){
+        //create thing
+        if ([segue.destinationViewController isKindOfClass:[HAMCreateThingViewController class]]) {
+            HAMCreateThingViewController* createThingViewController = segue.destinationViewController;
+            createThingViewController.isNewThing = YES;
+        }
+    } else if ([segue.identifier isEqualToString:@"FromMyThingListToBeaconList"]){
+        if ([segue.destinationViewController isKindOfClass:[HAMBeaconListViewController class]]) {
+            HAMBeaconListViewController* beaconListViewController = segue.destinationViewController;
+            beaconListViewController.thingToBind = sender;
         }
     }
 }

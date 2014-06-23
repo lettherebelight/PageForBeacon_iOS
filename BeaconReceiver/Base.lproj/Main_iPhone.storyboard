@@ -480,14 +480,15 @@
                                 <segue destination="nyG-Bg-Sbc" kind="push" id="MxB-wc-wKk"/>
                             </connections>
                         </barButtonItem>
-                        <barButtonItem key="rightBarButtonItem" title="绑定Beacon" id="Ffr-HH-6yk">
+                        <barButtonItem key="rightBarButtonItem" title="创建thing" id="Ffr-HH-6yk">
                             <connections>
-                                <segue destination="WTY-99-R5u" kind="push" id="p2s-b8-tqn"/>
+                                <segue destination="PAh-sO-b2G" kind="push" identifier="FromMyThingListToCreateThing" id="Ywf-aO-vTb"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
                     <connections>
-                        <segue destination="PAh-sO-b2G" kind="push" identifier="FromThingListToEditThing" id="F09-B2-zo0"/>
+                        <segue destination="PAh-sO-b2G" kind="push" identifier="FromMyThingListToEditThing" id="F09-B2-zo0"/>
+                        <segue destination="WTY-99-R5u" kind="push" identifier="FromMyThingListToBeaconList" id="4Uc-SZ-rnU"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="6Db-qy-7Lz" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -534,7 +535,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ivt-Wf-zzg" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1811" y="2090"/>
+            <point key="canvasLocation" x="1176" y="2162"/>
         </scene>
         <!--Beacon List View Controller - 附近的iBeacon-->
         <scene sceneID="16T-nk-DfE">
@@ -756,7 +757,6 @@
                     </navigationItem>
                     <connections>
                         <outlet property="beaconTableView" destination="xNk-yE-AkR" id="Put-wn-q85"/>
-                        <segue destination="PAh-sO-b2G" kind="push" identifier="FromBeaconListToCreateThing" id="KZa-fh-9Qa"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="EIA-ag-sgo" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -802,7 +802,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="PaX-Z6-94K" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2346" y="1464"/>
+            <point key="canvasLocation" x="1802" y="2162"/>
         </scene>
         <!--Detail Tab Bar Controller i Phone-->
         <scene sceneID="6FB-QA-L2t">
@@ -1190,8 +1190,8 @@
         <simulatedScreenMetrics key="destination" type="retina4"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
+        <segue reference="Ywf-aO-vTb"/>
         <segue reference="7vF-Ld-yUj"/>
-        <segue reference="F09-B2-zo0"/>
         <segue reference="gB2-ZF-fwa"/>
         <segue reference="4CU-h9-ihb"/>
     </inferredMetricsTieBreakers>

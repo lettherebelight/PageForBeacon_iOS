@@ -29,6 +29,7 @@
 @synthesize weibo;
 @synthesize wechat;
 @synthesize qq;
+@synthesize range;
 
 #pragma mark - Equal
 
@@ -79,6 +80,58 @@
             return @"other";
             break;
     }
+}
+
+#pragma mark - Range
+
+- (CLProximity)setRangeWithRangeString:(NSString*)rangeString{
+    range = [HAMThing rangeFromRangeString:rangeString];
+    return range;
+}
+
+- (NSString*)rangeString{
+    return [HAMThing rangeStringFromRange:range];
+}
+
++ (CLProximity)rangeFromRangeString:(NSString*)rangeString{
+    if (rangeString == nil) {
+        return CLProximityUnknown;
+    }
+    if ([rangeString isEqualToString:@"immediate"]) {
+        return CLProximityImmediate;
+    }
+    if ([rangeString isEqualToString:@"near"]) {
+        return CLProximityNear;
+    }
+    if ([rangeString isEqualToString:@"far"]) {
+        return CLProximityFar;
+    }
+    
+    [HAMLogTool warn:@"range of thing unknown"];
+    return CLProximityUnknown;
+}
+
++ (NSString*)rangeStringFromRange:(CLProximity)range{
+    NSString* rangeString;
+    switch (range) {
+        case CLProximityImmediate:
+            rangeString = @"immediate";
+            break;
+            
+        case CLProximityNear:
+            rangeString = @"near";
+            break;
+            
+        case CLProximityFar:
+            rangeString = @"far";
+            break;
+            
+        default:
+            [HAMLogTool warn:@"range of thing unknown"];
+            rangeString = @"immediate";
+            break;
+    }
+    return rangeString;
 }
 
 #pragma mark - Cover
