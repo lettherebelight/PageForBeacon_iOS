@@ -94,7 +94,7 @@
 }
 
 + (CLProximity)rangeFromRangeString:(NSString*)rangeString{
-    if (rangeString == nil) {
+    if (rangeString == nil || [rangeString isEqualToString:@""]) {
         return CLProximityUnknown;
     }
     if ([rangeString isEqualToString:@"immediate"]) {
@@ -107,7 +107,7 @@
         return CLProximityFar;
     }
     
-    [HAMLogTool warn:@"range of thing unknown"];
+    [HAMLogTool warn:@"range of thing unknown1"];
     return CLProximityUnknown;
 }
 
@@ -148,7 +148,8 @@
 //    return cover;
 //}
 
-- (void)fetchCover{
+//fetch cover's thumbnail
+/*- (void)fetchCover{
 //    cover = [HAMAVOSManager imageFromFile:self.coverFile];
     AVFile* file = [AVFile fileWithURL:self.coverURL];
     if (file == nil) {
@@ -183,6 +184,6 @@
         }
         self.cover = image;
     }];
-}
+}*/
 
 @end

@@ -394,7 +394,10 @@ static int kHAMCellFavButtonTag = 6;
     //thumbnail = [HAMTools imageFromURL:thing.coverURL];
     //UIImage *image = [HAMTools image:thumbnail staysShapeChangeToSize:imageView.frame.size];
     //imageView.image = image;
-    [imageView setImageWithURL:[NSURL URLWithString:thing.coverURL]];
+    CGSize imageFrame = imageView.frame.size;
+    [imageView setImageWithURL:[NSURL URLWithString:thing.coverURL] completed:^(UIImage* image, NSError* error, SDImageCacheType cacheType){
+        imageView.image = [HAMTools image:image staysShapeChangeToSize:imageFrame];
+    }];
     
     //title
     UILabel *titleLabel = (UILabel*)[view viewWithTag:kHAMCardCellTitleViewTag];
@@ -443,7 +446,11 @@ static int kHAMCellFavButtonTag = 6;
     //thumbnail = [HAMTools imageFromURL:thing.coverURL];
     //UIImage *image = [HAMTools image:thumbnail staysShapeChangeToSize:imageView.frame.size];
     //imageView.image = image;
-    [imageView setImageWithURL:[NSURL URLWithString:thing.coverURL]];
+//    [imageView setImageWithURL:[NSURL URLWithString:thing.coverURL]];
+    CGSize imageFrame = imageView.frame.size;
+    [imageView setImageWithURL:[NSURL URLWithString:thing.coverURL] completed:^(UIImage* image, NSError* error, SDImageCacheType cacheType){
+        imageView.image = [HAMTools image:image staysShapeChangeToSize:imageFrame];
+    }];
     
     //title
     UILabel *titleLabel = (UILabel*)[view viewWithTag:kHAMArtCellTitleViewTag];
