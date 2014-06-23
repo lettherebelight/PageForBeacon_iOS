@@ -7,13 +7,20 @@
 //
 
 #import "HAMFavoritesViewController_iPhone.h"
+
+#import "SVProgressHUD.h"
 #import "HAMCardListViewController_iPhone.h"
+
 #import "HAMTourManager.h"
 #import "HAMAVOSManager.h"
 
 #import "HAMConstants.h"
 
+#import "HAMLogTool.h"
+
 @interface HAMFavoritesViewController_iPhone () <HAMCardListDelegate>
+
+@property Boolean updateThingsFirstTime;
 
 @end
 
@@ -24,23 +31,54 @@
 
 static NSString *kHAMEmbedSegueId = @"embedSegue";
 
-- (NSArray*)updateThings {
-    favoriteThingArray = [NSMutableArray array];
-    [favoriteThingArray addObjectsFromArray:[HAMAVOSManager favoriteThingsOfCurrentUserWithSkip:0 limit:kHAMNumberOfThingsInFirstPage]];
-    return favoriteThingArray;
+#pragma mark - Cardlist Delegate
+
+- (void)updateThingsAsync {
+    [HAMAVOSManager favoriteThingsOfCurrentUserWithSkip:0 limit:kHAMNumberOfThingsInFirstPage target:self callback:@selector(didUpdateThingsWithResult:error:)];
 }
 
-- (NSArray*)loadMoreThings {
-    int count = (int)[favoriteThingArray count];
-    NSArray *appendArray = [HAMAVOSManager favoriteThingsOfCurrentUserWithSkip:count limit:kHAMNumberOfTHingsInNextPage];
-    [favoriteThingArray addObjectsFromArray:appendArray];
-    return favoriteThingArray;
+- (void)didUpdateThingsWithResult:(NSArray*)resultArray error:(NSError*)error{
+    if (error != nil) {
+        [HAMLogTool error:[NSString stringWithFormat:@"error when update things: %@",error.localizedDescription]];
+        [SVProgressHUD showErrorWithStatus:@"刷新thing列表出错。"];
+        return;
+    }
+    
+    if (self.updateThingsFirstTime == YES) {
+        self.updateThingsFirstTime = NO;
+        [SVProgressHUD dismiss];
+    }
+
+    favoriteThingArray = [NSMutableArray arrayWithArray:resultArray];
+    [listViewController didUpdateThingsWithThingArray:favoriteThingArray];
 }
+
+- (void)loadMoreThingsAsync {
+    int count = (int)[favoriteThingArray count];
+    [HAMAVOSManager favoriteThingsOfCurrentUserWithSkip:count limit:kHAMNumberOfTHingsInNextPage target:self callback:@selector(didLoadMoreThingsWithResult:error:)];
+}
+
+- (void)didLoadMoreThingsWithResult:(NSArray*)resultArray error:(NSError*)error{
+    if (error != nil) {
+        [HAMLogTool error:[NSString stringWithFormat:@"error when load more things: %@",error.localizedDescription]];
+        [SVProgressHUD showErrorWithStatus:@"加载更多thing出错。"];
+        return;
+    }
+    
+    [favoriteThingArray addObjectsFromArray:resultArray];
+    [listViewController didLoadMoreThingsWithThingArray:favoriteThingArray];
+}
+
+#pragma mark - View
 
 - (void)initView {
+    //for first time loading
+    [SVProgressHUD showWithMaskType:SVProgressHUDMaskTypeClear];
+    
     self.navigationController.navigationBar.barTintColor = nil;
     favoriteThingArray = [NSMutableArray array];
-    [favoriteThingArray addObjectsFromArray:[HAMAVOSManager favoriteThingsOfCurrentUserWithSkip:0 limit:kHAMNumberOfThingsInFirstPage]];
+//    [favoriteThingArray addObjectsFromArray:[HAMAVOSManager favoriteThingsOfCurrentUserWithSkip:0 limit:kHAMNumberOfThingsInFirstPage]];
+    [self updateThingsAsync];
     if (listViewController != nil) {
         listViewController.source = @"Favorites";
         [listViewController updateWithThingArray:favoriteThingArray scrollToTop:NO];
@@ -59,11 +97,12 @@ static NSString *kHAMEmbedSegueId = @"embedSegue";
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
     
     UIBarButtonItem *temporaryBarButtonItem = [[UIBarButtonItem alloc] init];
     temporaryBarButtonItem.title = @"";
     self.navigationItem.backBarButtonItem = temporaryBarButtonItem;
+    
+    self.updateThingsFirstTime = YES;
 
     [self initView];
 }

@@ -280,7 +280,20 @@
     return [self thingWithThingAVObject:thingObject];
 }
 
-+ (NSArray*)thingsInWorldWithSkip:(int)skip limit:(int)limit{
++ (void)thingsInWorldWithSkip:(int)skip limit:(int)limit target:(id)target callback:(SEL)callback{
+    if (target == nil || callback == nil) {
+        return;
+    }
+    NSArray* params = [NSArray arrayWithObjects:[NSNumber numberWithInt:skip], [NSNumber numberWithInt:limit], target, NSStringFromSelector(callback), nil];
+    [NSThread detachNewThreadSelector:@selector(thingsInWorldSyncWithParams:) toTarget:self withObject:params];
+}
+
++ (void)thingsInWorldSyncWithParams:(NSArray*)params{
+    int skip = [params[0] intValue];
+    int limit = [params[1] intValue];
+    id target = params[2];
+    SEL callback = NSSelectorFromString(params[3]);
+    
     AVQuery* query = [AVQuery queryWithClassName:@"Thing"];
     [query orderByDescending:@"updatedAt"];
     [self setCachePolicyOfQuery:query];
@@ -290,10 +303,17 @@
     NSArray* thingObjectArray = [query findObjects];
     
     if (thingObjectArray == nil || thingObjectArray.count == 0) {
-        return @[];
+        if ([target respondsToSelector:callback]) {
+            [target performSelector:callback withObject:@[] withObject:nil];
+            return;
+        }
     }
     
-    return [self thingsArrayWithThingObjectArray:thingObjectArray];
+    NSArray* resultArray = [self thingsArrayWithThingObjectArray:thingObjectArray];
+    if ([target respondsToSelector:callback]) {
+        [target performSelector:callback withObject:resultArray withObject:nil];
+        return;
+    }
 }
 
 #pragma mark - Thing Save
@@ -548,10 +568,28 @@
 
 #pragma mark - Thing & User Query
 
-+ (NSArray*)thingsOfCurrentUserWithSkip:(int)skip limit:(int)limit{
++ (void)thingsOfCurrentUserWithSkip:(int)skip limit:(int)limit target:(id)target callback:(SEL)callback{
+    if (target == nil || callback == nil) {
+        return;
+    }
+    
+    NSArray* params = [NSArray arrayWithObjects:[NSNumber numberWithInt:skip], [NSNumber numberWithInt:limit], target, NSStringFromSelector(callback), nil];
+    [NSThread detachNewThreadSelector:@selector(thingsOfCurrentUserSyncWithParams:) toTarget:self withObject:params];
+}
+
++ (void)thingsOfCurrentUserSyncWithParams:(NSArray*)params{
+    //TODO: handle error
+    int skip = [params[0] intValue];
+    int limit = [params[1] intValue];
+    id target = params[2];
+    SEL callback = NSSelectorFromString(params[3]);
+    
     AVUser* user = [AVUser currentUser];
     if (user == nil) {
-        return @[];
+        if ([target respondsToSelector:callback]) {
+            [target performSelector:callback withObject:@[] withObject:nil];
+            return;
+        }
     }
     
     AVQuery* query = [AVQuery queryWithClassName:@"Thing"];
@@ -564,10 +602,16 @@
     NSArray* thingObjectArray = [query findObjects];
     
     if (thingObjectArray == nil || thingObjectArray.count == 0) {
-        return @[];
+        if ([target respondsToSelector:callback]) {
+            [target performSelector:callback withObject:@[] withObject:nil];
+            return;
+        }
     }
     
-    return [self thingsArrayWithThingObjectArray:thingObjectArray];
+    NSArray* resultArray = [self thingsArrayWithThingObjectArray:thingObjectArray];
+    if ([target respondsToSelector:callback]) {
+        [target performSelector:callback withObject:resultArray withObject:nil];
+    }
 }
 
 #pragma mark - Thing & User Update
@@ -648,9 +692,26 @@
 
 #pragma mark - Favorites Query
 
-+ (NSArray*)favoriteThingsOfCurrentUserWithSkip:(int)skip limit:(int)limit{
++ (void)favoriteThingsOfCurrentUserWithSkip:(int)skip limit:(int)limit target:(id)target callback:(SEL)callback{
+    if (target == nil || callback == nil) {
+        return;
+    }
+    NSArray* params = [NSArray arrayWithObjects:[NSNumber numberWithInt:skip], [NSNumber numberWithInt:limit], target, NSStringFromSelector(callback), nil];
+    [NSThread detachNewThreadSelector:@selector(favoriteThingsOfCurrentUserSyncWithParams:) toTarget:self withObject:params];
+}
+
++ (void)favoriteThingsOfCurrentUserSyncWithParams:(NSArray*)params{
+    int skip = [params[0] intValue];
+    int limit = [params[1] intValue];
+    id target = params[2];
+    SEL callback = NSSelectorFromString(params[3]);
+    
     if (limit <= 0) {
-        return @[];
+//        return @[];
+        if ([target respondsToSelector:callback]) {
+            [target performSelector:callback withObject:@[] withObject:nil];
+            return;
+        }
     }
     
     AVUser* user = [AVUser currentUser];
@@ -658,23 +719,35 @@
     NSArray* favoritesObjectArray = [user objectForKey:@"favorites"];
     if (favoritesObjectArray == nil || favoritesObjectArray.count == 0) {
         //no favorites
-        return [NSArray array];
+//        return [NSArray array];
+        if ([target respondsToSelector:callback]) {
+            [target performSelector:callback withObject:@[] withObject:nil];
+            return;
+        }
     }
     
-    if (skip >= favoritesObjectArray.count)
-        return @[];
+    if (skip >= favoritesObjectArray.count){
+//        return @[];
+        if ([target respondsToSelector:callback]) {
+            [target performSelector:callback withObject:@[] withObject:nil];
+            return;
+        }
+    }
     
     NSMutableArray* favoritesArray = [NSMutableArray array];
-//    for (int i = skip; i < favoritesObjectArray.count && i < skip + limit; i++) {
     for (long i = MIN(skip + limit - 1, favoritesObjectArray.count - 1); i >= 0 && i >= skip; i--) {
         AVObject* thingObject = favoritesObjectArray[i];
+        //TODO: handle error
         [thingObject fetchIfNeeded];
         
         HAMThing* thing = [self thingWithThingAVObject:thingObject];
         [favoritesArray addObject:thing];
     }
     
-    return [NSArray arrayWithArray:favoritesArray];
+//    return [NSArray arrayWithArray:favoritesArray];
+    if ([target respondsToSelector:callback]) {
+        [target performSelector:callback withObject:favoritesArray withObject:nil];
+    }
 }
 
 + (Boolean)isThingFavoriteOfCurrentUser:(HAMThing*)targetThing{

@@ -119,20 +119,31 @@ static int kHAMCellFavButtonTag = 6;
     // Dispose of any resources that can be recreated.
 }
 
+#pragma mark - Update Data and Load More Data
+
 - (void)doneWithView:(MJRefreshBaseView *)refreshView
 {
     
     // 刷新表格
     
-    // 1.更新数据
-    
     if ([refreshView isKindOfClass:[MJRefreshHeaderView class]]) {
+        //header - update things
         if (delegate) {
-            thingArray = [delegate updateThings];
+            if ([delegate respondsToSelector:@selector(updateThings)]) {
+                thingArray = [delegate updateThings];
+            }
+            else if ([delegate respondsToSelector:@selector(updateThingsAsync)]){
+                [delegate updateThingsAsync];
+                return;
+            }
         }
     } else {
-        if (delegate) {
+        if ([delegate respondsToSelector:@selector(loadMoreThings)]) {
             thingArray = [delegate loadMoreThings];
+        }
+        else if ([delegate respondsToSelector:@selector(loadMoreThingsAsync)]){
+            [delegate loadMoreThingsAsync];
+            return;
         }
     }
     
@@ -140,6 +151,18 @@ static int kHAMCellFavButtonTag = 6;
     
     // (最好在刷新表格后调用)调用endRefreshing可以结束刷新状态
     [refreshView endRefreshing];
+}
+
+- (void)didUpdateThingsWithThingArray:(NSArray*)updatedThingArray{
+    thingArray = updatedThingArray;
+    [self.collectionView reloadData];
+    [_header endRefreshing];
+}
+
+- (void)didLoadMoreThingsWithThingArray:(NSArray*)updatedThingArray{
+    thingArray = updatedThingArray;
+    [self.collectionView reloadData];
+    [_footer endRefreshing];
 }
 
 /*#pragma mark - long press recognizer
@@ -167,11 +190,11 @@ static int kHAMCellFavButtonTag = 6;
     }
 }*/
 
-#pragma mark - 刷新控件的代理方法
+#pragma mark - Pull and Refresh Delegate
 #pragma mark 开始进入刷新状态
 - (void)refreshViewBeginRefreshing:(MJRefreshBaseView *)refreshView
 {
-    NSLog(@"%@----开始进入刷新状态", refreshView.class);
+//    NSLog(@"%@----开始进入刷新状态", refreshView.class);
     
     // 2.2秒后刷新表格UI
     [self performSelector:@selector(doneWithView:) withObject:refreshView afterDelay:2.0f];
@@ -188,15 +211,15 @@ static int kHAMCellFavButtonTag = 6;
 {
     switch (state) {
         case MJRefreshStateNormal:
-            NSLog(@"%@----切换到：普通状态", refreshView.class);
+//            NSLog(@"%@----切换到：普通状态", refreshView.class);
             break;
             
         case MJRefreshStatePulling:
-            NSLog(@"%@----切换到：松开即可刷新的状态", refreshView.class);
+//            NSLog(@"%@----切换到：松开即可刷新的状态", refreshView.class);
             break;
             
         case MJRefreshStateRefreshing:
-            NSLog(@"%@----切换到：正在刷新状态", refreshView.class);
+//            NSLog(@"%@----切换到：正在刷新状态", refreshView.class);
             break;
         default:
             break;

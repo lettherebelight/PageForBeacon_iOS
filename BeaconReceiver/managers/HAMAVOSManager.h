@@ -57,7 +57,7 @@
 #pragma mark - Thing Query
 
 + (HAMThing*)thingWithObjectID:(NSString*)objectID;
-+ (NSArray*)thingsInWorldWithSkip:(int)skip limit:(int)limit;
++ (void)thingsInWorldWithSkip:(int)skip limit:(int)limit target:(id)target callback:(SEL)callback;
 
 #pragma mark - Thing Save
 
@@ -90,7 +90,7 @@
 
 #pragma mark - Thing & User Query
 
-+ (NSArray*)thingsOfCurrentUserWithSkip:(int)skip limit:(int)limit;
++ (void)thingsOfCurrentUserWithSkip:(int)skip limit:(int)limit target:(id)target callback:(SEL)callback;
 
 #pragma mark - Thing & User Update
 
@@ -115,7 +115,7 @@
 #pragma mark - Favorites Query
 
 //+ (NSArray*)allFavoriteThingsOfCurrentUser;
-+ (NSArray*)favoriteThingsOfCurrentUserWithSkip:(int)skip limit:(int)limit;
++ (void)favoriteThingsOfCurrentUserWithSkip:(int)skip limit:(int)limit target:(id)target callback:(SEL)callback;
 + (Boolean)isThingFavoriteOfCurrentUser:(HAMThing*)targetThing;
 
 #pragma mark - Favorites Save

@@ -9,18 +9,23 @@
 #import "HAMDiscoverViewController_iPhone.h"
 
 #import "HAMCardListViewController_iPhone.h"
+#import "OLImage.h"
+#import "OLImageView.h"
+#import "SVProgressHUD.h"
 
 #import "HAMThing.h"
 #import "HAMConstants.h"
 
-#import "OLImage.h"
-#import "OLImageView.h"
-
 #import "HAMAVOSManager.h"
+
+#import "HAMLogTool.h"
+
 
 @interface HAMDiscoverViewController_iPhone ()
 
 @property HAMThing* oldTopThing;
+
+@property Boolean updateThingsFirstTime;
 
 @end
 
@@ -44,23 +49,55 @@ static NSString *kHAMEmbedSegueId = @"embedSegue";
 
 static int kHAMDefaultViewTag = 22;
 
-#pragma mark - card list delegate
-- (NSArray*)updateThings {
+#pragma mark - Cardlist Delegate
+- (void)updateThingsAsync {
     if (discoverStatus == WORLD) {
-        thingsInWorld = [NSMutableArray array];
-        [thingsInWorld addObjectsFromArray:[HAMAVOSManager thingsInWorldWithSkip:0 limit:kHAMNumberOfThingsInFirstPage]];
-        return thingsInWorld;
+        [HAMAVOSManager thingsInWorldWithSkip:0 limit:kHAMNumberOfThingsInFirstPage target:self callback:@selector(didUpdateThingsWithResult:error:)];
+    } else {
+        //FIXME: turn flush into fetch someday
+        [listViewController didUpdateThingsWithThingArray:thingsAround];
     }
-    return thingsAround;
 }
 
-- (NSArray*)loadMoreThings {
+- (void)didUpdateThingsWithResult:(NSArray*)resultArray error:(NSError*)error{
+    if (discoverStatus != WORLD) {
+        return;
+    }
+    
+    if (error != nil) {
+        [HAMLogTool error:[NSString stringWithFormat:@"error when update things: %@",error.localizedDescription]];
+        [SVProgressHUD showErrorWithStatus:@"刷新thing列表出错。"];
+        return;
+    }
+    
+    if (self.updateThingsFirstTime == YES) {
+        self.updateThingsFirstTime = NO;
+        [SVProgressHUD dismiss];
+    }
+    
+    thingsInWorld = [NSMutableArray arrayWithArray:resultArray];
+    [listViewController didUpdateThingsWithThingArray:thingsInWorld];
+}
+
+- (void)loadMoreThingsAsync {
     if (discoverStatus == WORLD) {
         int count = (int)[thingsInWorld count];
-        [thingsInWorld addObjectsFromArray:[HAMAVOSManager thingsInWorldWithSkip:count limit:kHAMNumberOfTHingsInNextPage]];
-        return thingsInWorld;
+        [HAMAVOSManager thingsInWorldWithSkip:count limit:kHAMNumberOfTHingsInNextPage target:self callback:@selector(didLoadMoreThingsWithResult:error:)];
+    } else {
+        [listViewController didLoadMoreThingsWithThingArray:thingsAround];
     }
-    return thingsAround;
+}
+
+- (void)didLoadMoreThingsWithResult:(NSArray*)resultArray error:(NSError*)error{
+    
+    if (error != nil) {
+        [HAMLogTool error:[NSString stringWithFormat:@"error when load more things: %@",error.localizedDescription]];
+        [SVProgressHUD showErrorWithStatus:@"加载更多thing出错。"];
+        return;
+    }
+    
+    [thingsInWorld addObjectsFromArray:resultArray];
+    [listViewController didLoadMoreThingsWithThingArray:thingsInWorld];
 }
 
 #pragma mark - actions
@@ -82,6 +119,14 @@ static int kHAMDefaultViewTag = 22;
         }
         if (listViewController != nil) {
             listViewController.source = @"World";
+            
+            //for first time loading
+            if (self.updateThingsFirstTime) {
+                [SVProgressHUD showWithMaskType:SVProgressHUDMaskTypeClear];
+                thingsInWorld = [NSMutableArray array];
+                [self updateThingsAsync];
+            }
+            
             [listViewController updateWithThingArray:thingsInWorld scrollToTop:YES];
         }
     }
@@ -144,7 +189,8 @@ static int kHAMDefaultViewTag = 22;
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
+    
+    self.updateThingsFirstTime = YES;
     
     defaultView = nil;
     discoverStatus = AROUND;
@@ -160,8 +206,6 @@ static int kHAMDefaultViewTag = 22;
     [[HAMBeaconManager beaconManager] stopMonitor];
     [[HAMBeaconManager beaconManager] startMonitor];
     
-    thingsInWorld = [NSMutableArray array];
-    [thingsInWorld addObjectsFromArray:[HAMAVOSManager thingsInWorldWithSkip:0 limit:kHAMNumberOfThingsInFirstPage]];
     
     //set default view
     defaultView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, self.view.frame.size.height)];
@@ -203,11 +247,8 @@ static int kHAMDefaultViewTag = 22;
 
 #pragma mark - Navigation
 
-// In a storyboard-based application, you will often want to do a little preparation before navigation
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
     if ([segue.identifier isEqualToString:kHAMEmbedSegueId]) {
         if ([segue.destinationViewController isKindOfClass:[HAMCardListViewController_iPhone class]]) {
             listViewController = segue.destinationViewController;

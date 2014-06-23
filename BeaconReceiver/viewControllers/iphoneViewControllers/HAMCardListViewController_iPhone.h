@@ -12,10 +12,12 @@
 
 @protocol HAMCardListDelegate <NSObject>
 
-- (NSArray*)updateThings;
-- (NSArray*)loadMoreThings;
-
 @optional
+
+- (NSArray*)updateThings;
+- (void)updateThingsAsync;
+- (NSArray*)loadMoreThings;
+- (void)loadMoreThingsAsync;
 //- (void)cellLongPressed:(HAMThing*)thing;
 - (void)cellClicked:(HAMThing*)thing;
 
@@ -32,6 +34,9 @@
 
 //for analystic events
 @property NSString* source;
+
+- (void)didUpdateThingsWithThingArray:(NSArray*)updatedThingArray;
+- (void)didLoadMoreThingsWithThingArray:(NSArray*)updatedThingArray;
 
 - (void)updateViewScrollToTop:(BOOL)needScroll;
 - (void)updateWithThingArray:(NSArray*)array scrollToTop:(BOOL)needScroll;

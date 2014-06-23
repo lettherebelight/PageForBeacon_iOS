@@ -107,7 +107,7 @@
         return CLProximityFar;
     }
     
-    [HAMLogTool warn:@"range of thing unknown1"];
+    [HAMLogTool warn:@"range of thing unknown"];
     return CLProximityUnknown;
 }
 
