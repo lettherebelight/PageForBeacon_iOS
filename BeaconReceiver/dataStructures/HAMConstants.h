@@ -23,10 +23,14 @@ static int kHAMMaxOwnBeaconCount = 5;
 static int kHAMNumberOfThingsInFirstPage = 5;
 static int kHAMNumberOfTHingsInNextPage = 3;
 
-static double kHAMThingTypeArtThumbnailHeight = 0.0f;
-static double kHAMThingTypeArtThumbnailWidth = 0.0f;
+static double kHAMThingTypeArtThumbnailHeight = 283.0f;
+static double kHAMThingTypeArtThumbnailWidth = 160.0f;
 static double kHAMThingTypeCardThumbnailHeight = 0.0f;
 static double kHAMThingTypeCardThumbnailWidth = 0.0f;
+
+#pragma mark - Notification
+
+static float kHAMNotificationMinTimeInteval = 3600.0f;
 
 @interface HAMConstants : NSObject
 

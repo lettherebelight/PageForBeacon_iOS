@@ -41,7 +41,7 @@
                                     <action selector="logInFromWeibo:" destination="R2C-Bb-sFj" eventType="touchUpInside" id="lGj-uQ-NEe"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7Rv-Am-CiS">
+                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7Rv-Am-CiS">
                                 <rect key="frame" x="35" y="405" width="250" height="50"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <constraints>
@@ -514,6 +514,9 @@
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="UyS-NW-s7I">
                                 <rect key="frame" x="18" y="0.0" width="286" height="513"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="513" id="IjL-zP-VbH"/>
+                                </constraints>
                             </scrollView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
@@ -521,7 +524,6 @@
                             <constraint firstAttribute="trailing" secondItem="UyS-NW-s7I" secondAttribute="trailing" constant="16" id="5ur-Wd-EBq"/>
                             <constraint firstItem="UyS-NW-s7I" firstAttribute="top" secondItem="4eM-ZS-a2n" secondAttribute="top" id="O0E-HL-buC"/>
                             <constraint firstItem="UyS-NW-s7I" firstAttribute="leading" secondItem="7W0-Nt-E9q" secondAttribute="leading" constant="18" id="aaF-zs-VI2"/>
-                            <constraint firstItem="4sn-bo-Csh" firstAttribute="top" secondItem="UyS-NW-s7I" secondAttribute="bottom" constant="6" id="kGp-hK-JEq"/>
                             <constraint firstItem="UyS-NW-s7I" firstAttribute="top" secondItem="7W0-Nt-E9q" secondAttribute="top" id="u4a-Cu-byr"/>
                         </constraints>
                     </view>
@@ -782,6 +784,9 @@
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="vqt-17-vgF">
                                 <rect key="frame" x="18" y="0.0" width="286" height="513"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="513" id="CPU-I8-luJ"/>
+                                </constraints>
                             </scrollView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
@@ -789,7 +794,6 @@
                             <constraint firstItem="vqt-17-vgF" firstAttribute="leading" secondItem="f2q-eK-fY9" secondAttribute="leading" constant="18" id="008-tG-2aU"/>
                             <constraint firstItem="vqt-17-vgF" firstAttribute="top" secondItem="EO3-tn-ufY" secondAttribute="top" id="PDN-AK-A6Q"/>
                             <constraint firstAttribute="trailing" secondItem="vqt-17-vgF" secondAttribute="trailing" constant="16" id="Qom-uZ-fie"/>
-                            <constraint firstItem="4l8-ZT-GTv" firstAttribute="top" secondItem="vqt-17-vgF" secondAttribute="bottom" constant="6" id="c5c-GB-oHu"/>
                             <constraint firstItem="vqt-17-vgF" firstAttribute="top" secondItem="f2q-eK-fY9" secondAttribute="top" id="fom-wY-DSr"/>
                         </constraints>
                     </view>
@@ -943,6 +947,10 @@
                                                     <state key="selected" image="common_icon_liked_selected.png"/>
                                                     <state key="highlighted" image="common_icon_like_selected.png"/>
                                                 </button>
+                                                <imageView userInteractionEnabled="NO" tag="7" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="common_icon_binded.png" translatesAutoresizingMaskIntoConstraints="NO" id="mtB-fX-oYv">
+                                                    <rect key="frame" x="5" y="7" width="22" height="22"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                </imageView>
                                             </subviews>
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         </view>
@@ -1006,6 +1014,10 @@
                                                     <state key="selected" image="common_icon_liked_selected.png"/>
                                                     <state key="highlighted" image="common_icon_like_selected.png"/>
                                                 </button>
+                                                <imageView userInteractionEnabled="NO" tag="7" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="common_icon_binded.png" translatesAutoresizingMaskIntoConstraints="NO" id="tNn-A7-Qpi">
+                                                    <rect key="frame" x="7" y="8" width="22" height="22"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                </imageView>
                                             </subviews>
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         </view>
@@ -1163,6 +1175,7 @@
         <image name="common_card_namecard_frame.jpg" width="569" height="282"/>
         <image name="common_card_purchase.png" width="254" height="208"/>
         <image name="common_icon_adduuid.png" width="22" height="22"/>
+        <image name="common_icon_binded.png" width="22" height="22"/>
         <image name="common_icon_comment_normal.png" width="22" height="22"/>
         <image name="common_icon_comment_selected.png" width="22" height="22"/>
         <image name="common_icon_discover_normal.png" width="22" height="22"/>

@@ -329,7 +329,9 @@ static HAMThingType kHAMDefaultThingType = HAMThingTypeArt;
 -(void)textFieldDidBeginEditing:(UITextField *)textField
 {
     CGRect frame = textField.frame;
-    int offset = self.view.frame.origin.y + frame.origin.y + frame.size.height + 38.0f - (self.view.frame.size.height - 216.0);//键盘高度216
+    
+    UIScrollView *superScrollView = (UIScrollView*)self.view.superview;
+    int offset = self.view.frame.origin.y + frame.origin.y - superScrollView.contentOffset.y + frame.size.height + 180.0f - (self.view.frame.size.height - 216.0);//键盘高度216
     
     NSTimeInterval animationDuration = 0.30f;
     [UIView beginAnimations:@"ResizeForKeyboard" context:nil];
@@ -351,7 +353,8 @@ static HAMThingType kHAMDefaultThingType = HAMThingTypeArt;
 -(void)textViewDidBeginEditing:(UITextView *)textView
 {
     CGRect frame = textView.frame;
-    int offset = self.view.frame.origin.y + frame.origin.y + frame.size.height + 38.0f - (self.view.frame.size.height - 216.0);//键盘高度216
+    UIScrollView *superScrollView = (UIScrollView*)self.view.superview;
+    int offset = self.view.frame.origin.y + frame.origin.y - superScrollView.contentOffset.y + frame.size.height + 160.0f - (self.view.frame.size.height - 216.0);//键盘高度216
     
     NSTimeInterval animationDuration = 0.30f;
     [UIView beginAnimations:@"ResizeForKeyboard" context:nil];

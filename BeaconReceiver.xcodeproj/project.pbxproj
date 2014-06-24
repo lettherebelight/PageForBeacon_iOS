@@ -218,6 +218,12 @@
 		66B163041906A0F000EFE554 /* libEstimoteSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 66B163021906A0F000EFE554 /* libEstimoteSDK.a */; };
 		66C5EB1818CE9B6800B8A666 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 66C5EB1718CE9B6700B8A666 /* MapKit.framework */; };
 		66C77DBB1921CEB300AD87A4 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6636EC5F18B39EF000F94E6C /* Images.xcassets */; };
+		66D1CDA019596FE300BF0CAF /* HAMUserDefaultManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 66D1CD9F19596FE300BF0CAF /* HAMUserDefaultManager.m */; };
+		66D1CDA119596FE300BF0CAF /* HAMUserDefaultManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 66D1CD9F19596FE300BF0CAF /* HAMUserDefaultManager.m */; };
+		66D1CDA419599FB200BF0CAF /* common_icon_binded.png in Resources */ = {isa = PBXBuildFile; fileRef = 66D1CDA219599FB200BF0CAF /* common_icon_binded.png */; };
+		66D1CDA519599FB200BF0CAF /* common_icon_binded.png in Resources */ = {isa = PBXBuildFile; fileRef = 66D1CDA219599FB200BF0CAF /* common_icon_binded.png */; };
+		66D1CDA619599FB200BF0CAF /* common_icon_binded@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 66D1CDA319599FB200BF0CAF /* common_icon_binded@2x.png */; };
+		66D1CDA719599FB200BF0CAF /* common_icon_binded@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 66D1CDA319599FB200BF0CAF /* common_icon_binded@2x.png */; };
 		66D9B882193B6BAE0060F9A2 /* MyInfo_iPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = 66D9B881193B6BAE0060F9A2 /* MyInfo_iPhone.xib */; };
 		66D9B883193B6BAE0060F9A2 /* MyInfo_iPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = 66D9B881193B6BAE0060F9A2 /* MyInfo_iPhone.xib */; };
 		66D9B886193B6FD20060F9A2 /* HAMMyInfoContentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 66D9B885193B6FD20060F9A2 /* HAMMyInfoContentViewController.m */; };
@@ -232,6 +238,7 @@
 		66D9B89C193CFB7A0060F9A2 /* MJRefreshFooterView.m in Sources */ = {isa = PBXBuildFile; fileRef = 66D9B892193CFB7A0060F9A2 /* MJRefreshFooterView.m */; };
 		66D9B89D193CFB7A0060F9A2 /* MJRefreshHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 66D9B894193CFB7A0060F9A2 /* MJRefreshHeaderView.m */; };
 		66D9B89E193CFB7A0060F9A2 /* MJRefreshHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 66D9B894193CFB7A0060F9A2 /* MJRefreshHeaderView.m */; };
+		66E5F4C61959BA420012DCB1 /* common_icon_comment_normal@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 66E5F4C51959BA420012DCB1 /* common_icon_comment_normal@2x.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -423,6 +430,10 @@
 		66B162FC1905517100EFE554 /* CoreBluetooth.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreBluetooth.framework; path = System/Library/Frameworks/CoreBluetooth.framework; sourceTree = SDKROOT; };
 		66B163021906A0F000EFE554 /* libEstimoteSDK.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libEstimoteSDK.a; path = BeaconReceiver/EstimoteSDK/libEstimoteSDK.a; sourceTree = "<group>"; };
 		66C5EB1718CE9B6700B8A666 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
+		66D1CD9E19596FE300BF0CAF /* HAMUserDefaultManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HAMUserDefaultManager.h; path = BeaconReceiver/managers/HAMUserDefaultManager.h; sourceTree = "<group>"; };
+		66D1CD9F19596FE300BF0CAF /* HAMUserDefaultManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HAMUserDefaultManager.m; path = BeaconReceiver/managers/HAMUserDefaultManager.m; sourceTree = "<group>"; };
+		66D1CDA219599FB200BF0CAF /* common_icon_binded.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = common_icon_binded.png; sourceTree = "<group>"; };
+		66D1CDA319599FB200BF0CAF /* common_icon_binded@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "common_icon_binded@2x.png"; sourceTree = "<group>"; };
 		66D9B881193B6BAE0060F9A2 /* MyInfo_iPhone.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MyInfo_iPhone.xib; sourceTree = "<group>"; };
 		66D9B884193B6FD20060F9A2 /* HAMMyInfoContentViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HAMMyInfoContentViewController.h; sourceTree = "<group>"; };
 		66D9B885193B6FD20060F9A2 /* HAMMyInfoContentViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HAMMyInfoContentViewController.m; sourceTree = "<group>"; };
@@ -436,6 +447,7 @@
 		66D9B892193CFB7A0060F9A2 /* MJRefreshFooterView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MJRefreshFooterView.m; sourceTree = "<group>"; };
 		66D9B893193CFB7A0060F9A2 /* MJRefreshHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MJRefreshHeaderView.h; sourceTree = "<group>"; };
 		66D9B894193CFB7A0060F9A2 /* MJRefreshHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MJRefreshHeaderView.m; sourceTree = "<group>"; };
+		66E5F4C51959BA420012DCB1 /* common_icon_comment_normal@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "common_icon_comment_normal@2x.png"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -601,6 +613,8 @@
 				669BDB01190953E6006E99D6 /* HAMCommentsManager.m */,
 				668090F81927723500395A88 /* HAMAVOSManager.h */,
 				668090F91927723500395A88 /* HAMAVOSManager.m */,
+				66D1CD9E19596FE300BF0CAF /* HAMUserDefaultManager.h */,
+				66D1CD9F19596FE300BF0CAF /* HAMUserDefaultManager.m */,
 			);
 			name = managers;
 			path = ..;
@@ -768,6 +782,9 @@
 		6670E20F193090DA007DC18D /* icon */ = {
 			isa = PBXGroup;
 			children = (
+				66E5F4C51959BA420012DCB1 /* common_icon_comment_normal@2x.png */,
+				66D1CDA219599FB200BF0CAF /* common_icon_binded.png */,
+				66D1CDA319599FB200BF0CAF /* common_icon_binded@2x.png */,
 				6670E2781931CEB4007DC18D /* common_icon_qq_infio.png */,
 				6670E2791931CEB4007DC18D /* common_icon_web_info.png */,
 				6670E27A1931CEB4007DC18D /* common_icon_wechat_info.png */,
@@ -1056,6 +1073,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				6670E27C1931CEB4007DC18D /* common_icon_qq_infio.png in Resources */,
+				66E5F4C61959BA420012DCB1 /* common_icon_comment_normal@2x.png in Resources */,
 				66B162EC1900081800EFE554 /* fav-selected-pressed.png in Resources */,
 				6670E27D1931CEB4007DC18D /* common_icon_web_info.png in Resources */,
 				6670E24D193098DB007DC18D /* common_icon_me_normal.png in Resources */,
@@ -1069,6 +1087,7 @@
 				660886C0193F7E3000DAB867 /* me_logout_bg.png in Resources */,
 				6670E2691931BE33007DC18D /* common_icon_comment_selected.png in Resources */,
 				6670E26A1931BE33007DC18D /* common_icon_discover_normal.png in Resources */,
+				66D1CDA419599FB200BF0CAF /* common_icon_binded.png in Resources */,
 				6668B6C518F7D47F00A12655 /* index_image.png in Resources */,
 				6636EC5B18B39EF000F94E6C /* Main_iPad.storyboard in Resources */,
 				667965C21917BB5600D9C4FF /* ios7-eye-outline@2x.png in Resources */,
@@ -1078,6 +1097,7 @@
 				6670E1EA192DA62B007DC18D /* common_card_comment.jpg in Resources */,
 				667965B71917BB5100D9C4FF /* ios7-heart-outline.png in Resources */,
 				6670E209192EEAD9007DC18D /* me_info_frame.png in Resources */,
+				66D1CDA619599FB200BF0CAF /* common_icon_binded@2x.png in Resources */,
 				66D9B895193CFB7A0060F9A2 /* MJRefresh.bundle in Resources */,
 				66B162FA1900171700EFE554 /* fav-normal.png in Resources */,
 				66B162F7190009DC00EFE554 /* reset-normal.png in Resources */,
@@ -1159,6 +1179,7 @@
 				6670E205192EEACE007DC18D /* common_card_purchase.png in Resources */,
 				6670E20C192EEAD9007DC18D /* me_logout_btn.png in Resources */,
 				6670E1F2192DEDE1007DC18D /* common_bg.jpg in Resources */,
+				66D1CDA519599FB200BF0CAF /* common_icon_binded.png in Resources */,
 				6670E202192E1D01007DC18D /* me_beacons_unbinded.jpg in Resources */,
 				6670E1FC192E1D01007DC18D /* me_beacons_add.jpg in Resources */,
 				6670E20A192EEAD9007DC18D /* me_info_frame.png in Resources */,
@@ -1166,6 +1187,7 @@
 				660886C1193F7E3000DAB867 /* me_logout_bg.png in Resources */,
 				66C77DBB1921CEB300AD87A4 /* Images.xcassets in Resources */,
 				66D9B896193CFB7A0060F9A2 /* MJRefresh.bundle in Resources */,
+				66D1CDA719599FB200BF0CAF /* common_icon_binded@2x.png in Resources */,
 				6670E20E192EEAD9007DC18D /* me_save_btn.png in Resources */,
 				6670E1E7192DA62B007DC18D /* common_card_cardtype_people.jpg in Resources */,
 				6670E1E5192DA62B007DC18D /* common_card_art_frame.jpg in Resources */,
@@ -1242,6 +1264,7 @@
 				66B01AE218D5DCAB00CD5EDF /* Reachability.m in Sources */,
 				664279E6192CC1E500B5D964 /* HAMMyInfoViewController.m in Sources */,
 				660886C31940508A00DAB867 /* HAMThing.m in Sources */,
+				66D1CDA019596FE300BF0CAF /* HAMUserDefaultManager.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1269,6 +1292,7 @@
 				667965921917ACC800D9C4FF /* OLImageView.m in Sources */,
 				668090F71926358B00395A88 /* HAMThing.m in Sources */,
 				66B01AE318D5DCAB00CD5EDF /* Reachability.m in Sources */,
+				66D1CDA119596FE300BF0CAF /* HAMUserDefaultManager.m in Sources */,
 				66D9B887193B6FD20060F9A2 /* HAMMyInfoContentViewController.m in Sources */,
 				66A9A73A190D04D40043639A /* HAMIndexViewController_iPhone.m in Sources */,
 				668090F319262DE400395A88 /* HAMBeaconDictionary.m in Sources */,

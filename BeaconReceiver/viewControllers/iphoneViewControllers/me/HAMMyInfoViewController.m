@@ -49,7 +49,8 @@
     CGRect frame = self.contentViewController.view.frame;
     frame.origin.y = 93.0f;
     self.contentViewController.view.frame = frame;
-    frame.size.height += 93.0f;
+    //"+ frame.size.height - self.view.frame.size.height" so that it looks right on both 3.5-inch and 4-inch screen
+    frame.size.height += 93.0f + frame.size.height - self.view.frame.size.height;
     self.scrollView.contentSize = frame.size;
     
     //hide scrollview's scroll indicator

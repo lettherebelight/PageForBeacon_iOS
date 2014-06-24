@@ -15,6 +15,7 @@
 #import "HAMThingManager.h"
 #import "HAMTourManager.h"
 #import "HAMAVOSManager.h"
+#import "HAMUserDefaultManager.h"
 
 #import "HAMLogTool.h"
 #import "HAMTools.h"
@@ -239,6 +240,49 @@ static double kHAMRefreshBeaconDictionaryTimeInteval = 1.0f;
     
 }
 
+- (void)locationManager:(CLLocationManager *)manager didRangeBeacons:(NSArray *)rawBeaconArray inRegion:(CLBeaconRegion *)region {
+    
+    if (rawBeaconArray == nil) {
+        return;
+    }
+    
+    //remove "-1" beacons from top
+    int i;
+    for (i = 0; i < rawBeaconArray.count; i++) {
+        CLBeacon* beacon = rawBeaconArray[i];
+        if (beacon.accuracy > 0) {
+            //no more "-1"
+            break;
+        }
+    }
+    
+    NSArray* beaconArray;
+    if(i < rawBeaconArray.count){
+        beaconArray = [rawBeaconArray subarrayWithRange:NSMakeRange(i, rawBeaconArray.count - i)];
+    } else {
+        beaconArray = [NSArray array];
+    }
+    
+    //notification
+    if (isInBackground && beaconArray.count > 0) {
+        CLBeacon* firstBeacon = beaconArray[0];
+        HAMThing* thing = [HAMAVOSManager thingWithBeacon:firstBeacon];
+        
+        if (thing.objectID != nil) {
+            if ([HAMUserDefaultManager isThingNotificatedRecently:thing] == NO) {
+                [self notificateWithThing:thing];
+                [HAMUserDefaultManager recordThingNotificated:thing];
+            }
+        }
+    }
+    
+    //update beaconDictionary
+    NSString* uuid = region.proximityUUID.UUIDString;
+    [beaconDictionary setObject:beaconArray forKey:uuid];
+}
+
+#pragma mark - Thing Operations
+
 - (void)notificateWithThing:(HAMThing*)thing {
     if (thing == nil) {
         return;
@@ -267,59 +311,6 @@ static double kHAMRefreshBeaconDictionaryTimeInteval = 1.0f;
     }
     localNotification.soundName = UILocalNotificationDefaultSoundName;
     [[UIApplication sharedApplication] presentLocalNotificationNow:localNotification];
-}
-
-- (void)flushBeaconDictionary {
-    /*NSArray *keyArray = [beaconDictionary allKeys];
-    for (id key in keyArray) {
-        NSArray *beacons = [beaconDictionary objectForKey:key];
-        for (CLBeacon *beacon in beacons) {
-            if (beacon.accuracy < 0 || beacon.proximity == CLProximityUnknown || beacon.proximity > [HAMAVOSManager rangeOfBeacon:beacon]) {
-                [self removeBeacon:beacon];
-                continue;
-            }
-            if ([self removeBeacon:beacon] == NO && isInBackground == YES) {
-                HAMThing *thing = [HAMAVOSManager thingWithBeacon:beacon];
-                if (thing != nil) {
-                    [self notificateWithThing:thing];
-                }
-            }
-            [self addBeacon:beacon];
-        }
-    }
-    [self showThings];*/
-    NSMutableArray* beaconArray = [NSMutableArray array];
-    
-    //add all valid beacons to array
-    NSArray* keyArray = [beaconDictionary allKeys];
-    for (int i = 0; i < keyArray.count; i++) {
-        NSString* key = keyArray[i];
-        NSArray* beacons = [beaconDictionary objectForKey:key];
-        for (int j = 0; j < beacons.count; j++) {
-            CLBeacon* beacon = beacons[j];
-            if (beacon == nil || beacon.accuracy < 0 || beacon.proximity == CLProximityUnknown) {
-                continue;
-            }
-            if (beacon.proximity <= [HAMAVOSManager rangeOfBeacon:beacon]) {
-                [beaconArray addObject:beacon];
-            }
-        }
-    }
-    
-    //sort beacons by accuracy
-    NSArray *sortedBeaconArray = [beaconArray sortedArrayUsingComparator:^NSComparisonResult(CLBeacon* beacon1, CLBeacon* beacon2) {
-        
-        if (beacon1.accuracy < beacon2.accuracy) {
-            return NSOrderedAscending;
-        }
-        
-        return NSOrderedDescending;
-    }];
-//    for (int i = 0; i < 1 && i < sortedBeaconArray.count; i ++) {
-//        CLBeacon* beacon = sortedBeaconArray[i];
-//        NSLog(@"beacon %@ #%d:%lf", beacon.major, i, [sortedBeaconArray[i] accuracy]);
-//    }
-    [self showThingsWithBeaconArray:[NSArray arrayWithArray:sortedBeaconArray]];
 }
 
 - (void)showThingsWithBeaconArray:(NSArray*)beaconArray {
@@ -356,7 +347,7 @@ static double kHAMRefreshBeaconDictionaryTimeInteval = 1.0f;
     if (thingsAround != nil && [thingsAround count] > 0) {
         nearestThing = thingsAround[0];
     }
-    if (/*isInBackground == NO || */nearestThing == nil) {
+    if (isInBackground == NO || nearestThing == nil) {
         return;
     }
 //    if ([nearestThing isEqualToThing:previousNearestThing] == NO) {
@@ -364,41 +355,6 @@ static double kHAMRefreshBeaconDictionaryTimeInteval = 1.0f;
 //    }
 }
 
-- (void)locationManager:(CLLocationManager *)manager didRangeBeacons:(NSArray *)rawBeaconArray inRegion:(CLBeaconRegion *)region {
-    
-    if (rawBeaconArray == nil) {
-        return;
-    }
-    
-    //rotate beacons array, remove "-1" beacons from top and insert into end
-    //remove "-1" beacons from top
-    int i;
-    for (i = 0; i < rawBeaconArray.count; i++) {
-        CLBeacon* beacon = rawBeaconArray[i];
-        if (beacon.accuracy > 0) {
-            //no more "-1"
-            break;
-        }
-    }
-    
-    NSArray* beaconArray;
-    if(i < rawBeaconArray.count){
-        beaconArray = [rawBeaconArray subarrayWithRange:NSMakeRange(i, rawBeaconArray.count - i)];
-    } else {
-        beaconArray = [NSArray array];
-    }
-    
-    //notification
-    if (isInBackground && beaconArray.count > 0) {
-        CLBeacon* firstBeacon = beaconArray[0];
-        HAMThing* thing = [HAMAVOSManager thingWithBeacon:firstBeacon];
-        [self notificateWithThing:thing];
-    }
-    
-    //update beaconDictionary
-    NSString* uuid = region.proximityUUID.UUIDString;
-    [beaconDictionary setObject:beaconArray forKey:uuid];
-}
 
 #pragma mark - BeaconDictionary Methods
 
@@ -408,6 +364,59 @@ static double kHAMRefreshBeaconDictionaryTimeInteval = 1.0f;
 
 - (NSString*)descriptionOfUUID:(NSString*)uuid{
     return [self.descriptionDictionary objectForKey:uuid];
+}
+
+- (void)flushBeaconDictionary {
+    /*NSArray *keyArray = [beaconDictionary allKeys];
+     for (id key in keyArray) {
+     NSArray *beacons = [beaconDictionary objectForKey:key];
+     for (CLBeacon *beacon in beacons) {
+     if (beacon.accuracy < 0 || beacon.proximity == CLProximityUnknown || beacon.proximity > [HAMAVOSManager rangeOfBeacon:beacon]) {
+     [self removeBeacon:beacon];
+     continue;
+     }
+     if ([self removeBeacon:beacon] == NO && isInBackground == YES) {
+     HAMThing *thing = [HAMAVOSManager thingWithBeacon:beacon];
+     if (thing != nil) {
+     [self notificateWithThing:thing];
+     }
+     }
+     [self addBeacon:beacon];
+     }
+     }
+     [self showThings];*/
+    NSMutableArray* beaconArray = [NSMutableArray array];
+    
+    //add all valid beacons to array
+    NSArray* keyArray = [beaconDictionary allKeys];
+    for (int i = 0; i < keyArray.count; i++) {
+        NSString* key = keyArray[i];
+        NSArray* beacons = [beaconDictionary objectForKey:key];
+        for (int j = 0; j < beacons.count; j++) {
+            CLBeacon* beacon = beacons[j];
+            if (beacon == nil || beacon.accuracy < 0 || beacon.proximity == CLProximityUnknown) {
+                continue;
+            }
+            if (beacon.proximity <= [HAMAVOSManager rangeOfBeacon:beacon]) {
+                [beaconArray addObject:beacon];
+            }
+        }
+    }
+    
+    //sort beacons by accuracy
+    NSArray *sortedBeaconArray = [beaconArray sortedArrayUsingComparator:^NSComparisonResult(CLBeacon* beacon1, CLBeacon* beacon2) {
+        
+        if (beacon1.accuracy < beacon2.accuracy) {
+            return NSOrderedAscending;
+        }
+        
+        return NSOrderedDescending;
+    }];
+    //    for (int i = 0; i < 1 && i < sortedBeaconArray.count; i ++) {
+    //        CLBeacon* beacon = sortedBeaconArray[i];
+    //        NSLog(@"beacon %@ #%d:%lf", beacon.major, i, [sortedBeaconArray[i] accuracy]);
+    //    }
+    [self showThingsWithBeaconArray:[NSArray arrayWithArray:sortedBeaconArray]];
 }
 
 #pragma mark - Utils

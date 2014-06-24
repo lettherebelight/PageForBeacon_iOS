@@ -220,6 +220,8 @@
     [thingObject setObject:thing.content forKey:@"content"];
     
     if (shouldSaveCover) {
+        //TODO:
+        thing.cover = [HAMTools image:thing.cover changeToMinSize:CGSizeMake(kHAMThingTypeArtThumbnailWidth, kHAMThingTypeArtThumbnailHeight)];
         AVFile* coverFile = [self saveImage:thing.cover];
         if (coverFile != nil) {
             [thingObject setObject:coverFile forKey:@"cover"];
@@ -679,7 +681,7 @@
         return nil;
     }
     
-    NSData *imageData = UIImageJPEGRepresentation(image, 0.75);
+    NSData *imageData = UIImageJPEGRepresentation(image, 0.5);
     AVFile *file = [AVFile fileWithData:imageData];
     if ([file save] == NO) {
         [HAMLogTool error:@"save image file failed."];
@@ -811,7 +813,7 @@
     }
     
     AVQuery *query = [AVQuery queryWithClassName:@"Comment"];
-    //[self setCachePolicyOfQuery:query];
+    [self setCachePolicyOfQuery:query];
 
     [query whereKey:@"thingID" equalTo:thing.objectID];
     int count = (int)[query countObjects];

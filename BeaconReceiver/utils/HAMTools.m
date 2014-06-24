@@ -114,7 +114,7 @@
     return image;
 }
 
-#pragma mark - Image Chop Methods
+#pragma mark - Image Methods
 
 +(UIImage*)image:(UIImage*)originalImage changeToSize:(CGSize)size {
     UIGraphicsBeginImageContext(size);

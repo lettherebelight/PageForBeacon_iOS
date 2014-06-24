@@ -62,6 +62,7 @@ static int kHAMCardCellContentViewTag = 4;
 static int kHAMCardCellCommentButtonTag = 5;
 
 static int kHAMCellFavButtonTag = 6;
+static int kHAMCellBindedImageTag = 7;
 
 #pragma mark - UIView methods
 
@@ -154,13 +155,13 @@ static int kHAMCellFavButtonTag = 6;
 }
 
 - (void)didUpdateThingsWithThingArray:(NSArray*)updatedThingArray{
-    thingArray = updatedThingArray;
+    thingArray = [NSArray arrayWithArray:updatedThingArray];
     [self.collectionView reloadData];
     [_header endRefreshing];
 }
 
 - (void)didLoadMoreThingsWithThingArray:(NSArray*)updatedThingArray{
-    thingArray = updatedThingArray;
+    thingArray = [NSArray arrayWithArray:updatedThingArray];
     [self.collectionView reloadData];
     [_footer endRefreshing];
 }
@@ -452,6 +453,16 @@ static int kHAMCellFavButtonTag = 6;
         [favButton removeTarget:self action:@selector(performUnFavorite:) forControlEvents:UIControlEventTouchUpInside];
         [favButton addTarget:self action:@selector(performFavorite:) forControlEvents:UIControlEventTouchUpInside];
     }
+    
+    //binded
+    UIImageView *bindedImageView = (UIImageView*)[view viewWithTag:kHAMCellBindedImageTag];
+    if (self.shouldShowPurchaseItem) {
+        bindedImageView.hidden = ![HAMAVOSManager isThingBoundToBeacon:thing.objectID];
+    }
+    else {
+        bindedImageView.hidden = YES;
+    }
+    
     return cell;
 
 }
@@ -501,6 +512,16 @@ static int kHAMCellFavButtonTag = 6;
         [favButton removeTarget:self action:@selector(performUnFavorite:) forControlEvents:UIControlEventTouchUpInside];
         [favButton addTarget:self action:@selector(performFavorite:) forControlEvents:UIControlEventTouchUpInside];
     }
+    
+    //binded
+    UIImageView *bindedImageView = (UIImageView*)[view viewWithTag:kHAMCellBindedImageTag];
+    if (self.shouldShowPurchaseItem) {
+        bindedImageView.hidden = ![HAMAVOSManager isThingBoundToBeacon:thing.objectID];
+    }
+    else {
+        bindedImageView.hidden = YES;
+    }
+    
     return cell;
 }
 
