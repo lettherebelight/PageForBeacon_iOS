@@ -13,4 +13,6 @@
 
 + (void)setTextViewBorder:(UITextView*)textView;
 
++(void)showAlert:(NSString*)text title:(NSString*)title delegate:(id)target;
+
 @end

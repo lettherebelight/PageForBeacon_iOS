@@ -21,9 +21,7 @@
 #import "HAMTools.h"
 #import "HAMLogTool.h"
 
-@interface HAMCardListViewController_iPhone () <MJRefreshBaseViewDelegate> {
-    MJRefreshHeaderView *_header;
-    MJRefreshFooterView *_footer;
+@interface HAMCardListViewController_iPhone () {
 }
 
 @end
@@ -75,13 +73,6 @@ static int kHAMCellBindedImageTag = 7;
     return self;
 }
 
-- (void)dealloc
-{
-    //TODO: what's this? perhaps should use "something = nil" in ARC!
-    [_header free];
-    [_footer free];
-}
-
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -99,19 +90,10 @@ static int kHAMCellBindedImageTag = 7;
 //    UILongPressGestureRecognizer *longPress = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(longPressGestureRecognized:)];
 //    [self.collectionView addGestureRecognizer:longPress];
     
-    //下拉刷新
-    MJRefreshHeaderView *header = [MJRefreshHeaderView header];
-    header.scrollView = self.collectionView;
-    header.delegate = self;
-    // 自动刷新
-    //[header beginRefreshing];
-    _header = header;
+    //集成刷新控件
+    [self addHeader];
+    [self addFooter];
     
-    //上拉加载更多
-    MJRefreshFooterView *footer = [MJRefreshFooterView footer];
-    footer.scrollView = self.collectionView;
-    footer.delegate = self;
-    _footer = footer;
 }
 
 - (void)didReceiveMemoryWarning
@@ -122,48 +104,73 @@ static int kHAMCellBindedImageTag = 7;
 
 #pragma mark - Update Data and Load More Data
 
-- (void)doneWithView:(MJRefreshBaseView *)refreshView
+- (void)addHeader
 {
+    __unsafe_unretained typeof(self) vc = self;
     
-    // 刷新表格
-    
-    if ([refreshView isKindOfClass:[MJRefreshHeaderView class]]) {
-        //header - update things
-        if (delegate) {
-            if ([delegate respondsToSelector:@selector(updateThings)]) {
-                thingArray = [delegate updateThings];
+    // 添加下拉刷新头部控件
+    [self.collectionView addHeaderWithCallback:^{
+        // 进入刷新状态就会回调这个Block
+        
+        if (vc.delegate != nil) {
+            if ([vc.delegate respondsToSelector:@selector(updateThings)]) {
+                vc.thingArray = [vc.delegate updateThings];
             }
-            else if ([delegate respondsToSelector:@selector(updateThingsAsync)]){
-                [delegate updateThingsAsync];
+            else if ([vc.delegate respondsToSelector:@selector(updateThingsAsync)]){
+                [vc.delegate updateThingsAsync];
                 return;
             }
         }
-    } else {
-        if ([delegate respondsToSelector:@selector(loadMoreThings)]) {
-            thingArray = [delegate loadMoreThings];
+        
+        // 模拟延迟加载数据，因此2秒后才调用）
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            [vc.collectionView reloadData];
+            // 结束刷新
+            [vc.collectionView headerEndRefreshing];
+        });
+    }];
+}
+
+- (void)addFooter
+{
+    __unsafe_unretained typeof(self) vc = self;
+    // 添加上拉刷新尾部控件
+    [self.collectionView addFooterWithCallback:^{
+        // 进入刷新状态就会回调这个Block
+        
+        if (vc.delegate) {
+            if ([vc.delegate respondsToSelector:@selector(loadMoreThings)]) {
+                vc.thingArray = [vc.delegate loadMoreThings];
+            }
+            else if ([vc.delegate respondsToSelector:@selector(loadMoreThingsAsync)]){
+                [vc.delegate loadMoreThingsAsync];
+                return;
+            }
         }
-        else if ([delegate respondsToSelector:@selector(loadMoreThingsAsync)]){
-            [delegate loadMoreThingsAsync];
-            return;
-        }
-    }
-    
-    [self.collectionView reloadData];
-    
-    // (最好在刷新表格后调用)调用endRefreshing可以结束刷新状态
-    [refreshView endRefreshing];
+        
+        // 模拟延迟加载数据，因此2秒后才调用）
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            [vc.collectionView reloadData];
+            // 结束刷新
+            [vc.collectionView footerEndRefreshing];
+        });
+    }];
 }
 
 - (void)didUpdateThingsWithThingArray:(NSArray*)updatedThingArray{
     thingArray = [NSArray arrayWithArray:updatedThingArray];
     [self.collectionView reloadData];
-    [_header endRefreshing];
+    // 结束刷新
+    [self.collectionView headerEndRefreshing];
 }
 
 - (void)didLoadMoreThingsWithThingArray:(NSArray*)updatedThingArray{
     thingArray = [NSArray arrayWithArray:updatedThingArray];
-    [self.collectionView reloadData];
-    [_footer endRefreshing];
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        [self.collectionView reloadData];
+        // 结束刷新
+        [self.collectionView footerEndRefreshing];
+    });
 }
 
 /*#pragma mark - long press recognizer
@@ -191,41 +198,6 @@ static int kHAMCellBindedImageTag = 7;
     }
 }*/
 
-#pragma mark - Pull and Refresh Delegate
-#pragma mark 开始进入刷新状态
-- (void)refreshViewBeginRefreshing:(MJRefreshBaseView *)refreshView
-{
-//    NSLog(@"%@----开始进入刷新状态", refreshView.class);
-    
-    // 2.2秒后刷新表格UI
-    [self performSelector:@selector(doneWithView:) withObject:refreshView afterDelay:2.0f];
-}
-
-#pragma mark 刷新完毕
-- (void)refreshViewEndRefreshing:(MJRefreshBaseView *)refreshView
-{
-    //NSLog(@"%@----刷新完毕", refreshView.class);
-}
-
-#pragma mark 监听刷新状态的改变
-- (void)refreshView:(MJRefreshBaseView *)refreshView stateChange:(MJRefreshState)state
-{
-    switch (state) {
-        case MJRefreshStateNormal:
-//            NSLog(@"%@----切换到：普通状态", refreshView.class);
-            break;
-            
-        case MJRefreshStatePulling:
-//            NSLog(@"%@----切换到：松开即可刷新的状态", refreshView.class);
-            break;
-            
-        case MJRefreshStateRefreshing:
-//            NSLog(@"%@----切换到：正在刷新状态", refreshView.class);
-            break;
-        default:
-            break;
-    }
-}
 
 #pragma mark - change collection view
 
@@ -312,7 +284,7 @@ static int kHAMCellBindedImageTag = 7;
     //in userView, onclick show actionsheet instead of show detail
     if (delegate != nil) {
         if ([delegate respondsToSelector:@selector(cellClicked:)]) {
-            [delegate cellClicked:thingSelected];
+            [delegate cellClicked:indexPath];
             return;
         }
     }
@@ -419,8 +391,9 @@ static int kHAMCellBindedImageTag = 7;
     //UIImage *image = [HAMTools image:thumbnail staysShapeChangeToSize:imageView.frame.size];
     //imageView.image = image;
     CGSize imageFrame = imageView.frame.size;
+    __unsafe_unretained typeof(imageView) tempImageView = imageView;
     [imageView setImageWithURL:[NSURL URLWithString:thing.coverURL] completed:^(UIImage* image, NSError* error, SDImageCacheType cacheType){
-        imageView.image = [HAMTools image:image staysShapeChangeToSize:imageFrame];
+        tempImageView.image = [HAMTools image:image staysShapeChangeToSize:imageFrame];
     }];
     
     //title
@@ -457,7 +430,7 @@ static int kHAMCellBindedImageTag = 7;
     //binded
     UIImageView *bindedImageView = (UIImageView*)[view viewWithTag:kHAMCellBindedImageTag];
     if (self.shouldShowPurchaseItem) {
-        bindedImageView.hidden = ![HAMAVOSManager isThingBoundToBeacon:thing.objectID];
+        bindedImageView.hidden = ![HAMAVOSManager isThingBoundToBeacon:thing];
     }
     else {
         bindedImageView.hidden = YES;
@@ -469,6 +442,8 @@ static int kHAMCellBindedImageTag = 7;
 
 -(UICollectionViewCell*)collectionView:(UICollectionView*)collectionView artCellForItemAtIndexPath:(NSIndexPath*)indexPath withThing:(HAMThing*)thing {
     UICollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:kHAMArtCellId forIndexPath:indexPath];
+    
+//    NSLog(@"%@",thing);
     
     UIView *view = [cell viewWithTag:kHAMArtCellCoverViewTag];
     view.layer.cornerRadius = 6.0f;
@@ -482,9 +457,12 @@ static int kHAMCellBindedImageTag = 7;
     //imageView.image = image;
 //    [imageView setImageWithURL:[NSURL URLWithString:thing.coverURL]];
     CGSize imageFrame = imageView.frame.size;
+    __unsafe_unretained typeof(imageView) tempImageView = imageView;
     [imageView setImageWithURL:[NSURL URLWithString:thing.coverURL] completed:^(UIImage* image, NSError* error, SDImageCacheType cacheType){
-        imageView.image = [HAMTools image:image staysShapeChangeToSize:imageFrame];
+        tempImageView.image = [HAMTools image:image staysShapeChangeToSize:imageFrame];
     }];
+    
+//    NSLog(@"image done");
     
     //title
     UILabel *titleLabel = (UILabel*)[view viewWithTag:kHAMArtCellTitleViewTag];
@@ -494,11 +472,15 @@ static int kHAMCellBindedImageTag = 7;
     UITextView *contentTV = (UITextView*)[view viewWithTag:kHAMArtCellContentViewTag];
     contentTV.text = thing.content;
     
+//    NSLog(@"title & content done");
+    
     //comment
     UIButton *commentButton = (UIButton*)[view viewWithTag:kHAMArtCellCommentButtonTag];
     //int commentsCount = [HAMAVOSManager numberOfCommentsOfThing:thing];
     //[commentButton setTitle:[NSString stringWithFormat:@"  %d", commentsCount] forState:UIControlStateNormal];
     [commentButton addTarget:self action:@selector(commentClicked:) forControlEvents:UIControlEventTouchUpInside];
+    
+//    NSLog(@"comment done");
     
     //favorite
     UIButton *favButton = (UIButton*)[view viewWithTag:kHAMCellFavButtonTag];
@@ -513,16 +495,55 @@ static int kHAMCellBindedImageTag = 7;
         [favButton addTarget:self action:@selector(performFavorite:) forControlEvents:UIControlEventTouchUpInside];
     }
     
+//    NSLog(@"favorate done");
+    
     //binded
     UIImageView *bindedImageView = (UIImageView*)[view viewWithTag:kHAMCellBindedImageTag];
     if (self.shouldShowPurchaseItem) {
-        bindedImageView.hidden = ![HAMAVOSManager isThingBoundToBeacon:thing.objectID];
+        bindedImageView.hidden = ![HAMAVOSManager isThingBoundToBeacon:thing];
     }
     else {
         bindedImageView.hidden = YES;
     }
     
+//    NSLog(@"bind done");
+    
     return cell;
+}
+
+#pragma mark - refresh cell method
+- (void)refreshCellAtIndexPath:(NSIndexPath*)indexPath {
+    
+    long i = indexPath.row;
+    if (i >= [thingArray count]) {
+        return;
+    }
+    
+    UICollectionViewCell *cell = [[self collectionView] cellForItemAtIndexPath:indexPath];
+    
+   HAMThing *thing = [self.thingArray objectAtIndex:i];
+    
+    //favorite button
+    UIButton *favButton = (UIButton*)[cell viewWithTag:kHAMCellFavButtonTag];
+    if ([HAMAVOSManager isThingFavoriteOfCurrentUser:thing]) {
+        [favButton setSelected:YES];
+        [favButton removeTarget:self action:@selector(performFavorite:) forControlEvents:UIControlEventTouchUpInside];
+        [favButton addTarget:self action:@selector(performUnFavorite:) forControlEvents:UIControlEventTouchUpInside];
+    }
+    else {
+        [favButton setSelected:NO];
+        [favButton removeTarget:self action:@selector(performUnFavorite:) forControlEvents:UIControlEventTouchUpInside];
+        [favButton addTarget:self action:@selector(performFavorite:) forControlEvents:UIControlEventTouchUpInside];
+    }
+    
+    //binded image
+    UIImageView *bindedImageView = (UIImageView*)[cell viewWithTag:kHAMCellBindedImageTag];
+    if (self.shouldShowPurchaseItem) {
+        bindedImageView.hidden = ![HAMAVOSManager isThingBoundToBeacon:thing];
+    }
+    else {
+        bindedImageView.hidden = YES;
+    }
 }
 
 #pragma mark - button in card clicked actions
@@ -538,35 +559,32 @@ static int kHAMCellBindedImageTag = 7;
 
 - (void)performFavorite:(UIButton*)button {
     UICollectionViewCell *cell = (UICollectionViewCell*)button.superview.superview.superview;
-    long i = [self.collectionView indexPathForCell:cell].row;
     
-    if (i >= [thingArray count]) {
+    NSIndexPath *indexPath = [self.collectionView indexPathForCell:cell];
+    
+    if (indexPath.row >= [thingArray count]) {
         return;
     }
     
-    [[HAMTourManager tourManager] addFavoriteThing:[self.thingArray objectAtIndex:i]];
-    UIButton *favButton = (UIButton*)[cell viewWithTag:kHAMCellFavButtonTag];
-    [favButton setSelected:YES];
-    [favButton removeTarget:self action:@selector(performFavorite:) forControlEvents:UIControlEventTouchUpInside];
-    [favButton addTarget:self action:@selector(performUnFavorite:) forControlEvents:UIControlEventTouchUpInside];
+    [[HAMTourManager tourManager] addFavoriteThing:[self.thingArray objectAtIndex:indexPath.row]];
+    
+    [self refreshCellAtIndexPath:indexPath];
     
     [SVProgressHUD showSuccessWithStatus:@"收藏成功！"];
 }
 
 - (void)performUnFavorite:(UIButton*)button {
     UICollectionViewCell *cell = (UICollectionViewCell*)button.superview.superview.superview;
-    long i = [self.collectionView indexPathForCell:cell].row;
     
-    if (i >= [thingArray count]) {
+    NSIndexPath *indexPath = [self.collectionView indexPathForCell:cell];
+    
+    if (indexPath.row >= [thingArray count]) {
         return;
     }
     
-    [[HAMTourManager tourManager] removeFavoriteThing:[self.thingArray objectAtIndex:i]];
+    [[HAMTourManager tourManager] removeFavoriteThing:[self.thingArray objectAtIndex:indexPath.row]];
     
-    UIButton *favButton = (UIButton*)[cell viewWithTag:kHAMCellFavButtonTag];
-    [favButton setSelected:NO];
-    [favButton removeTarget:self action:@selector(performUnFavorite:) forControlEvents:UIControlEventTouchUpInside];
-    [favButton addTarget:self action:@selector(performFavorite:) forControlEvents:UIControlEventTouchUpInside];
+    [self refreshCellAtIndexPath:indexPath];
     
     [SVProgressHUD showSuccessWithStatus:@"取消收藏。"];
 }

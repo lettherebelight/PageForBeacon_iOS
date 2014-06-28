@@ -26,7 +26,8 @@
 {
 }
 
-@property (nonatomic) HAMThing* selectedThing;
+//@property (nonatomic) HAMThing* selectedThing;
+@property (nonatomic) NSIndexPath* selectedIndexPath;
 
 @property (nonatomic) Boolean updateThingsFirstTime;
 
@@ -58,6 +59,12 @@ static NSString *kHAMEmbedSegueId = @"embedSegue";
     }
     
     thingArray = [NSMutableArray arrayWithArray:resultArray];
+    
+    //preload for cache result
+    for (int i = 0; i < thingArray.count; i++) {
+        [HAMAVOSManager isThingBoundToBeaconInBackground:thingArray[i]];
+    }
+
     [listViewController didUpdateThingsWithThingArray:thingArray];
 }
 
@@ -74,6 +81,12 @@ static NSString *kHAMEmbedSegueId = @"embedSegue";
     }
     
     [thingArray addObjectsFromArray:resultArray];
+    
+    //preload for cache result
+    for (int i = 0; i < resultArray.count; i++) {
+        [HAMAVOSManager isThingBoundToBeaconInBackground:resultArray[i]];
+    }
+    
     [listViewController didLoadMoreThingsWithThingArray:thingArray];
 }
 
@@ -127,10 +140,26 @@ static NSString *kHAMEmbedSegueId = @"embedSegue";
 
 #pragma mark - Unbind/Edit menu
 
-- (void)cellClicked:(HAMThing*)thing{
-    self.selectedThing = thing;
+//get selected Thing from self.selectedIndexPath
+- (HAMThing*)selectedThing{
+    if (self.selectedIndexPath == nil) {
+        return nil;
+    }
+    
+    int index = self.selectedIndexPath.row;
+    if (index >= listViewController.thingArray.count) {
+        return nil;
+    }
+    
+    return listViewController.thingArray[index];
+}
+
+- (void)cellClicked:(NSIndexPath*)indexPath{
+    self.selectedIndexPath = indexPath;
+    HAMThing* thing = [self selectedThing];
+    
     NSString* destructiveButtonTitle = nil;
-    if ([HAMAVOSManager isThingBoundToBeacon:thing.objectID]) {
+    if ([HAMAVOSManager isThingBoundToBeacon:thing]) {
         destructiveButtonTitle = @"解除绑定";
     } else {
         destructiveButtonTitle = @"绑定";
@@ -170,7 +199,7 @@ static NSString *kHAMEmbedSegueId = @"embedSegue";
             
         default:
             //cancel
-            self.selectedThing = nil;
+            self.selectedIndexPath = nil;
             break;
     }
 }
@@ -208,6 +237,7 @@ static NSString *kHAMEmbedSegueId = @"embedSegue";
 
 //FIXME: add error param
 - (void)didUnbindThing{
+    [listViewController refreshCellAtIndexPath:self.selectedIndexPath];
     [SVProgressHUD showSuccessWithStatus:@"解除绑定成功"];
 }
 

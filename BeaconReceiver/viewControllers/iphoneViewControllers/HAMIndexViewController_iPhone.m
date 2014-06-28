@@ -7,16 +7,23 @@
 //
 
 #import "HAMIndexViewController_iPhone.h"
+
 #import <AVOSCloudSNS/AVOSCloudSNS.h>
 #import <AVOSCloudSNS/AVUser+SNS.h>
-#import "HAMLogTool.h"
+#import "SVProgressHUD.h"
+
+#import "HAMGlobalData.h"
+#import "HAMThing.h"
+
+
 #import "HAMBeaconManager.h"
 #import "HAMTourManager.h"
 #import "HAMDataManager.h"
-#import "HAMGlobalData.h"
-#import "HAMThing.h"
 #import "HAMAVOSManager.h"
-#import "SVProgressHUD.h"
+
+#import "HAMTools.h"
+#import "HAMViewTools.h"
+#import "HAMLogTool.h"
 
 @interface HAMIndexViewController_iPhone ()
 
@@ -55,6 +62,9 @@ LoginType loginSetting;
 }
 
 - (void)viewDidAppear:(BOOL)animated {
+    if ([self checkWebStatus] == NO)
+        return;
+    
     //FIXME: login twice here!
     if ([AVUser currentUser] != nil) {
         AVObject *card = [[AVUser currentUser] objectForKey:@"card"];
@@ -82,12 +92,28 @@ LoginType loginSetting;
 //    [self performSegueWithIdentifier:@"finishLogIn" sender:self];
 //}
 
+- (Boolean)checkWebStatus{
+    if ([HAMTools isWebAvailable] == NO) {
+        [HAMViewTools showAlert:@"请检查您的网络是否通畅。" title:@"无法登录!" delegate:self];
+        return NO;
+    }
+    return YES;
+}
+
 - (IBAction)logInFromWeibo:(id)sender {
+    if ([self checkWebStatus] == NO) {
+        return;
+    }
+    
     [self loginFromWeibo];
     
 }
 
 - (IBAction)logInFromQQ:(id)sender {
+    if ([self checkWebStatus] == NO) {
+        return;
+    }
+    
     [self loginFromQQ];
 }
 

@@ -14,7 +14,14 @@
 
 + (HAMUserDefaultManager*)userDefaultManager;
 
+#pragma mark - ThingNotificateDate
+
 + (void)recordThingNotificated:(HAMThing*)thing;
 + (Boolean)isThingNotificatedRecently:(HAMThing*)thing;
+
+#pragma mark - ThingBoundToBeacon
+
++ (void)recordThing:(HAMThing*)thing isBoundToBeacon:(NSString*)isBoundToBeacon;
++ (NSString*)isThingBoundToBeaconInCache:(HAMThing*)thing;
 
 @end

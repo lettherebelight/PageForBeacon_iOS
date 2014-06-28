@@ -786,6 +786,7 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="513" id="CPU-I8-luJ"/>
+                                    <constraint firstAttribute="width" constant="286" id="swg-LG-jeO"/>
                                 </constraints>
                             </scrollView>
                         </subviews>
@@ -1203,9 +1204,9 @@
         <simulatedScreenMetrics key="destination" type="retina4"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="Ywf-aO-vTb"/>
-        <segue reference="7vF-Ld-yUj"/>
-        <segue reference="gB2-ZF-fwa"/>
         <segue reference="4CU-h9-ihb"/>
+        <segue reference="KYM-JP-6MI"/>
+        <segue reference="Ywf-aO-vTb"/>
+        <segue reference="gB2-ZF-fwa"/>
     </inferredMetricsTieBreakers>
 </document>

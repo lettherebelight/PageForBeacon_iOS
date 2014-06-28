@@ -22,6 +22,9 @@
                 <imageView contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" image="common_cover_default_1.jpg" translatesAutoresizingMaskIntoConstraints="NO" id="vxk-GL-1FA">
                     <rect key="frame" x="0.0" y="0.0" width="286" height="215"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="286" id="tIr-Kx-nDV"/>
+                    </constraints>
                 </imageView>
                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" text="名称" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vkP-ma-A59">
                     <rect key="frame" x="20" y="232" width="42" height="21"/>
@@ -37,15 +40,21 @@
                 <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="3AY-kh-YRv">
                     <rect key="frame" x="20" y="261" width="246" height="30"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="246" id="20b-gg-hml"/>
+                    </constraints>
                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                     <textInputTraits key="textInputTraits" returnKeyType="done"/>
                     <connections>
                         <outlet property="delegate" destination="-1" id="gv5-5E-xi9"/>
                     </connections>
                 </textField>
-                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="KiB-3L-3fG">
+                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="KiB-3L-3fG">
                     <rect key="frame" x="20" y="334" width="246" height="30"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="246" id="OWn-dD-6zJ"/>
+                    </constraints>
                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                     <textInputTraits key="textInputTraits" autocorrectionType="no" keyboardType="URL" returnKeyType="done"/>
                     <connections>
@@ -56,6 +65,9 @@
                     <rect key="frame" x="20" y="406" width="246" height="62"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="246" id="juf-Pk-bNR"/>
+                    </constraints>
                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                     <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                     <connections>
@@ -74,12 +86,13 @@
                     <fontDescription key="fontDescription" type="system" pointSize="13"/>
                     <nil key="highlightedColor"/>
                 </label>
-                <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="GFt-lz-GCF">
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="GFt-lz-GCF">
                     <rect key="frame" x="22" y="541" width="243" height="29"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <constraints>
                         <constraint firstAttribute="width" constant="243" id="6EA-8w-hpR"/>
                         <constraint firstAttribute="height" constant="29" id="J1J-Iv-JNG"/>
+                        <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="243" id="Zvd-jU-xTF"/>
                     </constraints>
                     <state key="normal" title="Button" image="me_save_btn.png">
                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -88,18 +101,25 @@
                         <action selector="confirmButtonClicked:" destination="-1" eventType="touchUpInside" id="7NB-La-a6f"/>
                     </connections>
                 </button>
-                <segmentedControl opaque="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="Cud-Ee-Bml">
+                <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="Cud-Ee-Bml">
                     <rect key="frame" x="20" y="488" width="246" height="29"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="246" id="f6C-Yx-KES"/>
+                    </constraints>
                     <segments>
                         <segment title="近(1m以内)"/>
                         <segment title="中(10m以内)"/>
                         <segment title="远(10m以外)"/>
                     </segments>
                 </segmentedControl>
-                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" image="common_card_bottom_frame.png" translatesAutoresizingMaskIntoConstraints="NO" id="wYG-In-ZEH">
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="common_card_bottom_frame.png" translatesAutoresizingMaskIntoConstraints="NO" id="wYG-In-ZEH">
                     <rect key="frame" x="0.0" y="578" width="286" height="24"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="286" id="QQH-dj-ckl"/>
+                        <constraint firstAttribute="height" constant="24" id="XbW-JO-v3t"/>
+                    </constraints>
                 </imageView>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -120,8 +140,10 @@
                 <constraint firstItem="vkP-ma-A59" firstAttribute="leading" secondItem="3AY-kh-YRv" secondAttribute="leading" id="fIc-mR-x9f"/>
                 <constraint firstItem="3AY-kh-YRv" firstAttribute="top" secondItem="vkP-ma-A59" secondAttribute="bottom" constant="8" symbolic="YES" id="fb7-6D-tqJ"/>
                 <constraint firstItem="GFt-lz-GCF" firstAttribute="centerX" secondItem="vxk-GL-1FA" secondAttribute="centerX" id="gOg-u9-f9j"/>
+                <constraint firstAttribute="bottom" secondItem="wYG-In-ZEH" secondAttribute="bottom" id="iFh-6P-GZR"/>
                 <constraint firstItem="vkP-ma-A59" firstAttribute="top" secondItem="vxk-GL-1FA" secondAttribute="bottom" constant="17" id="shL-zX-O2Z"/>
                 <constraint firstItem="vkP-ma-A59" firstAttribute="leading" secondItem="Cud-Ee-Bml" secondAttribute="leading" id="tF8-59-5Bf"/>
+                <constraint firstItem="wYG-In-ZEH" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="wHQ-0p-875"/>
             </constraints>
             <simulatedStatusBarMetrics key="simulatedStatusBarMetrics"/>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>

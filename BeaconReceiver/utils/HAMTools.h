@@ -32,6 +32,11 @@
 +(UIImage*)image:(UIImage*)originalImage changeToMinSize:(CGSize)size;
 +(UIImage*)image:(UIImage*)originalImage staysShapeChangeToSize:(CGSize)size;
 
+#pragma mark - ToString / FromString Methods
+
++ (Boolean)booleanFromString:(NSString*)booleanString;
++ (NSString*)stringFromBoolean:(Boolean)boolean;
+
 + (void)performSelector:(SEL)callback byTarget:(id)target;
 
 @end

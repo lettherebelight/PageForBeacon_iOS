@@ -19,7 +19,7 @@
 - (NSArray*)loadMoreThings;
 - (void)loadMoreThingsAsync;
 //- (void)cellLongPressed:(HAMThing*)thing;
-- (void)cellClicked:(HAMThing*)thing;
+- (void)cellClicked:(NSIndexPath*)indexPath;
 
 @end
 
@@ -40,6 +40,8 @@
 
 - (void)updateViewScrollToTop:(BOOL)needScroll;
 - (void)updateWithThingArray:(NSArray*)array scrollToTop:(BOOL)needScroll;
+
+- (void)refreshCellAtIndexPath:(NSIndexPath*)indexPath;
 
 - (void)showDetailWithThing:(HAMThing*)thing sender:(id)sender;
 

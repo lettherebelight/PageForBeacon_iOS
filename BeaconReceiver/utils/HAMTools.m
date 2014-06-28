@@ -180,6 +180,23 @@
     return smallImage;
 }
 
+#pragma mark - ToString / FromString Methods
+
++ (Boolean)booleanFromString:(NSString*)booleanString{
+    if ([booleanString isEqualToString:@"YES"]) {
+        return YES;
+    } else if ([booleanString isEqualToString:@"NO"]) {
+        return NO;
+    }
+    
+    [HAMLogTool error:@"boolean from string that is neither 'YES' nor 'NO'"];
+    return NO;
+}
+
++ (NSString*)stringFromBoolean:(Boolean)boolean{
+    return boolean ? @"YES" : @"NO";
+}
+
 #pragma mark - Other Methods
 
 + (void)performSelector:(SEL)callback byTarget:(id)target{

@@ -53,6 +53,12 @@
 		6668B6AD18F6ABB400A12655 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6668B6AC18F6ABB400A12655 /* CoreData.framework */; };
 		6668B6B018F6ACB900A12655 /* HAMCoreData.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 6668B6AE18F6ACB900A12655 /* HAMCoreData.xcdatamodeld */; };
 		6668B6C518F7D47F00A12655 /* index_image.png in Resources */ = {isa = PBXBuildFile; fileRef = 6668B6C418F7D47F00A12655 /* index_image.png */; };
+		666A01BE195F09F900F5ED99 /* UIScrollView+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = 666A01B9195F09F900F5ED99 /* UIScrollView+Extension.m */; };
+		666A01BF195F09F900F5ED99 /* UIScrollView+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = 666A01B9195F09F900F5ED99 /* UIScrollView+Extension.m */; };
+		666A01C0195F09F900F5ED99 /* UIScrollView+MJRefresh.m in Sources */ = {isa = PBXBuildFile; fileRef = 666A01BB195F09F900F5ED99 /* UIScrollView+MJRefresh.m */; };
+		666A01C1195F09F900F5ED99 /* UIScrollView+MJRefresh.m in Sources */ = {isa = PBXBuildFile; fileRef = 666A01BB195F09F900F5ED99 /* UIScrollView+MJRefresh.m */; };
+		666A01C2195F09F900F5ED99 /* UIView+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = 666A01BD195F09F900F5ED99 /* UIView+Extension.m */; };
+		666A01C3195F09F900F5ED99 /* UIView+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = 666A01BD195F09F900F5ED99 /* UIView+Extension.m */; };
 		6670E1A8192CE673007DC18D /* HAMCardListViewController_iPhone.m in Sources */ = {isa = PBXBuildFile; fileRef = 6670E1A3192CE673007DC18D /* HAMCardListViewController_iPhone.m */; };
 		6670E1A9192CE673007DC18D /* HAMDiscoverViewController_iPhone.m in Sources */ = {isa = PBXBuildFile; fileRef = 6670E1A5192CE673007DC18D /* HAMDiscoverViewController_iPhone.m */; };
 		6670E1AA192CE673007DC18D /* HAMFavoritesViewController_iPhone.m in Sources */ = {isa = PBXBuildFile; fileRef = 6670E1A7192CE673007DC18D /* HAMFavoritesViewController_iPhone.m */; };
@@ -299,6 +305,12 @@
 		6668B6AC18F6ABB400A12655 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		6668B6AF18F6ACB900A12655 /* HAMCoreData.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = HAMCoreData.xcdatamodel; sourceTree = "<group>"; };
 		6668B6C418F7D47F00A12655 /* index_image.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = index_image.png; sourceTree = "<group>"; };
+		666A01B8195F09F900F5ED99 /* UIScrollView+Extension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIScrollView+Extension.h"; sourceTree = "<group>"; };
+		666A01B9195F09F900F5ED99 /* UIScrollView+Extension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIScrollView+Extension.m"; sourceTree = "<group>"; };
+		666A01BA195F09F900F5ED99 /* UIScrollView+MJRefresh.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIScrollView+MJRefresh.h"; sourceTree = "<group>"; };
+		666A01BB195F09F900F5ED99 /* UIScrollView+MJRefresh.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIScrollView+MJRefresh.m"; sourceTree = "<group>"; };
+		666A01BC195F09F900F5ED99 /* UIView+Extension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+Extension.h"; sourceTree = "<group>"; };
+		666A01BD195F09F900F5ED99 /* UIView+Extension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+Extension.m"; sourceTree = "<group>"; };
 		6670E1A2192CE673007DC18D /* HAMCardListViewController_iPhone.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HAMCardListViewController_iPhone.h; sourceTree = "<group>"; };
 		6670E1A3192CE673007DC18D /* HAMCardListViewController_iPhone.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HAMCardListViewController_iPhone.m; sourceTree = "<group>"; };
 		6670E1A4192CE673007DC18D /* HAMDiscoverViewController_iPhone.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HAMDiscoverViewController_iPhone.h; sourceTree = "<group>"; };
@@ -455,6 +467,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6636EC4918B39EF000F94E6C /* UIKit.framework in Frameworks */,
+				6636EC4718B39EF000F94E6C /* CoreGraphics.framework in Frameworks */,
 				660CEB991952D7C20047FAC9 /* ImageIO.framework in Frameworks */,
 				667965CB1917CBF600D9C4FF /* QuartzCore.framework in Frameworks */,
 				66B01ADF18D5DB9500CD5EDF /* SystemConfiguration.framework in Frameworks */,
@@ -467,8 +481,6 @@
 				660CEB961952D6BD0047FAC9 /* SDWebImage.framework in Frameworks */,
 				66C5EB1818CE9B6800B8A666 /* MapKit.framework in Frameworks */,
 				6636EC9618B502DD00F94E6C /* libsqlite3.0.dylib in Frameworks */,
-				6636EC4718B39EF000F94E6C /* CoreGraphics.framework in Frameworks */,
-				6636EC4918B39EF000F94E6C /* UIKit.framework in Frameworks */,
 				6636EC4518B39EF000F94E6C /* Foundation.framework in Frameworks */,
 				6657B41D18FCDA3800099EC6 /* AVOSCloud.framework in Frameworks */,
 				66B163031906A0F000EFE554 /* libEstimoteSDK.a in Frameworks */,
@@ -972,6 +984,12 @@
 		66D9B88A193CFB440060F9A2 /* MJRefresh */ = {
 			isa = PBXGroup;
 			children = (
+				666A01B8195F09F900F5ED99 /* UIScrollView+Extension.h */,
+				666A01B9195F09F900F5ED99 /* UIScrollView+Extension.m */,
+				666A01BA195F09F900F5ED99 /* UIScrollView+MJRefresh.h */,
+				666A01BB195F09F900F5ED99 /* UIScrollView+MJRefresh.m */,
+				666A01BC195F09F900F5ED99 /* UIView+Extension.h */,
+				666A01BD195F09F900F5ED99 /* UIView+Extension.m */,
 				66D9B88B193CFB7A0060F9A2 /* MJRefresh.bundle */,
 				66D9B88C193CFB7A0060F9A2 /* MJRefresh.h */,
 				66D9B88D193CFB7A0060F9A2 /* MJRefreshBaseView.h */,
@@ -1223,6 +1241,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				666A01C2195F09F900F5ED99 /* UIView+Extension.m in Sources */,
 				6670E1AA192CE673007DC18D /* HAMFavoritesViewController_iPhone.m in Sources */,
 				662FE78B192367D500CF0C41 /* HAMGlobalData.m in Sources */,
 				6636EC5118B39EF000F94E6C /* main.m in Sources */,
@@ -1233,7 +1252,9 @@
 				66D9B897193CFB7A0060F9A2 /* MJRefreshBaseView.m in Sources */,
 				6636EC9118B4A91400F94E6C /* HAMTools.m in Sources */,
 				6636EC8F18B4A91400F94E6C /* HAMFileTools.m in Sources */,
+				666A01BE195F09F900F5ED99 /* UIScrollView+Extension.m in Sources */,
 				669BDB02190953E6006E99D6 /* HAMCommentsManager.m in Sources */,
+				666A01C0195F09F900F5ED99 /* UIScrollView+MJRefresh.m in Sources */,
 				66D9B886193B6FD20060F9A2 /* HAMMyInfoContentViewController.m in Sources */,
 				668090B419249F9700395A88 /* HAMBeaconListViewController.m in Sources */,
 				6670E1B5192CE6FB007DC18D /* HAMDetailCommentViewController_iPhone.m in Sources */,
@@ -1281,6 +1302,7 @@
 				6636EC9A18B526A700F94E6C /* HAMWebTool.m in Sources */,
 				66D9B89A193CFB7A0060F9A2 /* MJRefreshConst.m in Sources */,
 				669BDB03190953E6006E99D6 /* HAMCommentsManager.m in Sources */,
+				666A01BF195F09F900F5ED99 /* UIScrollView+Extension.m in Sources */,
 				66D9B898193CFB7A0060F9A2 /* MJRefreshBaseView.m in Sources */,
 				6636EC9218B4A91400F94E6C /* HAMTools.m in Sources */,
 				660CEB94194CC1300047FAC9 /* HAMViewTools.m in Sources */,
@@ -1289,6 +1311,8 @@
 				66D9B89E193CFB7A0060F9A2 /* MJRefreshHeaderView.m in Sources */,
 				6679656519112A0700D9C4FF /* SVProgressHUD.m in Sources */,
 				6636EC8A18B4A63C00F94E6C /* HAMLogTool.m in Sources */,
+				666A01C3195F09F900F5ED99 /* UIView+Extension.m in Sources */,
+				666A01C1195F09F900F5ED99 /* UIScrollView+MJRefresh.m in Sources */,
 				667965921917ACC800D9C4FF /* OLImageView.m in Sources */,
 				668090F71926358B00395A88 /* HAMThing.m in Sources */,
 				66B01AE318D5DCAB00CD5EDF /* Reachability.m in Sources */,

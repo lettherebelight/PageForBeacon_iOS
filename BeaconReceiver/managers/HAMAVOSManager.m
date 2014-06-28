@@ -12,6 +12,7 @@
 #import "HAMConstants.h"
 
 #import "HAMTourManager.h"
+#import "HAMUserDefaultManager.h"
 
 #import "HAMTools.h"
 #import "HAMLogTool.h"
@@ -24,7 +25,7 @@
 
 + (void)setCachePolicyOfQuery:(AVQuery*)query{
     query.cachePolicy = kPFCachePolicyCacheElseNetwork;
-    query.maxCacheAge = 600;
+    query.maxCacheAge = kHAMMaxCacheAge;
 }
 
 #pragma mark - Clear Cache
@@ -139,13 +140,15 @@
     }
     
     AVQuery* query = [AVQuery queryWithClassName:@"Beacon"];
-    [self setCachePolicyOfQuery:query];
+    //FIXME: cache would cause a bug here. So I removed cache. All the functions that calls this function are save methods, except for isThingBoundToBeacon, which use UserDefaults as cache.
+//    [self setCachePolicyOfQuery:query];
     
     [query whereKey:@"thing" equalTo:[AVObject objectWithoutDataWithClassName:@"Thing" objectId:thingID]];
     //not a must, but for safety reason
     [query whereKey:@"occupier" equalTo:[AVUser currentUser]];
     
-    return [query getFirstObject];
+    AVObject* object =  [query getFirstObject];
+    return object;
 }
 
 #pragma mark - Beacon Save
@@ -452,23 +455,47 @@
 //    NSString* rangeString = [beaconObject objectForKey:@"range"];
 //    return [self proximityFromRangeString:rangeString];*/
 //}
++ (void)isThingBoundToBeaconInBackground:(HAMThing*)thing{
+    [NSThread detachNewThreadSelector:@selector(isThingBoundToBeacon:) toTarget:self withObject:thing];
+}
 
-+ (Boolean)isThingBoundToBeacon:(NSString*)thingID{
-    if (thingID == nil) {
++ (Boolean)isThingBoundToBeacon:(HAMThing*)thing{
+    if (thing == nil || thing.objectID == nil) {
         return false;
     }
     
-    AVObject* beaconObject = [self queryBeaconAVObjectWithThingID:thingID];
-    return beaconObject == nil ? NO : YES;
+    NSString* cacheResult = [HAMUserDefaultManager isThingBoundToBeaconInCache:thing];
+    if (cacheResult != nil) {
+        return [HAMTools booleanFromString:cacheResult];
+    }
+    
+    AVObject* beaconObject = [self queryBeaconAVObjectWithThingID:thing.objectID];
+    Boolean result = beaconObject == nil ? NO : YES;
+    
+    [HAMUserDefaultManager recordThing:thing isBoundToBeacon:[HAMTools stringFromBoolean:result]];
+    
+    return result;
 }
 
 #pragma mark - Thing & Beacon Save
 
 + (void)unbindThingToBeaconAVObject:(AVObject*)beaconObject withTarget:(id)target callback:(SEL)callback{
+    AVObject* thingObject = [beaconObject objectForKey:@"thing"];
+    HAMThing* thing = nil;
+    if (thingObject != nil) {
+        thing = [[HAMThing alloc] init];
+        thing.objectID = thingObject.objectId;
+    }
+    
     [beaconObject setObject:nil forKey:@"thing"];
     [beaconObject setObject:nil forKey:@"occupier"];
     [beaconObject setObject:nil forKey:@"range"];
+    
     [self clearCache];
+    if (thing != nil) {
+        [HAMUserDefaultManager recordThing:thing isBoundToBeacon:@"NO"];
+    }
+    
     [beaconObject saveInBackgroundWithTarget:target selector:callback];
 }
 
@@ -501,7 +528,7 @@
         return;
     }
     
-    AVUser* occupier = [beaconObject objectForKey:@"occcupier"];
+    AVUser* occupier = [beaconObject objectForKey:@"occupier"];
     if (![occupier.objectId isEqualToString:[AVUser currentUser].objectId]) {
         //try to unbind thing that is not occupied by the current user. normally impossible.
         //FIXME: callback with error
@@ -545,7 +572,11 @@
     AVUser* user = [AVUser currentUser];
     [beaconObject setObject:user forKey:@"occupier"];
     
+    if (thing != nil) {
+        [HAMUserDefaultManager recordThing:thing isBoundToBeacon:@"YES"];
+    }
     [self clearCache];
+    
     [beaconObject saveInBackgroundWithTarget:target selector:callback];
 }
 

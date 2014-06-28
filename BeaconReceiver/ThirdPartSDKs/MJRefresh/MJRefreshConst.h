@@ -12,14 +12,16 @@
 #define MJLog(...)
 #endif
 
+#define MJColor(r, g, b) [UIColor colorWithRed:(r)/255.0 green:(g)/255.0 blue:(b)/255.0 alpha:1.0]
 // 文字颜色
-#define MJRefreshLabelTextColor [UIColor colorWithRed:255/255.0 green:255/255.0 blue:255/255.0 alpha:1.0]
+#define MJRefreshLabelTextColor MJColor(255, 255, 255)
 
 extern const CGFloat MJRefreshViewHeight;
-extern const CGFloat MJRefreshAnimationDuration;
+extern const CGFloat MJRefreshFastAnimationDuration;
+extern const CGFloat MJRefreshSlowAnimationDuration;
 
 extern NSString *const MJRefreshBundleName;
-#define kSrcName(file) [MJRefreshBundleName stringByAppendingPathComponent:file]
+#define MJRefreshSrcName(file) [MJRefreshBundleName stringByAppendingPathComponent:file]
 
 extern NSString *const MJRefreshFooterPullToRefresh;
 extern NSString *const MJRefreshFooterReleaseToRefresh;

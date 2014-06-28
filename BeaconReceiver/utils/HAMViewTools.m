@@ -17,4 +17,14 @@
     layer.cornerRadius = 6.0f;
 }
 
++(void)showAlert:(NSString*)text title:(NSString*)title delegate:(id)target{
+    UIAlertView* alert = [[UIAlertView alloc]
+                          initWithTitle:title
+                          message:text
+                          delegate:target
+                          cancelButtonTitle:@"返回"
+                          otherButtonTitles:nil];
+    [alert show];
+}
+
 @end

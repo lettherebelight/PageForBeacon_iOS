@@ -14,6 +14,10 @@
 //use when creating thing of user card
 static CLProximity kHAMDefaultRange = CLProximityImmediate;
 
+#pragma mark - Cache
+
+static float kHAMMaxCacheAge = 600.0f;
+
 #pragma mark - User Constraints
 
 static int kHAMMaxOwnBeaconCount = 5;

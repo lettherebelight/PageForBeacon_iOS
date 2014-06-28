@@ -63,8 +63,7 @@ static HAMThingManager* homepageManager = nil;
             if (error != nil || objectArray == nil || [objectArray count] == 0) {
                 return;
             }
-            //FIXME: What't this?
-            thingsInWorld = nil;
+            
             thingsInWorld = [NSMutableArray array];
             for (AVObject *thingObject in objectArray) {
                 HAMThing *thing = [HAMAVOSManager thingWithThingAVObject:thingObject];

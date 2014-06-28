@@ -117,7 +117,6 @@ Boolean foo = false;
     return nil;
 }
 
-
 #pragma mark - UITableView Delegate
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {

@@ -77,7 +77,8 @@
 
 + (HAMThing*)thingWithBeacon:(CLBeacon*)beacon;
 //+ (CLProximity)rangeOfThing:(HAMThing*)thing;
-+ (Boolean)isThingBoundToBeacon:(NSString*)thingID;
++ (void)isThingBoundToBeaconInBackground:(HAMThing*)thing;
++ (Boolean)isThingBoundToBeacon:(HAMThing*)thing;
 
 #pragma mark - Thing & Beacon Save
 
