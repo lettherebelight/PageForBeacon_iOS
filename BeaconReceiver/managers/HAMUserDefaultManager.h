@@ -24,4 +24,8 @@
 + (void)recordThing:(HAMThing*)thing isBoundToBeacon:(NSString*)isBoundToBeacon;
 + (NSString*)isThingBoundToBeaconInCache:(HAMThing*)thing;
 
+#pragma mark - Debug Mode
+
++ (Boolean)isDebugMode;
+
 @end

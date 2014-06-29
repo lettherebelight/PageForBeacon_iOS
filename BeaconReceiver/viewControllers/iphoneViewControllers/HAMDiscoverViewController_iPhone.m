@@ -57,6 +57,9 @@ static int kHAMDefaultViewTag = 22;
         //FIXME: turn flush into fetch someday
         [listViewController didUpdateThingsWithThingArray:thingsAround];
     }
+    
+    //statistics
+    [AVAnalytics event:@"pull&refresh" label:@"discover"];
 }
 
 - (void)didUpdateThingsWithResult:(NSArray*)resultArray error:(NSError*)error{

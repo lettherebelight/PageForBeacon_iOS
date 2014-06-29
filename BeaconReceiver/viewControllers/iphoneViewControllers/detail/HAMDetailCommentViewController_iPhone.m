@@ -136,6 +136,9 @@
     }
     [self.commentText resignFirstResponder];
     self.commentText.text = nil;
+    
+    //statistics
+    [AVAnalytics event:@"comment" label:@"comment"];
 }
 
 - (void)refresh {

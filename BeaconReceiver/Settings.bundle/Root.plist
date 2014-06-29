@@ -18,7 +18,7 @@
 			<key>Key</key>
 			<string>debugSetting</string>
 			<key>DefaultValue</key>
-			<string>choose</string>
+			<string>0</string>
 		</dict>
 	</array>
 	<key>StringsTable</key>

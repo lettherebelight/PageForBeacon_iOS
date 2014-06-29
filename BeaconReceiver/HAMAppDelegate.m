@@ -9,11 +9,13 @@
 #import <AVOSCloud/AVOSCloud.h>
 #import <AVOSCloudSNS/AVOSCloudSNS.h>
 #import "HAMAppDelegate.h"
-#import "HAMLogTool.h"
+
 #import "HAMBeaconManager.h"
 #import "HAMTourManager.h"
-
 #import "HAMAVOSManager.h"
+#import "HAMUserDefaultManager.h"
+
+#import "HAMLogTool.h"
 
 @implementation HAMAppDelegate
 
@@ -26,12 +28,14 @@ static NSString *kHAMAVOSAppKey = @"ljqpcds0mt9cn3noaqs3armqgcyhew4setb788pdqc5f
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-    // Override point for customization after application launch.
+    //AVOS
     [AVOSCloud setApplicationId:kHAMAVOSAppId clientKey:kHAMAVOSAppKey];
+    if ([HAMUserDefaultManager isDebugMode]) {
+        [AVAnalytics setAnalyticsEnabled:NO];
+    }
     
-    //    [[UINavigationBar appearance] setBackgroundImage:[[UIImage alloc] init] forBarMetrics:UIBarMetricsDefault];
-    //    //[[UINavigationBar appearance] setBackgroundImage:nil forBarMetrics:UIBarMetricsDefault];
-    //    [[UINavigationBar appearance] setShadowImage:[[UIImage alloc] init]];
+    
+    //UITabBar
     [[UITabBar appearance] setSelectedImageTintColor:[UIColor colorWithRed:229.0f / 255.0f green:126.0f / 225.0f blue:62.0f / 225.0f alpha:1]];
     
     return YES;

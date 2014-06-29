@@ -91,6 +91,7 @@ static int kHAMCellBindedImageTag = 7;
 //    [self.collectionView addGestureRecognizer:longPress];
     
     //集成刷新控件
+    self.collectionView.alwaysBounceVertical = YES;
     [self addHeader];
     [self addFooter];
     
@@ -122,12 +123,11 @@ static int kHAMCellBindedImageTag = 7;
             }
         }
         
-        // 模拟延迟加载数据，因此2秒后才调用）
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+//        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
             [vc.collectionView reloadData];
             // 结束刷新
             [vc.collectionView headerEndRefreshing];
-        });
+//        });
     }];
 }
 
@@ -148,12 +148,11 @@ static int kHAMCellBindedImageTag = 7;
             }
         }
         
-        // 模拟延迟加载数据，因此2秒后才调用）
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+//        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
             [vc.collectionView reloadData];
             // 结束刷新
             [vc.collectionView footerEndRefreshing];
-        });
+//        });
     }];
 }
 
@@ -555,6 +554,9 @@ static int kHAMCellBindedImageTag = 7;
         return;
     }
     [self showCommentWithThing:[self.thingArray objectAtIndex:i] sender:self];
+    
+    //statistics
+    [AVAnalytics event:@"comment" label:@"view"];
 }
 
 - (void)performFavorite:(UIButton*)button {
@@ -571,6 +573,9 @@ static int kHAMCellBindedImageTag = 7;
     [self refreshCellAtIndexPath:indexPath];
     
     [SVProgressHUD showSuccessWithStatus:@"收藏成功！"];
+    
+    //statistics
+    [AVAnalytics event:@"favorite" label:@"favorite"];
 }
 
 - (void)performUnFavorite:(UIButton*)button {
@@ -587,6 +592,9 @@ static int kHAMCellBindedImageTag = 7;
     [self refreshCellAtIndexPath:indexPath];
     
     [SVProgressHUD showSuccessWithStatus:@"取消收藏。"];
+    
+    //statistics
+    [AVAnalytics event:@"favorite" label:@"unfavorite"];
 }
 
 

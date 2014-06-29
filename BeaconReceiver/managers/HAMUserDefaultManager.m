@@ -23,9 +23,6 @@
 static NSString* const kHAMUserDefaultKeyThingNotificationDate = @"thingNotificationDate";
 
 
-static NSString* const kHAMUserDefaultKeyThingBoundToBeacon = @"thingBoundToBeacon";
-static NSString* const kHAMUserDefaultKeyThingBoundToBeaconDate = @"cacheDate";
-static NSString* const kHAMUserDefaultKeyThingBoundToBeaconResult = @"result";
 //thingBoundToBeacon
 //key   - (NSString*)     thing.objectID
 //value - (NSDictionary*) boundData
@@ -33,6 +30,12 @@ static NSString* const kHAMUserDefaultKeyThingBoundToBeaconResult = @"result";
 //        value - (NSString*) @"YES" or @"NO"
 //        key   - (NSString*) @"cacheDate"
 //        value - (NSDate*)   cacheDate
+static NSString* const kHAMUserDefaultKeyThingBoundToBeacon = @"thingBoundToBeacon";
+static NSString* const kHAMUserDefaultKeyThingBoundToBeaconDate = @"cacheDate";
+static NSString* const kHAMUserDefaultKeyThingBoundToBeaconResult = @"result";
+
+//Settings.bundle
+static NSString* const kHAMUserDefaultKeySettingsDebugMode = @"debugSetting";
 
 static HAMUserDefaultManager* userDefaultManager = nil;
 
@@ -130,6 +133,21 @@ static HAMUserDefaultManager* userDefaultManager = nil;
     }
     
     return nil;
+}
+
+#pragma mark - Debug Mode
+
++ (Boolean)isDebugMode{
+    NSString* debugModeString = [[NSUserDefaults standardUserDefaults] stringForKey:kHAMUserDefaultKeySettingsDebugMode];
+    
+    if (debugModeString == nil || [debugModeString isEqualToString:@"0"]) {
+        return NO;
+    } else if ([debugModeString isEqualToString:@"1"]) {
+        return YES;
+    }
+    
+    [HAMLogTool error:[NSString stringWithFormat:@"error isDebugMode data in userDefaults:%@",debugModeString]];
+    return NO;
 }
 
 @end
