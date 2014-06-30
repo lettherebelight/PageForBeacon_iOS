@@ -18,9 +18,5 @@
 @property (weak, nonatomic) IBOutlet UIImageView *avatarImageView;
 @property (weak, nonatomic) IBOutlet UILabel *nameLabel;
 @property (weak, nonatomic) IBOutlet UILabel *contentLabel;
-@property (weak, nonatomic) IBOutlet UILabel *webLabel;
-@property (weak, nonatomic) IBOutlet UILabel *wechatLabel;
-@property (weak, nonatomic) IBOutlet UILabel *weiboLabel;
-@property (weak, nonatomic) IBOutlet UILabel *qqLabel;
 
 @end

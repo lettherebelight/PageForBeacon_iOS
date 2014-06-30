@@ -12,10 +12,17 @@
 
 #import "HAMThing.h"
 
+#import <SDWebImage/UIImageView+WebCache.h>
+
 #import "HAMTools.h"
 
 @interface HAMCardDetailViewController_iPhone ()
+{}
 
+@property (weak, nonatomic) IBOutlet UITextView *webLabel;
+@property (weak, nonatomic) IBOutlet UITextView *wechatLabel;
+@property (weak, nonatomic) IBOutlet UITextView *weiboLabel;
+@property (weak, nonatomic) IBOutlet UITextView *qqLabel;
 @end
 
 @implementation HAMCardDetailViewController_iPhone
@@ -41,10 +48,13 @@
     [self.backView.layer setCornerRadius:6.0f];
     [self.backView.layer setMasksToBounds:YES];
     
-    UIImage *thumbnail;
-    thumbnail = [HAMTools imageFromURL:thing.coverURL];
-    UIImage *image = [HAMTools image:thumbnail staysShapeChangeToSize:self.avatarImageView.frame.size];
-    self.avatarImageView.image = image;
+//    UIImage *thumbnail;
+//    thumbnail = [HAMTools imageFromURL:thing.coverURL];
+//    UIImage *image = [HAMTools image:thumbnail staysShapeChangeToSize:self.avatarImageView.frame.size];
+    [self.avatarImageView setImageWithURL:[NSURL URLWithString:thing.coverURL] completed:^(UIImage* image, NSError* error, SDImageCacheType cacheType){
+        self.avatarImageView.image = [HAMTools image:image staysShapeChangeToSize:self.avatarImageView.frame.size];
+    }];
+//    self.avatarImageView.image = image;
 
     self.nameLabel.text = thing.title;
     self.contentLabel.text = thing.content;

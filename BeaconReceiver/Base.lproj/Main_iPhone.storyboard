@@ -256,30 +256,34 @@
                                         <color key="textColor" red="0.60392159223556519" green="0.63529413938522339" blue="0.68627452850341797" alpha="1" colorSpace="deviceRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="U1f-T1-E8s">
-                                        <rect key="frame" x="48" y="150" width="217" height="21"/>
+                                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" editable="NO" text="homepage" translatesAutoresizingMaskIntoConstraints="NO" id="XBc-a1-Lxx">
+                                        <rect key="frame" x="45" y="145" width="220" height="32"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0BA-55-mQ3">
-                                        <rect key="frame" x="48" y="180" width="217" height="21"/>
+                                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                    </textView>
+                                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" editable="NO" text="wechat" translatesAutoresizingMaskIntoConstraints="NO" id="jSp-hj-Afm">
+                                        <rect key="frame" x="45" y="175" width="220" height="32"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wKA-pA-D0P">
-                                        <rect key="frame" x="48" y="210" width="217" height="21"/>
+                                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                    </textView>
+                                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" editable="NO" text="weibo" translatesAutoresizingMaskIntoConstraints="NO" id="4l8-FE-VOY">
+                                        <rect key="frame" x="45" y="205" width="143" height="32"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="g1c-Iq-Mrv">
-                                        <rect key="frame" x="48" y="240" width="217" height="21"/>
+                                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                    </textView>
+                                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" editable="NO" text="qq" translatesAutoresizingMaskIntoConstraints="NO" id="Kr3-gZ-hJs">
+                                        <rect key="frame" x="45" y="235" width="143" height="32"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
+                                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                    </textView>
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                             </view>
@@ -292,10 +296,10 @@
                         <outlet property="backView" destination="CQ6-Zi-0qN" id="Oiz-zj-4Vq"/>
                         <outlet property="contentLabel" destination="LDx-7n-QOX" id="xC8-4Z-ZSq"/>
                         <outlet property="nameLabel" destination="lux-2t-nZb" id="9cP-wC-zbs"/>
-                        <outlet property="qqLabel" destination="g1c-Iq-Mrv" id="QJF-o0-pXa"/>
-                        <outlet property="webLabel" destination="U1f-T1-E8s" id="Q5F-xk-CmC"/>
-                        <outlet property="wechatLabel" destination="0BA-55-mQ3" id="cAK-M4-0Hd"/>
-                        <outlet property="weiboLabel" destination="wKA-pA-D0P" id="DfZ-rv-20a"/>
+                        <outlet property="qqLabel" destination="Kr3-gZ-hJs" id="Ubc-It-U7e"/>
+                        <outlet property="webLabel" destination="XBc-a1-Lxx" id="TIO-qF-8la"/>
+                        <outlet property="wechatLabel" destination="jSp-hj-Afm" id="YOh-p3-3I1"/>
+                        <outlet property="weiboLabel" destination="4l8-FE-VOY" id="TtW-9p-tyR"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="QFg-Xu-rFY" userLabel="First Responder" sceneMemberID="firstResponder"/>

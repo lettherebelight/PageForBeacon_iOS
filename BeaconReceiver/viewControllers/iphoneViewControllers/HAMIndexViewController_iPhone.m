@@ -78,10 +78,8 @@ LoginType loginSetting;
     }
     [self getSettings];
     if (loginSetting == WEIBO) {
-        [SVProgressHUD showWithStatus:@"微博登录中" maskType:SVProgressHUDMaskTypeClear];
         [self loginFromWeibo];
     } else if (loginSetting == QQ) {
-        [SVProgressHUD showWithStatus:@"QQ登录中" maskType:SVProgressHUDMaskTypeClear];
         [self loginFromQQ];
     }
 }
@@ -129,7 +127,7 @@ LoginType loginSetting;
 }
 
 - (void)loginFromWeibo {
-    [SVProgressHUD dismiss];
+    [SVProgressHUD showWithStatus:@"微博登录中" maskType:SVProgressHUDMaskTypeClear];
     
     [AVOSCloudSNS setupPlatform:AVOSCloudSNSSinaWeibo withAppKey:@"464699941" andAppSecret:@"768924e9a4ef519a95809253ebc886ea" andRedirectURI:@"http://www.weibo.com"];
     
@@ -179,6 +177,7 @@ LoginType loginSetting;
 }
 
 - (void)loginFromQQ {
+    [SVProgressHUD showWithStatus:@"QQ登录中" maskType:SVProgressHUDMaskTypeClear];
     
     [AVOSCloudSNS setupPlatform:AVOSCloudSNSQQ withAppKey:@"1101349087" andAppSecret:@"BAj9jn2xOw9eM7c2" andRedirectURI:@"http://www.weibo.com"];
     
