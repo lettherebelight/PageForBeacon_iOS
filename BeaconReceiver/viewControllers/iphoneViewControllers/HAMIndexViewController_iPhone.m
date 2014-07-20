@@ -127,20 +127,22 @@ LoginType loginSetting;
 }
 
 - (void)loginFromWeibo {
-    [SVProgressHUD showWithStatus:@"微博登录中" maskType:SVProgressHUDMaskTypeClear];
     
-    [AVOSCloudSNS setupPlatform:AVOSCloudSNSSinaWeibo withAppKey:@"464699941" andAppSecret:@"768924e9a4ef519a95809253ebc886ea" andRedirectURI:@"http://www.weibo.com"];
+    [AVOSCloudSNS setupPlatform:AVOSCloudSNSSinaWeibo withAppKey:@"464699941" andAppSecret:@"768924e9a4ef519a95809253ebc886ea" andRedirectURI:nil];
     
     [AVOSCloudSNS loginWithCallback:^(id object, NSError *error) {
-        //you code here
+        [SVProgressHUD showWithStatus:@"微博登录中" maskType:SVProgressHUDMaskTypeClear];
+        
         if (error) {
             NSLog(@"%@",error);
+            [SVProgressHUD dismiss];
             return;
         }
         
         [AVUser loginWithAuthData:object block:^(AVUser *user, NSError *error) {
             if (error) {
                 NSLog(@"%@",error);
+                [SVProgressHUD dismiss];
                 return ;
             }
             
@@ -177,19 +179,22 @@ LoginType loginSetting;
 }
 
 - (void)loginFromQQ {
-    [SVProgressHUD showWithStatus:@"QQ登录中" maskType:SVProgressHUDMaskTypeClear];
     
-    [AVOSCloudSNS setupPlatform:AVOSCloudSNSQQ withAppKey:@"1101349087" andAppSecret:@"BAj9jn2xOw9eM7c2" andRedirectURI:@"http://www.weibo.com"];
+    [AVOSCloudSNS setupPlatform:AVOSCloudSNSQQ withAppKey:@"1101349087" andAppSecret:@"BAj9jn2xOw9eM7c2" andRedirectURI:nil];
     
     [AVOSCloudSNS loginWithCallback:^(id object, NSError *error) {
-        //you code here
+        [SVProgressHUD showWithStatus:@"QQ登录中" maskType:SVProgressHUDMaskTypeClear];
+
         if (error) {
-            NSLog(@"%@",error);
+            NSLog(@"QQ Login Error:%@",error);
+            [SVProgressHUD dismiss];
             return;
         }
+        
         [AVUser loginWithAuthData:object block:^(AVUser *user, NSError *error) {
             if (error) {
-                NSLog(@"%@",error);
+                NSLog(@"QQ LoginWithAuthData error:%@",error);
+                [SVProgressHUD dismiss];
                 return;
             }
             

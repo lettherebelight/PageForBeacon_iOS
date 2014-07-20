@@ -19,19 +19,33 @@
 
 @implementation HAMAVOSManager
 
-#pragma mark - Cache
+#pragma mark - Common
 
-#pragma mark - Query Methods
+#pragma mark - Cache
 
 + (void)setCachePolicyOfQuery:(AVQuery*)query{
     query.cachePolicy = kPFCachePolicyCacheElseNetwork;
     query.maxCacheAge = kHAMMaxCacheAge;
 }
 
-#pragma mark - Clear Cache
-
 + (void)clearCache{
     [AVQuery clearAllCachedResults];
+}
+
+#pragma mark - ACL
+
++ (AVACL*)aclWithPublicReadPrivateWrite{
+    AVACL *acl = [AVACL ACL];
+    [acl setPublicReadAccess:YES];
+    [acl setWriteAccess:YES forUser:[AVUser currentUser]];
+    return acl;
+}
+
++ (AVACL*)aclWithPublicReadWrite{
+    AVACL *acl = [AVACL ACL];
+    [acl setPublicReadAccess:YES];
+    [acl setPublicWriteAccess:YES];
+    return acl;
 }
 
 #pragma mark - BeaconUUID
@@ -330,14 +344,20 @@
         return nil;
     }
     
+    //creator
     thing.creator = [AVUser currentUser];
     
+    //cover
     Boolean shouldSaveCover = YES;
     if (thing.cover == nil) {
         //update thing without changing cover
         shouldSaveCover = NO;
     }
+    
     AVObject* thingObject = [self thingAVObjectWithThing:thing shouldSaveCover:shouldSaveCover];
+    
+    //ACL
+    thingObject.ACL = [self aclWithPublicReadPrivateWrite];
     
     [self clearCache];
     if (![thingObject save]) {
@@ -491,6 +511,8 @@
     [beaconObject setObject:nil forKey:@"occupier"];
     [beaconObject setObject:nil forKey:@"range"];
     
+    beaconObject.ACL = [self aclWithPublicReadWrite];
+    
     [self clearCache];
     if (thing != nil) {
         [HAMUserDefaultManager recordThing:thing isBoundToBeacon:@"NO"];
@@ -571,6 +593,8 @@
     [beaconObject setObject:thingObject forKey:@"thing"];
     AVUser* user = [AVUser currentUser];
     [beaconObject setObject:user forKey:@"occupier"];
+    
+    beaconObject.ACL = [self aclWithPublicReadPrivateWrite];
     
     if (thing != nil) {
         [HAMUserDefaultManager recordThing:thing isBoundToBeacon:@"YES"];
