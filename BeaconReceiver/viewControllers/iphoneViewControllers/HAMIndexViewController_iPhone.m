@@ -128,7 +128,7 @@ LoginType loginSetting;
 
 - (void)loginFromWeibo {
     
-    [AVOSCloudSNS setupPlatform:AVOSCloudSNSSinaWeibo withAppKey:@"464699941" andAppSecret:@"768924e9a4ef519a95809253ebc886ea" andRedirectURI:nil];
+    [AVOSCloudSNS setupPlatform:AVOSCloudSNSSinaWeibo withAppKey:@"464699941" andAppSecret:@"768924e9a4ef519a95809253ebc886ea" andRedirectURI:@"http://www.weibo.com"];
     
     [AVOSCloudSNS loginWithCallback:^(id object, NSError *error) {
         [SVProgressHUD showWithStatus:@"微博登录中" maskType:SVProgressHUDMaskTypeClear];
